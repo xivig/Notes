@@ -1,0 +1,58 @@
+# YAML Ain't Markup Language
+
+# is used for comment
+
+# yaml is like json file but it don't need quotation
+
+# Sample Yaml file
+#every property will be placed with indentation
+student:
+  name: &name "Abc"
+  subject: 'JavaScript'
+  # if we place !! before any value that will be converted to the specified format
+  age: !!float 20 # this will convert the number to float 20.0
+  cgpa: !!str 6.5 # this will convert the number to string "6.5"
+  fav_color: 'blue'
+  big_number: 2.5e+23
+  male: true
+  dob: 2001-06-12 14:25:49 #ISO 8601
+  flaws: null
+  #List or array of elements can be written as follows
+  interest:
+    - movies
+    - trecking
+    - reading
+  movies: ["Perfume the Story of a Murderer", "Untraceable", "The Prestige", "The girl with dragon tattoo"]
+  # Object within object can be written as of the any three methods
+  friends:
+    #1
+    -name: "Robert"
+     age: 20
+    #2
+    - {name: "Cool", age: 22}
+    #3
+    - 
+     name: "John"
+     age: 25
+
+  # This will render the indented line as a single line
+  description: >
+    By default, the Docker will expose port 8080, so change
+    this within the Dockerfile if necessary. When ready, simply use the 
+    Dockerfile to build the image.
+
+  #This will keep the formatting as it is
+  signature: |
+   Abc
+   Cool JavaScript
+   email - admin@xivig.com
+  
+  # This will substitute the name value
+  myname: *name  # myname: "Abc"
+
+
+  basevalue: &basevalue
+    value: value1
+
+  newvalue:
+    <<: *basevalue # this will render value: value1

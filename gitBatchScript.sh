@@ -3,6 +3,6 @@
 git status
 git add -A
 git status
-git commit -m "Git bach command for commit"
+git commit -m "Batch commit Script"
 git push origin master
 git status

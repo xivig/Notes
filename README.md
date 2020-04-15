@@ -26,7 +26,7 @@ Markdown is a lightweight markup language based on the formatting conventions th
 This text you see here is *actually* written in Markdown! To get a feel for Markdown's syntax, type some text into the left window and watch the results in the right.
 
 
-####1. Headers
+#### Headers
 
 # H1
 ## H2
@@ -35,7 +35,7 @@ This text you see here is *actually* written in Markdown! To get a feel for Mark
 ##### H5
 ###### H6
 
-####2. Emphasis:
+####Emphasis:
 
 Emphasis, aka italics, with *asterisks* or _underscores_.
 
@@ -45,7 +45,7 @@ Combined emphasis with **asterisks and _underscores_**.
 
 Strikethrough uses two tildes. ~~Scratch this.~~
 
-####3. Lists
+#### Lists
 
 1. First ordered list item
 2. Another item
@@ -64,7 +64,7 @@ Strikethrough uses two tildes. ~~Scratch this.~~
 - Or minuses
 + Or pluses
 
-####4. links:
+#### links:
 
 [I'm an inline-style link](https://www.google.com)
 
@@ -88,14 +88,14 @@ Some text to show that the reference links can follow later.
 [1]: http://slashdot.org
 [link text itself]: http://www.reddit.com
 
-####6. Here's our logo (hover to see the title text):
+#### Here's our logo (hover to see the title text):
 
 Inline-style: 
 ![alt text](https://github.com/xivig/xivig/blob/master/src/assets/images/favicon-32x32.png "Logo Title Text 1")
 
-####7. nline `code` has `back-ticks around` it.
+#### nline `code` has `back-ticks around` it.
 
-####8. Blocks of code are either fenced by lines with three back-ticks ```, or are indented with four spaces. I recommend only using the fenced code blocks -- they're easier and only they support syntax highlighting.
+#### Blocks of code are either fenced by lines with three back-ticks ```, or are indented with four spaces. I recommend only using the fenced code blocks -- they're easier and only they support syntax highlighting.
 ```javascript
 var s = "JavaScript syntax highlighting";
 alert(s);
@@ -119,7 +119,7 @@ But let's throw in a <b>tag</b>.
 
 
 
-####9. Horizontal Rule
+#### Horizontal Rule
 Three or more...
 
 ---
@@ -142,7 +142,7 @@ Asterisks
 Underscores
 
 
-####10. Task lists
+#### Task lists
 To create a task list, preface list items with a regular space character followed by [ ]. To mark a task as complete, use [x].
 
 - [x] Finish my changes
@@ -154,7 +154,7 @@ If a task list item description begins with a parenthesis, you'll need to escape
 
 - [ ] \(Optional) Open a followup issue
 
-####11. Mentioning people and teams
+#### Mentioning people and teams
 You can mention a person or team on GitHub by typing @ plus their username or team name. This will trigger a notification and bring their attention to the conversation. People will also receive a notification if you edit a comment to mention their username or team name.
 
 @github/support What do you think about these updates?
@@ -167,7 +167,7 @@ Typing an @ symbol will bring up a list of people or teams on a project. The lis
 
 The autocomplete results are restricted to repository collaborators and any other participants on the thread.
 
-####12. Using emoji
+#### Using emoji
 You can add emoji to your writing by typing :EMOJICODE:.
 
 @octocat :+1: This PR looks great - it's ready to merge! :shipit:
@@ -178,10 +178,10 @@ Typing : will bring up a list of suggested emoji. The list will filter as you ty
 
 For a full list of available emoji and codes, check out emoji-cheat-sheet.com.
 
-####13. Paragraphs
+#### Paragraphs
 You can create a new paragraph by leaving a blank line between lines of text.
 
-####14. Ignoring Markdown formatting
+#### Ignoring Markdown formatting
 You can tell GitHub to ignore (or escape) Markdown formatting by using \ before the Markdown character.
 
 Let's rename \*our-new-project\* to \*our-old-project\*.
@@ -189,7 +189,7 @@ Let's rename \*our-new-project\* to \*our-old-project\*.
 Rendered escaped character
 
 
-####15. Tables
+#### Tables
 Tables aren't part of the core Markdown spec, but they are part of GFM and Markdown Here supports them. They are an easy way of adding tables to your email -- a task that would otherwise require copy-pasting from another application.
 
 Colons can be used to align columns.
@@ -224,7 +224,7 @@ Still	renders	nicely
 | ----- | ---- |
 | 1     | 2    |
 
-####16. Markdown emoji
+#### Markdown emoji
 
 People
 

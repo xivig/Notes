@@ -56,3 +56,29 @@ student:
 
   newvalue:
     <<: *basevalue # this will render value: value1
+
+
+# Real example:
+
+#nodejs setup
+Language: node_js
+node_js:
+  - 12.16.2
+cache: npm
+
+before_install:
+install:
+after_install:
+
+script:
+after_success:
+after_faiture:
+after_script:
+
+before_deploy:
+deploy:
+after_deploy:
+
+
+
+

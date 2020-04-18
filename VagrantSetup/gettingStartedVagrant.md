@@ -6,6 +6,14 @@
 
 **2.Install Virtualbox from [Virtualbox](https://www.virtualbox.org/wiki/Downloads)**
 
+**For New virtualbox add the following line**
+
+`config.vm.box = "envimation/ubuntu-xenial-docker"`
+
+The name is is from the vagrantbox.es as follows:
+`envimation/ubuntu-xenial-docker  VirtualBox  
+https://atlas.hashicorp.com/envimation/boxes/ubuntu-xenial-docker`
+
 
 
 1.  Create a directory named vagrant-project under current directory

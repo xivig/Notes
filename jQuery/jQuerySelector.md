@@ -32,7 +32,7 @@ jQuery(selector expression, context)
 - It doesn’t have a special meaning; it’s used as a reminder of what the variable is storing.
 - Another reason to adopt one of these conventions is to be sure not to invoke $() on a set of DOM elements on which we’ve already called this method. For example, the following is erroneous:
 
-  ```
+  ```sh
   var allElements = $('*');
     // Other code here...
     $(allElements);
@@ -48,6 +48,7 @@ jQuery(selector expression, context)
 - Here we’ll use a CDN to include jQuery using the fallback technique, and the Universal selector to select all the elements of
 the page.
 - There are two main reasons for this choice: brevity (that is, writing less code) and avoiding an additional HTTP request (that fails if you’re running the code while offline).
+
     ```sh
     <!DOCTYPE html>
     <html>
@@ -93,7 +94,8 @@ Thus, if you want to select an element with ID of .description, you have to writ
 - The Class selector is used to retrieve elements by the CSS class names used.
 - In JavaScript, behind the scene it uses the native getElementsByClassName() function.
 - jQuery follows the CSS conventions, so we have to prepend a dot before the chosen class name. As for example:
-    ```
+    
+    ```sh
     <div>
         <h1 class="green">A title</h1>
         <p class="description">I'm a paragraph</p>
@@ -132,6 +134,7 @@ Thus, if you want to select an element with ID of .description, you have to writ
 ### Retrieving elements by their hierarchy
 - Retrieving a set of elements by their class name is a nice feature, but often you don’t want to search the whole page.
 - Consider the following HTML fragment from the sample DOM in the Selectors Lab:
+    
     ```sh
     <ul class="my-list">
       <li>
@@ -172,7 +175,7 @@ You can write
 - What usually makes the link pointing to an external site unique is the http:// at the beginning of the string value for the link’s href attribute.
 - In CSS, you could select links that have an href value starting with http:// with the following selector:
 
-    a[href^='http://']
+    `a[href^='http://']`
 
 - Using jQuery,the above statement looks like:
 
@@ -188,6 +191,7 @@ The caret character (^) is used to specify that the match has to occur at the be
 - If your style of code adopts the use of double quotes for strings and you want to use the same quotes for wrapping the attributes value, you must escape them.
 - If you feel it’s easier for you to read a selection without escaped characters, you can mix the quote types.
 - Using the selector a[href^="http://"] will result in the following equivalent statements:
+
 ```sh
   $("a[href^=\"http://\"]");
   $('a[href^=\'http://\']');
@@ -300,6 +304,7 @@ Why do you pass 1 if you want to start from the third element? Shouldn’t it be
 - The first index in a set of elements is always 0.
     - For this reason, the :even selector will counterintuitively(contrary to what common sense would suggest) retrieve the odd-positioned elements because of their even indexes.
     - For this reason, :even will collect the first, third, and so on elements of a set because they have even indexes (0, 2, and so on).
+
 *The takeaway lesson is :even and :odd are related to the index of the elements within the set, not their position.
 
 - You can also pass to :eq(), :gt (), and :lt() a negative index.
@@ -317,7 +322,7 @@ This selects the last child of parent elements. In this example, the last <li> c
 
 - We need to select elements of a type only if they’re the fourth child of a given parent. For example,
 
-    div p:nth-child(4)
+    `div p:nth-child(4)`
 This retrieves all <p>s inside a <div> that are the fourth child of their parent element.
 
 - The :nth-child() pseudo-class is different from :eq() although they’re often confused.
@@ -363,7 +368,8 @@ This request is accomplished using the selector
 - If you want to target the element at any position that’s a multiple of 3(e.g., 3, 6, 9, and so on), you have to write 3n.
 - If you need to select all the elements at a position that’s a multiple of 3 plus 1 (like 1, 4, 7, and so on), you have to write 3n+1.
 Let us take a example:
-```
+
+```sh
 <table id="languages">
     <thead>
         <tr>
@@ -416,6 +422,7 @@ Remembering the index for :nth-child() starts at 1, we can turn the previous sel
 
 
 ## Form filters
+
 - If you want to match all check boxes that are in a checked state. You may try something as the following lines:
 
     `$('input[type="checkbox"][checked]');`
@@ -479,6 +486,7 @@ which would return any table row element containing the identified image anywher
 :parent - Selects only elements that have at least one child node (either an element or text).
 
 ## Other filters
+
 :visible and :hidden, are categorized in the library’s documentation under Visibility filters
 - If you want to negate a selector,you can use the :not() filter. As for example to match any input element that’s not a check box, you could use
     `input:not(:checkbox)`
@@ -524,7 +532,8 @@ You can select all those foreign words of this example using the :lang() filter 
     - The first is simpler to write but its use is discouraged because it has been replaced, starting from jQuery 1.8, by the second one.
     - To explain the new way to create a custom filter, we’ll start with an example.
 - Pretend you’re developing a tech game where you have a list of levels to complete with a certain grade of difficulty, the number of points the user can earn, and a list of technologies to employ to complete it. Your hypothetical list could resemble this:
-```
+
+```sh
 <ul class="levels">
     <li data-level="1" data-points="1" data-technologies="javascript node grunt">Level 1</li>
     <li data-level="2" data-points="10" data-technologies="php composer">Level 2</li>
@@ -536,7 +545,8 @@ You can select all those foreign words of this example using the :lang() filter 
  (li[data-technologies~="jquery"])
 - But how do you perform a number comparison using selectors? The truth is you can’t.
 - To accomplish this task, you must loop over your initial selection and then retain only the elements you need, as shown here:
-```
+
+```sh
 //Initial selection using the attribute selector
 var $levels = $('.levels li[data-technologies~="jquery"]');
 var matchedLevels = [];
@@ -547,8 +557,10 @@ for(var i = 0; i < $levels.length; i++) {
     }
 }
 ```
+
 Instead of repeating these lines every time, you can create a custom filter:
-```
+
+```sh
     //Declare the filter using the createPseudo() function.
     $.expr[':'].requiredLevel = $.expr.createPseudo(function(filterParam) {
         return function(element, context, isXml) {
@@ -573,6 +585,7 @@ You call your custom filter requiredLevel, and instead of passing the function d
 
 - Imagine you want to retrieve levels based on the offered number of points — something like “select all the levels with a number of points higher than X.”
 - That big X is a good opportunity to use a parameter to pass to your pseudo-selector. Based on this requirement, you can create a new filter:
+    
     ```sh
     $.expr[':'].pointsHigherThan = $.expr.createPseudo(function(filterParam) {
         var points = parseInt(filterParam, 10);

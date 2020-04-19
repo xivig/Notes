@@ -519,7 +519,7 @@ You can select all those foreign words of this example using the :lang() filter 
 
 **The remaining filters supported by jQuery
 1. :animated    - Selects only elements that are currently under animated control
-2. :header  - Selects only elements that are headers: '\\<h1>' through '\\<h6>'
+2. :header  - Selects only elements that are headers: 'h1' through 'h6'
 3. :hidden  - Selects only elements that are hidden
 4. :lang(language)  - Selects elements in a specified language
 5. :not(selector)   Negates the specified selector

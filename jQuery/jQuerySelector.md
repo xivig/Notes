@@ -8,9 +8,11 @@ _From the 'Jquery in Action' by Bear Bibeault, Yehuda Katz, Aurelio De Rosa_
 - All selectors in jQuery start with the dollar sign and parentheses: $().
 - It has the syntax of:
 
-```$(selector expression, context)
+```sh
+$(selector expression, context)
             or
-  jQuery(selector expression, context)
+  
+jQuery(selector expression, context)
 ```
 
 ## Selecting elements for manipulation

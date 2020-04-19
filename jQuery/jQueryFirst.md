@@ -764,6 +764,7 @@ $(document).ready(function() {
 
 Here we  use the children method without a selector and the find method with one.
 The console output from this script is as follows:
+```
 /*
 Child: DIV dcell
 Child: DIV dcell
@@ -780,7 +781,7 @@ Descendant: IMG http://www.jacquisflowershop.com/jquery/primula.png
 Descendant: IMG http://www.jacquisflowershop.com/jquery/snowdrop.png
 There are 6 img descendants
 */
-
+```
 - One of the nice features of the children and find methods is that you don’t receive duplicate elements in the selection.
 ```
 //Generating a Selection with Overlapping Descendants

@@ -796,7 +796,7 @@ There are 6 img descendants
 - Here we start by creating a jQuery object that contains all of the div elements that are members of the drow class and all of the div elements that are members of the dcell class.
 - The key point to note is that all of the members of the dcell class are contained within members of the drow class, meaning that you have overlapping sets of descendants and the potential for duplication when we use the find method with the img selector, since the img elements are descendants of both classes of div elements.
 - But jQuery comes to the rescue and ensures that there are no duplicates in the elements returned, as demonstrated in the output from this script:
-
+```
 /*
 Element: IMG http://www.jacquisflowershop.com/jquery/astor.png
 Element: IMG http://www.jacquisflowershop.com/jquery/daffodil.png
@@ -805,7 +805,7 @@ Element: IMG http://www.jacquisflowershop.com/jquery/peony.png
 Element: IMG http://www.jacquisflowershop.com/jquery/primula.png
 Element: IMG http://www.jacquisflowershop.com/jquery/snowdrop.png
  */
-
+```
 ## Using the find Method to Create an Intersection
 
 - One can pass a jQuery object, an HTMLElement object, or an array of HTMLElement objects as the argument to the find method. When we do this, we select the intersection between the descendants in the source jQuery object and the elements in the argument object.

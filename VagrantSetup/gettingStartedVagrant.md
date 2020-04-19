@@ -121,6 +121,18 @@ end
 
 ```
 
+**If you got an error like 'Vagrant - OpenSSL SSL_read: SSL_ERROR_SYSCALL, errno 54' , The fix is here:
+
+`vagrant box add envimation/ubuntu-xenial-docker -c --insecure`
+
+
+"Options used:
+
+    -c or --clean Clean any temporary download files
+    --insecure Do not validate SSL certificates
+
+"
+
 3.  `$ vagrant up`
 
 4.  `$ vagrant ssh`

@@ -158,15 +158,13 @@ Thus, if you want to select an element with ID of .description, you have to writ
 You can write
     `ul.my-list > li > a`
 
-- This selector will collect only links that are direct children of list elements, which are in turn direct children of the
-<ul> that have class my-list.
+- This selector will collect only links that are direct children of list elements, which are in turn direct children of the <ul> that have class my-list.
 - The links contained in the sublists are excluded because the ul element serving as their parent doesn’t have the class my-list.
 
-1. E F  - Matches all elements with tag name F that are descendants of E
-2. E>F  - Matches all elements with tag name F that are direct children of E
-3. E + F  - Matches all elements with tag name F that are immediately preceded by sibling E
-4. E~F   - Matches all elements with tag name F preceded by any sibling E
-
+  1. E F  - Matches all elements with tag name F that are descendants of E
+  2. E>F  - Matches all elements with tag name F that are direct children of E
+  3. E + F  - Matches all elements with tag name F that are immediately preceded by sibling E
+  4. E~F   - Matches all elements with tag name F preceded by any sibling E
 
 ### Selecting elements using attributes
 - Attribute selectors are extremely powerful and allow you to select elements based on their attributes.
@@ -210,7 +208,6 @@ The caret character (^) is used to specify that the match has to occur at the be
     `$("a[href!A='http://']");`
 
 - One can use whatever selector you like, and even no other selectors at all, resulting in a selector like [href^='http://' ]. In this case, the use of the Universal selector (*) is implicitly assumed.
-
 - To match a specific attribute value, you use something like:
 
     `input[type='text']`
@@ -306,7 +303,6 @@ Why do you pass 1 if you want to start from the third element? Shouldn’t it be
     - For this reason, :even will collect the first, third, and so on elements of a set because they have even indexes (0, 2, and so on).
 
 *The takeaway lesson is :even and :odd are related to the index of the elements within the set, not their position.
-
 - You can also pass to :eq(), :gt (), and :lt() a negative index.
 - In this case the elements are filtered counting backward from the last element.
     - If you write p:gt(-2), you’re collecting only the last paragraph in the page. Considering that the last paragraph has index -1, the penultimate has index -2, and so on, basically you’re asking for all the paragraphs that come after the penultimate.
@@ -334,8 +330,6 @@ This retrieves all <p>s inside a <div> that are the fourth child of their parent
 This request is accomplished using the selector
 
     `div .description:nth-of-type(2)`
-
-
 **List of Child filters of jQuery**
 
 >:first-child   - Matches the first child element within the context
@@ -419,7 +413,6 @@ But the first syntax would be considered terse and and more elegant.
 
 - The second and hard solution by equation where passing a formula to the :nth-child() filter.
 Remembering the index for :nth-child() starts at 1, we can turn the previous selector into #languages td:nth-child(2n+1)
-
 
 ## Form filters
 
@@ -601,7 +594,6 @@ You call your custom filter requiredLevel, and instead of passing the function d
 
     `var $elements = $('.levels li:pointsHigherThan(50)');`
 obtaining the last two list items.
-
 
 ##  Enhancing performances using context
 - Untill now, we’ve been acting as if there were only one argument that we can pass to jQuery’s $() function.

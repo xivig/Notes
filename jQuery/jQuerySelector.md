@@ -7,6 +7,7 @@ _From the 'Jquery in Action' by Bear Bibeault, Yehuda Katz, Aurelio De Rosa_
 - It's based on the existing CSS1 to CSS3 Selectors, and then adding its own. - jQuery offers a powerful set of tools for matching a set of elements in a document.
 - All selectors in jQuery start with the dollar sign and parentheses: $().
 - It has the syntax of:
+
 ```$(selector expression, context)
             or
   jQuery(selector expression, context)
@@ -28,10 +29,12 @@ _From the 'Jquery in Action' by Bear Bibeault, Yehuda Katz, Aurelio De Rosa_
 - When savingthe result of a selection made with jQuery in a variable, a widely adopted convention is to prepend or (less commonly) append a dollar sign to the name of the variable.
 - It doesn’t have a special meaning; it’s used as a reminder of what the variable is storing.
 - Another reason to adopt one of these conventions is to be sure not to invoke $() on a set of DOM elements on which we’ve already called this method. For example, the following is erroneous:
-    ```var allElements = $('*');
+
+  ```
+  var allElements = $('*');
     // Other code here...
     $(allElements);
-    ```
+  ```
 - Using the aforementioned conventions, you can rewrite the previous statement prepending the dollar sign to the variable name, as shown here:
     `var $allElements = $('*');`
 

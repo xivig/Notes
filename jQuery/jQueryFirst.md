@@ -18,11 +18,11 @@ quite get the result I was expecting, I can read through the JavaScript code and
 - The jQuery library is exposed through a property called jQuery and a shortcut called $. Using them gives you access to the properties, methods, and functions that jQuery provides.
 - One of the utilities available is the function for trimming strings, whose aim is to remove whitespaces from the beginning and the end of a string. A call to it could look like this:
 
-    var trimmed = $.trim(someString);
+    `var trimmed = $.trim(someString);`
 
 - If the value of someString is “ hello ”, the result of the $.trim() call will be “hello”. Here we used the jQuery shortcut ($) as an identifier like any other in JavaScript. Writing a call to the same function using the jQuery identifier, rather than its alias, will result the same output:
 
-    var trimmed = jQuery.trim(someString);
+    `var trimmed = jQuery.trim(someString);`
 
 - Another utility function is $.isArray(), which tests if a given argument is an array.
 - In addition to properties and functions, the jQuery library also exposes methods that are available once you call the jQuery() function.
@@ -34,12 +34,12 @@ quite get the result I was expecting, I can read through the JavaScript code and
 - It accepts up to two arguments, and, depending on their number and type, performs different tasks.
 - It allows for chaining.
 Chaining is a programming technique used to call several methods in a single statement. As for example:
-    
+    ```
     var obj = new Obj();
     obj.method();
     obj.anotherMethod();
     obj.yetAnotherMethod();
-
+    ```
 - Instead of writing several lines of code we can write
 
     var obj = new Obj();
@@ -470,7 +470,7 @@ We select the odd-numbered img elements, use the get() method to retrieve the HT
 - We select all of the label elements in the document and change the value of the CSS color property to blue.
 - We do this in a single statement in jQuery, but it takes a bit more effort using the basic DOM API.
 - Whenever you call a method that modifies the contents of the object, the result of the method is another jQuery object which allows us to perform method chaining.
-
+```
     $(document).ready(function() {
     	//Method Chaining Method Calls on a jQuery Object
         $('label').css("color", "blue").css("font-size", ".75em");
@@ -482,10 +482,10 @@ We select the odd-numbered img elements, use the get() method to retrieve the HT
             labelElems[i].style.fontSize = "1.75em";
         }
     });
-
+```
 Here:
 We create a jQuery object using the $ function, call the css method to set a value for the color property, and then call the css method again, this time to set the font-size property.
-
+```
     $(document).ready(function() {
         $('label').css("color", "green").add("input[name!='rose']").filter("[for!='snowdrop']").css("font-size", ".75em");
     
@@ -504,7 +504,7 @@ We create a jQuery object using the $ function, call the css method to set a val
             }
         }
     });
-
+```
 Here:
 * We start with this:
 
@@ -551,14 +551,14 @@ add(jQuery) - Adds the contents of the specified jQuery object
 
 - the add method returns a jQuery object on which you can call other methods, including further calls to the add method.
 - A common mistake is to assume that the remove method is the counterpart to the add method and will narrow the selection. But, the remove method changes the structure of the DOM.
-
+```
 $(document).ready(function() {
 	var labelElems = document.getElementsByTagName("label");
 	var jq = $('img[src*=daffodil]');
 	$('img:even').add('img[src*=primula]').add(jq)
 		.add(labelElems).css("border", "thick double red");
 });
-
+```
 This script uses all three approaches to add elements to the initial selection: with another selector, with some HTMLElement objects, and with another jQuery object.
 
 ## Narrowing the Selection
@@ -576,7 +576,7 @@ slice(start, end) - Removes all elements outside the specified range of index va
 
 ## Reducing the Selection to a Specific Element
 - The three most basic reduction methods are first, last, and eq. These three methods allow you to select a specific element based on its position in the jQuery object.
-
+```
 $(document).ready(function(){
     var jq = $('label');
 // select and operate on the first element
@@ -590,18 +590,19 @@ jq.eq(2).css("border", "thick double black");
 // -2 means it operate on second from the last element
 jq.eq(-2).css("border", "thick double black");
 });
+```
 
 - When the argument to this method is positive, the index is counted from the first element in the jQuery object. When the argument is negative, the counting is done backward, starting from the last element.
 
 ## Reducing the Selection by Range
 - The slice method lets you reduce the selection to a range of elements, specified by index.
-
+```
 $(document).ready(function() {
     var jq = $('label');
     jq.slice(0, 2).css("border", "thick double black");
     jq.slice(4).css("border", "thick solid red");
 });
-
+```
 - The arguments to the slice method are the index to begin selection and the index to end selection.
 Indexes are zero-based, so the arguments (0 and 2) have the effect of selecting the first two elements.
 - If you omit the second argument, then the selection continues to the end of the set of elements. By specifying a single argument of 4 for a set of six elements, we selected the last two elements (which have the index values of 4 and 5).
@@ -616,7 +617,7 @@ filter(HTMLElement) - Removes all but the specified element.
 filter(jQuery) - Removes elements that are not contained in the specified jQuery object.
 filter(function(index)) - The function is called for each element; those for which the function returns false are removed.
 
-
+```
 $(document).ready(function() {
     // remove elements whose src attribute contains the letter 's'
     $('img').filter('[src*=s]').css("border", "thick double red");
@@ -631,7 +632,7 @@ $(document).ready(function() {
         return this.getAttribute("src") == "peony.png" || index == 4;
     }).css("border", "thick solid red")
 });
-
+```
 In the last example, jQuery calls your function once for every element contained by the jQuery object.
 - If you return true from the method, the element for which the function has been called is retained.
 - If you return false, then the element is removed. There is one argument passed to the function, which is the index of the element for which the function is being called.
@@ -642,28 +643,28 @@ not(selector) - Removes elements that match the selector.
 not(HTMLElement[]), not(HTMLElement) - Removes the specified element or elements.
 not(jQuery) - Removes elements that are contained in the specified jQuery object.
 not(function(index)) - The function is called for each element; those for which the function returns true are removed.
-
+```
 $(document).ready(function() {
-$('img').not('[src*=s]').css("border", "thick double red");
-var jq = $('[for*=p]');
-$('label').not(jq).css("color", "blue");
-var elem = document.getElementsByTagName("label")[1];
-$('label').not(elem).css("font-size", "1.5em");
-$('img').not(function(index) {
-return this.getAttribute("src") == "peony.png" || index == 4;
-}).css("border", "thick solid red")
+    $('img').not('[src*=s]').css("border", "thick double red");
+    var jq = $('[for*=p]');
+    $('label').not(jq).css("color", "blue");
+    var elem = document.getElementsByTagName("label")[1];
+    $('label').not(elem).css("font-size", "1.5em");
+    $('img').not(function(index) {
+        return this.getAttribute("src") == "peony.png" || index == 4;
+    }).css("border", "thick solid red")
 });
-
+```
 ## Reducing the Selection Based on Descendants
 - One can use the has() method to reduce the selection to elements that have particular descendants, by
 specifying either a selector or one or more HTMLElement objects.
-
+```
 $(document).ready(function() {
-$('div.dcell').has('img[src*=astor]').css("border", "thick solid red");
-var jq = $('[for*=p]');
-$('div.dcell').has(jq).css("border", "thick solid blue");
+    $('div.dcell').has('img[src*=astor]').css("border", "thick solid red");
+    var jq = $('[for*=p]');
+    $('div.dcell').has(jq).css("border", "thick solid blue");
 });
-
+```
 
 - Here we reduce the selection by removing elements that don’t have specific descendants.
 - In the first case, where we use a selector, we remove elements that don’t have at least one descendant img element with a src attribute value that contains astor.
@@ -672,7 +673,7 @@ $('div.dcell').has(jq).css("border", "thick solid blue");
 ## Mapping the Selection
 - The map method provides a flexible way to use one jQuery object as a means to create another.
 - The map method calls the passing function for every element in the source jQuery object, and the HTMLElement objects that you return from the function are included in the result jQuery object.
-
+```
 $(document).ready(function() {
     $('div.dcell').map(function(index, elem) {
         return elem.getElementsByTagName("img")[0];
@@ -681,7 +682,7 @@ $(document).ready(function() {
         return $(elem).children()[1];
     }).css("border", "thick solid blue");
 });
-
+```
 - The first uses the DOM API to return the first img element contained in each element, and the second uses jQuery to return the first item in the jQuery object returned by the children method (it returns the child nodes of each element in a jQuery object).
 - You can return only one element each time the function is called. If you want to project multiple result elements for each source element, you can combine the each and add methods.
 
@@ -695,7 +696,7 @@ is(function(index)) - Returns true if the function returns true at least once
 
 - When you specify a function, jQuery will invoke that function once for each element in the jQuery object, passing the index of the element as the function argument and setting the this variable to the element itself.
 - This method returns a boolean value. Not all jQuery methods return a jQuery object.
-
+```sh
 $(document).ready(function() {
     var isResult = $('img').is(function(index) {
         return this.getAttribute("src") == "rose.png";
@@ -703,6 +704,7 @@ $(document).ready(function() {
     console.log("Result: " + isResult);
 });
 
+```
 This script tests to see whether the jQuery object contains an element whose src attribute value is rose.png and writes out the result to the console, as follows: Result: true
 
 ## Changing and Then Unwinding the Selection
@@ -747,7 +749,7 @@ find(jQuery), find(HTMLElement), find(HTMLElement[]) - Selects the intersection 
 - The children method will select only those elements that are immediate descendants of each element in the jQuery object, optionally filtered by a selector.
 - The find method will select all descendant elements, not just the immediate ones.
 - The contents method will return the children elements, plus any text content.
-
+```sh
 $(document).ready(function() {
     var childCount = $('div.drow').children().each(function(index, elem) {
         console.log("Child: " + elem.tagName + " " + elem.className);
@@ -758,6 +760,7 @@ $(document).ready(function() {
     }).length;
     console.log("There are " + descCount + " img descendants");
 });
+```
 
 Here we  use the children method without a selector and the find method with one.
 The console output from this script is as follows:
@@ -837,7 +840,7 @@ parentsUntil(HTMLElement[], selector)	- Selects the ancestors for each element i
 ### Selecting Parent Elements
 - The parent method lets you select the parent element for each of the elements in a jQuery object.
 - If you provide a selector, then only parent elements that match the selector will be included in the result.
-
+```
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('div.dcell').parent().each(function(index, elem) {
@@ -848,7 +851,7 @@ parentsUntil(HTMLElement[], selector)	- Selects the ancestors for each element i
 		});
 	});
 </script>
-
+```
 Here we select all of the div elements who are members of the dcell class and then call the parent method to select the parent elements. we have also demonstrated using the parent method with a selector. we use the each method to write information about the selected parent elements to the console, which produces the following output:
 
 Element: DIV row1
@@ -857,14 +860,15 @@ Filtered Element: DIV row1
 
 ### Selecting Ancestors
 - The parents method (note the final letter s) lets you select all of the ancestors of elements in a jQuery object, not just the immediate parents. Once again, you can pass a selector as a method to the argument to filter the results.
-
+```sh
 <script type="text/javascript">
 $(document).ready(function() {
 	$('img[src*=peony], img[src*=rose]').parents().each(function(index, elem) {
 		console.log("Element: " + elem.tagName + " " + elem.className + " " + elem.id);
 	});
 });
-
+</script>
+```
 - Here we have selected two of the img elements and used the parents method to select their ancestors. we then write information about each ancestor to the console, to produce the following output:
 
 Element: DIV dcell
@@ -879,7 +883,7 @@ Element: HTML
 
 - A variation on selecting ancestors is presented by the parentsUntil method.
 - For each element in the jQuery object, the parentsUntil method works its way up the DOM hierarchy, selecting ancestor elements until an element that matches the selector is encountered.
-
+```sh
 <script>
 //Using the parentsUntil Method
 	$(document).ready(function() {
@@ -888,6 +892,8 @@ Element: HTML
 		console.log("Element: " + elem.tagName + " " + elem.className + " " + elem.id);
 		});
 	});
+</script>
+```
 - Here the ancestors for each element are selected until a form element is encountered. The output from the script is as follows:
 
 Element: DIV dcell
@@ -900,7 +906,7 @@ Element: DIV oblock
 Notice: that elements that match the selector are excluded from the selected ancestors which means that the form element is excluded.
 - One can filter the set of ancestors by providing a second selector argument, as shown below:
 
-
+```sh
 <script type="text/javascript">
 //Filtering the Set ofElements Selected by the parentsUntil Method
 $(document).ready(function() {
@@ -909,7 +915,7 @@ $(document).ready(function() {
 	});
 });
 </script>
-
+```
 Here we have added a selector that will filter out elements that belong to the dcell class. The output from this script is as follows:
 
 Element: DIV drow row2
@@ -919,7 +925,7 @@ Element: DIV oblock
 
 ## Selecting the First Matching Ancestor
 The closest method lets you select the first ancestor that is matched by a selector for each element in a jQuery object.
-
+```sh
 <script type="text/javascript">
 //Using the closest Method
 $(document).ready(function() {
@@ -932,6 +938,7 @@ $(document).ready(function() {
 	});
 });
 </script>
+```
 - Here we select the img elements in the document and then use the closest method to find the nearest ancestor that belongs to the drow class.
 - You can narrow the scope for selecting ancestors by specifying an HTMLElement object as the second argument to the method.
 - Ancestors that are not the context object or are not descendants of the context object are excluded from the selection.
@@ -943,7 +950,7 @@ Context Element: DIV drow row2
 
 
 - When you specify a jQuery object or one or more HTMLElement objects as the argument to the closest method, jQuery works its way up the hierarchy for each element in the source jQuery object, matching the first argument object it finds.
-
+```sh
 <script type="text/javascript">
 //Using the Closest Method with a Set of Reference Objects
 $(document).ready(function() {
@@ -952,6 +959,8 @@ $(document).ready(function() {
 		console.log("Context Element: " + elem.tagName + " " + elem.className + " " + elem.id);
 	});
 });
+</script>
+```
 - Here we select one of the img elements in the document and then use the closest method to select the ancestor elements. We have supplied a jQuery object containing the form element and the elements with the row1 and row2 ID as the argument to the closest method. jQuery will select whichever of the elements is the nearest ancestor to the img element.
 - In other words, it will start to work its way up the hierarchy until it encounters one of the elements in the argument object. The output for this script is as follows:
 
@@ -960,7 +969,7 @@ Context Element: DIV drow row1
 - The offsetParent is a variation on the closest theme and funds the first ancestor that has a value for the position CSS property of relative, absolute, or fixed. Such an element is known as a positioned ancestor, and finding one can be useful when working with animation.
 
 ```
-Using the offsetParentMethod
+<!--Using the offsetParentMethod -->
 <!DOCTYPE html>
 <html>
 
@@ -1048,7 +1057,7 @@ siblings(selector) - Selects all of the siblings for each of the elements in the
 
 ## Selecting All Siblings
 - The siblings method selects all of the siblings for all of the elements in a jQuery object.
-
+```sh
 <script type="text/javascript">
 //Using the siblings Method
 $(document).ready(function() {
@@ -1056,23 +1065,23 @@ $(document).ready(function() {
 		.parent().siblings().css("border", "thick solid blue");
 });
 </script>
-
+```
 - Here we select two of the img elements, call the parent method to select their parent elements, and then call the siblings method to select their sibling elements.
 - Both the previous and next siblings will be selected, and we use the css method to set a value for the border property.
 
 - Notice that only the siblings are selected, not the elements themselves. Of course, this changes if one element in the jQuery object is a sibling of another, as shown below:
-
+```sh
 <script type="text/javascript">
 //Overlapping Sets ofSiblings
 $(document).ready(function() {
 	$('#row1 div.dcell').siblings().css("border", "thick solid blue");
 });
 </script>
-
+```
 - In this script, we start by selecting all of the div elements that are children of the row1 element and then call the siblings method. Each of the elements in the selection is the sibling to at least one of the other elements.
 
 ## Selecting Next and Previous Siblings
-
+```sh
 <script type="text/javascript">
 //Using the nextAll and prevAll Methods
 $(document).ready(function() {
@@ -1080,6 +1089,7 @@ $(document).ready(function() {
 	$('img[src*=primula]').parent().prevAll().css("border", "thick double red");
 });
 </script>
+```
 This script selects the next siblings for the parent of the astor image and the previous siblings for the primula image. 
 
 

@@ -49,7 +49,7 @@ jQuery(selector expression, context)
 the page.
 - There are two main reasons for this choice: brevity (that is, writing less code) and avoiding an additional HTTP request (that fails if you’re running the code while offline).
 
-    ```sh
+    ```html
     <!DOCTYPE html>
     <html>
        <head>

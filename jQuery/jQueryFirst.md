@@ -62,7 +62,7 @@ Chaining is a programming technique used to call several methods in a single sta
       jQuery(selector expression, context)
     ```
 - jQuery is a two-step pattern. The first step is to select some elements, and the second step is to perform one or more operations on those elements.
-    ```
+    ```javascript
     //Example 1:
     $(document).ready(function () {
     	//Here the methods we chained were mouseenter and mouseout methods which let me define handler functions for the mouseenter and mouseout events.
@@ -75,7 +75,7 @@ Chaining is a programming technique used to call several methods in a single sta
     });
     ```
 - One can access jQuery by using the $(...) function, or simply $ function. The $ function is the entry point to the jQuery and is a shorthand for the jQuery function. You can rewrite the script to use the full function name if you prefer, as follows:
-    ```
+    ```javascript
     jQuery(document).ready(function () {
     	jQuery("img:odd").mouseenter(function(e){
     		jQuery(this).css("opacity", 0.4);
@@ -89,7 +89,7 @@ Chaining is a programming technique used to call several methods in a single sta
 - jQuery is not the only JavaScript library that uses the $ notation, which can cause problems if you
 are trying to use multiple libraries in the same document. You can make jQuery relinquish control of the
 $ by calling the jQuery.noConflict method as follows:
-    ```
+    ```javascript
     jQuery.noConflict();
     jQuery(document).ready(function () {
     	jQuery("img:odd").mouseenter(function(e){
@@ -100,7 +100,7 @@ $ by calling the jQuery.noConflict method as follows:
     });
     ```
 - You can also define your own shorthand notation by assigning the result of the noConflict method to a variable as follows:
-    ```
+    ```javascript
     var jQ = jQuery.noConflict();
     //Here I have created my own shorthand, jQ, and then used this shorthand throughout the rest of my script.
     jQ(document).ready(function () {
@@ -126,7 +126,9 @@ $ by calling the jQuery.noConflict method as follows:
 - We generally placed the script element at the end of the document so that the browser would create
 all of the objects in the DOM before executing the JavaScript code.
 - We can neatly avoid this issue by using jQuery $(document).ready(function(){}) method as follows:
-    ```
+    
+    ```javascript
+
     $(document).ready(function () {
     // ...code to execute...
     });
@@ -138,7 +140,7 @@ all of the objects in the DOM before executing the JavaScript code.
 - The function you pass to the ready method will be invoked when the document is loaded and the DOM is ready for use.
 - It is a common mistake to omit the function part of the ready method and just pass a series of JavaScript
 statements which are executed by the browser immediately and not when the DOM is ready.
-    ```
+    ```javascript
     function countImgElements() {
     	return $('img').length;
     }

@@ -6,4 +6,19 @@
 ## Project Tobe completed
 ✅ Markdows
 
+✅ Jekyll configuration
+
+✅ Vagrant Setup
+
+✅ Create Github page with Travis CI
+
+✅ Sizzle facts
+
+✅ Yaml Syntax
+
+
 🔲 JavaScript
+
+🔲 JQuery
+
+🔲 DOM

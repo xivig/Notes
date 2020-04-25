@@ -17,7 +17,7 @@
     vim spec/test.spec.js // open the file in the bash shell and hit the insert key and type the following codes:
 ```
 
-2. 
+2. The file should looks like:
 ```js
 
     function sayHi(greet){
@@ -34,17 +34,18 @@ describe( "Greeting  test", function() {
 });
 ```
 
-3. Now follow this
+3. Now follow this:
 
     1. hit esc key
     2. :
     3. wq
     4. enter
 
-Now you are done.
+    Now you are done.
 
 4. now run 
-`$ jasmin`
+
+`$ jasmine`
 
 You will get the following output:
 ```
@@ -58,9 +59,11 @@ Finished in 0.006 seconds
 Randomized with seed 37006
 ```
 
-5. Now you have run your first jasmine test
+5. Now you have run your first jasmine test!!
 
-Explanation of jasmine: it contains
+**Explanation of jasmine configuration:**
+
+    it contains
     1. describe('name of test', callback) block
     2. it('message', callback) block
     3. console output 

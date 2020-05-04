@@ -82,9 +82,21 @@ length: 4
 ```
 
 ## 4. Object.freeze()
-_Return an array of the keys of an object_
+_Prevents us from modifying existing object properties_
+_Once the object is frozen we can no longer add, update, or delete properties from it_
+_Any attempt at changing the object will be rejected without an error_
 ### Example 4:
+const freezeObj = {
+	name: "Bandhu"
+}
 
+Object.freeze(freezeObj);
+freezeObj.name = "Yisxa"; // will be ignored, mutation not allowed
+freezeObj.newProp = "Cool"; // will be ignored, mutation not allowed
+console.log(freezeObj); // { name: "Bandhu" }
+
+freezeObj.age = 27;
+console.log(freezeObj); { name: "Bandhu" }
 
 ## 5. Object.seal()
 _Return an array of the keys of an object_

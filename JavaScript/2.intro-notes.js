@@ -50,14 +50,14 @@
     console.log("5" === 5) // false
     console.log(undefined == null) // true
     console.log(undefined === null) // false
-        /* 
-        Here JavaScript use type coercion.
-        Type coercion is the process of converting value from one type to another.
-        !=  => It performs type coercion
-        !== => It doesn't perform any type coercion
-        === => It is called equality operator.It doesn't perform any type coercion.
-        */
-
+    /* 
+    Here JavaScript use type coercion.
+    Type coercion is the process of converting value from one type to another.
+    !=  => It performs type coercion
+    !== => It doesn't perform any type coercion
+    === => It is called equality operator.It doesn't perform any type coercion.
+    */
+    
     /* When you use the double equals, the string "5" and the number 5 are considered equal because the double equals convert the string into a number before it makes the comparison.
 
     The triple equals operator doesn't consider these values equal because they are  two different types.

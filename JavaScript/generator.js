@@ -6,11 +6,11 @@ for (let pasta of pastaNames){
 
 
 // Generator
-function* numbers() {
+function* shopping() {
 	yield;
 }
 
-let generator = numbers();
+let generator = shopping();
 console.log(generator.next());
 console.log(generator.next());
 console.log(generator.next());

@@ -12,8 +12,7 @@
 })();
 
 //2. Alternate way
-+
-(function() {
++(function() {
     function greeting() {
         console.log("WELCOME friends!");
     }
@@ -31,6 +30,13 @@
 //4. Alternate way: If you don't know which
 //  come first then you haave to do this
 (function() {
+    function greeting() {
+        console.log("welcome friends again!");
+    }
+    greeting();
+})();
+
+;(function() {
     function greeting() {
         console.log("welcome friends again!");
     }

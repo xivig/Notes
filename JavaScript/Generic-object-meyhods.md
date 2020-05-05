@@ -109,15 +109,67 @@ _Return an array of the keys of an object_
 
 
 ## 6. Object.assign()
-_Return an array of the keys of an object_
+_It will clone the old Object_
 ### Example 6:
+```js
+let oldObj = {
+	name: 'Cool'
+}
+let newObj = oldObj // It doesn't work
+// solution to above problem
+let clonedObj = Object.assign({}, oldObj)
 
+// alternative is a spread operator
+let clonedObj2 = {...oldObj}
+
+clonedObj //Object { name: "Cool" }
+
+clonedObj2	//Object { name: "Cool" }
+
+// Shallow cloning: means it will copy only one level
+let oldObj2 = {
+	name: 'Cool',
+	hobbies: ['Music', 'Reading']
+}
+let clonedObj3 = Object.assign({}, oldObj2)
+clonedObj3.hobbies.push('Football');
+clonedObj3 //  { name: "Cool", hobbies: [ "Music", "Reading", "Football" ] }
+
+// alternative
+let clonedObj4 = {...oldObj2, hobbies: [...oldObj2.hobbies]}
+
+```
 ## 7. Object.create()
-_Return an array of the keys of an object_
+_We can create object by this method_
 ### Example 7:
+```js
+const person = {
+        getFullName: function() {
+            console.log(this.firstName, "", this.lastName);
+        }
+    }
 
+    person.__proto__.hobby = function() {
+        console.log("Cool Hobby");
+    }
+
+    // creating object by Object.craete(obj) method
+    const person1 = Object.create(person);
+    person1.firstName = "John";
+    person1.lastName = "Doe";
+    person1.getFullName();
+
+    let person2 = Object.create(person);
+    person2.hobby = function() {
+        console.log('I loved to watch movie');
+    }
+
+    person1.hobby(); // Cool Hobby
+    person2.hobby(); //I loved to watch movie
+
+```
 ## 8.
-_Return an array of the values of an object_
+_Sample_
 ## 9.
 ## 10.
 ## 11.

@@ -17,7 +17,7 @@ examples:
         job: "Developer",
         email: "cool@cool.com"
 
-        // here befor ':' is property and after ':' is the value
+        // here before ':' is property(key) and after ':' is the value
     };
 
     console.log("First Name: " + person.firstName); //First Name: Cool
@@ -191,6 +191,6 @@ examples:
         age: 28
     };
 
-    person.name = "Cool"; // It will reassign the name property to "Cool"
+    person.name = "Cool"; // It will reassign the value of 'name' property to "Cool"
     console.log(person);
 })();

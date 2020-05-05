@@ -34,7 +34,7 @@ arr.forEach(function(item, index, array) {
     let languageKnown = ['Swift', 'JavaScript', 'Haskell', 'Java', 'C#'];
     // e.g.,
     languageKnown.forEach((element) => console.log(element));
-    // Here for each element call alert function
+    // Here for each element call log function
 
     // This can be done as:
     languageKnown.forEach((element) => console.log(element));

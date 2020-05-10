@@ -104,9 +104,79 @@ console.log(freezeObj); { name: "Bandhu" }
 ```
 
 ## 5. Object.seal()
-_Return an array of the keys of an object_
-### Example 5:
+_We can use the Object.seal() method on an object to seal it._
+- A sealed object is non-extensible, and all of its properties are non-configurable. 
+- That means we can't add new properties to the object, but we also can’t remove properties or change their type from data to accessor or vice versa. 
+- If an object is sealed, we can only read from and write to its properties.
+- When that happens, the [[Extensible]] attribute is set to false, and all properties have their [[Configurable]] attribute set to false. 
+- We can also check to see whether an object is sealed using Object.isSealed() as follows:
+```js
+(function () {
+    let createObj = {
+        name: "Bandhu"
+    }
+    console.log(Object.isExtensible(createObj)); // true
+    console.log(Object.isSealed(createObj)); // false
+    Object.seal(createObj);
+    console.log(Object.isExtensible(createObj)); // false
+    console.log(Object.isSealed(createObj)); // true
+    /* createObj.sayHello = function(){
+        console.log(`Hi, ${this.name}`);
+    } //TypeError: Cannot add property sayHello, object is not extensible
+    console.log("sayHello" in createObj); // false
+    createObj.name = 'Xivig';
 
+    // delete createObj.name; // TypeError: Cannot delete property 'name' of #<Object>
+    console.log("name" in createObj); //	true
+    console.log(createObj.name); // Xivig
+    let descriptor = Object.getOwnPropertyDescriptor(createObj, "name");
+    console.log(descriptor.configurable); // false
+
+})();
+```
+- This code seals createObj so we can’t add or remove properties. 
+- Since all sealed objects are non-extensible, Object.isExtensible() returns false when used on createObj, and the attempt to add a method called sayHello() fails silently. 
+- Though createObj.name is successfully changed to a new value, the attempt to delete it silently fails.
+- Be sure to use strict mode with sealed objects so you’ll get an error when someone tries to use the object incorrectly.
+
+- We can still change the property xivig:
+```
+createObj.xivig = 'b';  //'b'
+createObj.xivig //'b'
+```
+- but we can’t change its attributes:
+```
+Object.defineProperty(createObj, 'xivig', { 
+    enumerable: false 
+}); //TypeError: Cannot redefine property: xivig
+```
+
+### Example 5:
+```js
+(function{
+    var createObj = {
+        xivig: 'a'
+    };
+    Object.getOwnPropertyDescriptor(createObj, 'xivig') // before sealing
+    {
+        value: 'a',
+        writable: true,
+        enumerable: true,
+        configurable: true
+    }
+
+    Object.seal(createObj) // On sealing
+
+    Object.getOwnPropertyDescriptor(createObj, 'xivig') // after sealing
+
+    {
+        value: 'a',
+        writable: true,
+        enumerable: true,
+        configurable: false
+    }
+})();
+```
 
 ## 6. Object.assign()
 _It will clone the old Object_

@@ -1,4 +1,5 @@
 /*
+
 A. What are objects?
 - Objects are simple pairs of unique keys that correspond to a value.
 - This key-value pair is called propery.
@@ -49,7 +50,8 @@ Object.defineProperty(createObj, 'gender', {
 	writable: true,
 	configurable: true,
 	enumerable: true
-})*/
+})
+*/
 
 console.log(createObj); // [Object: null prototype] { name: 'bandhu', age: 30, gender: 30 }
 
@@ -57,11 +59,13 @@ console.log(createObj); // [Object: null prototype] { name: 'bandhu', age: 30, g
 
 // We can use the Object.defineProperties() when we need to add more than one property to an object:
 
-Object.defineProperties(createObj, {name: {
-	value: 'Bandhu',
-	writable: true,
-	configurable: true,
-	enumerable: true },
+Object.defineProperties(createObj, {
+	name: {
+		value: 'Bandhu',
+		writable: true,
+		configurable: true,
+		enumerable: true 
+	},
 	age: {
 		value: 30,
 		writable: true,
@@ -79,5 +83,37 @@ Object.defineProperties(createObj, {name: {
 
 console.log(createObj);	// [Object: null prototype] { name: 'bandhu', age: 30, gender: male }
 
-// C. Descriptors
+// This is extremely verbose. We can make it less verbose by eliminating the comon defaults:
 
+let config = {
+	writable: true,
+	enumerable: true,
+	configurable: true
+}
+// console.log(config);
+let defineProp = function(obj, name, value){
+	config.value = value;
+	// console.log(config);
+	Object.defineProperty(obj, name, config);
+}
+
+let person = Object.create(null);
+defineProp(person, 'name', 'Bandhu');
+defineProp(person, 'age', 28);
+defineProp(person, 'gender', 'male');
+
+console.log(person); // [Object: null prototype] { name: 'banhu', age: 28, gender: 'male' }
+
+
+// C. Descriptors
+/*
+
+- Descriptors can be one of two types:
+a. data descriptors
+b. accessor descriptors
+
+- Both types of descriptor contain flags, which define how a property is trated in the language.
+- If a flag is not set, it's assumed to be false.
+
+
+*/

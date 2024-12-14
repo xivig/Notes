@@ -172,6 +172,7 @@ statements which are executed by the browser immediately and not when the DOM is
     ```
 So our original code will be:
     ```sh
+    
         $(function () {
         	$("img:odd").mouseenter(function(e){
         		$(this).css("opacity", 0.4);
@@ -179,6 +180,7 @@ So our original code will be:
         		$(this).css("opacity", 1.0);
         	});
         });
+	
     ```
 ## Deferring the ready Event:
 - We can control when the ready event is triggered by using the holdReady method. This can be useful if we need to load external resources dynamically.

@@ -185,6 +185,7 @@ So our original code will be:
 - The holdReady method must be called before the ready event is triggered and can then be called again when we are
 ready.
     ```sh
+    
     $.holdReady(true);
     $(document).ready(function() {
         console.log("Ready event triggered");
@@ -198,6 +199,7 @@ ready.
     	console.log("Releasing Hold");
     	$.holdReady(false);
     },5000);
+    
     ```
 - Here we call the holdReady method at the start of the script element and  passed a value of true as the argument, indicating that I want the ready event to be held, then defining the function we want to be called when the ready event is fired.
 - Finally, we use the setTimeout method which calls the holdReady method with an argument of false and after 5,000 milliseconds jQuery to trigger the ready event. This will give the following output:

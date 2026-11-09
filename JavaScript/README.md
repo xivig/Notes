@@ -6,8 +6,9 @@ A comprehensive, code-first curriculum covering JavaScript from engine fundament
 
 ## 🚀 Quick Navigation & Resources
 
-* **[Developer Cheat Sheet](DEVELOPER-CHEATSHEET.md)**: Fast lookups for Array Methods (mutating vs non-mutating), Equality Matrices (`==` vs `===` vs `Object.is`), Type-Checking Recipes, and the Top 10 JavaScript Pitfalls.
-* **Curriculum Structure**: 34 sequentially numbered modules across 6 pedagogical phases. Every file is standalone, fully annotated, and runnable with Node.js or in modern browser consoles.
+* 📘 **[Comprehensive JavaScript Tutorial](TUTORIAL.md)**: An all-in-one, deep-dive guide synthesizing all 34 modules with architecture diagrams, code walkthroughs, and modern best practices.
+* ⚡ **[Developer Cheat Sheet](DEVELOPER-CHEATSHEET.md)**: Fast lookups for Array Methods (mutating vs non-mutating), Equality Matrices (`==` vs `===` vs `Object.is`), Type-Checking Recipes, and the Top 10 JavaScript Pitfalls.
+* 🗂️ **Curriculum Structure**: 34 sequentially numbered modules across 6 pedagogical phases. Every file is standalone, fully annotated, and runnable with Node.js or in modern browser consoles.
 
 ---
 

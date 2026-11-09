@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project 04: Shopping Cart</title>
+  <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f8fafc; padding: 2rem; color: #1e293b; }
+    .cart-wrapper { max-width: 550px; margin: 0 auto; background: #fff; padding: 24px; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
+    .item-info strong { display: block; font-size: 15px; }
+    .item-info small { color: #64748b; }
+    .qty-input { width: 55px; padding: 6px; border: 1px solid #cbd5e1; border-radius: 4px; text-align: center; font-size: 14px; }
+    .btn-remove { background: #fee2e2; color: #dc2626; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; margin-left: 8px; }
+    .promo-section { margin-top: 15px; display: flex; gap: 8px; }
+    .promo-input { flex: 1; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; text-transform: uppercase; }
+    .btn-promo { padding: 8px 14px; background: #0f172a; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+    .cart-summary { margin-top: 20px; padding-top: 15px; border-top: 2px solid #e2e8f0; text-align: right; font-size: 14px; }
+    .summary-line { margin-bottom: 6px; }
+    .total-line { font-size: 18px; font-weight: bold; color: #0f172a; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <div class="cart-wrapper">
+    <h2>Your Shopping Cart</h2>
+    <div id="cartItemsList">
+      <div class="cart-item" data-price="49.99">
+        <div class="item-info">
+          <strong>Wireless Mechanical Keyboard</strong>
+          <small>$49.99 each</small>
+        </div>
+        <div>
+          <input type="number" class="qty-input" value="1" min="1" max="10">
+          <button class="btn-remove">✕</button>
+        </div>
+      </div>
+      <div class="cart-item" data-price="24.50">
+        <div class="item-info">
+          <strong>Ergonomic Gaming Mouse</strong>
+          <small>$24.50 each</small>
+        </div>
+        <div>
+          <input type="number" class="qty-input" value="2" min="1" max="10">
+          <button class="btn-remove">✕</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="promo-section">
+      <input type="text" id="promoCode" class="promo-input" placeholder="Promo code (try SAVE20)...">
+      <button id="btnApplyPromo" class="btn-promo">Apply</button>
+    </div>
+    <div id="promoFeedback" style="font-size:12px; margin-top:4px;"></div>
+
+    <div class="cart-summary">
+      <div class="summary-line">Subtotal: $<span id="lblSubtotal">0.00</span></div>
+      <div class="summary-line" id="discountLine" style="display:none; color:#16a34a;">Discount (20%): -$<span id="lblDiscount">0.00</span></div>
+      <div class="summary-line">Sales Tax (8%): $<span id="lblTax">0.00</span></div>
+      <div class="total-line">Grand Total: $<span id="lblTotal">0.00</span></div>
+    </div>
+  </div>
+
+  <script>
+    $(function() {
+      let discountRate = 0.0;
+
+      function calculateTotals() {
+        let subtotal = 0.0;
+
+        $('.cart-item').each(function() {
+          const price = parseFloat($(this).data('price'));
+          const qty = parseInt($(this).find('.qty-input').val(), 10) || 0;
+          subtotal += price * qty;
+        });
+
+        const discount = subtotal * discountRate;
+        const discountedSubtotal = subtotal - discount;
+        const tax = discountedSubtotal * 0.08;
+        const total = discountedSubtotal + tax;
+
+        $('#lblSubtotal').text(subtotal.toFixed(2));
+        $('#lblDiscount').text(discount.toFixed(2));
+        $('#lblTax').text(tax.toFixed(2));
+        $('#lblTotal').text(total.toFixed(2));
+
+        $('#discountLine').toggle(discountRate > 0);
+      }
+
+      // 1. Quantity modification
+      $('#cartItemsList').on('input change', '.qty-input', calculateTotals);
+
+      // 2. Item deletion with animation callback
+      $('#cartItemsList').on('click', '.btn-remove', function() {
+        $(this).closest('.cart-item').slideUp(200, function() {
+          $(this).remove();
+          calculateTotals(); // recalculate AFTER element is deleted from DOM
+        });
+      });
+
+      // 3. Coupon code validation
+      $('#btnApplyPromo').on('click', function() {
+        const code = $('#promoCode').val().trim().toUpperCase();
+        if (code === 'SAVE20') {
+          discountRate = 0.20;
+          $('#promoFeedback').text('✓ 20% discount applied!').css('color', '#16a34a');
+          calculateTotals();
+        } else {
+          discountRate = 0.0;
+          $('#promoFeedback').text('✕ Invalid promo code.').css('color', '#dc2626');
+          calculateTotals();
+        }
+      });
+
+      calculateTotals();
+    });
+  </script>
+</body>
+</html>

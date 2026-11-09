@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project 07: Admin Analytics Dashboard</title>
+  <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #f8fafc; padding: 2rem; }
+    .dashboard { max-width: 900px; margin: 0 auto; }
+    .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid #334155; padding-bottom: 16px; }
+    .period-controls { display: flex; gap: 8px; }
+    .btn-period { background: #1e293b; color: #94a3b8; border: 1px solid #334155; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; }
+    .btn-period.active { background: #2563eb; color: #fff; border-color: #2563eb; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .kpi-card { background: #1e293b; padding: 20px; border-radius: 8px; border: 1px solid #334155; }
+    .kpi-title { font-size: 13px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+    .kpi-value { font-size: 32px; font-weight: bold; margin: 10px 0 4px; color: #38bdf8; }
+    .kpi-sub { font-size: 12px; color: #10b981; }
+    .stream-card { background: #1e293b; padding: 20px; border-radius: 8px; border: 1px solid #334155; }
+    .stream-item { padding: 10px 0; border-bottom: 1px solid #334155; display: flex; justify-content: space-between; font-size: 14px; }
+    .stream-item:last-child { border-bottom: none; }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <div class="dash-header">
+      <div>
+        <h2 style="margin:0;">Executive Analytics</h2>
+        <small style="color:#94a3b8;">Real-time enterprise metrics & operations</small>
+      </div>
+      <div class="period-controls" id="periodTabs">
+        <button class="btn-period active" data-period="today">Today</button>
+        <button class="btn-period" data-period="week">7 Days</button>
+        <button class="btn-period" data-period="month">30 Days</button>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-title">Gross Revenue</div>
+        <div class="kpi-value" id="kpiRevenue">$0</div>
+        <div class="kpi-sub" id="kpiRevDelta">+12% vs last period</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">Active Users</div>
+        <div class="kpi-value" id="kpiUsers">0</div>
+        <div class="kpi-sub" id="kpiUserDelta">+8% new signups</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">Conversion Rate</div>
+        <div class="kpi-value" id="kpiConv">0.0%</div>
+        <div class="kpi-sub">Target: 3.5%</div>
+      </div>
+    </div>
+
+    <div class="stream-card">
+      <h4 style="margin:0 0 12px;">Live Order Activity</h4>
+      <div id="activityStream">
+        <div class="stream-item"><span>Order #1042 — Enterprise Cloud License</span><span style="color:#38bdf8;">$1,200.00</span></div>
+        <div class="stream-item"><span>Order #1041 — Premium Developer Plan</span><span style="color:#38bdf8;">$499.00</span></div>
+        <div class="stream-item"><span>Order #1040 — Standard API Seat</span><span style="color:#38bdf8;">$150.00</span></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(function() {
+      const metricsData = {
+        today: { rev: 4250, users: 380, conv: 3.8 },
+        week: { rev: 28900, users: 2450, conv: 4.2 },
+        month: { rev: 114500, users: 11200, conv: 4.0 }
+      };
+
+      function animateTicker($el, targetValue, prefix = '', suffix = '') {
+        $({ count: 0 }).animate({ count: targetValue }, {
+          duration: 800,
+          step: function() {
+            const formatted = Math.floor(this.count).toLocaleString();
+            $el.text(`${prefix}${formatted}${suffix}`);
+          },
+          complete: function() {
+            $el.text(`${prefix}${Math.floor(this.count).toLocaleString()}${suffix}`);
+          }
+        });
+      }
+
+      function updateDashboard(period) {
+        const stats = metricsData[period];
+        animateTicker($('#kpiRevenue'), stats.rev, '$');
+        animateTicker($('#kpiUsers'), stats.users);
+        $('#kpiConv').text(stats.conv.toFixed(1) + '%');
+      }
+
+      $('#periodTabs').on('click', '.btn-period', function() {
+        $(this).addClass('active').siblings().removeClass('active');
+        updateDashboard($(this).data('period'));
+      });
+
+      updateDashboard('today');
+    });
+  </script>
+</body>
+</html>

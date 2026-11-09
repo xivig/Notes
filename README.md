@@ -52,18 +52,18 @@ Notes/
 * High-performance DOM operations (`DocumentFragment`, `IntersectionObserver`, `MutationObserver`).
 
 ### 3. 🧩 [jQuery 4.0 Mastery Curriculum & Developer Reference](jQuery/README.md)
-* **Master Curriculum Hub**: 📘 **[jQuery 4.0 Complete Curriculum & Guide](jQuery/README.md)** (Full 9-Part, 77-Chapter comprehensive curriculum adhering strictly to the 12-section pedagogical template).
-* **Developer Desk Reference**: 🚀 **[jQuery 4.0 Developer Cheatsheet](jQuery/CHEATSHEET.md)** (One-page quick reference, breaking changes matrix, modern replacements).
-* **Part 1 — Foundations (Ch 1–7)**: [01-foundations.md](jQuery/01-foundations.md) — Introduction, JS prerequisites, installation, CDN vs local, document ready, syntax & objects, DOM vs jQuery.
-* **Part 2 — Selectors and DOM (Ch 8–15)**: [02-selectors-and-dom.md](jQuery/02-selectors-and-dom.md) — Basic selectors, attributes, hierarchy, advanced filters, DOM traversal, manipulation, creating/removing, attributes & data.
-* **Part 3 — Events (Ch 16–23)**: [03-events.md](jQuery/03-events.md) — Event fundamentals (.on/.off), mouse, keyboard, forms, delegation, propagation & bubbling, custom events, namespaced events.
-* **Part 4 — Styling and Effects (Ch 24–31)**: [04-styling-and-effects.md](jQuery/04-styling-and-effects.md) — CSS manipulation, classes, dimensions & offsets, show/hide, fading, sliding, custom animations, queues.
-* **Part 5 — Forms and Validation (Ch 32–38)**: [05-forms-and-validation.md](jQuery/05-forms-and-validation.md) — Getting/setting values, input handling, checkboxes & radios, dropdowns, serialization, validation, dynamic form builder.
-* **Part 6 — AJAX & Async (Ch 39–47)**: [06-ajax-and-async.md](jQuery/06-ajax-and-async.md) — AJAX fundamentals, GET/POST, master $.ajax(), JSON/XML, REST APIs, error handling, loading indicators, Promises & async/await, Deferred objects.
-* **Part 7 — Advanced jQuery (Ch 48–58)**: [07-advanced-jquery.md](jQuery/07-advanced-jquery.md) — Modern utilities & removed APIs, $.each & $.map, $.extend, $.data, plugin architecture, stateful plugins, enterprise architecture, performance & layout thrashing, memory management, CSP & XSS security, debugging & unit testing.
-* **Part 8 — Professional Development (Ch 59–66)**: [08-professional-development.md](jQuery/08-professional-development.md) — Bootstrap 5, PHP, Laravel, WordPress & noConflict, Enterprise REST APIs, modern JS & bundlers (Vite/TS), legacy refactoring, dedicated jQuery 3.x to 4.x migration guide.
-* **Part 9 — Practical Projects (Ch 67–77)**: [09-practical-projects.md](jQuery/09-practical-projects.md) — 11 complete hands-on projects: Navigation, Data Table, Search & Filter, Pagination, Modal System, Lightbox Gallery, Shopping Cart, AJAX CRUD, Form Builder, Admin Dashboard, Complete API App.
-* **In-Depth Companion Notes**: [jQuery Core & Foundations](jQuery/jQueryFirst.md), [jQuery Selector Reference](jQuery/jQuerySelector.md).
+* **Master Curriculum Hub**: 📘 **[jQuery 4.0 Complete Curriculum & Guide](jQuery/README.md)** (Modular 16-chapter curriculum, 7 production projects, 12-section pedagogical template).
+* **Getting Started & Quickstart**: 🚀 **[Getting Started Guide](jQuery/GETTING-STARTED.md)** (5-minute CDN setup, npm / ES Modules, and Slim build).
+* **Learning Roadmap & Tracks**: 🗺️ **[Learning Roadmap](jQuery/LEARNING-ROADMAP.md)** (4 structured progression tracks from beginner to senior architect).
+* **Developer Desk Reference**: ⚡ **[jQuery 4.0 Developer Cheatsheet](jQuery/CHEATSHEET.md)** (One-page quick reference, breaking changes matrix, modern replacements).
+* **Technical Glossary**: 📖 **[A–Z Glossary](jQuery/GLOSSARY.md)** (Authoritative definitions from AJAX to XSS, Trusted Types, and Layout Thrashing).
+* **Core Curriculum Modules**:
+  * [01. Fundamentals](jQuery/01-fundamentals/README.md) · [02. Installation](jQuery/02-installation/README.md) · [03. Syntax & Selectors](jQuery/03-syntax-and-selectors/README.md) · [04. DOM Traversal](jQuery/04-dom-traversal/README.md)
+  * [05. DOM Manipulation](jQuery/05-dom-manipulation/README.md) · [06. Events](jQuery/06-events/README.md) · [07. CSS & Styling](jQuery/07-css-and-styling/README.md) · [08. Effects & Animation](jQuery/08-effects-and-animation/README.md)
+  * [09. Forms & Validation](jQuery/09-forms-and-validation/README.md) · [10. AJAX & API](jQuery/10-ajax-and-api/README.md) · [11. Utilities](jQuery/11-utilities/README.md) · [12. Advanced Architecture](jQuery/12-advanced-jquery/README.md)
+  * [13. Plugin Development](jQuery/13-plugin-development/README.md) · [14. Performance & Security](jQuery/14-performance-and-security/README.md) · [15. Modern JS Integration](jQuery/15-modern-javascript-integration/README.md) · [16. jQuery 4 Migration](jQuery/16-jquery-4-migration/README.md)
+* **Hands-on Projects**: [01. Navigation](jQuery/projects/01-interactive-navigation/), [02. Data Table](jQuery/projects/02-data-table/), [03. Image Gallery](jQuery/projects/03-image-gallery/), [04. Shopping Cart](jQuery/projects/04-shopping-cart/), [05. Form Builder](jQuery/projects/05-form-builder/), [06. AJAX CRUD](jQuery/projects/06-ajax-crud/), [07. Admin Dashboard](jQuery/projects/07-admin-dashboard/).
+* **Mastery Resources**: 🏋️ **[Practice Exercises](jQuery/exercises/README.md)** · 🎯 **[Interview Questions & Answers](jQuery/interview-questions/README.md)** · 📚 **[Reference Archives](jQuery/reference/README.md)**.
 
 ### 4. 📦 [GitHub Pages Deployment](CreateGithubPages/How-to-create-github-page.md)
 * Standard branch deployment from `main` or `/docs`.

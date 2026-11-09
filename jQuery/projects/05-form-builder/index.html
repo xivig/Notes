@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project 05: Dynamic Form Builder</title>
+  <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f8fafc; padding: 2rem; color: #1e293b; }
+    .builder-container { display: flex; gap: 20px; max-width: 800px; margin: 0 auto; }
+    .sidebar { width: 220px; background: #fff; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0; height: fit-content; }
+    .canvas { flex: 1; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; min-height: 250px; }
+    .btn-element { display: block; width: 100%; padding: 8px 12px; margin-bottom: 8px; border: 1px dashed #64748b; background: #f8fafc; cursor: pointer; text-align: left; border-radius: 4px; font-size: 14px; }
+    .btn-element:hover { background: #e2e8f0; border-color: #0f172a; }
+    .field-card { background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; margin-bottom: 12px; border-radius: 6px; position: relative; }
+    .field-card label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 13px; }
+    .field-card input[type="text"].label-editor { width: 70%; padding: 4px 8px; margin-bottom: 6px; border: 1px solid #cbd5e1; border-radius: 4px; }
+    .btn-del-field { position: absolute; top: 12px; right: 12px; border: none; background: #fee2e2; color: #dc2626; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
+    .btn-export { width: 100%; padding: 10px; background: #2563eb; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+    pre { background: #0f172a; color: #38bdf8; padding: 12px; border-radius: 6px; font-size: 13px; overflow-x: auto; max-width: 800px; margin: 20px auto 0; }
+  </style>
+</head>
+<body>
+  <div class="builder-container">
+    <div class="sidebar">
+      <h3>Form Palette</h3>
+      <button class="btn-element" data-type="text">+ Text Field</button>
+      <button class="btn-element" data-type="email">+ Email Field</button>
+      <button class="btn-element" data-type="number">+ Number Field</button>
+      <button class="btn-element" data-type="textarea">+ Textarea</button>
+      <button id="btnExportJson" class="btn-export">Export JSON</button>
+    </div>
+
+    <div class="canvas" id="formCanvas">
+      <p id="emptyNote" style="color:#94a3b8; text-align:center; padding:40px 0;">Select elements from the left palette to add fields to your form.</p>
+    </div>
+  </div>
+
+  <pre id="jsonPreview" style="display:none;"></pre>
+
+  <script>
+    $(function() {
+      const templates = {
+        text: () => `<div class="field-card" data-type="text"><button class="btn-del-field">✕</button><label>Field Label:</label><input type="text" class="label-editor" value="Full Name"><br><small style="color:#64748b;">(Single-line text preview)</small></div>`,
+        email: () => `<div class="field-card" data-type="email"><button class="btn-del-field">✕</button><label>Field Label:</label><input type="text" class="label-editor" value="Email Address"><br><small style="color:#64748b;">(Email format preview)</small></div>`,
+        number: () => `<div class="field-card" data-type="number"><button class="btn-del-field">✕</button><label>Field Label:</label><input type="text" class="label-editor" value="Age"><br><small style="color:#64748b;">(Numeric stepper preview)</small></div>`,
+        textarea: () => `<div class="field-card" data-type="textarea"><button class="btn-del-field">✕</button><label>Field Label:</label><input type="text" class="label-editor" value="Additional Comments"><br><small style="color:#64748b;">(Multi-line box preview)</small></div>`
+      };
+
+      // 1. Add field from palette
+      $('.btn-element').on('click', function() {
+        const type = $(this).data('type');
+        if (templates[type]) {
+          $('#emptyNote').hide();
+          $('#formCanvas').append(templates[type]());
+        }
+      });
+
+      // 2. Delegated deletion of fields
+      $('#formCanvas').on('click', '.btn-del-field', function() {
+        $(this).closest('.field-card').remove();
+        if ($('#formCanvas .field-card').length === 0) {
+          $('#emptyNote').show();
+        }
+      });
+
+      // 3. Export form definition to JSON schema
+      $('#btnExportJson').on('click', function() {
+        const fields = [];
+        $('#formCanvas .field-card').each(function(idx) {
+          fields.push({
+            id: idx + 1,
+            type: $(this).data('type'),
+            label: $(this).find('.label-editor').val()
+          });
+        });
+
+        $('#jsonPreview').text(JSON.stringify(fields, null, 2)).slideDown(200);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -3,6 +3,7 @@
 [![Topics](https://img.shields.io/badge/Knowledge%20Base-11%20Disciplines-6366f1?style=flat-square)](.)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES2024%2B-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](JavaScript/)
 [![DOM](https://img.shields.io/badge/DOM-W3C%20%2F%20WHATWG-E34F26?style=flat-square&logo=html5&logoColor=white)](DOM/dom-facts.md)
+[![jQuery](https://img.shields.io/badge/jQuery-v3.7%2B-0769AD?style=flat-square&logo=jquery&logoColor=white)](jQuery/README.md)
 [![Jasmine](https://img.shields.io/badge/Testing-Jasmine%20BDD-8A4182?style=flat-square&logo=jasmine&logoColor=white)](Jasmine/unitTest-Jasmine-config.md)
 [![Vagrant](https://img.shields.io/badge/Virtualization-Vagrant%20%26%20Docker-1563FF?style=flat-square&logo=vagrant&logoColor=white)](VagrantSetup/gettingStartedVagrant.md)
 [![Jekyll](https://img.shields.io/badge/Static%20Sites-Jekyll%204.x-CC0000?style=flat-square&logo=jekyll&logoColor=white)](Jekyll/Jekyll-config-windows-mac-linux.md)
@@ -51,13 +52,25 @@ Notes/
 * Modern event handling (`addEventListener`, `AbortController` cancellation, Event Delegation).
 * High-performance DOM operations (`DocumentFragment`, `IntersectionObserver`, `MutationObserver`).
 
-### 3. 📦 [GitHub Pages Deployment](CreateGithubPages/How-to-create-github-page.md)
+### 3. 🧩 [jQuery Mastery & Architecture](jQuery/README.md)
+* **Master Tutorial**: 📘 **[The Complete Step-by-Step jQuery Mastery Tutorial & Reference Guide](jQuery/README.md)** (All-in-one manual synthesizing *Pro jQuery* & *jQuery in Action*).
+* **Step 1: Core Architecture**: jQuery object (`$`), DOM vs jQuery wrapper, `$(document).ready()` vs `window.onload`, `jQuery.noConflict()`.
+* **Step 2: Selectors & Filters**: Basic, hierarchical, positional (`:eq`, `:gt`, `:lt`), content/visibility (`:has`, `:contains`, `:visible`), attribute & form state selectors.
+* **Step 3: DOM Traversal**: Ancestors (`.parent`, `.closest`), descendants (`.find`), siblings (`.siblings`), stack management (`.end()`, `.addBack()`).
+* **Step 4: DOM Manipulation**: Content (`.text`, `.html`, `.val`), attributes vs properties (`.attr` vs `.prop`), geometry/scrolling, node insertion, `.remove()` vs `.detach()`, deep cloning (`.clone(true)`).
+* **Step 5: Event Architecture**: `.on()` / `.off()`, event delegation for dynamic nodes, event object normalization, namespaces (`click.modal`), custom events.
+* **Step 6: Animations & Queues**: Basic effects, sliding, fading, `.animate()`, queue management, `.stop(true, true)`, `.delay()`.
+* **Step 7: Ajax & Deferreds**: `$.ajax`, `$.get`, `$.post`, `.load()` HTML fragment injection, global Ajax events, promises and `$.Deferred`.
+* **Step 8: Plugin Authoring & Modern JS Comparison**: Writing `$.fn` plugins, method chaining, performance best practices, and jQuery-to-Vanilla JS cheat sheet.
+* **In-Depth Companion Notes**: [jQuery Core & Foundations](jQuery/jQueryFirst.md), [jQuery Selector Reference](jQuery/jQuerySelector.md).
+
+### 4. 📦 [GitHub Pages Deployment](CreateGithubPages/How-to-create-github-page.md)
 * Standard branch deployment from `main` or `/docs`.
 * Automated CI/CD deployment via modern **GitHub Actions** (`actions/deploy-pages@v4`).
 * Bypassing Jekyll build conflicts with the `.nojekyll` configuration file.
 * Setting up custom apex/sub-domains with automated HTTPS TLS enforcement.
 
-### 4. 🧪 [Jasmine Unit Testing](Jasmine/unitTest-Jasmine-config.md)
+### 5. 🧪 [Jasmine Unit Testing](Jasmine/unitTest-Jasmine-config.md)
 * Clean local project setup via `npm install --save-dev jasmine`.
 * ES Module (`"type": "module"`) test suite configuration.
 * BDD syntax (`describe`, `it`, `expect`).
@@ -65,35 +78,35 @@ Notes/
 * Complete matchers cheatsheet (`toBe`, `toEqual`, `toContain`, `toThrowError`).
 * Method interception and assertions with Spies (`spyOn`).
 
-### 5. 💎 [Jekyll Static Site Generator](Jekyll/Jekyll-config-windows-mac-linux.md)
+### 6. 💎 [Jekyll Static Site Generator](Jekyll/Jekyll-config-windows-mac-linux.md)
 * **Windows**: Recommended WSL2 workflow and native RubyInstaller with MSYS2 DevKit.
 * **macOS**: Modern Homebrew Ruby configuration (avoiding system Ruby permissions).
 * **Linux**: Ubuntu/Debian package dependencies (`ruby-full build-essential zlib1g-dev`).
 * Bundler workflow (`bundle exec jekyll serve --livereload`).
 * Solutions for common issues (missing `webrick` on Ruby 3.x+, Windows encoding).
 
-### 6. 🔍 [Sizzle & Modern Native CSS Selectors](Sizzle/Sizzle.md)
+### 7. 🔍 [Sizzle & Modern Native CSS Selectors](Sizzle/Sizzle.md)
 * Historical background: bridging browser differences in the IE6–8 era.
 * Evolution of W3C native selector APIs (`querySelector`, `querySelectorAll`).
 * Why jQuery 4.0 officially retired Sizzle.
 * Modern CSS Selector Level 4 superpowers (`:has()`, `:is()`, `:where()`, `:not()`).
 
-### 7. 🖥️ [Vagrant & Local Virtualization](VagrantSetup/gettingStartedVagrant.md)
+### 8. 🖥️ [Vagrant & Local Virtualization](VagrantSetup/gettingStartedVagrant.md)
 * Upgrading from legacy boxes (`precise64`, `xenial64`) to modern **Ubuntu 22.04 LTS (`ubuntu/jammy64`)** and **Ubuntu 24.04 LTS (`ubuntu/noble64`)**.
 * Automated provisioning with **Docker Engine CE** and Docker Compose.
 * Secure port forwarding (`host_ip: "127.0.0.1"`) and host-guest synced folders.
 * Complete CLI command reference (`vagrant up`, `vagrant ssh`, `vagrant reload --provision`).
 
-### 8. 📝 [Markdown Formatting](Markdown/markdownSyntax.md)
+### 9. 📝 [Markdown Formatting](Markdown/markdownSyntax.md)
 * GitHub Flavored Markdown (GFM) specification.
 * Headings, emphasis, blockquotes, lists, checklists, tables, code fences, and autolinks.
 
-### 9. 📄 [YAML Syntax](Yaml/YAML-syntax.yml)
+### 10. 📄 [YAML Syntax](Yaml/YAML-syntax.yml)
 * Key-value mapping, lists, scalar types (strings, floats, booleans, dates).
 * Multiline strings: literal block scalar (`|`) vs folded block scalar (`>`).
 * DRY document references with Anchors (`&`) and Aliases (`*`).
 
-### 10. 💡 [Shell, Git & System Utilities](gitBatchScript.sh)
+### 11. 💡 [Shell, Git & System Utilities](gitBatchScript.sh)
 * [The Meaning and History of Unix 'rc' files (`.bashrc`, `.zshrc`, `.vimrc`)](rc-meaning.md).
 * [Untrack files from Git without deleting local copies (`git rm --cached`)](https://github.com/xivig/git-essential-commands/blob/master/RemoveFileFromRepository.sh) (Maintained in [`git-essential-commands`](https://github.com/xivig/git-essential-commands)).
 * [Automated Git batch staging, commit, and push script](gitBatchScript.sh).

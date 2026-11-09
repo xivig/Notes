@@ -18,7 +18,7 @@ An exhaustive, modular collection of developer notes, architectural cheat sheets
 Notes/
 ├── JavaScript/              # Complete 34-module JavaScript mastery curriculum & Cheat Sheet
 ├── DOM/                     # Modern Document Object Model (DOM) manual & cheat sheet
-├── jQuery/                  # Comprehensive reference from 'Pro jQuery' by Adam Freeman
+├── jQuery/                  # Comprehensive step-by-step tutorial & reference manual
 ├── Jasmine/                 # Jasmine BDD unit testing setup, matchers, and async specs
 ├── CreateGithubPages/       # GitHub Pages deployment (Actions, branch deploys, custom domains)
 ├── Jekyll/                  # Jekyll 4.x configuration for Windows (WSL2), macOS, and Linux
@@ -26,7 +26,6 @@ Notes/
 ├── VagrantSetup/            # Portable dev VMs (Ubuntu 22.04 LTS, Docker CE, synced folders)
 ├── Markdown/                # Complete GitHub Flavored Markdown (GFM) syntax guide
 ├── Yaml/                    # YAML data types, multiline block scalars, anchors & aliases
-├── trick/                   # Git cache cleaning and untracking utilities
 ├── rc-meaning.md            # The historical meaning and origin of Unix 'rc' files
 └── gitBatchScript.sh        # Modern multi-branch batch commit and push script
 ```
@@ -94,9 +93,9 @@ Notes/
 * Multiline strings: literal block scalar (`|`) vs folded block scalar (`>`).
 * DRY document references with Anchors (`&`) and Aliases (`*`).
 
-### 10. 💡 [Shell, Git & System Utilities](trick/RemoveFileFromRepository.sh)
+### 10. 💡 [Shell, Git & System Utilities](gitBatchScript.sh)
 * [The Meaning and History of Unix 'rc' files (`.bashrc`, `.zshrc`, `.vimrc`)](rc-meaning.md).
-* [Untrack files from Git without deleting local copies (`git rm --cached`)](trick/RemoveFileFromRepository.sh).
+* [Untrack files from Git without deleting local copies (`git rm --cached`)](https://github.com/xivig/git-essential-commands/blob/master/RemoveFileFromRepository.sh) (Maintained in [`git-essential-commands`](https://github.com/xivig/git-essential-commands)).
 * [Automated Git batch staging, commit, and push script](gitBatchScript.sh).
 
 ---

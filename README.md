@@ -27,8 +27,7 @@ Notes/
 ├── VagrantSetup/            # Portable dev VMs (Ubuntu 22.04 LTS, Docker CE, synced folders)
 ├── Markdown/                # Complete GitHub Flavored Markdown (GFM) syntax guide
 ├── Yaml/                    # YAML data types, multiline block scalars, anchors & aliases
-├── rc-meaning.md            # The historical meaning and origin of Unix 'rc' files
-└── gitBatchScript.sh        # Modern multi-branch batch commit and push script
+└── rc-meaning.md            # The historical meaning and origin of Unix 'rc' files
 ```
 
 ---
@@ -106,10 +105,10 @@ Notes/
 * Multiline strings: literal block scalar (`|`) vs folded block scalar (`>`).
 * DRY document references with Anchors (`&`) and Aliases (`*`).
 
-### 11. 💡 [Shell, Git & System Utilities](gitBatchScript.sh)
+### 11. 💡 [Shell, Git & System Utilities](rc-meaning.md)
 * [The Meaning and History of Unix 'rc' files (`.bashrc`, `.zshrc`, `.vimrc`)](rc-meaning.md).
 * [Untrack files from Git without deleting local copies (`git rm --cached`)](https://github.com/xivig/git-essential-commands/blob/master/RemoveFileFromRepository.sh) (Maintained in [`git-essential-commands`](https://github.com/xivig/git-essential-commands)).
-* [Automated Git batch staging, commit, and push script](gitBatchScript.sh).
+* [Automated Git batch staging, commit, and push script](https://github.com/xivig/git-essential-commands/blob/master/gitBatchScript.sh) (Maintained in [`git-essential-commands`](https://github.com/xivig/git-essential-commands)).
 
 ---
 

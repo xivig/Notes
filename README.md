@@ -16,7 +16,7 @@ An exhaustive, modular collection of developer notes, architectural cheat sheets
 
 ```text
 Notes/
-├── JavaScript/              # Complete 27-module JavaScript mastery curriculum
+├── JavaScript/              # Complete 34-module JavaScript mastery curriculum & Cheat Sheet
 ├── DOM/                     # Modern Document Object Model (DOM) manual & cheat sheet
 ├── jQuery/                  # Comprehensive reference from 'Pro jQuery' by Adam Freeman
 ├── Jasmine/                 # Jasmine BDD unit testing setup, matchers, and async specs
@@ -36,12 +36,15 @@ Notes/
 ## 📑 Core Topics Overview
 
 ### 1. ⚡ [JavaScript Curriculum & Architecture](JavaScript/README.md)
+* **Quick Reference**: 🚀 **[Developer Cheat Sheet](JavaScript/DEVELOPER-CHEATSHEET.md)** (Array Decision Matrix, Equality Table, Type-Checking Helpers, Top 10 Gotchas).
 * **Foundations**: [1. Introduction & IIFE](JavaScript/1.introduction.js), [2. Intro Notes](JavaScript/2.intro-notes.js), [3. Variables & TDZ](JavaScript/3.variable.js), [4. Loops](JavaScript/4.loop.js).
 * **Execution & Scopes**: [6. Hoisting](JavaScript/6.hoisting.js), [7a. Scope Chains](JavaScript/7a.scope.js), [7b. Closures](JavaScript/7b.closure.js).
 * **Functions & Methods**: [7. Functions & Rest Parameters](JavaScript/7.functions.js), [7c. Constructors](JavaScript/7c.constructor.js), [7d. Call, Apply & Bind](JavaScript/7d.call-apply-bind.js), [7f. Higher-Order Functions](JavaScript/7f.higher-order-function.js), [7g. Callbacks](JavaScript/7g.callbacks.js).
 * **Objects & Prototypes**: [5. Object Creation Patterns](JavaScript/5.objectCreation.js), [7e. Prototype Chain](JavaScript/7e.prototype.js), [Object Protection (`seal`, `freeze`)](JavaScript/ProtectingObjectsModification.js), [Generic Object Methods](JavaScript/Generic-object-meyhods.md), [OOP Principles](JavaScript/oop-javascript.js).
-* **Arrays & Collections**: [8. Arrays](JavaScript/8.array.js), [8a. Modern Array Methods](JavaScript/8a.array-methods.js), [8b. Array-like Objects](JavaScript/8b.array-object.js).
+* **Arrays & Collections**: [8. Arrays](JavaScript/8.array.js), [8a. Modern Array Methods](JavaScript/8a.array-methods.js), [8b. Array-like Objects](JavaScript/8b.array-object.js), [11. Map & Set Collections](JavaScript/11.collections-map-set.js).
+* **Modern ES Features & Modules**: [10. ES Modules vs CommonJS](JavaScript/10.modules-esm-cjs.js), [12. Modern ES Features (ES2020–ES2024)](JavaScript/12.modern-es-features.js), [16. JSDoc & Zero-Build Type-Checking](JavaScript/16.jsdoc-and-typescript-types.js).
 * **Asynchronous Architecture**: [9. Event Loop](JavaScript/9.asynchronous.js), [9a. Timers](JavaScript/9a.setTimeout.js), [9b. Promises & Async/Await](JavaScript/9b.promise.js), [9c. Modern Fetch API & Networking](JavaScript/9c.ajax.js), [Generators & Iterators](JavaScript/generator.js).
+* **Defensive Engineering & Web APIs**: [13. Error Handling Hierarchy](JavaScript/13.error-handling.js), [14. Regular Expressions Mastery](JavaScript/14.regex-mastery.js), [15. Browser Storage & Web APIs](JavaScript/15.browser-storage-web-apis.js).
 * **Design Patterns**: [Classic Gang-of-Four & Modern JS Design Patterns](JavaScript/design-pattern.js).
 
 ### 2. 🌐 [Document Object Model (DOM)](DOM/dom-facts.md)

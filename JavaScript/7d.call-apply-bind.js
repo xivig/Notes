@@ -216,7 +216,7 @@ whenever you see the 'this' keyword inside of a function, these are the steps yo
     let boundName = displayName.bind(person); //is the same as
     console.log(boundName());
 
-    let boundName = function() {
+    let boundName2 = function() {
         displayName.call(person);
     }
 })();

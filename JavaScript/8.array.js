@@ -272,7 +272,7 @@ We can create an array literal using square brackets that already contain some i
     arrayExample.forEach(function(item, index, array) {
         // do something
     });
-    let languageKnown = ['Swift', 'JavaScript', 'Haskell', 'Java', 'C#'];
+    languageKnown = ['Swift', 'JavaScript', 'Haskell', 'Java', 'C#'];
     // e.g.,
     languageKnown.forEach((element) => console.log(element));
     // Here for each element call alert function

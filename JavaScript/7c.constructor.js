@@ -147,13 +147,13 @@
     let obj = {}
     obj.constructor === Object // true
 
-    let obj = new Object
+    let obj2 = new Object
     obj.constructor === Object // true
 
     let arr = []
     arr.constructor === Array // true
 
-    let arr = new Array
+    let arr2 = new Array
     arr.constructor === Array // true
 
     let number = new Number(3)

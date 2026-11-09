@@ -51,16 +51,18 @@ Notes/
 * Modern event handling (`addEventListener`, `AbortController` cancellation, Event Delegation).
 * High-performance DOM operations (`DocumentFragment`, `IntersectionObserver`, `MutationObserver`).
 
-### 3. 🧩 [jQuery Mastery & Architecture](jQuery/README.md)
-* **Master Tutorial**: 📘 **[The Complete Step-by-Step jQuery Mastery Tutorial & Reference Guide](jQuery/README.md)** (All-in-one manual synthesizing *Pro jQuery* & *jQuery in Action*).
-* **Step 1: Core Architecture**: jQuery object (`$`), DOM vs jQuery wrapper, `$(document).ready()` vs `window.onload`, `jQuery.noConflict()`.
-* **Step 2: Selectors & Filters**: Basic, hierarchical, positional (`:eq`, `:gt`, `:lt`), content/visibility (`:has`, `:contains`, `:visible`), attribute & form state selectors.
-* **Step 3: DOM Traversal**: Ancestors (`.parent`, `.closest`), descendants (`.find`), siblings (`.siblings`), stack management (`.end()`, `.addBack()`).
-* **Step 4: DOM Manipulation**: Content (`.text`, `.html`, `.val`), attributes vs properties (`.attr` vs `.prop`), geometry/scrolling, node insertion, `.remove()` vs `.detach()`, deep cloning (`.clone(true)`).
-* **Step 5: Event Architecture**: `.on()` / `.off()`, event delegation for dynamic nodes, event object normalization, namespaces (`click.modal`), custom events.
-* **Step 6: Animations & Queues**: Basic effects, sliding, fading, `.animate()`, queue management, `.stop(true, true)`, `.delay()`.
-* **Step 7: Ajax & Deferreds**: `$.ajax`, `$.get`, `$.post`, `.load()` HTML fragment injection, global Ajax events, promises and `$.Deferred`.
-* **Step 8: Plugin Authoring & Modern JS Comparison**: Writing `$.fn` plugins, method chaining, performance best practices, and jQuery-to-Vanilla JS cheat sheet.
+### 3. 🧩 [jQuery 4.0 Mastery Curriculum & Developer Reference](jQuery/README.md)
+* **Master Curriculum Hub**: 📘 **[jQuery 4.0 Complete Curriculum & Guide](jQuery/README.md)** (Full 9-Part, 77-Chapter comprehensive curriculum adhering strictly to the 12-section pedagogical template).
+* **Developer Desk Reference**: 🚀 **[jQuery 4.0 Developer Cheatsheet](jQuery/CHEATSHEET.md)** (One-page quick reference, breaking changes matrix, modern replacements).
+* **Part 1 — Foundations (Ch 1–7)**: [01-foundations.md](jQuery/01-foundations.md) — Introduction, JS prerequisites, installation, CDN vs local, document ready, syntax & objects, DOM vs jQuery.
+* **Part 2 — Selectors and DOM (Ch 8–15)**: [02-selectors-and-dom.md](jQuery/02-selectors-and-dom.md) — Basic selectors, attributes, hierarchy, advanced filters, DOM traversal, manipulation, creating/removing, attributes & data.
+* **Part 3 — Events (Ch 16–23)**: [03-events.md](jQuery/03-events.md) — Event fundamentals (.on/.off), mouse, keyboard, forms, delegation, propagation & bubbling, custom events, namespaced events.
+* **Part 4 — Styling and Effects (Ch 24–31)**: [04-styling-and-effects.md](jQuery/04-styling-and-effects.md) — CSS manipulation, classes, dimensions & offsets, show/hide, fading, sliding, custom animations, queues.
+* **Part 5 — Forms and Validation (Ch 32–38)**: [05-forms-and-validation.md](jQuery/05-forms-and-validation.md) — Getting/setting values, input handling, checkboxes & radios, dropdowns, serialization, validation, dynamic form builder.
+* **Part 6 — AJAX & Async (Ch 39–47)**: [06-ajax-and-async.md](jQuery/06-ajax-and-async.md) — AJAX fundamentals, GET/POST, master $.ajax(), JSON/XML, REST APIs, error handling, loading indicators, Promises & async/await, Deferred objects.
+* **Part 7 — Advanced jQuery (Ch 48–58)**: [07-advanced-jquery.md](jQuery/07-advanced-jquery.md) — Modern utilities & removed APIs, $.each & $.map, $.extend, $.data, plugin architecture, stateful plugins, enterprise architecture, performance & layout thrashing, memory management, CSP & XSS security, debugging & unit testing.
+* **Part 8 — Professional Development (Ch 59–66)**: [08-professional-development.md](jQuery/08-professional-development.md) — Bootstrap 5, PHP, Laravel, WordPress & noConflict, Enterprise REST APIs, modern JS & bundlers (Vite/TS), legacy refactoring, dedicated jQuery 3.x to 4.x migration guide.
+* **Part 9 — Practical Projects (Ch 67–77)**: [09-practical-projects.md](jQuery/09-practical-projects.md) — 11 complete hands-on projects: Navigation, Data Table, Search & Filter, Pagination, Modal System, Lightbox Gallery, Shopping Cart, AJAX CRUD, Form Builder, Admin Dashboard, Complete API App.
 * **In-Depth Companion Notes**: [jQuery Core & Foundations](jQuery/jQueryFirst.md), [jQuery Selector Reference](jQuery/jQuerySelector.md).
 
 ### 4. 📦 [GitHub Pages Deployment](CreateGithubPages/How-to-create-github-page.md)

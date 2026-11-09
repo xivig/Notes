@@ -1,1012 +1,156 @@
-# 📘 The Complete Step-by-Step jQuery Mastery Tutorial & Reference Guide
+# 📘 jQuery 4.0 Master Curriculum & Developer Reference
 
-A comprehensive, all-in-one developer manual synthesized from foundational engineering texts (*'Pro jQuery'* by Adam Freeman, *'jQuery in Action'* by Bear Bibeault, Yehuda Katz, and Aurelio De Rosa) and modern web production architectures.
+[![jQuery Version](https://img.shields.io/badge/jQuery-4.0.0-0769AD?style=flat-square&logo=jquery&logoColor=white)](https://jquery.com/)
+[![Curriculum](https://img.shields.io/badge/Curriculum-9%20Parts%20%7C%2077%20Chapters-6366f1?style=flat-square)](.)
+[![Spec](https://img.shields.io/badge/Standard-W3C%20%2F%20HTML5%20%2F%20ES%20Modules-success?style=flat-square)](.)
+[![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg?style=flat-square)](../LICENSE)
 
----
-
-## 📑 Table of Contents
-
-1. [Step 1: Core Architecture & Setup](#step-1-core-architecture--setup)
-   * [1.1 The Problems jQuery Solved](#11-the-problems-jquery-solved)
-   * [1.2 Including jQuery (CDN, Local Fallback & NPM)](#12-including-jquery-cdn-local-fallback--npm)
-   * [1.3 The jQuery Object (`$`) vs. Native DOM Elements](#13-the-jquery-object--vs-native-dom-elements)
-   * [1.4 Execution Lifecycle: `$(document).ready()` vs. `window.onload`](#14-execution-lifecycle-documentready-vs-windowonload)
-   * [1.5 Conflict Avoidance: `jQuery.noConflict()`](#15-conflict-avoidance-jquerynoconflict)
-2. [Step 2: Complete Selector Engine & Matching](#step-2-complete-selector-engine--matching)
-   * [2.1 Basic Selectors](#21-basic-selectors)
-   * [2.2 Hierarchical Selectors](#22-hierarchical-selectors)
-   * [2.3 Index & Positional Filters](#23-index--positional-filters)
-   * [2.4 Content & Visibility Filters](#24-content--visibility-filters)
-   * [2.5 Attribute Selectors](#25-attribute-selectors)
-   * [2.6 Form Selectors & State Filters](#26-form-selectors--state-filters)
-3. [Step 3: DOM Traversal & Selection Refinement](#step-3-dom-traversal--selection-refinement)
-   * [3.1 Traversing Upward (Parents & Ancestors)](#31-traversing-upward-parents--ancestors)
-   * [3.2 Traversing Downward (Children & Descendants)](#32-traversing-downward-children--descendants)
-   * [3.3 Traversing Sideways (Siblings)](#33-traversing-sideways-siblings)
-   * [3.4 Filtering the Collection](#34-filtering-the-collection)
-   * [3.5 Selection Stack Mechanics (`.add()`, `.addBack()`, `.end()`)](#35-selection-stack-mechanics-add-addback-end)
-4. [Step 4: DOM Manipulation & Content Management](#step-4-dom-manipulation--content-management)
-   * [4.1 Reading & Writing Content (`.text()`, `.html()`, `.val()`)](#41-reading--writing-content-text-html-val)
-   * [4.2 Attributes vs. Properties (`.attr()` vs. `.prop()`)](#42-attributes-vs-properties-attr-vs-prop)
-   * [4.3 Class Manipulation & Inline Styles](#43-class-manipulation--inline-styles)
-   * [4.4 Dimensions, Geometry & Scrolling](#44-dimensions-geometry--scrolling)
-   * [4.5 Inserting DOM Nodes (Inside, Outside & Wrapping)](#45-inserting-dom-nodes-inside-outside--wrapping)
-   * [4.6 Removing & Detaching Nodes: `.empty()` vs. `.remove()` vs. `.detach()`](#46-removing--detaching-nodes-empty-vs-remove-vs-detach)
-   * [4.7 Cloning Nodes (`.clone(false)` vs. `.clone(true)`)](#47-cloning-nodes-clonefalse-vs-clonetrue)
-5. [Step 5: Event Handling & Event Delegation Architecture](#step-5-event-handling--event-delegation-architecture)
-   * [5.1 Modern Event Binding (`.on()` and `.off()`)](#51-modern-event-binding-on-and-off)
-   * [5.2 Event Delegation: Handling Dynamic Content](#52-event-delegation-handling-dynamic-content)
-   * [5.3 The Event Object Demystified](#53-the-event-object-demystified)
-   * [5.4 One-Time Events (`.one()`) & Programmatic Triggering](#54-one-time-events-one--programmatic-triggering)
-   * [5.5 Namespaced Events for Clean Teardowns](#55-namespaced-events-for-clean-teardowns)
-6. [Step 6: Animation, Effects & Queue Management](#step-6-animation-effects--queue-management)
-   * [6.1 Basic Visibility Effects (`.show()`, `.hide()`, `.toggle()`)](#61-basic-visibility-effects-show-hide-toggle)
-   * [6.2 Fading & Sliding Effects](#62-fading--sliding-effects)
-   * [6.3 Custom Morphing Animations (`.animate()`)](#63-custom-morphing-animations-animate)
-   * [6.4 Animation Queue Control (`.stop()`, `.finish()`, `.delay()`)](#64-animation-queue-control-stop-finish-delay)
-7. [Step 7: Asynchronous Networking (Ajax) & Deferreds](#step-7-asynchronous-networking-ajax--deferreds)
-   * [7.1 The Core Method: `$.ajax()`](#71-the-core-method-ajax)
-   * [7.2 Shorthand Helpers (`$.get()`, `$.post()`, `$.getJSON()`, `.load()`)](#72-shorthand-helpers-get-post-getjson-load)
-   * [7.3 Form Serialization (`.serialize()` & `.serializeArray()`)](#73-form-serialization-serialize--serializearray)
-   * [7.4 Global Ajax Lifecycle Handlers](#74-global-ajax-lifecycle-handlers)
-   * [7.5 Promises & Deferreds (`$.Deferred()`, `$.when()`)](#75-promises--deferreds-deferred-when)
-8. [Step 8: Advanced Utilities, Plugin Authoring & Modern Migration](#step-8-advanced-utilities-plugin-authoring--modern-migration)
-   * [8.1 Core Utilities (`$.each()`, `$.extend()`, `$.grep()`, `$.map()`)](#81-core-utilities-each-extend-grep-map)
-   * [8.2 Data Storage API (`.data()`) & HTML5 Datasets](#82-data-storage-api-data--html5-datasets)
-   * [8.3 How to Write Professional jQuery Plugins](#83-how-to-write-professional-jquery-plugins)
-   * [8.4 Performance Optimization Recipes](#84-performance-optimization-recipes)
-   * [8.5 Modern Web Comparison: jQuery vs. Native Vanilla JS](#85-modern-web-comparison-jquery-vs-native-vanilla-js)
+A modern, production-grade master curriculum and reference manual for **jQuery 4.0.0**. Synthesized from foundational engineering texts (*'Pro jQuery'* by Adam Freeman, *'jQuery in Action'* by Bear Bibeault, Yehuda Katz, and Aurelio De Rosa) and modernized for modern evergreen browsers, Content Security Policy (CSP), Trusted Types, and ES Modules.
 
 ---
 
-# Step 1: Core Architecture & Setup
+## 🚀 The jQuery 4.0 Modernization Paradigm
 
-## 1.1 The Problems jQuery Solved
+jQuery 4.0 represents the largest architectural overhaul in the library's history. Unlike legacy tutorials based on jQuery 1.x or 2.x, this curriculum strictly adheres to **jQuery 4.0.0 standards**:
 
-In the 2000s and early 2010s, building web applications required navigating hostile cross-browser discrepancies:
-* **Inconsistent DOM APIs**: Internet Explorer implemented `attachEvent` and `window.event`, whereas W3C standards used `addEventListener` and passed the event object into handlers.
-* **Lack of Uniform CSS Selectors**: Before `document.querySelector` was standardized in browsers (2013+), retrieving elements by class or complex hierarchy required dozens of lines of nested JavaScript loops.
-* **Ajax Incompatibilities**: Microsoft used `new ActiveXObject("Microsoft.XMLHTTP")` while other browsers implemented `new XMLHttpRequest()`.
+| Modernization Area | Legacy jQuery (1.x / 2.x / 3.x) | Modern jQuery 4.0.0 Architecture |
+| :--- | :--- | :--- |
+| **Browser Support** | Legacy IE 6–10 polyfills and hacks | Dropped IE 10 and older; targets evergreen modern browsers. |
+| **Selector Engine** | Bundled internal Sizzle selector engine | Sizzle retired; directly routes selectors through native `document.querySelectorAll`. |
+| **Event Binding** | Deprecated shortcuts (`.click()`, `.hover()`, `.focus()`) | Removed; unified modern event delegation via `.on()` and `.off()`. |
+| **Security & CSP** | Direct HTML string injections | Native support for **Trusted Types** and strict **Content Security Policy (CSP)**. |
+| **Module System** | Monolithic global UMD / CommonJS wrapper | 100% native **ES Modules (`import $ from 'jquery'`)**. |
+| **Utility Methods** | Redundant helper methods (`$.trim`, `$.type`, `$.isArray`) | Removed in favor of native JavaScript (`String.trim`, `Array.isArray`, `typeof`). |
+| **Array Sorting** | `jQuery.unique()` | Renamed to `jQuery.uniqueSort()` (legacy `.unique()` removed). |
 
-jQuery solved all of this with a unified, expressive API:
-$$\text{jQuery} = \text{Selector Engine (Sizzle)} + \text{DOM Wrapper Collection} + \text{Cross-Browser Normalization}$$
+---
 
-```mermaid
-graph LR
-    A["Raw DOM Elements<br>[HTMLDivElement, ...]"] -->|"Wrap with $()"| B["jQuery Object Wrapper<br>jQuery.fn.init"]
-    B -->|"Method Chaining"| C[".css() / .on() / .animate()"]
-    C -->|"Unwrap [0] or .get()"| D["Native DOM Element"]
+## 📑 Pedagogical Structure (12-Section Topic Template)
+
+Every single chapter in this curriculum follows the uniform professional teaching format:
+
+```text
+┌─────────────────────┬─────────────────────────────────────────────────────────────┐
+│ Section             │ Detailed Pedagogical Content                                │
+├─────────────────────┼─────────────────────────────────────────────────────────────┤
+│ 1. Objective        │ Precise learning outcomes and target capabilities           │
+│ 2. Explanation      │ In-depth, beginner-to-advanced architectural theory         │
+│ 3. Syntax           │ Complete method signature and overload definitions          │
+│ 4. Parameters       │ Exhaustive breakdown of argument types, defaults & options  │
+│ 5. Examples         │ Code-first, fully functioning script examples               │
+│ 6. Output           │ Expected browser rendering, console output, and DOM changes │
+│ 7. Practical Use    │ Production scenarios and industry application patterns      │
+│ 8. Common Mistakes  │ Frequent developer traps, bug causes, and exact solutions   │
+│ 9. Best Practices   │ Performance optimizations and clean-code commandments       │
+│ 10. Exercises       │ Hands-on challenges to solidify mastery                     │
+│ 11. Interview Q&A   │ Senior technical interview questions with deep answers      │
+│ 12. Mini Project    │ End-to-end practical feature implementation                 │
+└─────────────────────┴─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 1.2 Including jQuery (CDN, Local Fallback & NPM)
+## 🗂️ Curriculum Roadmap (9 Parts & 77 Chapters)
 
-### Production CDN with Fallback Recipe
-Include jQuery from a fast public CDN (Google, Cloudflare, or jQuery official CDN) and automatically fall back to your local server if the CDN fails (e.g. offline dev or firewall blockage):
+### [PART 1 — Foundations (Beginner)](01-foundations.md)
+* **[01. Introduction to jQuery](01-foundations.md#chapter-1-introduction-to-jquery)**: History, philosophy ("Write less, do more"), evolution to 4.0.
+* **[02. JavaScript Prerequisites](01-foundations.md#chapter-2-javascript-prerequisites)**: Objects, functions, prototypes, scope, DOM tree mental model.
+* **[03. Installing jQuery 4.0](01-foundations.md#chapter-3-installing-jquery-40)**: NPM, Yarn, script tags, ES Module imports, package setup.
+* **[04. CDN vs. Local Installation](01-foundations.md#chapter-4-cdn-vs-local-installation)**: SRI integrity hashes, performance tradeoffs, offline fallbacks.
+* **[05. Document Ready & Execution Flow](01-foundations.md#chapter-5-document-ready-and-execution-flow)**: `$(function() {})` vs `window.onload`, parsing sequence.
+* **[06. jQuery Syntax & Objects](01-foundations.md#chapter-6-jquery-syntax-and-objects)**: The `$()` factory wrapper, internal collection array, chaining mechanics.
+* **[07. JavaScript DOM vs. jQuery](01-foundations.md#chapter-7-javascript-dom-vs-jquery)**: Unwrapping nodes (`[0]`, `.get()`), bridging Vanilla JS with `$()`.
 
-```html
-<!-- Primary CDN -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" 
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" 
-        crossorigin="anonymous"></script>
+### [PART 2 — Selectors and DOM](02-selectors-and-dom.md)
+* **[08. Basic Selectors](02-selectors-and-dom.md#chapter-8-basic-selectors)**: ID, Class, Element, Universal, and Multiple Selector groups.
+* **[09. Attribute Selectors](02-selectors-and-dom.md#chapter-9-attribute-selectors)**: Exact (`[attr="val"]`), Prefix (`^=`), Suffix (`$=`), Substring (`*=`), Word (`~=`).
+* **[10. Hierarchy Selectors](02-selectors-and-dom.md#chapter-10-hierarchy-selectors)**: Descendant (`ancestor descendant`), Child (`parent > child`), Adjacent (`prev + next`), Sibling (`prev ~ siblings`).
+* **[11. Advanced Selectors & Filters](02-selectors-and-dom.md#chapter-11-advanced-selectors-and-filters)**: Positional (`:first`, `:last`, `:eq()`, `:even`, `:odd`), Content (`:has()`, `:contains()`, `:empty`), Visibility (`:visible`, `:hidden`).
+* **[12. DOM Traversal](02-selectors-and-dom.md#chapter-12-dom-traversal)**: Parents (`.parent()`, `.closest()`), Children (`.find()`, `.children()`), Siblings (`.siblings()`, `.nextAll()`), Selection Stack (`.end()`, `.addBack()`).
+* **[13. DOM Manipulation](02-selectors-and-dom.md#chapter-13-dom-manipulation)**: Reading & writing (`.html()`, `.text()`, `.val()`), Replacing (`.replaceWith()`), Wrapping (`.wrap()`, `.unwrap()`).
+* **[14. Creating & Removing Elements](02-selectors-and-dom.md#chapter-14-creating-and-removing-elements)**: Generating nodes (`$('<div/>')`), Inserting (`.append()`, `.prepend()`, `.after()`, `.before()`), Deleting (`.empty()`, `.remove()`, `.detach()`).
+* **[15. Attributes, Properties and Data](02-selectors-and-dom.md#chapter-15-attributes-properties-and-data)**: `.attr()` vs `.prop()`, Boolean attributes, HTML5 dataset storage via `.data()`.
 
-<!-- Automated Local Fallback -->
-<script>
-  window.jQuery || document.write('<script src="/assets/vendor/jquery.min.js"><\/script>');
-</script>
-```
+### [PART 3 — Events](03-events.md)
+* **[16. Event Fundamentals](03-events.md#chapter-16-event-fundamentals)**: Modern `.on()` and `.off()` binding, listeners, removal.
+* **[17. Mouse Events](03-events.md#chapter-17-mouse-events)**: `click`, `dblclick`, `mouseenter`, `mouseleave`, `mousemove`, pointer normalization.
+* **[18. Keyboard Events](03-events.md#chapter-18-keyboard-events)**: `keydown`, `keyup`, detecting keys with modern `e.key` and `e.code`.
+* **[19. Form Events](03-events.md#chapter-19-form-events)**: `submit`, `change`, `input`, `focusin`, `focusout`, accessible forms.
+* **[20. Event Delegation](03-events.md#chapter-20-event-delegation)**: Delegating dynamically generated DOM elements via container bubbling.
+* **[21. Event Propagation](03-events.md#chapter-21-event-propagation)**: Bubbling vs Capturing, `e.stopPropagation()`, `e.preventDefault()`, `return false;`.
+* **[22. Custom Events](03-events.md#chapter-22-custom-events)**: Defining application events with `.trigger('app:notify', [payload])`.
+* **[23. Namespaced Events](03-events.md#chapter-23-namespaced-events)**: Modular event cleanup with namespaces (`click.userModal`).
 
-### Modern Bundler Installation (Vite / Webpack / ES Modules)
-```bash
-npm install jquery
-```
+### [PART 4 — Styling and Effects](04-styling-and-effects.md)
+* **[24. CSS Manipulation](04-styling-and-effects.md#chapter-24-css-manipulation)**: Reading and writing styles with `.css()`, multi-property batching.
+* **[25. Classes and Styles](04-styling-and-effects.md#chapter-25-classes-and-styles)**: `.addClass()`, `.removeClass()`, `.toggleClass()`, `.hasClass()`.
+* **[26. Dimensions and Positioning](04-styling-and-effects.md#chapter-26-dimensions-and-positioning)**: Width/Height box model variants, `.offset()` vs `.position()`, `.scrollTop()`.
+* **[27. Show, Hide and Toggle](04-styling-and-effects.md#chapter-27-show-hide-and-toggle)**: Display state toggling with duration and easing curves.
+* **[28. Fading Effects](04-styling-and-effects.md#chapter-28-fading-effects)**: `.fadeIn()`, `.fadeOut()`, `.fadeToggle()`, `.fadeTo()`.
+* **[29. Sliding Effects](04-styling-and-effects.md#chapter-29-sliding-effects)**: Accordion mechanics with `.slideDown()`, `.slideUp()`, `.slideToggle()`.
+* **[30. Custom Animations](04-styling-and-effects.md#chapter-30-custom-animations)**: Animating numeric CSS properties via `.animate()`, relative units (`+=50px`).
+* **[31. Animation Queues](04-styling-and-effects.md#chapter-31-animation-queues)**: The `fx` queue, preventing animation pileups with `.stop(true, true)`, `.finish()`, `.delay()`.
 
-```javascript
-import $ from 'jquery';
-// Make available globally if legacy plugins require window.$:
-window.$ = window.jQuery = $;
-```
+### [PART 5 — Forms and Validation](05-forms-and-validation.md)
+* **[32. Getting and Setting Values](05-forms-and-validation.md#chapter-32-getting-and-setting-values)**: Unified `.val()` mechanics across inputs, textareas, and select elements.
+* **[33. Input Handling](05-forms-and-validation.md#chapter-33-input-handling)**: Real-time search debouncing, character limits, copy-paste sanitation.
+* **[34. Checkbox and Radio Handling](05-forms-and-validation.md#chapter-34-checkbox-and-radio-handling)**: Multi-check selections, "Select All" master checkboxes, checked state checking with `.prop('checked')`.
+* **[35. Dropdowns](05-forms-and-validation.md#chapter-35-dropdowns)**: Single and multi-select dropdown manipulation, dynamic option population.
+* **[36. Form Serialization](05-forms-and-validation.md#chapter-36-form-serialization)**: URL-encoded strings via `.serialize()`, array representations via `.serializeArray()`.
+* **[37. Form Validation](05-forms-and-validation.md#chapter-37-form-validation)**: Client-side validation pipelines, regular expression matching, inline feedback.
+* **[38. Dynamic Forms](05-forms-and-validation.md#chapter-38-dynamic-forms)**: Dynamically adding/removing row inputs, index re-indexing, form cloning.
 
----
+### [PART 6 — AJAX and Asynchronous JavaScript](06-ajax-and-async.md)
+* **[39. AJAX Fundamentals](06-ajax-and-async.md#chapter-39-ajax-fundamentals)**: Client-server HTTP request-response lifecycle without full page reloads.
+* **[40. GET and POST Requests](06-ajax-and-async.md#chapter-40-get-and-post-requests)**: Shorthands: `$.get()`, `$.post()`, `$.getJSON()`, and HTML fragment `.load()`.
+* **[41. $.ajax()](06-ajax-and-async.md#chapter-41-ajax)**: The core low-level engine: options, headers, HTTP methods, beforeSend, timeouts.
+* **[42. JSON and XML Responses](06-ajax-and-async.md#chapter-42-json-and-xml-responses)**: Parsing responses, traversing XML payloads, JSON error trapping.
+* **[43. Fetching API Data](06-ajax-and-async.md#chapter-43-fetching-api-data)**: Consuming REST endpoints, handling query parameters, rendering dynamic tables.
+* **[44. Error Handling](06-ajax-and-async.md#chapter-44-error-handling)**: Status code handling (400, 401, 403, 404, 500), timeout retry architectures.
+* **[45. Loading Indicators](06-ajax-and-async.md#chapter-45-loading-indicators)**: Spinners, progress bars, global hooks (`$(document).ajaxStart()`, `ajaxStop()`).
+* **[46. Promises and Asynchronous Programming](06-ajax-and-async.md#chapter-46-promises-and-asynchronous-programming)**: Modern Promises integration, chaining `.then()`, `.catch()`, `async/await` with `$.ajax`.
+* **[47. Deferred Objects (Legacy Compatibility)](06-ajax-and-async.md#chapter-47-deferred-objects-legacy-compatibility)**: Understanding `$.Deferred()`, `.resolve()`, `.reject()`, `.promise()`, and migrating to native Promises.
 
-## 1.3 The jQuery Object (`$`) vs. Native DOM Elements
+### [PART 7 — Advanced jQuery](07-advanced-jquery.md)
+* **[48. jQuery Utilities](07-advanced-jquery.md#chapter-48-jquery-utilities)**: Surviving utilities in 4.0: `$.grep()`, `$.inArray()`, `$.merge()`, `$.makeArray()`.
+* **[49. $.each() and $.map()](07-advanced-jquery.md#chapter-49-each-and-map)**: Iteration mechanics vs native `Array.prototype.forEach` and `map`.
+* **[50. $.extend()](07-advanced-jquery.md#chapter-50-extend)**: Shallow and deep recursive object merging for plugin options.
+* **[51. $.data()](07-advanced-jquery.md#chapter-51-data)**: Internal memory storage engine, preventing DOM circular reference memory leaks.
+* **[52. Plugin Architecture](07-advanced-jquery.md#chapter-52-plugin-architecture)**: Extending `$.fn`, preserving method chaining (`return this;`), IIFE scoping.
+* **[53. Building Custom Plugins](07-advanced-jquery.md#chapter-53-building-custom-plugins)**: Complete step-by-step authoring of a production-grade interactive tooltip plugin.
+* **[54. Code Organization](07-advanced-jquery.md#chapter-54-code-organization)**: Object Literal Module pattern, modular component decoupling.
+* **[55. Performance Optimization](07-advanced-jquery.md#chapter-55-performance-optimization)**: Selector caching, batch DOM insertions, minimizing reflows/repaints.
+* **[56. Memory Management](07-advanced-jquery.md#chapter-56-memory-management)**: Cleaning up abandoned event listeners, clearing timers, DOM garbage collection.
+* **[57. Security and XSS Prevention](07-advanced-jquery.md#chapter-57-security-and-xss-prevention)**: Preventing XSS via `.text()` vs `.html()`, Content Security Policy (CSP), Trusted Types in 4.0.
+* **[58. Debugging and Testing](07-advanced-jquery.md#chapter-58-debugging-and-testing)**: Chrome DevTools debugging, unit testing jQuery plugins with Jasmine / Vitest.
 
-A critical mental hurdle for developers is understanding that **the jQuery object is an array-like wrapper**, NOT a native DOM node.
+### [PART 8 — Professional Development](08-professional-development.md)
+* **[59. jQuery with Bootstrap 5](08-professional-development.md#chapter-59-jquery-with-bootstrap-5)**: Using jQuery alongside Bootstrap 5's native JavaScript components.
+* **[60. jQuery with PHP](08-professional-development.md#chapter-60-jquery-with-php)**: Server-side rendering, AJAX communication with PHP backend endpoints.
+* **[61. jQuery with Laravel](08-professional-development.md#chapter-61-jquery-with-laravel)**: CSRF tokens (`X-CSRF-TOKEN` headers), Laravel Blade forms, and Blade components.
+* **[62. jQuery with WordPress](08-professional-development.md#chapter-62-jquery-with-wordpress)**: `noConflict()` wrapper in WordPress, `admin-ajax.php`, WP REST API endpoints.
+* **[63. jQuery with REST APIs](08-professional-development.md#chapter-63-jquery-with-rest-apis)**: JWT bearer token authentication, CORS headers, error parsing.
+* **[64. jQuery with Modern JavaScript](08-professional-development.md#chapter-64-jquery-with-modern-javascript)**: ES Modules, arrow functions, destructuring, and template literals inside jQuery.
+* **[65. Maintaining Legacy Applications](08-professional-development.md#chapter-65-maintaining-legacy-applications)**: Refactoring spaghetti code, removing global pollution, incremental modernization.
+* **[66. Migrating jQuery 3.x to 4.x](08-professional-development.md#chapter-66-migrating-jquery-3x-to-4x)**: Complete Migration Guide: breaking changes, removed APIs, `jquery-migrate` 4.x tooling.
 
-```javascript
-// Native DOM element:
-const nativeElement = document.getElementById('hero-banner');
-// nativeElement.css('color', 'red'); // TypeError: nativeElement.css is not a function!
-
-// jQuery wrapped collection:
-const $banner = $('#hero-banner');
-$banner.css('color', 'red'); // Works!
-
-// Converting between the two worlds:
-// 1. Native -> jQuery:
-const $wrapped = $(nativeElement);
-
-// 2. jQuery -> Native:
-const el1 = $banner[0];       // Direct array indexing (fastest)
-const el2 = $banner.get(0);    // .get(index) method
-const allNative = $banner.get(); // Returns array of all native elements: [div#hero-banner]
-```
-
-> **Naming Convention Tip**: Prefix variables that hold jQuery collections with `$` (e.g. `const $items = $('.item')`). This immediately clarifies that jQuery methods like `.addClass()` or `.find()` are available.
-
----
-
-## 1.4 Execution Lifecycle: `$(document).ready()` vs. `window.onload`
-
-Understanding execution timing prevents "Cannot read property of null" errors:
-
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Browser
-    participant DOM as DOM Tree Ready
-    participant Subresources as Images & CSS Loaded
-    
-    Browser->>DOM: HTML parsing completes (DOMContentLoaded)
-    Note over DOM: $(document).ready() fires HERE
-    Browser->>Subresources: Downloading large images, fonts, iframes
-    Note over Subresources: window.onload fires HERE
-```
-
-```javascript
-// 1. Modern Recommended Shorthand for $(document).ready():
-$(function() {
-  console.log('DOM is fully constructed and interactive!');
-  // Safe to query and manipulate elements here.
-});
-
-// 2. Window Load (Waits for all heavy external assets: images, fonts, iframes):
-$(window).on('load', function() {
-  console.log('Everything, including images and frames, is fully loaded.');
-});
-```
-
----
-
-## 1.5 Conflict Avoidance: `jQuery.noConflict()`
-
-Other libraries (Prototype.js, MooTools, Alpine.js) also use the `$` symbol. `jQuery.noConflict()` relinquishes control of `$`:
-
-```javascript
-// Relinquish control of $:
-const jq = jQuery.noConflict();
-
-// Use custom alias:
-jq('#btn-submit').hide();
-
-// Or isolate $ inside an IIFE (Recommended pattern):
-jQuery.noConflict();
-(function($) {
-  // Inside this closure, $ safely refers to jQuery:
-  $('.nav-item').addClass('active');
-})(jQuery);
-```
+### [PART 9 — Practical Projects (Hands-on)](09-practical-projects.md)
+* **[67. Interactive Navigation](09-practical-projects.md#project-67-interactive-navigation)**: Accessible multi-level dropdown navbar with keyboard navigation & mobile drawer.
+* **[68. Dynamic Data Table](09-practical-projects.md#project-68-dynamic-data-table)**: Multi-column alphanumeric sorting, column reordering, striped rows.
+* **[69. Search and Filtering](09-practical-projects.md#project-69-search-and-filtering)**: Instant multi-criteria filter with term highlighting and debounce.
+* **[70. Pagination](09-practical-projects.md#project-70-pagination)**: Client-side pagination with dynamic page size and ellipsis navigation.
+* **[71. Modal System](09-practical-projects.md#project-71-modal-system)**: Production-grade modal dialog with focus trapping, ESC key listener & body lock.
+* **[72. Image Gallery](09-practical-projects.md#project-72-image-gallery)**: Lightbox image preview gallery with thumbnail carousel and zoom.
+* **[73. Shopping Cart](09-practical-projects.md#project-73-shopping-cart)**: Real-time cart calculations, quantity adjustment, coupon codes, and item removal.
+* **[74. AJAX CRUD Application](09-practical-projects.md#project-74-ajax-crud-application)**: Create, Read, Update, Delete system talking to REST API with modal editors.
+* **[75. Form Builder](09-practical-projects.md#project-75-form-builder)**: Interactive form field creator allowing users to add/reorder form inputs dynamically.
+* **[76. Admin Dashboard](09-practical-projects.md#project-76-admin-dashboard)**: Dashboard with animated metric cards, interactive filter panels, and real-time activity stream.
+* **[77. Complete API-Powered Application](09-practical-projects.md#project-77-complete-api-powered-application)**: Full production web app featuring user search, profile drawers, caching, and auto-retry.
 
 ---
 
-# Step 2: Complete Selector Engine & Matching
-
-jQuery selectors allow querying the DOM using CSS1–CSS3 syntax plus extended pseudo-classes.
-
-```
-$(selector expression, [context])
-```
-
-## 2.1 Basic Selectors
-
-| Selector | Syntax | Description | Native Equivalent |
-|:---|:---|:---|:---|
-| **Universal** | `$('*')` | Matches every element in the document | `document.querySelectorAll('*')` |
-| **Element / Tag** | `$('p')`, `$('div')` | Matches elements by tag name | `document.getElementsByTagName('p')` |
-| **ID** | `$('#main-header')` | Matches single unique element by ID | `document.getElementById('main-header')` |
-| **Class** | `$('.card')` | Matches all elements with class | `document.getElementsByClassName('card')` |
-| **Multiple** | `$('h1, h2, .subheading')` | Matches union of several selectors | `document.querySelectorAll('h1, h2, ...')` |
-
-```javascript
-// Selecting with context (Searches only within #sidebar):
-const $linksInSidebar = $('a', '#sidebar'); 
-// Equivalent to: $('#sidebar').find('a');
-```
-
----
-
-## 2.2 Hierarchical Selectors
-
-```javascript
-// 1. Descendant (space): Matches any descendant at any depth
-$('article p'); // All <p> inside <article>
-
-// 2. Direct Child (>): Matches immediate children only
-$('ul.nav > li'); // Only <li> directly under <ul>, not nested submenus
-
-// 3. Adjacent Sibling (+): Matches the element IMMEDIATELY following
-$('h2 + p'); // First <p> directly following <h2>
-
-// 4. General Sibling (~): Matches ALL siblings following
-$('h2 ~ p'); // All <p> siblings that come after <h2>
-```
-
----
-
-## 2.3 Index & Positional Filters
-
-```javascript
-$('table tr:first');       // First matching row
-$('table tr:last');        // Last matching row
-$('table tr:even');        // Even rows (0, 2, 4...) -> 0-based index!
-$('table tr:odd');         // Odd rows (1, 3, 5...)
-$('table tr:eq(3)');       // Row at index 3 (4th element)
-$('table tr:gt(2)');       // Rows with index greater than 2
-$('table tr:lt(5)');       // Rows with index less than 5
-$(':header');              // All headings: <h1> through <h6>
-```
-
----
-
-## 2.4 Content & Visibility Filters
-
-```javascript
-// Content Filters:
-$('p:contains("JavaScript")'); // <p> containing text "JavaScript" (case-sensitive)
-$('td:empty');                 // <td> that has no children (including text nodes)
-$('div:has(p.alert)');         // <div> containing a <p class="alert">
-$('td:parent');                // <td> that has at least one child node
-
-// Visibility Filters:
-$('div:visible');              // Takes up physical layout space in DOM
-$('div:hidden');               // Matches display:none, input[type=hidden], width=0 & height=0
-```
-
-> **Note on `:hidden`**: Elements with `opacity: 0` or `visibility: hidden` are **NOT** considered `:hidden` by jQuery because they still consume physical space in the layout!
-
----
-
-## 2.5 Attribute Selectors
-
-| Selector | Meaning | Example |
-|:---|:---|:---|
-| `[attr]` | Has attribute | `$('input[required]')` |
-| `[attr="val"]` | Exactly equal | `$('input[type="text"]')` |
-| `[attr!="val"]` | Not equal to | `$('input[name!="token"]')` |
-| `[attr^="val"]` | Starts with | `$('a[href^="https://"]')` (Secure links) |
-| `[attr$="val"]` | Ends with | `$('a[href$=".pdf"]')` (PDF files) |
-| `[attr*="val"]` | Contains substring | `$('img[src*="thumbnail"]')` |
-
----
-
-## 2.6 Form Selectors & State Filters
-
-```javascript
-// Element pseudo-classes:
-$(':input');     // Matches <input>, <textarea>, <select>, and <button>
-$(':text');      // Matches <input type="text">
-$(':checkbox');  // Matches <input type="checkbox">
-$(':radio');     // Matches <input type="radio">
-$(':submit');    // Matches <input type="submit"> and <button type="submit">
-
-// State pseudo-classes:
-$(':enabled');   // Elements currently enabled
-$(':disabled');  // Form controls with disabled attribute
-$(':checked');   // Checked checkboxes and radios
-$(':selected');  // Selected <option> elements in a <select>
-```
-
----
-
-# Step 3: DOM Traversal & Selection Refinement
-
-DOM Traversal moves through the DOM tree relative to a starting selection.
-
-```mermaid
-graph TD
-    Parent["Parent Element"]
-    Self["Current Selection $(this)"]
-    Child["Child Elements"]
-    Sibling["Sibling Elements"]
-
-    Self -->|".parent() / .closest()"| Parent
-    Self -->|".children() / .find()"| Child
-    Self -->|".siblings() / .next() / .prev()"| Sibling
-```
-
-## 3.1 Traversing Upward (Parents & Ancestors)
-
-```javascript
-const $btn = $('.delete-btn');
-
-$btn.parent();                // Immediate parent element
-$btn.parents('div.card');     // All ancestor elements matching selector
-$btn.parentsUntil('.table');  // Ancestors up to, but not including, .table
-
-// .closest(): Climbs up tree and returns the FIRST matching ancestor (or self!)
-// Crucial for event delegation:
-$btn.closest('.card-row');
-```
-
----
-
-## 3.2 Traversing Downward (Children & Descendants)
-
-```javascript
-const $menu = $('#primary-nav');
-
-$menu.children();            // Immediate children only (1 level deep)
-$menu.children('.active');   // Immediate children matching filter
-
-$menu.find('a.external');    // Searches ALL descendants at ANY depth
-```
-
----
-
-## 3.3 Traversing Sideways (Siblings)
-
-```javascript
-const $currentTab = $('.tab.active');
-
-$currentTab.siblings();        // All other siblings
-$currentTab.next();            // Immediately following sibling
-$currentTab.nextAll();         // All following siblings
-$currentTab.nextUntil('.sep'); // Following siblings until delimiter
-$currentTab.prev();            // Immediately preceding sibling
-$currentTab.prevAll();         // All preceding siblings
-```
-
----
-
-## 3.4 Filtering the Collection
-
-```javascript
-const $cards = $('.card');
-
-$cards.first();                // First card in collection
-$cards.last();                 // Last card in collection
-$cards.eq(2);                  // Card at index 2 (3rd item)
-$cards.slice(1, 4);            // Cards from index 1 up to index 4
-
-// .filter(): Reduces collection based on selector or predicate function:
-$cards.filter(function(index) {
-  return $(this).data('rating') >= 4.5;
-});
-
-// .not(): Inverse of filter (removes matching items):
-$cards.not('.promoted');
-```
-
----
-
-## 3.5 Selection Stack Mechanics (`.add()`, `.addBack()`, `.end()`)
-
-jQuery maintains an internal stack of previous selections:
-
-```javascript
-$('ul.menu')
-  .find('li')                   // Stack level 1: all <li>
-    .addClass('menu-item')
-    .filter('.active')          // Stack level 2: active <li> only
-      .css('font-weight', 'bold')
-    .end()                      // Pops stack level 2 -> returns to all <li>
-    .fadeOut()
-  .end();                       // Pops stack level 1 -> returns to ul.menu
-```
-
----
-
-# Step 4: DOM Manipulation & Content Management
-
-## 4.1 Reading & Writing Content (`.text()`, `.html()`, `.val()`)
-
-```javascript
-// .text(): Reads or sets plain text (automatically encodes HTML entities)
-const title = $('#title').text();           // Getter
-$('#title').text('Secure & Safe <Escaped>'); // Setter
-
-// .html(): Reads or sets raw inner HTML
-const inner = $('#content').html();
-$('#content').html('<strong>Highlighted</strong> text');
-
-// .val(): Reads or sets form input values (text, select, radio, checkbox)
-const userEmail = $('#email-input').val(); // Getter
-$('#email-input').val('ada@lovelace.org');  // Setter
-
-// Multi-select dropdown setter:
-$('#skills-select').val(['JavaScript', 'TypeScript', 'CSS']);
-```
-
----
-
-## 4.2 Attributes vs. Properties (`.attr()` vs. `.prop()`)
-
-> **The Golden Rule**: Use `.attr()` for HTML attributes defined in markup (initial state). Use `.prop()` for dynamic browser DOM properties (`checked`, `disabled`, `selected`, `selectedIndex`).
-
-```javascript
-const $checkbox = $('#agree-terms');
-
-// The WRONG way (historical bug):
-// $checkbox.attr('checked'); // Returns 'checked' or undefined based on initial HTML!
-
-// The CORRECT way:
-console.log($checkbox.prop('checked')); // true or false (Live boolean state!)
-$checkbox.prop('checked', true);        // Checks the box
-$checkbox.prop('disabled', true);       // Disables the box
-```
-
----
-
-## 4.3 Class Manipulation & Inline Styles
-
-```javascript
-const $card = $('#card-101');
-
-// Class manipulation:
-$card.addClass('shadow-lg border-primary');
-$card.removeClass('d-none');
-$card.toggleClass('expanded');
-console.log($card.hasClass('shadow-lg')); // true
-
-// Inline styles (.css):
-// Getter:
-const currentBg = $card.css('background-color');
-
-// Setter (Single property):
-$card.css('border-radius', '12px');
-
-// Setter (Batch object):
-$card.css({
-  'background-color': '#f8f9fa',
-  'padding': '1.5rem',
-  'display': 'flex'
-});
-```
-
----
-
-## 4.4 Dimensions, Geometry & Scrolling
-
-```javascript
-const $box = $('#target-box');
-
-// 1. Box Model Dimensions:
-$box.width();        // Content width
-$box.innerWidth();   // Content + padding
-$box.outerWidth();   // Content + padding + border
-$box.outerWidth(true); // Content + padding + border + margin
-
-// 2. Coordinate Positioning:
-// .offset(): Relative to the document root (useful for floating menus & tooltips)
-const { top, left } = $box.offset();
-
-// .position(): Relative to the nearest positioned ancestor (offsetParent)
-const relativePos = $box.position();
-
-// 3. Scroll position:
-const currentScroll = $(window).scrollTop();
-// Smooth scroll to top:
-$('html, body').animate({ scrollTop: 0 }, 600);
-```
-
----
-
-## 4.5 Inserting DOM Nodes (Inside, Outside & Wrapping)
-
-```javascript
-const $list = $('#task-list');
-
-// Inside (Children):
-$list.append('<li>Task: Append to end</li>');
-$('<li>Task: AppendTo</li>').appendTo($list);
-
-$list.prepend('<li>Task: Prepend to top</li>');
-$('<li>Task: PrependTo</li>').prependTo($list);
-
-// Outside (Siblings):
-$list.before('<div class="header">Tasks Header</div>');
-$list.after('<div class="footer">Tasks Footer</div>');
-
-// Wrapping:
-$('.badge').wrap('<div class="badge-container"></div>');
-```
-
----
-
-## 4.6 Removing & Detaching Nodes: `.empty()` vs. `.remove()` vs. `.detach()`
-
-```javascript
-// 1. .empty(): Wipes out all child nodes, keeps container
-$('#chat-messages').empty();
-
-// 2. .remove(): Removes elements AND permanently purges all attached event listeners and jQuery data:
-$('.old-alert').remove();
-
-// 3. .detach(): Removes elements FROM THE DOM, but KEEPS event listeners and data intact in memory!
-// (Crucial for high performance when reordering or updating DOM nodes):
-const $activePlayer = $('#player-card').detach();
-// Perform expensive transformations off-screen...
-$('#new-roster').append($activePlayer); // Handlers still work!
-```
-
----
-
-## 4.7 Cloning Nodes (`.clone(false)` vs. `.clone(true)`)
-
-```javascript
-// .clone(false) [default]: Copies DOM structure only
-const $simpleCopy = $('#btn-action').clone();
-
-// .clone(true): Deep copies DOM structure AND copies all attached event handlers and data!
-const $interactiveCopy = $('#btn-action').clone(true);
-```
-
----
-
-# Step 5: Event Handling & Event Delegation Architecture
-
-## 5.1 Modern Event Binding (`.on()` and `.off()`)
-
-The `.on()` method is the unified standard for event handling in jQuery.
-
-```javascript
-// Basic listener:
-$('#submit-btn').on('click', function(e) {
-  e.preventDefault();
-  console.log('Submitted!');
-});
-
-// Multiple events in single call:
-$('#search-input').on({
-  focus() { $(this).addClass('focused'); },
-  blur()  { $(this).removeClass('focused'); },
-  keyup() { console.log('Current value:', $(this).val()); }
-});
-
-// Teardown with .off():
-$('#submit-btn').off('click');
-```
-
----
-
-## 5.2 Event Delegation: Handling Dynamic Content
-
-When new elements are injected via Ajax or DOM operations, direct listeners bound during page load do not apply to them. **Event delegation** captures bubbling events at a stable parent ancestor:
-
-```mermaid
-graph TD
-    A["User clicks dynamic button<br>.delete-item"] --> B["Event bubbles up to<br>#todo-list container"]
-    B --> C{"Does target match<br>'.delete-item'?"}
-    C -->|Yes| D["Execute handler with<br>this = clicked button"]
-    C -->|No| E["Ignore"]
-```
-
-```javascript
-// BROKEN for newly added items:
-// $('.delete-btn').on('click', fn); // Only binds to elements existing at startup!
-
-// BULLETPROOF EVENT DELEGATION:
-// Syntax: $(stableParent).on(eventType, childSelector, handler)
-$('#todo-list').on('click', '.delete-btn', function(event) {
-  event.preventDefault();
-  // `this` refers to the specific .delete-btn that was clicked!
-  $(this).closest('li').fadeOut(300, function() {
-    $(this).remove();
-  });
-});
-```
-
----
-
-## 5.3 The Event Object Demystified
-
-jQuery normalizes W3C and legacy IE event objects into a single consistent interface:
-
-```javascript
-$('#action-link').on('click', function(e) {
-  // 1. Prevent default browser behavior (e.g. following link URL or submitting form):
-  e.preventDefault();
-
-  // 2. Stop event from bubbling up DOM tree to parent handlers:
-  e.stopPropagation();
-
-  // 3. Stop bubbling AND prevent other handlers on the SAME element from executing:
-  e.stopImmediatePropagation();
-
-  // 4. Coordinates:
-  console.log('Mouse coordinates:', e.pageX, e.pageY);
-
-  // 5. Target introspection:
-  console.log('Original element clicked:', e.target);
-  console.log('Element listener is bound to:', e.currentTarget); // Identical to `this`
-});
-```
-
----
-
-## 5.4 One-Time Events (`.one()`) & Programmatic Triggering
-
-```javascript
-// .one(): Automatically unbinds after its first execution
-$('#checkout-btn').one('click', function() {
-  processPaymentOrder();
-});
-
-// Programmatic triggering:
-// .trigger(): Fires handlers AND triggers native browser behavior
-$('#search-form').trigger('submit');
-
-// .triggerHandler(): Executes jQuery handlers ONLY; skips default browser actions and bubbling
-$('#search-form').triggerHandler('submit');
-```
-
----
-
-## 5.5 Namespaced Events for Clean Teardowns
-
-Namespaces allow removing specific handlers without affecting other handlers on the same element:
-
-```javascript
-// Binding with namespaces:
-$(window).on('resize.userDashboard', function() { redrawCharts(); });
-$(window).on('resize.navigationMenu', function() { updateNavLayout(); });
-
-// Teardown only the dashboard listener:
-$(window).off('resize.userDashboard'); // updateNavLayout remains active!
-```
-
----
-
-# Step 6: Animation, Effects & Queue Management
-
-## 6.1 Basic Visibility Effects (`.show()`, `.hide()`, `.toggle()`)
-
-```javascript
-// Speeds: 'slow' (600ms), 'fast' (200ms), or milliseconds (e.g. 400)
-// Complete callback executed when animation finishes:
-$('#notification').hide(400, function() {
-  console.log('Element is now hidden');
-});
-
-$('#notification').show('fast');
-$('#notification').toggle(300); // Toggles visibility based on current state
-```
-
----
-
-## 6.2 Fading & Sliding Effects
-
-```javascript
-// Fading (manipulates opacity and display):
-$('#modal').fadeIn(300);
-$('#modal').fadeOut(300);
-$('#modal').fadeToggle(300);
-$('#banner').fadeTo(400, 0.5); // Fades to a specific target opacity (0.5)
-
-// Sliding (manipulates height and overflow:hidden):
-$('#faq-answer').slideDown(300);
-$('#faq-answer').slideUp(300);
-$('#faq-answer').slideToggle(300);
-```
-
----
-
-## 6.3 Custom Morphing Animations (`.animate()`)
-
-`.animate()` interpolates numeric CSS properties over time:
-
-```javascript
-$('#rocket').animate({
-  top: '-=200px',        // Relative subtraction
-  left: '+=100px',       // Relative addition
-  opacity: 0.8,
-  width: '150px'
-}, {
-  duration: 800,
-  easing: 'swing',       // 'swing' or 'linear'
-  step(now, fx) {
-    // Fired on each animation frame
-  },
-  complete() {
-    console.log('Rocket launch animation finished!');
-  }
-});
-```
-
----
-
-## 6.4 Animation Queue Control (`.stop()`, `.finish()`, `.delay()`)
-
-A common UI issue is **Animation Accumulation** (rapidly hovering a button triggers back-to-back animations that loop endlessly).
-
-```javascript
-// .stop(clearQueue, jumpToEnd):
-// clearQueue: boolean (removes queued animations)
-// jumpToEnd: boolean (instantly completes current animation)
-
-$('.nav-item').hover(
-  function() {
-    $(this).find('.dropdown')
-      .stop(true, true) // Halts previous animation, clears queue!
-      .slideDown(200);
-  },
-  function() {
-    $(this).find('.dropdown')
-      .stop(true, true)
-      .slideUp(200);
-  }
-);
-
-// Delaying animations:
-$('#toast').fadeIn(300).delay(3000).fadeOut(300);
-```
-
----
-
-# Step 7: Asynchronous Networking (Ajax) & Deferreds
-
-## 7.1 The Core Method: `$.ajax()`
-
-`$.ajax()` is the underlying engine for all jQuery network requests.
-
-```javascript
-$.ajax({
-  url: 'https://api.xivig.org/v1/users',
-  type: 'POST', // or 'method': 'POST'
-  data: JSON.stringify({ name: 'Ada Lovelace', role: 'admin' }),
-  contentType: 'application/json; charset=utf-8',
-  dataType: 'json', // Expected server response format
-  timeout: 5000,
-  headers: {
-    'Authorization': 'Bearer sec_token_123'
-  },
-  beforeSend(xhr) {
-    $('#loading-spinner').show();
-  }
-})
-.done(function(response, textStatus, jqXHR) {
-  console.log('User created with ID:', response.id);
-})
-.fail(function(jqXHR, textStatus, errorThrown) {
-  console.error('Ajax Request Failed:', textStatus, errorThrown);
-})
-.always(function() {
-  $('#loading-spinner').hide();
-});
-```
-
----
-
-## 7.2 Shorthand Helpers (`$.get()`, `$.post()`, `$.getJSON()`, `.load()`)
-
-```javascript
-// 1. $.get():
-$.get('/api/stats', { date: '2026-11-09' }, function(data) {
-  console.log('Stats:', data);
-});
-
-// 2. $.post():
-$.post('/api/login', { username: 'alice', pass: 'secret' }, function(res) {
-  console.log('Login status:', res.status);
-});
-
-// 3. $.getJSON(): Automatically parses JSON payload:
-$.getJSON('/api/config.json', function(config) {
-  console.log('Api Host:', config.host);
-});
-
-// 4. .load(): Injects server HTML directly into container (Supports fragment filtering!):
-// Fetches only the #analytics-card fragment from dashboard.html:
-$('#metrics-container').load('dashboard.html #analytics-card', function() {
-  console.log('Analytics widget refreshed.');
-});
-```
-
----
-
-## 7.3 Form Serialization (`.serialize()` & `.serializeArray()`)
-
-```javascript
-// URL-encoded string: "username=alice&email=alice%40example.com"
-const queryString = $('#register-form').serialize();
-
-// Array of objects: [{ name: 'username', value: 'alice' }, ...]
-const formFields = $('#register-form').serializeArray();
-```
-
----
-
-## 7.4 Global Ajax Lifecycle Handlers
-
-Global events allow centralizing application-wide behaviors (e.g. global loading spinners or error toasts):
-
-```javascript
-$(document).ajaxStart(function() {
-  $('#global-nprogress-spinner').fadeIn();
-});
-
-$(document).ajaxStop(function() {
-  $('#global-nprogress-spinner').fadeOut();
-});
-
-$(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
-  if (jqXHR.status === 401) {
-    window.location.href = '/login.html?expired=true';
-  } else if (jqXHR.status >= 500) {
-    showToastAlert('Internal Server Error. Please try again later.');
-  }
-});
-```
-
----
-
-## 7.5 Promises & Deferreds (`$.Deferred()`, `$.when()`)
-
-jQuery Deferred objects implement a Promise-like pattern:
-
-```javascript
-function loadAsyncUserData(userId) {
-  const dfd = $.Deferred();
-
-  setTimeout(function() {
-    if (userId > 0) {
-      dfd.resolve({ id: userId, username: 'cyber_dev' });
-    } else {
-      dfd.reject(new Error('Invalid User ID'));
-    }
-  }, 1000);
-
-  return dfd.promise();
-}
-
-// Consuming Deferred promises:
-loadAsyncUserData(42)
-  .done(user => console.log('Loaded:', user.username))
-  .fail(err => console.error('Error:', err.message));
-
-// $.when() (Combinator similar to Promise.all):
-$.when($.get('/api/posts'), $.get('/api/comments'))
-  .done(function(postsResponse, commentsResponse) {
-    console.log('Both network calls completed!');
-  });
-```
-
----
-
-# Step 8: Advanced Utilities, Plugin Authoring & Modern Migration
-
-## 8.1 Core Utilities (`$.each()`, `$.extend()`, `$.grep()`, `$.map()`)
-
-```javascript
-// 1. $.each(): Iterates over both Arrays and Objects
-$.each(['Apple', 'Orange'], function(index, value) {
-  console.log(index, value);
-});
-
-// 2. $.extend(deep, target, ...sources):
-// Deep merge configuration objects:
-const defaults = { server: { port: 3000, host: 'localhost' } };
-const custom = { server: { port: 8080 } };
-const merged = $.extend(true, {}, defaults, custom);
-console.log(merged.server); // { port: 8080, host: 'localhost' }
-
-// 3. $.grep(): Array filtering utility:
-const evens = $.grep([1, 2, 3, 4, 5, 6], n => n % 2 === 0); // [2, 4, 6]
-
-// 4. $.map(): Transforms an array:
-const squares = $.map([1, 2, 3], n => n * n); // [1, 4, 9]
-```
-
----
-
-## 8.2 Data Storage API (`.data()`) & HTML5 Datasets
-
-jQuery's `.data()` associates arbitrary JavaScript objects and references with DOM nodes **without memory leaks** (stored in an internal memory cache rather than direct DOM expando properties):
-
-```html
-<div id="product-card" data-product-id="1092" data-in-stock="true"></div>
-```
-
-```javascript
-const $card = $('#product-card');
-
-// Automatically parses HTML5 data-* attributes (integers, booleans, JSON):
-console.log($card.data('productId')); // 1092 (Number)
-console.log($card.data('inStock'));   // true (Boolean)
-
-// Storing complex objects in memory:
-$card.data('pricingMatrix', { base: 100, tiers: [0.9, 0.8] });
-
-// Retrieving memory reference:
-console.log($card.data('pricingMatrix').tiers[0]); // 0.9
-```
-
----
-
-## 8.3 How to Write Professional jQuery Plugins
-
-Writing custom plugins extends `jQuery.fn` (`jQuery.prototype`). Follow this battle-tested pattern:
-
-```javascript
-(function($) {
-  'use strict';
-
-  // Plugin Definition:
-  $.fn.highlightText = function(options) {
-    // 1. Merge user options with sensible defaults:
-    const settings = $.extend({
-      color: '#ffff00',
-      bold: true
-    }, options);
-
-    // 2. Maintain chainability by returning `this.each`:
-    return this.each(function() {
-      const $element = $(this);
-      
-      $element.css({
-        'background-color': settings.color,
-        'font-weight': settings.bold ? 'bold' : 'normal'
-      });
-    });
-  };
-
-})(jQuery);
-
-// Usage:
-$('p.important').highlightText({ color: '#ffeaa7' });
-```
-
----
-
-## 8.4 Performance Optimization Recipes
-
-1. **Cache jQuery Selections**:
-   ```javascript
-   // BAD: Re-queries the entire DOM on every loop tick!
-   for (let i = 0; i < 100; i++) { $('#status').text(i); }
-
-   // GOOD: Query once, reuse reference:
-   const $status = $('#status');
-   for (let i = 0; i < 100; i++) { $status.text(i); }
-   ```
-
-2. **Batch DOM Insertions**:
-   ```javascript
-   // BAD: Triggers 1,000 DOM reflows:
-   const $list = $('#items');
-   for (let i = 0; i < 1000; i++) { $list.append(`<li>${i}</li>`); }
-
-   // GOOD: Accumulate HTML string or use DocumentFragment:
-   let htmlBuffer = '';
-   for (let i = 0; i < 1000; i++) { htmlBuffer += `<li>${i}</li>`; }
-   $list.append(htmlBuffer); // Single reflow!
-   ```
-
-3. **Use IDs or Contextual Queries**:
-   * ID queries (`$('#id')`) call native `document.getElementById` and are orders of magnitude faster than loose classes (`$('.btn')`).
-   * Avoid loose universal selectors (`$('*')`).
-
----
-
-## 8.5 Modern Web Comparison: jQuery vs. Native Vanilla JS
-
-For teams maintaining legacy systems or transitioning to modern vanilla JavaScript:
-
-| Task | jQuery Syntax | Modern Native Vanilla JS |
-|:---|:---|:---|
-| **Query Single** | `$('#box')` | `document.querySelector('#box')` |
-| **Query Multiple** | `$('.card')` | `document.querySelectorAll('.card')` |
-| **Add / Remove Class** | `$el.addClass('active')` | `el.classList.add('active')` |
-| **Event Listener** | `$el.on('click', fn)` | `el.addEventListener('click', fn)` |
-| **Event Delegation** | `$(parent).on('click', 'li', fn)` | `parent.addEventListener('click', (e) => { const el = e.target.closest('li'); if (el) fn.call(el, e); })` |
-| **Ajax / Fetch** | `$.getJSON('/api/data', fn)` | `const data = await fetch('/api/data').then(r => r.json())` |
-| **DOM Creation** | `$('<div>Hello</div>')` | `const el = document.createElement('div'); el.textContent = 'Hello';` |
-| **Dimensions** | `$el.outerWidth(true)` | `el.getBoundingClientRect().width` |
-| **Animation** | `$el.slideUp(300)` | CSS Transitions / Web Animations API (`el.animate()`) |
-
----
-
-## 📚 Companion Notes in this Directory
-* [`jQueryFirst.md`](jQueryFirst.md) — Raw chapter notes and examples from *'Pro jQuery'* by Adam Freeman.
-* [`jQuerySelector.md`](jQuerySelector.md) — In-depth selector specifications and edge cases from *'jQuery in Action'*.
+## 🚀 Quick Reference & Companion Guides
+
+- 📄 **[Developer Desk Cheat Sheet (CHEATSHEET.md)](CHEATSHEET.md)** — Ultra-condensed one-pager with jQuery 4.0 syntax, selector performance matrix, and Vanilla JS comparison.
+- 📦 **[Companion Raw Study Notes: Core & Architecture (jQueryFirst.md)](jQueryFirst.md)** — Original deep notes from *'Pro jQuery'*.
+- 🔍 **[Companion Raw Study Notes: Complete Selectors (jQuerySelector.md)](jQuerySelector.md)** — Original deep notes from *'jQuery in Action'*.

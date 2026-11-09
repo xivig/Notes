@@ -98,9 +98,22 @@ Notes/
 * Secure port forwarding (`host_ip: "127.0.0.1"`) and host-guest synced folders.
 * Complete CLI command reference (`vagrant up`, `vagrant ssh`, `vagrant reload --provision`).
 
-### 9. 📝 [Markdown Formatting](Markdown/markdownSyntax.md)
-* GitHub Flavored Markdown (GFM) specification.
-* Headings, emphasis, blockquotes, lists, checklists, tables, code fences, and autolinks.
+### 9. 📝 [Markdown & GFM Complete Master Curriculum](Markdown/README.md)
+* **Master Hub**: [Curriculum Index](Markdown/README.md) & [Cheatsheet Desk Reference](Markdown/CHEATSHEET.md).
+* **Specifications**: [GitHub Flavored Markdown (GFM) Spec](Markdown/GFM-SPECIFICATION.md) & [Extended Syntax](Markdown/EXTENDED-SYNTAX.md).
+* **Best Practices**: [markdownlint Rules, Prettier, & Style Guides](Markdown/BEST-PRACTICES-AND-LINTING.md).
+* **10 Deep-Dive Modules**:
+  * [01 - Basic Syntax](Markdown/01-basic-syntax.md) (Headings, paragraphs, line breaks, emphasis)
+  * [02 - Lists & Tasklists](Markdown/02-lists-and-tasklists.md) (Loose/tight lists, multi-level nesting, checklists)
+  * [03 - Links, Images & Badges](Markdown/03-links-images-badges.md) (Reference links, HTML image sizing, Shields.io badges)
+  * [04 - Code & Syntax Highlighting](Markdown/04-code-and-syntax-highlighting.md) (Fenced code blocks, language IDs, Git diffs)
+  * [05 - Tables & Alignment](Markdown/05-tables-and-alignment.md) (GFM tables, escaping pipes, cell line breaks, HTML tables)
+  * [06 - Callouts, Alerts & Details](Markdown/06-callouts-alerts-details.md) (GitHub Alerts [!NOTE]...[!CAUTION], <details> accordions)
+  * [07 - Diagrams with Mermaid.js](Markdown/07-diagrams-mermaid.md) (Flowcharts, Sequence, Class, ER, State, Git Graphs)
+  * [08 - Math & LaTeX Typesetting](Markdown/08-math-and-latex.md) (KaTeX inline $, display $$, calculus, matrices)
+  * [09 - Frontmatter & Metadata](Markdown/09-frontmatter-and-metadata.md) (YAML, TOML, JSON frontmatter, Zod schema validation)
+  * [10 - Security & Safe HTML](Markdown/10-security-and-html.md) (GFM disallowed tags, XSS prevention, DOMPurify & rehype)
+* **Single-Page Reference**: [Comprehensive Syntax Manual](Markdown/markdownSyntax.md).
 
 ### 10. 📄 [YAML Syntax](Yaml/YAML-syntax.yml)
 * Key-value mapping, lists, scalar types (strings, floats, booleans, dates).

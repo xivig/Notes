@@ -1,222 +1,201 @@
-## Vagrant Getting Started
+# Vagrant Getting Started & Modern Developer Guide
 
+> **Vagrant** is an open-source tool by HashiCorp for building and maintaining portable, reproducible virtual software development environments using providers like VirtualBox, VMware, Hyper-V, and Docker.
 
+---
 
-**1.Install Vagrant from [Vagrant](https://www.vagrantup.com/downloads.html)**
+## Table of Contents
 
-**2.Install Virtualbox from [Virtualbox](https://www.virtualbox.org/wiki/Downloads)**
+1. [Prerequisites & Installation](#1-prerequisites--installation)
+2. [Finding Modern Base Boxes](#2-finding-modern-base-boxes)
+3. [Quick Start: Up and Running in 3 Minutes](#3-quick-start-up-and-running-in-3-minutes)
+4. [Modern `Vagrantfile` Configuration](#4-modern-vagrantfile-configuration)
+5. [Port Forwarding & Synced Folders](#5-port-forwarding--synced-folders)
+6. [Shell Provisioning (Automated Setup)](#6-shell-provisioning-automated-setup)
+7. [Essential Vagrant CLI Commands](#7-essential-vagrant-cli-commands)
+8. [Troubleshooting](#8-troubleshooting)
 
-**For New virtualbox add the following line**
+---
 
-`config.vm.box = "envimation/ubuntu-xenial-docker"`
+## 1. Prerequisites & Installation
 
-The name is is from the vagrantbox.es as follows:
-`envimation/ubuntu-xenial-docker  VirtualBox  
-https://atlas.hashicorp.com/envimation/boxes/ubuntu-xenial-docker`
+To run virtual machines via Vagrant, install both **Vagrant** and a virtualization hypervisor (such as **VirtualBox**):
 
+1. **Install VirtualBox**:
+   Download the latest version from [virtualbox.org](https://www.virtualbox.org/wiki/Downloads) (or via Homebrew on macOS: `brew install --cask virtualbox`).
+2. **Install Vagrant**:
+   Download from [developer.hashicorp.com/vagrant/install](https://developer.hashicorp.com/vagrant/install) (or via Homebrew: `brew install hashicorp/tap/hashicorp-vagrant`).
+3. **Verify installation**:
+   ```bash
+   vagrant --version
+   # Example: Vagrant 2.4.x
+   ```
 
+---
 
-1.  Create a directory named vagrant-project under current directory
-    named projects by the following command:
+## 2. Finding Modern Base Boxes
 
-    `$ mkdir -p projects/vagrant-project && cd projects/vagrant-project/`
+Browse official base boxes on **Vagrant Cloud**: [app.vagrantup.com/boxes/search](https://app.vagrantup.com/boxes/search).
 
-2.  To initialize the current directory with git run the following
-    command:
+### Recommended Modern Linux Distributions
 
-    `$ git init .`
+| Distribution | Architecture | Box Name on Vagrant Cloud |
+|---|---|---|
+| **Ubuntu 24.04 LTS (Noble Numbat)** | 64-bit AMD/Intel | `ubuntu/noble64` |
+| **Ubuntu 22.04 LTS (Jammy Jellyfish)**| 64-bit AMD/Intel | `ubuntu/jammy64` |
+| **Debian 12 (Bookworm)** | 64-bit AMD/Intel | `debian/bookworm64` |
+| **Rocky Linux 9 (RHEL-compatible)** | 64-bit AMD/Intel | `rockylinux/9` |
+| **Alpine Linux 3.19 (Minimal)** | 64-bit AMD/Intel | `generic/alpine319` |
 
-3.  Now check the content of the current directory:
+*(Avoid legacy boxes like `precise64` (Ubuntu 12.04) or `xenial64` (Ubuntu 16.04) which have reached official End-of-Life).*
 
-    `$ ls -- la`
+---
 
-4.  To check the status of git run the following:
+## 3. Quick Start: Up and Running in 3 Minutes
 
-    `$ git status`
+```bash
+# 1. Create a dedicated project directory
+mkdir -p dev-workspace && cd dev-workspace
 
-5.  `$ vagrant version`
+# 2. Initialize a modern Ubuntu 22.04 LTS box
+vagrant init ubuntu/jammy64
 
-6.  `$ vagrant status`
+# 3. Boot and configure the virtual machine
+vagrant up
 
-## Up and Running
+# 4. Connect to the machine via SSH
+vagrant ssh
 
-1.  `$ vagrant init hashicorp/precise64`
+# Inside the VM:
+uname -a
+lsb_release -a
+exit
 
-2.  `$ atom Vagrantfile`
+# 5. Shut down the machine cleanly when finished
+vagrant halt
+```
 
-## Vagrantfile configuration sample:
+---
 
-```sh
+## 4. Modern `Vagrantfile` Configuration
 
+Create or modify `Vagrantfile` in your project root:
+
+```ruby
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# All Vagrant configuration is done below. The "2" in Vagrant.configure
-# configures the configuration version (we support older styles for
-# backwards compatibility). Please don't change it unless you know what
-# you're doing.
 Vagrant.configure("2") do |config|
-  # The most common configuration options are documented and commented below.
-  # For a complete reference, please see the online documentation at
-  # https://docs.vagrantup.com.
+  # Base operating system
+  config.vm.box = "ubuntu/jammy64"
 
-  # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "hashicorp/precise64"
+  # Automatic box update check
+  config.vm.box_check_update = true
 
-  # Disable automatic box update checking. If you disable this, then
-  # boxes will only be checked for updates when the user runs
-  # `vagrant box outdated`. This is not recommended.
-  # config.vm.box_check_update = false
+  # VM Hostname
+  config.vm.hostname = "dev-box.local"
 
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  # NOTE: This will enable public access to the opened port
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
+  # Port Forwarding (Guest port -> Host port)
+  # Access guest web server on host via http://localhost:8080
+  config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+  # Forward MySQL/PostgreSQL
+  config.vm.network "forwarded_port", guest: 3306, host: 33060, host_ip: "127.0.0.1"
 
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine and only allow access
-  # via 127.0.0.1 to disable public access
-  # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+  # Private Network (Fixed internal IP)
+  config.vm.network "private_network", ip: "192.168.56.10"
 
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
+  # Shared/Synced Folder (Host folder -> Guest folder)
+  config.vm.synced_folder ".", "/var/www/html",
+    owner: "vagrant",
+    group: "vagrant",
+    create: true
 
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  # config.vm.network "public_network"
+  # VirtualBox Provider Resource Allocations
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "ubuntu-jammy-dev"
+    vb.memory = 2048  # 2 GB RAM
+    vb.cpus = 2        # 2 CPU Cores
+    vb.linked_clone = true # Saves disk space and accelerates provisioning
+  end
 
-  # Share an additional folder to the guest VM. The first argument is
-  # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.
-  # config.vm.synced_folder "../data", "/vagrant_data"
+  # Automated Shell Provisioning
+  config.vm.provision "shell", inline: <<-SHELL
+    set -e
+    echo "Updating package lists..."
+    apt-get update -y
+    apt-get install -y git curl wget unzip htop nginx
 
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
-   config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-    vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
-    vb.memory = "1024"
-    end
-  #
-  # View the documentation for the provider you are using for more
-  # information on available options.
+    # Install Docker Engine
+    curl -fsSL https://get.docker.com | sh
+    usermod -aG docker vagrant
 
-  # Enable provisioning with a shell script. Additional provisioners such as
-  # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
-  # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
-  # SHELL
+    echo "Dev environment ready! Visit http://localhost:8080"
+  SHELL
 end
-
 ```
 
-**If you got an error like 'Vagrant - OpenSSL SSL_read: SSL_ERROR_SYSCALL, errno 54' , The fix is here:
+---
 
-`vagrant box add envimation/ubuntu-xenial-docker -c --insecure`
+## 5. Port Forwarding & Synced Folders
 
+* **Port Forwarding**: Maps network ports between host and guest. Always bind to `127.0.0.1` (`host_ip: "127.0.0.1"`) to avoid inadvertently exposing dev ports to your local network.
+* **Synced Folders**: Edits made in your favorite host editor (VS Code, Sublime Text) immediately appear inside the guest virtual machine at the mount path (e.g. `/var/www/html`).
 
-"Options used:
+---
 
-    -c or --clean Clean any temporary download files
-    --insecure Do not validate SSL certificates
+## 6. Shell Provisioning (Automated Setup)
 
-"
+Instead of manually installing software every time a VM is created, use external provisioning scripts:
 
-3.  `$ vagrant up`
-
-4.  `$ vagrant ssh`
-
-5.  `$ cd /vagrant/`
-
-6.  `$ touch abc.txt`
-
-7.  `$ ls`
-
-8.  `$ rm abc.txt`
-
-9.  `$ ls`
-
-10. `$ exit`
-
-11. `$ vagrant suspend // this will put the virtual` machine in sleep
-
-12. `$ vagrant up // this will put the virtual` machine back to normal
-    state
-
-13. `$ vagrant halt // this will shut down the` virtual machine
-
-14. `$ vagrant up // this will put the virtual` machine back to normal
-    state
-
-15. `$vagrant destroy`
-
-16. `$ vagrant status`
-
-17. `$ vagrant up`
-
-18. `$vagrant reload // this will do halt and up` command simultaneously
-
-19. Create a new file named .gitignore
-
-20. Write in the file .vagrant to ignore the file and escaping the from
-    statging.
-
-21. `$ git commit -m "to ignore the .vagrant file"`
-
-22. `$ git add .`
-
-23. `$ git status`
-
-**Getting external vagrant virtual image**
-
-Go to this web site and get the virtual machine for vagrant from [Vagrantbox](<http://www.vagrantbox.es/>)
-
-### Adding new virtual machine:
-
-**OpenBSD 5.5 64-bit + Chef 11.16.0 + Puppet 3.4.2**
-
-`$ vagrant box add openbsd55
-<https://github.com/jose-lpa/veewee-openbsd/releases/download/v0.5.5/openbsd55.box>`
-
-**Packaging local VM**
-
-`$ vagrant package --output openbsd.box`
-
-`$ vagrant box add OpenBSD openbsd.box`
-
-`$vagrant status`
-
-`$ vagrant box list`
-
-`$atom Vagrantfile`
-
-Add the following lines:
-
-```
-config.vm.box = "OpenBSD"
-
-config.vm.synced_folder ".", "/vagrant", type: "rsync"
+```ruby
+config.vm.provision "shell", path: "provision/setup.sh"
 ```
 
-**To remove a folder run the following command**
+In `provision/setup.sh`:
+```bash
+#!/usr/bin/env bash
+set -Eeuo pipefail
 
-`$ rm -rf \[name of the folder]`
+apt-get update -y
+apt-get install -y nodejs npm php-cli git
+```
 
-Create a file and folder by
+Run provisioning at any time on an active VM:
+```bash
+vagrant provision
+# or restart and provision in one command:
+vagrant reload --provision
+```
 
-`$ mkdir cool && touch abc.txt`
+---
 
-Now remove the file and folder by
+## 7. Essential Vagrant CLI Commands
 
-`$ rm abc.txt && rm -rf cool`
+| Command | Action |
+|---|---|
+| `vagrant init [box]` | Creates an initial `Vagrantfile` in current directory |
+| `vagrant up` | Boots the virtual machine (downloads box on first run) |
+| `vagrant ssh` | Opens a secure interactive shell inside the guest machine |
+| `vagrant halt` | Gracefully powers down the virtual machine |
+| `vagrant reload` | Restarts the VM (applies network/Vagrantfile changes) |
+| `vagrant reload --provision` | Restarts and forces provisioning scripts to re-run |
+| `vagrant suspend` | Pauses the VM in memory (fast resume via `vagrant up`) |
+| `vagrant resume` | Resumes a suspended virtual machine |
+| `vagrant status` | Displays the current running state of the VM |
+| `vagrant destroy -f` | Deletes the VM and reclaims all host disk space |
+| `vagrant snapshot save [name]`| Creates a named restore point snapshot |
+| `vagrant snapshot restore [name]`| Rolls back the VM to the snapshot state |
+
+---
+
+## 8. Troubleshooting
+
+### VT-x / AMD-V Hardware Virtualization Disabled
+* **Symptom**: `VT-x is not available (VERR_VMX_NO_VMX)`.
+* **Fix**: Enable Hardware Virtualization (Intel VT-x or AMD SVM) in your computer's BIOS/UEFI firmware settings.
+
+### VirtualBox Guest Additions Mismatch
+* **Fix**: Install the `vagrant-vbguest` plugin to automatically install matching guest additions:
+  ```bash
+  vagrant plugin install vagrant-vbguest
+  ```

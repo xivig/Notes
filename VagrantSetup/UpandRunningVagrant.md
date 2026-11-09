@@ -1,79 +1,77 @@
-# Up and Running
+# Up and Running with Vagrant — Step-by-Step
 
-\$ mkdir vagrant\_getting\_started
+A quick reference walkthrough for creating, configuring, and connecting to your first Vagrant development machine.
 
-\$ cd vagrant\_getting\_started
+---
 
-\$ vagrant init hashicorp/precise64
+## 1. Project Initialization
 
-\$ vagrant up
+Create a project directory and initialize the `Vagrantfile`:
 
-\$ vagrant box add hashicorp/precise64
+```bash
+mkdir -p vagrant_getting_started
+cd vagrant_getting_started
 
-Using a Box
------------
+# Initialize a modern Ubuntu 22.04 LTS box
+vagrant init ubuntu/jammy64
+```
 
-Open the Vagrantfile and change the contents to the following:
+---
 
-Vagrant.**configure**(\"2\") **do** **\|**config**\|**
+## 2. Configuring the Box
 
-config.**vm**.**box** **=** \"hashicorp/precise64\"
+Open `Vagrantfile` in your editor. A clean configuration looks like:
 
-**end**
+```ruby
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/jammy64"
 
-You may specify an explicit version of a box by
-specifying config.vm.box\_versionfor example:
+  # Optional: Lock to a specific version release
+  # config.vm.box_version = ">= 20240101.0.0"
 
-Vagrant.**configure**(\"2\") **do** **\|**config**\|**
+  # Optional: Download URL if using an internal corporate registry
+  # config.vm.box_url = "https://app.vagrantup.com/ubuntu/boxes/jammy64"
+end
+```
 
-config.**vm**.**box** **=** \"hashicorp/precise64\"
+---
 
-config.**vm**.**box\_version** **=** \"1.1.0\"
+## 3. Booting & Connecting via SSH
 
-**end**
+```bash
+# Boot the VM (downloads box from Vagrant Cloud if not cached locally)
+vagrant up
 
-You may also specify the URL to a box directly using config.vm.box\_url:
+# Connect interactively to the VM
+vagrant ssh
+```
 
-Vagrant.**configure**(\"2\") **do** **\|**config**\|**
+Once connected, you will be in the `/home/vagrant` directory of the Linux guest. The host project folder is automatically mounted inside the VM at `/vagrant`.
 
-config.**vm**.**box** **=** \"hashicorp/precise64\"
+```bash
+# Verify shared folder
+ls -la /vagrant
+```
 
-config.**vm**.**box\_url** **=**
-\"https://vagrantcloud.com/hashicorp/precise64\"
+To exit the guest shell, type `exit`.
 
-**end**
+---
 
-**Up And SSH**
-==============
+## 4. Lifecycle Operations
 
-It is time to boot your first Vagrant environment. Run the following
-from your terminal:
+```bash
+# Temporarily pause the VM to save host CPU and battery
+vagrant suspend
 
-\$ vagrant up
+# Resume the VM from suspended state
+vagrant resume
 
-In less than a minute, this command will finish and you will have a
-virtual machine running Ubuntu. You will not actually *see* anything
-though, since Vagrant runs the virtual machine without a UI. To prove
-that it is running, you can SSH into the machine:
+# Gracefully shut down the VM
+vagrant halt
 
-\$ vagrant ssh
+# Restart the VM
+vagrant reload
 
-This command will drop you into a full-fledged SSH session. Go ahead and
-interact with the machine and do whatever you want. Although it may be
-tempting, be careful about rm -rf /, since Vagrant shares a directory
-at /vagrant with the directory on the host containing your Vagrantfile,
-and this can delete all those files. Shared folders will be covered in
-the next section.
-
-Take a moment to think what just happened: With just one line of
-configuration and one command in your terminal, we brought up a fully
-functional, SSH accessible virtual machine. Cool. The SSH session can be
-terminated with CTRL+D.
-
-vagrant\@precise64:\~\$ logout
-
-Connection to 127.0.0.1 closed.
-
-When you are done fiddling around with the machine, run vagrant
-destroy back on your host machine, and Vagrant will terminate the use of
-any resources by the virtual machine.
+# Completely remove the VM from disk
+vagrant destroy -f
+```

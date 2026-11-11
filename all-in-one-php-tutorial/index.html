@@ -2399,6 +2399,16 @@ echo &quot;All capstone assertions verified.&quot; . PHP_EOL;
           });
         });
       });
+
+      if (window.location.hostname === 'htmlpreview.github.io') {
+        const ghBlobBase = 'https://github.com/xivig/xivig-all-in-one-notes/blob/master/all-in-one-php-tutorial/';
+        document.querySelectorAll('a[href]').forEach((a) => {
+          const href = a.getAttribute('href') || '';
+          if (!href.startsWith('#') && !href.startsWith('http') && (href.endsWith('.md') || href.endsWith('.php'))) {
+            a.setAttribute('href', ghBlobBase + href);
+          }
+        });
+      }
     });
   </script>
 </body>

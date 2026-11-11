@@ -3,7 +3,7 @@
 [![PHP](https://img.shields.io/badge/PHP-8.0%20--%208.5-777BB4?style=flat-square&logo=php&logoColor=white)](https://www.php.net/)
 [![Chapters](https://img.shields.io/badge/Curriculum-18%20Chapters-6366f1?style=flat-square)](chapters/)
 [![Coding Style](https://img.shields.io/badge/Style-PER%202.0%20%2F%20strict__types-10b981?style=flat-square)](https://www.php-fig.org/per/coding-style/)
-[![Interactive Portal](https://img.shields.io/badge/Portal-Interactive%20Handbook-f59e0b?style=flat-square)](index.html)
+[![Interactive Portal](https://img.shields.io/badge/Portal-Interactive%20Handbook-f59e0b?style=flat-square)](https://htmlpreview.github.io/?https://github.com/xivig/xivig-all-in-one-notes/blob/master/all-in-one-php-tutorial/index.html)
 
 A complete, chapterwise, modern **PHP 8.0–8.5 Developer Handbook & Full Tutorial**—covering everything from Zend Engine fundamentals, strict typing, arrays, and Object-Oriented Architecture to PHP 8.4 Property Hooks, PHP 8.5 Pipe Operators, Web Security, PDO Transactions, Testing, and Clean Architecture.
 
@@ -11,7 +11,7 @@ A complete, chapterwise, modern **PHP 8.0–8.5 Developer Handbook & Full Tutori
 
 ## ⚡ Quick Navigation & Companion Resources
 
-* 🌐 **[Interactive Developer Handbook Portal (`index.html`)](index.html)** — Searchable browser UI with track filters, full chapter previews, PHP 8.0–8.5 timeline, and one-click code copying.
+* 🌐 **Interactive Developer Handbook Portal (`index.html`)** — [Launch Live ↗](https://htmlpreview.github.io/?https://github.com/xivig/xivig-all-in-one-notes/blob/master/all-in-one-php-tutorial/index.html) · [Local (`index.html`)](index.html) — Searchable browser UI with track filters, full chapter previews, PHP 8.0–8.5 timeline, and one-click code copying.
 * ⚡ **[Everyday PHP 8.x Cheatsheet (`CHEATSHEET.md`)](CHEATSHEET.md)** — Condensed one-page desk reference for daily coding.
 * 📖 **[A–Z Technical Glossary (`GLOSSARY.md`)](GLOSSARY.md)** — Authoritative definitions from Asymmetric Visibility to `WeakMap` and Zend OPcache.
 * 📦 **[Composer PSR-4 Manifest (`composer.json`)](composer.json)** — Modern PSR-4 autoloading setup (`App\` namespace).

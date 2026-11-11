@@ -28,7 +28,7 @@ xivig-all-in-one-notes/
 ├── dom-manipulation-guide/                   # Modern Document Object Model (DOM) manual & cheat sheet
 ├── jquery-4-master-curriculum/               # Modern jQuery 4.0.0 16-module curriculum, 7 projects & glossary
 ├── jasmine-unit-testing-guide/               # Jasmine BDD unit testing setup, matchers, and async specs
-├── CreateGithubPages/                        # GitHub Pages deployment (Actions, branch deploys, custom domains)
+├── github-pages-deployment-guide/            # GitHub Pages deployment (Actions, branch deploys, custom domains)
 ├── jekyll-static-site-guide/                 # Jekyll 4.x configuration for Windows (WSL2), macOS, and Linux
 ├── sizzle-and-native-css-selectors/          # Sizzle selector engine history, jQuery 4 removal & modern CSS
 ├── vagrant-docker-vm-setup/                  # Portable dev VMs (Ubuntu 22.04 LTS, Docker CE, synced folders)
@@ -78,7 +78,7 @@ xivig-all-in-one-notes/
 * **Hands-on Projects**: [01. Navigation](jquery-4-master-curriculum/projects/01-interactive-navigation/), [02. Data Table](jquery-4-master-curriculum/projects/02-data-table/), [03. Image Gallery](jquery-4-master-curriculum/projects/03-image-gallery/), [04. Shopping Cart](jquery-4-master-curriculum/projects/04-shopping-cart/), [05. Form Builder](jquery-4-master-curriculum/projects/05-form-builder/), [06. AJAX CRUD](jquery-4-master-curriculum/projects/06-ajax-crud/), [07. Admin Dashboard](jquery-4-master-curriculum/projects/07-admin-dashboard/).
 * **Mastery Resources**: 🏋️ **[Practice Exercises](jquery-4-master-curriculum/exercises/README.md)** · 🎯 **[Interview Questions & Answers](jquery-4-master-curriculum/interview-questions/README.md)** · 📚 **[Reference Archives](jquery-4-master-curriculum/reference/README.md)**.
 
-### 4. 📦 [GitHub Pages Deployment](CreateGithubPages/How-to-create-github-page.md)
+### 4. 📦 [GitHub Pages Deployment](github-pages-deployment-guide/How-to-create-github-page.md)
 * Standard branch deployment from `main` or `/docs`.
 * Automated CI/CD deployment via modern **GitHub Actions** (`actions/deploy-pages@v4`).
 * Bypassing Jekyll build conflicts with the `.nojekyll` configuration file.

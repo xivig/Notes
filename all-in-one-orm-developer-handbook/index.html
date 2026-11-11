@@ -1,0 +1,2188 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comprehensive ORM Handbook — Eloquent vs Doctrine ORM 3</title>
+  <style>
+    :root {
+      --bg: #070b14; --surface: #0f172a; --surface-2: #1e293b; --border: #1e293b;
+      --text: #e2e8f0; --muted: #94a3b8; --accent: #f43f5e; --accent-2: #8b5cf6;
+      --emerald: #10b981; --amber: #f59e0b; --code-bg: #060913; --shadow: 0 12px 32px rgba(0,0,0,0.4);
+    }
+    html[data-theme="light"] {
+      --bg: #f8fafc; --surface: #ffffff; --surface-2: #f1f5f9; --border: #e2e8f0;
+      --text: #0f172a; --muted: #475569; --accent: #e11d48; --accent-2: #6d28d9;
+      --emerald: #059669; --amber: #d97706; --code-bg: #0f172a; --shadow: 0 10px 28px rgba(15,23,42,0.06);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.65;
+    }
+    .scroll-bar { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); z-index: 100; }
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      background: color-mix(in srgb, var(--surface) 88%, transparent); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border); padding: 0.75rem 1.5rem;
+      display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: space-between;
+    }
+    .brand { display: flex; align-items: center; gap: 0.75rem; }
+    .logo {
+      width: 34px; height: 34px; border-radius: 9px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff; font-weight: 800; display: grid; place-items: center; font-size: 0.9rem;
+    }
+    .brand-title { font-weight: 700; font-size: 1rem; }
+    .brand-sub { font-size: 0.75rem; color: var(--muted); display: block; }
+    .controls { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+    .search-input { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 0.45rem 0.85rem; width: 245px; font-size: 0.85rem; }
+    .search-input:focus { outline: 2px solid var(--accent-2); border-color: transparent; }
+    .btn {
+      background: var(--surface-2); color: var(--text); border: 1px solid var(--border); border-radius: 8px;
+      padding: 0.45rem 0.8rem; font-size: 0.8rem; cursor: pointer; font-weight: 600;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;
+    }
+    .btn:hover { border-color: var(--accent-2); }
+    .btn.active { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
+    .layout { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 2rem; padding: 1.5rem; }
+    @media (max-width: 960px) { .layout { grid-template-columns: 1fr; } .sidebar { position: static !important; max-height: none !important; } }
+    .sidebar { position: sticky; top: 76px; align-self: start; max-height: calc(100vh - 96px); overflow-y: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1rem; }
+    .progress-box { margin-bottom: 1rem; padding-bottom: 0.85rem; border-bottom: 1px solid var(--border); }
+    .progress-meta { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--muted); margin-bottom: 0.4rem; }
+    .progress-track { height: 7px; border-radius: 99px; background: var(--surface-2); overflow: hidden; }
+    .progress-fill { height: 100%; width: 0%; background: var(--emerald); transition: width 0.25s ease; }
+    .quick-links { display: grid; grid-template-columns: 1fr 1fr; gap: 0.45rem; margin-bottom: 1rem; }
+    .quick-links a { text-align: center; padding: 0.4rem; border-radius: 7px; font-size: 0.74rem; font-weight: 600; background: var(--surface-2); color: var(--text); text-decoration: none; border: 1px solid var(--border); }
+    .quick-links a:hover { border-color: var(--accent-2); }
+    .nav-list { display: flex; flex-direction: column; gap: 0.25rem; }
+    .nav-item { display: flex; align-items: center; gap: 0.6rem; padding: 0.45rem 0.6rem; border-radius: 8px; text-decoration: none; color: var(--muted); font-size: 0.82rem; }
+    .nav-item:hover { background: var(--surface-2); color: var(--text); }
+    .nav-num { font-family: ui-monospace, monospace; font-size: 0.7rem; background: var(--surface-2); color: var(--text); padding: 0.1rem 0.38rem; border-radius: 5px; }
+    .nav-item.completed .nav-num { background: var(--emerald); color: #fff; }
+    .hero { background: linear-gradient(135deg, rgba(244,63,94,0.14), rgba(139,92,246,0.14)); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem 1.75rem; margin-bottom: 1.5rem; }
+    .hero h1 { margin: 0 0 0.4rem; font-size: 1.65rem; }
+    .hero p { margin: 0 0 1rem; color: var(--muted); max-width: 78ch; }
+    .filter-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .chapter-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 1.75rem; box-shadow: var(--shadow); overflow: hidden; scroll-margin-top: 84px; }
+    .chapter-head { padding: 1.25rem 1.5rem 1rem; border-bottom: 1px solid var(--border); }
+    .chapter-meta { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.5rem; margin-bottom: 0.55rem; }
+    .track-badge { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 0.2rem 0.55rem; border-radius: 99px; }
+    .track-1 { background: rgba(244,63,94,0.18); color: #fda4af; }
+    .track-2 { background: rgba(139,92,246,0.18); color: #c4b5fd; }
+    .track-3 { background: rgba(16,185,129,0.18); color: #6ee7b7; }
+    .track-compare { background: rgba(14,165,233,0.18); color: #7dd3fc; }
+    .track-quiz { background: rgba(245,158,11,0.18); color: #fcd34d; }
+    html[data-theme="light"] .track-1 { color: #be123c; }
+    html[data-theme="light"] .track-2 { color: #6d28d9; }
+    html[data-theme="light"] .track-3 { color: #047857; }
+    html[data-theme="light"] .track-compare { color: #0369a1; }
+    html[data-theme="light"] .track-quiz { color: #b45309; }
+    .source-link, .md-link { color: var(--accent-2); text-decoration: none; font-weight: 600; font-size: 0.85rem; }
+    .source-link:hover, .md-link:hover { text-decoration: underline; }
+    .title-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; }
+    .title-row h2 { margin: 0; font-size: 1.28rem; }
+    .ch-prefix { color: var(--accent); font-family: ui-monospace, monospace; }
+    .done-toggle { border: 1px solid var(--border); background: var(--surface-2); color: var(--muted); padding: 0.35rem 0.75rem; border-radius: 8px; font-size: 0.78rem; font-weight: 600; cursor: pointer; }
+    .done-toggle.is-done { background: var(--emerald); border-color: var(--emerald); color: #fff; }
+    .chapter-body { padding: 1.25rem 1.5rem 1.5rem; }
+    .chapter-body h2 { font-size: 1.12rem; margin: 1.35rem 0 0.55rem; color: var(--text); }
+    .chapter-body h3 { font-size: 0.98rem; margin: 1rem 0 0.4rem; color: var(--muted); }
+    .chapter-body p { margin: 0.55rem 0; }
+    .chapter-body ul, .chapter-body ol { padding-left: 1.35rem; margin: 0.5rem 0 0.85rem; }
+    code { font-family: ui-monospace, Consolas, monospace; font-size: 0.86em; background: var(--surface-2); padding: 0.12rem 0.36rem; border-radius: 5px; }
+    .code-block { margin: 0.85rem 0; border-radius: 10px; overflow: hidden; border: 1px solid #1e293b; background: var(--code-bg); }
+    .code-head, .code-column-header { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0.85rem; background: #131c2e; border-bottom: 1px solid #1e293b; }
+    .code-lang { font-size: 0.7rem; font-weight: 700; color: #94a3b8; font-family: ui-monospace, monospace; }
+    .copy-btn { background: #1e293b; color: #e2e8f0; border: 1px solid #334155; border-radius: 6px; padding: 0.2rem 0.55rem; font-size: 0.72rem; cursor: pointer; }
+    .copy-btn:hover { background: var(--accent-2); border-color: var(--accent-2); }
+    .code-block pre, .code-column pre { margin: 0; padding: 0.9rem 1rem; overflow-x: auto; color: #e2e8f0; font-size: 0.84rem; line-height: 1.55; }
+    .code-block pre code, .code-column pre code { background: transparent; padding: 0; color: inherit; }
+    .table-wrap { overflow-x: auto; margin: 0.85rem 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    th, td { border: 1px solid var(--border); padding: 0.55rem 0.75rem; text-align: left; vertical-align: top; }
+    th { background: var(--surface-2); font-weight: 700; }
+    .callout { padding: 0.85rem 1rem; border-radius: 10px; margin: 0.9rem 0; border-left: 4px solid var(--accent-2); background: var(--surface-2); font-size: 0.9rem; }
+    .callout-tip { border-left-color: var(--emerald); }
+    .callout-warning, .callout-caution { border-left-color: var(--amber); }
+    .callout-important { border-left-color: var(--accent); }
+    .labs-box { margin-top: 1.35rem; padding-top: 1rem; border-top: 1px dashed var(--border); }
+    .labs-box h3 { margin-top: 0; color: var(--emerald); }
+    .lab-details { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 0.6rem 0.85rem; margin-bottom: 0.6rem; }
+    .lab-details summary { cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+    /* Side-by-Side Comparison Matrix */
+    .stage-container { margin-bottom: 1.4rem; }
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
+    .section-header h2 { margin: 0; font-size: 1.05rem; }
+    .badge-count { font-size: 0.75rem; font-weight: 700; color: var(--muted); background: var(--surface-2); padding: 0.15rem 0.55rem; border-radius: 99px; }
+    .cards-container { display: flex; flex-direction: column; gap: 1rem; }
+    .comparison-card { border: 1px solid var(--border); border-radius: 12px; padding: 1rem; background: var(--surface-2); display: flex; flex-direction: column; gap: 0.6rem; }
+    .card-meta { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .card-topic-title { font-weight: 700; font-size: 1rem; }
+    .card-stage-badge { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; padding: 0.15rem 0.5rem; border-radius: 6px; background: rgba(139,92,246,0.16); color: #c4b5fd; }
+    html[data-theme="light"] .card-stage-badge { color: #6d28d9; }
+    .card-description { margin: 0; font-size: 0.88rem; color: var(--muted); }
+    .split-code-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+    @media (max-width: 760px) { .split-code-grid { grid-template-columns: 1fr; } }
+    .code-column { border: 1px solid #1e293b; border-radius: 10px; overflow: hidden; background: var(--code-bg); }
+    .brand-badge { font-size: 0.72rem; font-weight: 700; }
+    .brand-laravel { color: #fda4af; }
+    .brand-symfony { color: #c4b5fd; }
+    .quiz-card { border: 1px solid var(--border); border-radius: 10px; padding: 1rem; margin: 0.75rem 0; background: var(--surface-2); }
+    .quiz-card label { display: block; padding: 0.28rem 0; cursor: pointer; font-size: 0.9rem; }
+    .quiz-fb { margin-top: 0.45rem; font-size: 0.86rem; font-weight: 600; }
+    .quiz-header { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+    .hidden { display: none !important; }
+    .empty-state { text-align: center; padding: 3rem 1.5rem; background: var(--surface); border: 1px dashed var(--border); border-radius: 14px; color: var(--muted); }
+    @media print { .topbar, .sidebar, .copy-btn, .done-toggle, .filter-pills { display: none !important; } .layout { display: block; } }
+  </style>
+</head>
+<body>
+  <div class="scroll-bar" id="scrollBar"></div>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">O</div>
+      <div>
+        <span class="brand-title">Comprehensive ORM Handbook</span>
+        <span class="brand-sub">Eloquent (Active Record) vs Doctrine 3 (Data Mapper) &bull; 12 Chapters, Compare Matrix &amp; SQLite Labs</span>
+      </div>
+    </div>
+    <div class="controls">
+      <input type="search" id="searchInput" class="search-input" placeholder="Search ORM patterns (press /)...">
+      <button type="button" class="btn" id="themeBtn" onclick="toggleTheme()">Light Mode</button>
+      <a class="btn" href="./CHEATSHEET.md">Cheatsheet</a>
+      <a class="btn" href="./README.md">README</a>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="progress-box">
+        <div class="progress-meta">
+          <span>Handbook Progress</span>
+          <strong id="progressLabel">0 / 12</strong>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+      <div class="quick-links">
+        <a href="#compare-section">Compare (VS)</a>
+        <a href="./CHEATSHEET.md">Cheatsheet</a>
+        <a href="./GLOSSARY.md">Glossary</a>
+        <a href="./run-all-examples.php">Lab Runner</a>
+        <a href="#quiz-section">Mastery Quiz</a>
+        <a href="./README.md">Repo Map</a>
+      </div>
+      <nav class="nav-list" id="sidebarNav">
+<a class="nav-item" href="#ch-01" data-track="track-1"><span class="nav-num">01</span><span class="nav-title">ORM Architectures, Impedance Mismatch &amp; Setup</span></a>
+<a class="nav-item" href="#ch-02" data-track="track-1"><span class="nav-num">02</span><span class="nav-title">Defining Models, Entities &amp; Value Objects</span></a>
+<a class="nav-item" href="#ch-03" data-track="track-1"><span class="nav-num">03</span><span class="nav-title">Persisting, Updating, Upserts &amp; Entity States</span></a>
+<a class="nav-item" href="#ch-04" data-track="track-1"><span class="nav-num">04</span><span class="nav-title">Querying Data, Scopes, DQL &amp; Raw SQL Safety</span></a>
+<a class="nav-item" href="#ch-05" data-track="track-2"><span class="nav-num">05</span><span class="nav-title">Associations, Polymorphic Models &amp; N+1 Elimination</span></a>
+<a class="nav-item" href="#ch-06" data-track="track-2"><span class="nav-num">06</span><span class="nav-title">Aggregations, Grouping &amp; DTO Projections</span></a>
+<a class="nav-item" href="#ch-07" data-track="track-2"><span class="nav-num">07</span><span class="nav-title">ACID Transactions, Savepoints &amp; Concurrency Locks</span></a>
+<a class="nav-item" href="#ch-08" data-track="track-2"><span class="nav-num">08</span><span class="nav-title">Mutators, Accessors, Observers &amp; Lifecycle Hooks</span></a>
+<a class="nav-item" href="#ch-09" data-track="track-3"><span class="nav-num">09</span><span class="nav-title">Sorting, Offset Traps &amp; Cursor Pagination</span></a>
+<a class="nav-item" href="#ch-10" data-track="track-3"><span class="nav-num">10</span><span class="nav-title">Hydration, Memory Streaming &amp; Caching Tuning</span></a>
+<a class="nav-item" href="#ch-11" data-track="track-3"><span class="nav-num">11</span><span class="nav-title">Schema Migrations, Indexing &amp; ORM Testing</span></a>
+<a class="nav-item" href="#ch-12" data-track="track-3"><span class="nav-num">12</span><span class="nav-title">Clean Architecture, CQRS Split &amp; Playbook</span></a>
+<a class="nav-item" href="#compare-section" data-track="track-compare"><span class="nav-num">VS</span><span class="nav-title">Eloquent vs Doctrine Matrix</span></a>
+<a class="nav-item" href="#quiz-section" data-track="track-quiz"><span class="nav-num">QZ</span><span class="nav-title">ORM Mastery Quiz (12 Qs)</span></a>
+
+      </nav>
+    </aside>
+
+    <main>
+      <section class="hero">
+        <h1>Complete ORM Engineering Handbook &amp; Architecture Guide</h1>
+        <p>Zero-duplicate reference uniting Active Record (Laravel 12/13 Eloquent) vs Data Mapper + Unit of Work (Symfony Doctrine ORM 3): Identity Maps, Value Objects, Polymorphic &amp; Inheritance modeling, N+1 elimination, ACID Savepoints &amp; Concurrency Locks, Cursor Pagination, Streaming Hydration, Migrations, Testing, and CQRS Read/Write splits.</p>
+        <div class="filter-pills">
+          <button type="button" class="btn active" onclick="setTrack('all', this)">All (12 + VS + Quiz)</button>
+          <button type="button" class="btn" onclick="setTrack('track-1', this)">Track 1: Foundations &amp; CRUD</button>
+          <button type="button" class="btn" onclick="setTrack('track-2', this)">Track 2: Relations &amp; Locks</button>
+          <button type="button" class="btn" onclick="setTrack('track-3', this)">Track 3: Scale &amp; Architecture</button>
+          <button type="button" class="btn" onclick="setTrack('track-compare', this)">Eloquent vs Doctrine (12)</button>
+          <button type="button" class="btn" onclick="setTrack('track-quiz', this)">Mastery Quiz (12)</button>
+        </div>
+      </section>
+
+      <div id="chaptersContainer">
+<article class="chapter-card" id="ch-01" data-track="track-1"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-1">Track 1: Foundations &amp; CRUD</span><a class="source-link" href="./chapters/01_orm_setup.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">01.</span> ORM Architectures, Impedance Mismatch &amp; Setup</h2><button type="button" class="done-toggle" data-ch="ch-01" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>An <strong>Object-Relational Mapper (ORM)</strong> bridges object-oriented domain models in memory with relational tables stored on disk. Choosing between <strong>Active Record (Laravel Eloquent)</strong> and <strong>Data Mapper (Symfony Doctrine ORM 3)</strong> shapes your domain boundaries, testability, performance profile, and migration strategy for years.</p>
+<h2>1. The Object-Relational Impedance Mismatch</h2>
+<p>Relational databases think in <strong>sets, normalized tables, foreign keys, and scalar types</strong>, whereas OOP applications think in <strong>object graphs, behavior, inheritance, and reference identity (<code>===</code>)</strong>:</p>
+<div class="table-wrap"><table><thead><tr><th>Dimension</th><th>Relational Database (SQL)</th><th>OOP Domain Objects (PHP 8.3–8.5)</th><th>How ORMs Bridge It</th></tr></thead><tbody><tr><td><strong>Identity</strong></td><td>Primary key value (<code>id = 42</code>)</td><td>Object instance handle (<code>spl_object_id</code>)</td><td>Identity Map (Doctrine) or PK hydration (Eloquent)</td></tr><tr><td><strong>Granularity</strong></td><td>Flat scalar columns (<code>amount_cents</code>, <code>currency</code>)</td><td>Value Objects (<code>Money</code>), Backed Enums, DTOs</td><td><code>casts()</code> / Custom Casts (Eloquent) or <code>#[ORM\Embedded]</code> (Doctrine)</td></tr><tr><td><strong>Associations</strong></td><td>Foreign keys &amp; junction tables</td><td>Object references (<code>$post-&gt;author</code>) &amp; Collections</td><td>Lazy Proxies, Batched <code>WHERE IN (...)</code> or <code>JOIN FETCH</code></td></tr><tr><td><strong>Inheritance</strong></td><td>None natively</td><td>Subclasses &amp; Interfaces</td><td>Single Table / Class Table Inheritance (<code>DiscriminatorMap</code>)</td></tr><tr><td><strong>Concurrency</strong></td><td>Locks, MVCC snapshots &amp; transactions</td><td>Mutable in-memory state</td><td>Transactions, <code>lockForUpdate()</code>, optimistic <code>version</code> checks</td></tr></tbody></table></div>
+<h2>2. Active Record vs Data Mapper Architecture</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">TEXT</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-text">ACTIVE RECORD (Laravel Eloquent, Rails ActiveRecord)
+  UserController -&gt; $product = Product::find(1);
+                    $product-&gt;price = 1999;
+                    $product-&gt;save();   // Model inherits SQL persistence methods directly
+
+DATA MAPPER + UNIT OF WORK (Symfony Doctrine ORM 3, Hibernate)
+  UserController -&gt; $product = $entityManager-&gt;find(Product::class, 1);
+                    $product-&gt;applyDiscount(10); // Plain PHP object (no SQL parent class!)
+                    $entityManager-&gt;flush();     // UnitOfWork diffs snapshot -&gt; wraps SQL UPDATEs in transaction</code></pre></div>
+<div class="table-wrap"><table><thead><tr><th>Architectural Axis</th><th>Active Record (<strong>Eloquent</strong>)</th><th>Data Mapper (<strong>Doctrine ORM 3</strong>)</th></tr></thead><tbody><tr><td><strong>Model Class Coupling</strong></td><td>Extends <code>Illuminate\Database\Eloquent\Model</code></td><td>Pure POPO class (<code>#[ORM\Entity]</code>) — zero DB imports needed in methods</td></tr><tr><td><strong>Identity Guarantee</strong></td><td>Two <code>find(1)</code> calls create <strong>two distinct PHP objects</strong> (<code>$a !== $b</code>)</td><td><strong>Identity Map</strong> returns the <strong>exact same PHP instance</strong> (<code>$a === $b</code>) per EM</td></tr><tr><td><strong>Persistence Timing</strong></td><td>Immediate SQL per <code>save()</code> / <code>delete()</code></td><td>Deferred in <strong>Unit of Work</strong>; single transactional batch on <code>flush()</code></td></tr><tr><td><strong>Rapid Prototyping / CRUD</strong></td><td>Unmatched speed (<code>Post::create($data)</code>)</td><td>More setup (<code>persist()</code> + <code>flush()</code> + Repository classes)</td></tr><tr><td><strong>Complex Domain Invariants (DDD)</strong></td><td>Tempts &quot;fat God Models&quot; and bypassed setters</td><td>Protects invariants in constructor &amp; domain methods cleanly</td></tr></tbody></table></div>
+<div class="callout callout-note"><strong>Try It Locally:</strong> Run <a href="./labs/01_activerecord_vs_datamapper.php" class="md-link"><code>labs/01_activerecord_vs_datamapper.php</code></a> to watch ActiveRecord duplicate instances vs DataMapper Identity Map + Unit-of-Work dirty-checking execute on SQLite PDO!</div>
+<h2>3. Multi-Language ORM Ecosystem Comparison</h2>
+<div class="table-wrap"><table><thead><tr><th>Concept / Feature</th><th><strong>Laravel Eloquent (PHP)</strong></th><th><strong>Doctrine ORM 3 (PHP)</strong></th><th><strong>SQLAlchemy 2 (Python)</strong></th><th><strong>Prisma / Drizzle (TypeScript)</strong></th></tr></thead><tbody><tr><td><strong>Core Pattern</strong></td><td>Active Record</td><td>Data Mapper + Unit of Work</td><td>Data Mapper + <code>Session</code></td><td>Client / Schema-first Data Access</td></tr><tr><td><strong>Mapping Source</strong></td><td>Migrations + <code>$fillable</code>/<code>casts()</code></td><td>PHP 8 Attributes (<code>#[ORM\Column]</code>)</td><td><code>Mapped[T] = mapped_column(...)</code></td><td><code>schema.prisma</code> / TS schema objects</td></tr><tr><td><strong>Lazy Loading Default</strong></td><td>Lazy (disable via <code>preventLazyLoading</code>)</td><td>Proxy-based lazy</td><td><code>lazy=&quot;select&quot;</code> (<code>selectinload</code> recommended)</td><td>Explicit <code>include</code> / <code>with</code> required</td></tr><tr><td><strong>N+1 Prevention</strong></td><td><code>with([&#039;author&#039;])</code> (<code>WHERE IN</code>)</td><td>DQL <code>JOIN FETCH</code> or batching</td><td><code>options(selectinload(...))</code></td><td><code>include: { author: true }</code></td></tr></tbody></table></div>
+<h2>4. Installation, Connection Setup &amp; Strict Safety Defaults</h2>
+<h3>Laravel 12 / 13 (Eloquent Built-In)</h3>
+<p>Configure <code>.env</code> and <code>config/database.php</code> (<code>sqlite</code>, <code>mysql</code>, <code>pgsql</code>, <code>sqlsrv</code>):</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">ENV</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-env">DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=electro_shop
+DB_USERNAME=app_user
+DB_PASSWORD=secret</code></pre></div>
+<p>Turn on <strong>Strict Mode</strong> inside <code>AppServiceProvider::boot()</code> so Eloquent catches silent bugs immediately during development:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">use Illuminate\Database\Eloquent\Model;
+
+public function boot(): void
+{
+    // Enables preventLazyLoading(), preventSilentlyDiscardingAttributes(),
+    // and preventAccessingMissingAttributes() in local/testing environments:
+    Model::shouldBeStrict(! app()-&gt;isProduction());
+}</code></pre></div>
+<h3>Symfony 7.x / Standalone Doctrine ORM 3</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash"># Inside Symfony:
+composer require symfony/orm-pack symfony/maker-bundle --dev
+
+# Or standalone Doctrine ORM 3 + DBAL 4 in any PHP 8.3+ project:
+composer require doctrine/orm doctrine/dbal symfony/cache</code></pre></div>
+<p><code>.env</code> connection DSN and <code>config/packages/doctrine.yaml</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">ENV</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-env">DATABASE_URL=&quot;postgresql://app_user:secret@127.0.0.1:5432/electro_shop?serverVersion=16&amp;charset=utf8&quot;</code></pre></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">YAML</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-yaml">doctrine:
+  dbal:
+    url: &#039;%env(resolve:DATABASE_URL)%&#039;
+  orm:
+    enable_lazy_ghost_objects: true
+    auto_mapping: true</code></pre></div>
+<p><em>(In production, enable Doctrine&#039;s metadata, query, and result caches backed by APCu or Redis rather than parsing PHP attributes per request!)</em></p>
+<h2>Key Takeaways</h2>
+<ul><li>Eloquent optimizes <strong>developer velocity</strong> (Model = table gateway + row); Doctrine optimizes <strong>domain decoupling, Identity Map consistency, and batched transactional writes</strong>.</li><li>Always activate <code>Model::shouldBeStrict(! app()-&gt;isProduction())</code> in Laravel to surface N+1 loops, typos in attribute names, and unfillable properties before code ever reaches production.</li></ul>
+<div class="callout callout-note"><strong>Next:</strong> <a href="#ch-02" class="md-link">Chapter 2 — Defining Models, Entities &amp; Value Objects</a></div><div class="labs-box"><h3>Verified Runnable SQLite PDO Lab</h3><details class="lab-details"><summary><span><code>labs/01_activerecord_vs_datamapper.php</code></span><span class="lab-link-wrap"><a href="./labs/01_activerecord_vs_datamapper.php" class="md-link" onclick="event.stopPropagation()">Open PHP Lab &rarr;</a></span></summary><div class="code-block"><div class="code-head"><span class="code-lang">PHP &middot; 01_activerecord_vs_datamapper.php</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Lab 01 — Mini ActiveRecord (Eloquent style) vs Mini DataMapper + Identity Map (Doctrine style)
+ * Run: php labs/01_activerecord_vs_datamapper.php
+ */
+
+$pdo = new PDO(&#039;sqlite::memory:&#039;, null, null, [
+    PDO::ATTR_ERRMODE =&gt; PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE =&gt; PDO::FETCH_ASSOC,
+]);
+
+$pdo-&gt;exec(&#039;CREATE TABLE products (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sku TEXT NOT NULL UNIQUE,
+    name TEXT NOT NULL,
+    price_cents INTEGER NOT NULL
+)&#039;);
+
+// ============================================================================
+// PART A: Mini ActiveRecord (Row + Persistence live inside Model class)
+// ============================================================================
+abstract class ActiveRecordModel
+{
+    public static ?PDO $db = null;
+    public ?int $id = null;
+
+    protected static function table(): string
+    {
+        return strtolower((new ReflectionClass(static::class))-&gt;getShortName()) . &#039;s&#039;;
+    }
+}
+
+final class ActiveProduct extends ActiveRecordModel
+{
+    public function __construct(
+        public string $sku,
+        public string $name,
+        public int $price_cents,
+    ) {}
+
+    public function save(): void
+    {
+        if ($this-&gt;id === null) {
+            $stmt = self::$db-&gt;prepare(&#039;INSERT INTO products (sku, name, price_cents) VALUES (?, ?, ?)&#039;);
+            $stmt-&gt;execute([$this-&gt;sku, $this-&gt;name, $this-&gt;price_cents]);
+            $this-&gt;id = (int) self::$db-&gt;lastInsertId();
+            return;
+        }
+        $stmt = self::$db-&gt;prepare(&#039;UPDATE products SET name = ?, price_cents = ? WHERE id = ?&#039;);
+        $stmt-&gt;execute([$this-&gt;name, $this-&gt;price_cents, $this-&gt;id]);
+    }
+
+    public static function find(int $id): ?self
+    {
+        $stmt = self::$db-&gt;prepare(&#039;SELECT * FROM products WHERE id = ?&#039;);
+        $stmt-&gt;execute([$id]);
+        $row = $stmt-&gt;fetch();
+        if (! $row) {
+            return null;
+        }
+        $m = new self($row[&#039;sku&#039;], $row[&#039;name&#039;], (int) $row[&#039;price_cents&#039;]);
+        $m-&gt;id = (int) $row[&#039;id&#039;];
+        return $m;
+    }
+}
+
+ActiveRecordModel::$db = $pdo;
+
+$ar1 = new ActiveProduct(&#039;SKU-100&#039;, &#039;Mechanical Keyboard&#039;, 12900);
+$ar1-&gt;save();
+$arA = ActiveProduct::find($ar1-&gt;id);
+$arB = ActiveProduct::find($ar1-&gt;id);
+
+// Without an Identity Map, two finds return TWO distinct PHP instances in memory:
+assert($arA !== $arB, &#039;Naive ActiveRecord creates fresh instances per query.&#039;);
+$arA-&gt;price_cents = 11900;
+$arA-&gt;save();
+echo &quot;[ActiveRecord] Saved #{$ar1-&gt;id}; \$arA === \$arB? &quot; . ($arA === $arB ? &#039;true&#039; : &#039;false&#039;) . &quot; (arB price in RAM: {$arB-&gt;price_cents})\n&quot;;
+
+// ============================================================================
+// PART B: Mini DataMapper + Unit of Work + Identity Map (Domain decoupled from SQL)
+// ============================================================================
+final class DomainProduct
+{
+    private ?int $id = null;
+
+    public function __construct(
+        private string $sku,
+        private string $name,
+        private int $priceCents,
+    ) {
+        if ($priceCents &lt; 0) {
+            throw new InvalidArgumentException(&#039;Price cannot be negative.&#039;);
+        }
+    }
+
+    public function id(): ?int { return $this-&gt;id; }
+    public function sku(): string { return $this-&gt;sku; }
+    public function name(): string { return $this-&gt;name; }
+    public function priceCents(): int { return $this-&gt;priceCents; }
+
+    public function applyDiscount(int $percent): void
+    {
+        $this-&gt;priceCents = (int) round($this-&gt;priceCents * (100 - $percent) / 100);
+    }
+
+    /** @internal Hydrated by EntityManager only */
+    public function bindDatabaseId(int $id): void { $this-&gt;id = $id; }
+}
+
+final class MiniEntityManager
+{
+    /** @var array&lt;int, DomainProduct&gt; */
+    private array $identityMap = [];
+    /** @var array&lt;int, DomainProduct&gt; */
+    private array $newQueue = [];
+    /** @var array&lt;int, array{sku: string, name: string, priceCents: int}&gt; */
+    private array $originalSnapshot = [];
+
+    public int $flushQueries = 0;
+
+    public function __construct(private readonly PDO $pdo) {}
+
+    public function persist(DomainProduct $entity): void
+    {
+        if ($entity-&gt;id() === null) {
+            $this-&gt;newQueue[spl_object_id($entity)] = $entity;
+        }
+    }
+
+    public function find(int $id): ?DomainProduct
+    {
+        if (isset($this-&gt;identityMap[$id])) {
+            return $this-&gt;identityMap[$id]; // Identity Map hit: zero SQL query!
+        }
+
+        $stmt = $this-&gt;pdo-&gt;prepare(&#039;SELECT * FROM products WHERE id = ?&#039;);
+        $stmt-&gt;execute([$id]);
+        $row = $stmt-&gt;fetch();
+        if (! $row) {
+            return null;
+        }
+
+        $entity = new DomainProduct($row[&#039;sku&#039;], $row[&#039;name&#039;], (int) $row[&#039;price_cents&#039;]);
+        $entity-&gt;bindDatabaseId((int) $row[&#039;id&#039;]);
+        $this-&gt;identityMap[(int) $row[&#039;id&#039;]] = $entity;
+        $this-&gt;originalSnapshot[(int) $row[&#039;id&#039;]] = [
+            &#039;sku&#039; =&gt; $entity-&gt;sku(),
+            &#039;name&#039; =&gt; $entity-&gt;name(),
+            &#039;priceCents&#039; =&gt; $entity-&gt;priceCents(),
+        ];
+
+        return $entity;
+    }
+
+    public function flush(): void
+    {
+        $this-&gt;pdo-&gt;beginTransaction();
+        try {
+            // 1. Insert queued new entities
+            foreach ($this-&gt;newQueue as $entity) {
+                $stmt = $this-&gt;pdo-&gt;prepare(&#039;INSERT INTO products (sku, name, price_cents) VALUES (?, ?, ?)&#039;);
+                $stmt-&gt;execute([$entity-&gt;sku(), $entity-&gt;name(), $entity-&gt;priceCents()]);
+                $newId = (int) $this-&gt;pdo-&gt;lastInsertId();
+                $entity-&gt;bindDatabaseId($newId);
+                $this-&gt;identityMap[$newId] = $entity;
+                $this-&gt;originalSnapshot[$newId] = [
+                    &#039;sku&#039; =&gt; $entity-&gt;sku(),
+                    &#039;name&#039; =&gt; $entity-&gt;name(),
+                    &#039;priceCents&#039; =&gt; $entity-&gt;priceCents(),
+                ];
+                $this-&gt;flushQueries++;
+            }
+            $this-&gt;newQueue = [];
+
+            // 2. Dirty-checking: only UPDATE entities whose snapshot changed!
+            foreach ($this-&gt;identityMap as $id =&gt; $entity) {
+                $orig = $this-&gt;originalSnapshot[$id];
+                if ($orig[&#039;name&#039;] !== $entity-&gt;name() || $orig[&#039;priceCents&#039;] !== $entity-&gt;priceCents()) {
+                    $stmt = $this-&gt;pdo-&gt;prepare(&#039;UPDATE products SET name = ?, price_cents = ? WHERE id = ?&#039;);
+                    $stmt-&gt;execute([$entity-&gt;name(), $entity-&gt;priceCents(), $id]);
+                    $this-&gt;originalSnapshot[$id][&#039;name&#039;] = $entity-&gt;name();
+                    $this-&gt;originalSnapshot[$id][&#039;priceCents&#039;] = $entity-&gt;priceCents();
+                    $this-&gt;flushQueries++;
+                }
+            }
+
+            $this-&gt;pdo-&gt;commit();
+        } catch (Throwable $e) {
+            $this-&gt;pdo-&gt;rollBack();
+            throw $e;
+        }
+    }
+}
+
+$em = new MiniEntityManager($pdo);
+$dm = new DomainProduct(&#039;SKU-200&#039;, &#039;USB-C Dock&#039;, 8000);
+$em-&gt;persist($dm);
+$em-&gt;flush(); // Executes 1 batched INSERT
+
+$dmA = $em-&gt;find($dm-&gt;id());
+$dmB = $em-&gt;find($dm-&gt;id());
+assert($dmA === $dmB, &#039;DataMapper Identity Map guarantees single object identity === per PK.&#039;);
+
+$dmA-&gt;applyDiscount(25); // Changes price in RAM from 8000 -&gt; 6000 without SQL yet!
+$em-&gt;flush();            // Dirty-checker detects price change and issues 1 UPDATE!
+
+assert($dmB-&gt;priceCents() === 6000, &#039;Identity Map reflects updated state identically across references.&#039;);
+echo &quot;[DataMapper] Identity === preserved? true | Final price after 25% discount: {$dmB-&gt;priceCents()} cents | Flush SQL writes: {$em-&gt;flushQueries}\n&quot;;</code></pre></div></details></div></div></article>
+<article class="chapter-card" id="ch-02" data-track="track-1"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-1">Track 1: Foundations &amp; CRUD</span><a class="source-link" href="./chapters/02_models_entities.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">02.</span> Defining Models, Entities &amp; Value Objects</h2><button type="button" class="done-toggle" data-ch="ch-02" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>How you map database columns to PHP types determines type safety, domain clarity, and defense against invalid states. This chapter compares <strong>Laravel 12/13 Models + Casts + PHP Attributes</strong> side by side with <strong>Doctrine ORM 3 PHP 8 Attributes + Embeddable Value Objects</strong>.</p>
+<h2>1. Laravel Eloquent Model (<code>App\Models\Product</code>)</h2>
+<p>In Laravel, database columns live in <strong>migrations</strong> (<code>database/migrations/</code>), while runtime coercion, mutability rules, and visibility live cleanly in the <code>Model</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">&lt;?php
+
+declare(strict_types=1);
+
+namespace App\Models;
+
+use App\Enums\ProductStatus;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Attributes\Table;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+// Laravel 13 PHP Attributes work alongside classic $fillable / $hidden properties
+#[Table(name: &#039;products&#039;)]
+#[Fillable([&#039;sku&#039;, &#039;name&#039;, &#039;price_cents&#039;, &#039;status&#039;, &#039;metadata&#039;, &#039;published_at&#039;])]
+#[Hidden([&#039;internal_cost_cents&#039;])]
+final class Product extends Model
+{
+    use HasFactory, HasUuids, SoftDeletes;
+
+    /** Tell HasUuids which secondary column uses UUID if id remains BIGINT: */
+    public function uniqueIds(): array
+    {
+        return [&#039;public_uuid&#039;];
+    }
+
+    /** PHP 8 Backed Enum, JSON, immutable datetime &amp; boolean casting: */
+    protected function casts(): array
+    {
+        return [
+            &#039;price_cents&#039; =&gt; &#039;integer&#039;,
+            &#039;status&#039; =&gt; ProductStatus::class,
+            &#039;metadata&#039; =&gt; &#039;array&#039;,
+            &#039;published_at&#039; =&gt; &#039;immutable_datetime&#039;,
+        ];
+    }
+}</code></pre></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">enum ProductStatus: string
+{
+    case Draft = &#039;draft&#039;;
+    case Active = &#039;active&#039;;
+    case Archived = &#039;archived&#039;;
+}</code></pre></div>
+<h2>2. Doctrine ORM 3 Entity + Value Objects (<code>#[ORM\Entity]</code>)</h2>
+<p>Doctrine makes the PHP Entity the <strong>single source of truth</strong> for schema structure (<code>doctrine:migrations:diff</code> generates SQL migrations by diffing your PHP attributes against the DB):</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">&lt;?php
+
+declare(strict_types=1);
+
+namespace App\Entity;
+
+use App\Enum\ProductStatus;
+use App\Repository\ProductRepository;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Embeddable]
+final readonly class Money
+{
+    public function __construct(
+        #[ORM\Column(type: Types::INTEGER)]
+        public int $amountCents,
+        #[ORM\Column(length: 3)]
+        public string $currency = &#039;USD&#039;,
+    ) {
+        if ($amountCents &lt; 0) {
+            throw new \InvalidArgumentException(&#039;Money amount cannot be negative.&#039;);
+        }
+    }
+}
+
+#[ORM\Entity(repositoryClass: ProductRepository::class)]
+#[ORM\Table(name: &#039;products&#039;)]
+#[ORM\Index(name: &#039;idx_products_status_created&#039;, columns: [&#039;status&#039;, &#039;created_at&#039;])]
+#[ORM\UniqueConstraint(name: &#039;uniq_products_sku&#039;, columns: [&#039;sku&#039;])]
+final class Product
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: Types::BIGINT)]
+    private ?int $id = null;
+
+    #[ORM\Embedded(class: Money::class, columnPrefix: &#039;price_&#039;)]
+    private Money $price; // Persists as price_amount_cents + price_currency!
+
+    #[ORM\Column(length: 20, enumType: ProductStatus::class)]
+    private ProductStatus $status = ProductStatus::Draft;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private \DateTimeImmutable $createdAt;
+
+    public function __construct(
+        #[ORM\Column(length: 40)]
+        private string $sku,
+        #[ORM\Column(length: 180)]
+        private string $name,
+        Money $price,
+    ) {
+        $this-&gt;price = $price;
+        $this-&gt;createdAt = new \DateTimeImmutable();
+    }
+
+    public function id(): ?int { return $this-&gt;id; }
+    public function price(): Money { return $this-&gt;price; }
+}</code></pre></div>
+<h2>3. Primary Keys, Timestamps, Soft Deletes &amp; Cast Comparison</h2>
+<div class="table-wrap"><table><thead><tr><th>Mapping Concern</th><th>Laravel Eloquent</th><th>Symfony Doctrine ORM 3</th></tr></thead><tbody><tr><td><strong>Auto-Increment BigInt</strong></td><td><code>$table-&gt;id();</code> (default <code>int</code>)</td><td><code>#[ORM\Id] #[ORM\GeneratedValue] #[ORM\Column(type: Types::BIGINT)]</code></td></tr><tr><td><strong>UUIDv7 / ULID</strong></td><td><code>use HasUuids;</code> or <code>use HasUlids;</code></td><td><code>#[ORM\Id] #[ORM\Column(type: &#039;uuid&#039;)]</code> (<code>symfony/uid</code> <code>Uuid::v7()</code>)</td></tr><tr><td><strong>Enums</strong></td><td><code>&#039;status&#039; =&gt; ProductStatus::class</code> in <code>casts()</code></td><td><code>#[ORM\Column(enumType: ProductStatus::class)]</code></td></tr><tr><td><strong>Value Objects</strong></td><td><code>AsArrayObject</code> / custom <code>CastsAttributes</code> class</td><td><code>#[ORM\Embeddable]</code> + <code>#[ORM\Embedded]</code> (flattens into columns natively!)</td></tr><tr><td><strong>Decimals vs Money</strong></td><td>Store integer cents (<code>INTEGER</code>/<code>BIGINT</code>) or <code>&#039;decimal:2&#039;</code> cast</td><td>Store integer cents inside immutable <code>Money</code> Embeddable or <code>Types::DECIMAL</code></td></tr><tr><td><strong>Soft Deletes</strong></td><td>Built-in <code>use SoftDeletes;</code> + <code>$table-&gt;softDeletes();</code></td><td><code>gedmo/doctrine-extensions</code> <code>@SoftDeleteable</code> SQL filter or explicit <code>archivedAt</code></td></tr></tbody></table></div>
+<h2>4. Custom Value Object Cast in Eloquent (<code>CastsAttributes</code>)</h2>
+<p>Keep <code>Money</code> type safety in Eloquent too by binding custom casts:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+use Illuminate\Database\Eloquent\Model;
+
+final class MoneyCast implements CastsAttributes
+{
+    public function get(Model $model, string $key, mixed $value, array $attributes): Money
+    {
+        return new Money((int) $value, (string) ($attributes[&#039;currency&#039;] ?? &#039;USD&#039;));
+    }
+
+    public function set(Model $model, string $key, mixed $value, array $attributes): array
+    {
+        if (! $value instanceof Money) {
+            throw new \InvalidArgumentException(&#039;Expected Money instance.&#039;);
+        }
+
+        return [&#039;price_cents&#039; =&gt; $value-&gt;amountCents, &#039;currency&#039; =&gt; $value-&gt;currency];
+    }
+}</code></pre></div>
+<h2>Key Takeaways</h2>
+<ul><li>Avoid <code>FLOAT</code>/<code>DOUBLE</code> for financial amounts in both ORMs — store integer minor units (<code>amount_cents</code>) or <code>DECIMAL(12,2)</code> backed by a typed Value Object (<code>Money</code>).</li><li>Prefer <code>immutable_datetime</code> / <code>\DateTimeImmutable</code> over mutable <code>Carbon</code>/<code>\DateTime</code> so passing timestamps around never mutates entity properties by accident.</li></ul>
+<div class="callout callout-note"><strong>Previous:</strong> <a href="#ch-01" class="md-link">Chapter 1 — ORM Architectures</a> · <strong>Next:</strong> <a href="#ch-03" class="md-link">Chapter 3 — Persisting, Upserts &amp; Unit of Work</a></div></div></article>
+<article class="chapter-card" id="ch-03" data-track="track-1"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-1">Track 1: Foundations &amp; CRUD</span><a class="source-link" href="./chapters/03_saving_records.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">03.</span> Persisting, Updating, Upserts &amp; Entity States</h2><button type="button" class="done-toggle" data-ch="ch-03" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Persisting data looks simple (<code>$model-&gt;save()</code> vs <code>$em-&gt;flush()</code>), yet subtle differences between <strong>immediate Active Record queries</strong> and <strong>Doctrine Unit of Work change-tracking</strong> catch developers off guard.</p>
+<h2>1. Create, Update &amp; Delete Side-by-Side</h2>
+<h3>Laravel Eloquent (Immediate SQL Execution)</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// 1. Instance + save() (useful when setting computed fields explicitly)
+$product = new Product();
+$product-&gt;sku = &#039;KB-900&#039;;
+$product-&gt;name = &#039;Keychron K2&#039;;
+$product-&gt;price_cents = 9900;
+$product-&gt;save(); // Fires INSERT immediately
+
+// 2. Mass-assignment via validated FormRequest data ONLY
+$product = Product::create($request-&gt;validated());
+
+// 3. Atomic find-or-create / upsert helpers
+$tag = Tag::firstOrCreate(
+    [&#039;slug&#039; =&gt; &#039;mechanical-keyboards&#039;],   // Lookup WHERE criteria
+    [&#039;name&#039; =&gt; &#039;Mechanical Keyboards&#039;],   // Additional INSERT columns if missing
+);
+
+Product::updateOrCreate(
+    [&#039;sku&#039; =&gt; &#039;KB-900&#039;],
+    [&#039;price_cents&#039; =&gt; 8900],
+);
+
+// 4. Delete (soft delete if SoftDeletes trait is active; otherwise DELETE)
+$product-&gt;delete();
+$product-&gt;forceDelete(); // Permanent SQL DELETE</code></pre></div>
+<h3>Symfony Doctrine ORM 3 (Deferred Unit of Work)</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// 1. Creating a new Entity: New -&gt; Managed -&gt; INSERT on flush()
+$product = new Product(&#039;KB-900&#039;, &#039;Keychron K2&#039;, new Money(9900));
+$em-&gt;persist($product); // No SQL ran yet! UnitOfWork only tracks $product in memory
+$em-&gt;flush();           // Opens DB transaction -&gt; executes batched INSERTs -&gt; commits!
+
+// 2. Updating a Managed Entity: dirty-checking is AUTOMATIC (no persist() needed!)
+$managed = $em-&gt;find(Product::class, $id);
+$managed-&gt;rename(&#039;Keychron K2 Pro&#039;);
+$em-&gt;flush(); // UnitOfWork diffs original snapshot vs current property -&gt; fires UPDATE only if changed
+
+// 3. Assigning a Foreign Key WITHOUT an extra SELECT (`getReference` Proxy!)
+$categoryRef = $em-&gt;getReference(Category::class, $categoryId); // Zero DB query!
+$product-&gt;assignCategory($categoryRef);
+$em-&gt;flush();
+
+// 4. Removing
+$em-&gt;remove($managed);
+$em-&gt;flush();</code></pre></div>
+<h2>2. Doctrine Entity Lifecycle States</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">TEXT</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-text">   new Product(...)
+          │
+          ▼
+    [ NEW / TRANSIENT ] ─── persist() ──▶ [ MANAGED ] ◀── find() / DQL SELECT
+                                            │   ▲
+                                   detach() │   │ refresh() / DB reload
+                                   clear()  ▼   │
+                                        [ DETACHED ]
+                                            │
+                                   remove() ▼
+                                        [ REMOVED ] ── flush() ──▶ SQL DELETE</code></pre></div>
+<ul><li><strong>Never call <code>$em-&gt;persist($existingEntity)</code> needlessly on managed entities</strong> — UnitOfWork already tracks changes on every entity fetched from a repository.</li><li><strong>Mass batch pitfall</strong>: calling <code>flush()</code> inside a 10,000-row loop kills performance. Batch <code>persist()</code> every <code>200</code> items, then call <code>$em-&gt;flush(); $em-&gt;clear();</code> to purge the Identity Map safely!</li></ul>
+<h2>3. High-Speed Bulk <code>upsert()</code> &amp; Chunked Inserts</h2>
+<p>When importing thousands of catalog SKUs, one <code>INSERT</code>/<code>UPDATE</code> per loop takes seconds; single-query bulk upserts take milliseconds:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// Laravel Eloquent native multi-row SQL UPSERT (`INSERT ... ON DUPLICATE KEY UPDATE` / `ON CONFLICT`)
+Product::upsert(
+    values: [
+        [&#039;sku&#039; =&gt; &#039;SKU-01&#039;, &#039;name&#039; =&gt; &#039;Mouse&#039;, &#039;price_cents&#039; =&gt; 2500],
+        [&#039;sku&#039; =&gt; &#039;SKU-02&#039;, &#039;name&#039; =&gt; &#039;Mat&#039;, &#039;price_cents&#039; =&gt; 1500],
+    ],
+    uniqueBy: [&#039;sku&#039;],          // Requires UNIQUE index on MySQL/PostgreSQL/SQLite!
+    update: [&#039;name&#039;, &#039;price_cents&#039;],
+);</code></pre></div>
+<div class="callout callout-note"><strong>Note:</strong> <code>Product::upsert()</code> and <code>Product::where(...)-&gt;update([...])</code> run directly at SQL level — <strong>skipping Eloquent/Doctrine model lifecycle events, timestamps casts checks, and observers</strong>. Reserve them for bulk syncs/ETL and re-touch <code>updated_at</code> manually when needed.</div>
+<h2>4. Defending Mass Assignment (<code>$fillable</code> vs DTO Hydration)</h2>
+<div class="table-wrap"><table><thead><tr><th>ORM</th><th>Vulnerability Vector</th><th>Mandatory Defense</th></tr></thead><tbody><tr><td><strong>Eloquent</strong></td><td>Passing <code>$request-&gt;all()</code> into <code>User::create()</code> lets attackers inject <code>is_admin=1</code> or <code>role=admin</code></td><td>Declare explicit <code>$fillable</code> allowlist <strong>AND</strong> pass ONLY <code>$request-&gt;validated()</code></td></tr><tr><td><strong>Doctrine</strong></td><td>Auto-mapping raw JSON payloads via blind setters (<code>setIsAdmin</code>)</td><td>Hydrate validated Form/Serializer DTOs into explicit domain constructors/methods (<code>changeEmail(...)</code>)</td></tr></tbody></table></div>
+<h2>Key Takeaways</h2>
+<ul><li>Eloquent fires SQL immediately on <code>save()</code>; Doctrine accumulates changes in memory until a single transactional <code>$em-&gt;flush()</code>.</li><li>Use <code>$em-&gt;getReference(Category::class, $id)</code> in Doctrine when attaching known foreign keys to skip redundant <code>SELECT</code> roundtrips.</li><li>Never pass unvalidated <code>$request-&gt;all()</code> into <code>create()</code> or <code>update()</code> — strictly combine <code>$fillable</code> + <code>$request-&gt;validated()</code>.</li></ul>
+<div class="callout callout-note"><strong>Previous:</strong> <a href="#ch-02" class="md-link">Chapter 2 — Models &amp; Entities</a> · <strong>Next:</strong> <a href="#ch-04" class="md-link">Chapter 4 — Querying Data, Scopes &amp; DQL</a></div></div></article>
+<article class="chapter-card" id="ch-04" data-track="track-1"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-1">Track 1: Foundations &amp; CRUD</span><a class="source-link" href="./chapters/04_querying_data.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">04.</span> Querying Data, Scopes, DQL &amp; Raw SQL Safety</h2><button type="button" class="done-toggle" data-ch="ch-04" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Both ORMs wrap parameterized SQL prepared statements behind fluent builders, while also allowing escape hatches into raw SQL when analytical queries outgrow object abstractions.</p>
+<h2>1. Filtering, Null Checks &amp; Conditional Chains (<code>SELECT ... WHERE</code>)</h2>
+<div class="table-wrap"><table><thead><tr><th>Operation</th><th>Laravel Eloquent</th><th>Symfony Doctrine ORM 3</th></tr></thead><tbody><tr><td><strong>Find by PK / Fail 404</strong></td><td><code>Product::findOrFail($id)</code></td><td><code>$repo-&gt;find($id) ?? throw $this-&gt;createNotFoundException()</code></td></tr><tr><td><strong>Filtered Collection</strong></td><td><code>Product::where(&#039;status&#039;, &#039;active&#039;)-&gt;where(&#039;price_cents&#039;, &#039;&gt;&#039;, 5000)-&gt;get()</code></td><td><code>$repo-&gt;createQueryBuilder(&#039;p&#039;)-&gt;where(&#039;p.status = :s AND p.price.amountCents &gt; :min&#039;)-&gt;setParameters([&#039;s&#039; =&gt; ProductStatus::Active, &#039;min&#039; =&gt; 5000])-&gt;getQuery()-&gt;getResult()</code></td></tr><tr><td><strong>Conditional Filters</strong></td><td><code>-&gt;when($search, fn ($q, $s) =&gt; $q-&gt;whereLike(&#039;name&#039;, &quot;%{$s}%&quot;))</code></td><td><code>if ($search !== &#039;&#039;) { $qb-&gt;andWhere(&#039;p.name LIKE :s&#039;)-&gt;setParameter(&#039;s&#039;, &quot;%{$search}%&quot;); }</code></td></tr><tr><td><strong>Existence Check</strong></td><td><code>Product::where(&#039;sku&#039;, $sku)-&gt;exists()</code> (runs <code>SELECT EXISTS(...)</code>)</td><td><code>$qb-&gt;select(&#039;1&#039;)-&gt;setMaxResults(1)-&gt;getQuery()-&gt;getOneOrNullResult() !== null</code></td></tr><tr><td><strong>Single Scalar Column</strong></td><td><code>Product::where(&#039;status&#039;, &#039;active&#039;)-&gt;pluck(&#039;sku&#039;, &#039;id&#039;)</code></td><td><code>$qb-&gt;select(&#039;p.id, p.sku&#039;)-&gt;getQuery()-&gt;getSingleColumnResult()</code></td></tr></tbody></table></div>
+<h2>2. Reusable Query Scopes vs Custom Repository Methods</h2>
+<p>Keep controllers thin by pushing query predicates into <strong>Eloquent Query Scopes</strong> or <strong>Doctrine EntityRepositories</strong>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// Laravel Eloquent Scope (`app/Models/Product.php`)
+public function scopePublished(Builder $query): void
+{
+    $query-&gt;where(&#039;status&#039;, ProductStatus::Active)
+          -&gt;whereNotNull(&#039;published_at&#039;);
+}
+
+// Or Laravel 12+ #[Scope] attribute:
+#[Scope]
+protected function pricedBelow(Builder $query, int $cents): void
+{
+    $query-&gt;where(&#039;price_cents&#039;, &#039;&lt;=&#039;, $cents);
+}
+
+// Usage (chainable!):
+$deals = Product::published()-&gt;pricedBelow(5000)-&gt;latest(&#039;published_at&#039;)-&gt;get();</code></pre></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// Symfony Doctrine Custom Repository (`src/Repository/ProductRepository.php`)
+final class ProductRepository extends ServiceEntityRepository
+{
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Product::class);
+    }
+
+    /** @return list&lt;Product&gt; */
+    public function findPublishedDeals(int $maxCents): array
+    {
+        return $this-&gt;createQueryBuilder(&#039;p&#039;)
+            -&gt;andWhere(&#039;p.status = :status&#039;)
+            -&gt;andWhere(&#039;p.price.amountCents &lt;= :max&#039;)
+            -&gt;setParameter(&#039;status&#039;, ProductStatus::Active)
+            -&gt;setParameter(&#039;max&#039;, $maxCents)
+            -&gt;orderBy(&#039;p.createdAt&#039;, &#039;DESC&#039;)
+            -&gt;getQuery()
+            -&gt;getResult();
+    }
+}</code></pre></div>
+<h2>3. Eloquent Global Scopes vs Doctrine SQL Filters (Multi-Tenancy)</h2>
+<p>For row-level <strong>multi-tenancy</strong> (<code>tenant_id = ?</code>) or soft-delete filtering, attach an automatic SQL clause across <em>every</em> query:</p>
+<ul><li><strong>Eloquent Global Scope</strong>: implement <code>Illuminate\Database\Eloquent\Scope</code> (<code>apply(Builder $b, Model $m)</code>), attach with <code>#[ScopedBy([TenantScope::class])]</code>, and bypass selectively with <code>-&gt;withoutGlobalScope(TenantScope::class)</code>.</li><li><strong>Doctrine SQL Filter (<code>SQLFilter</code>)</strong>: extend <code>Doctrine\ORM\Query\Filter\SQLFilter</code>, enable dynamically via <code>$em-&gt;getFilters()-&gt;enable(&#039;tenant&#039;)-&gt;setParameter(&#039;tenant_id&#039;, $tenantId)</code> — injects <code>AND t0.tenant_id = ?</code> cleanly even into DQL joins!</li></ul>
+<h2>4. Parameterized Raw SQL &amp; DQL Injection Pitfalls</h2>
+<p>NEVER interpolate user variables directly inside SQL/DQL strings (<code>WHERE name LIKE &#039;%{$q}%&#039;</code>), column names, or sort directions!</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// WRONG (SQL Injection / DQL Injection!):
+$posts = DB::select(&quot;SELECT * FROM products WHERE category = &#039;{$input}&#039;&quot;);
+$dql = $em-&gt;createQuery(&quot;SELECT p FROM App\Entity\Product p ORDER BY p.{$sort}&quot;);
+
+// RIGHT (Bound parameters + Strict Column Allowlist):
+$rows = DB::select(&#039;SELECT id, name FROM products WHERE category_id = ? AND status = ?&#039;, [$catId, &#039;active&#039;]);
+
+$allowedColumns = [&#039;price.amountCents&#039; =&gt; &#039;p.price.amountCents&#039;, &#039;createdAt&#039; =&gt; &#039;p.createdAt&#039;];
+$orderColumn = $allowedColumns[$requestSort] ?? &#039;p.createdAt&#039;;
+$qb-&gt;orderBy($orderColumn, $dir === &#039;asc&#039; ? &#039;ASC&#039; : &#039;DESC&#039;);</code></pre></div>
+<p><em>(In Doctrine DBAL 4 without Entity hydration, <code>$connection-&gt;executeQuery(&#039;SELECT ... WHERE id = :id&#039;, [&#039;id&#039; =&gt; $id])-&gt;fetchAllAssociative()</code> executes parameterized SQL cleanly.)</em></p>
+<h2>Key Takeaways</h2>
+<ul><li>Put reusable predicates into Eloquent Scopes (<code>scopePublished</code> / <code>#[Scope]</code>) or Doctrine Repository methods so query rules aren&#039;t duplicated across controllers.</li><li>Prefer <code>exists()</code> over <code>count() &gt; 0</code> when checking existence — SQL stops at the first matching index leaf.</li><li>Never interpolate dynamic strings into raw SQL, <code>whereRaw()</code>, or <code>ORDER BY</code> — always bind parameters and allowlist dynamic sort columns.</li></ul>
+<div class="callout callout-note"><strong>Previous:</strong> <a href="#ch-03" class="md-link">Chapter 3 — Saving &amp; Unit of Work</a> · <strong>Next:</strong> <a href="#ch-05" class="md-link">Chapter 5 — Relations, Polymorphic Models &amp; N+1</a></div></div></article>
+<article class="chapter-card" id="ch-05" data-track="track-2"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-2">Track 2: Relations &amp; Integrity</span><a class="source-link" href="./chapters/05_orm_relations.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">05.</span> Associations, Polymorphic Models &amp; N+1 Elimination</h2><button type="button" class="done-toggle" data-ch="ch-05" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Modeling object graphs cleanly — and fetching them without executing dozens of accidental loop queries — is the single biggest separator between beginner and senior ORM engineering.</p>
+<h2>1. Core Association Mapping (<code>1-1</code>, <code>1-N</code>, <code>M-N</code>)</h2>
+<h3>One-to-Many (<code>Category</code> &lt;-&gt; <code>Product</code>)</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// Laravel Eloquent
+final class Category extends Model {
+    public function products(): HasMany { return $this-&gt;hasMany(Product::class); }
+}
+final class Product extends Model {
+    public function category(): BelongsTo { return $this-&gt;belongsTo(Category::class); }
+}</code></pre></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// Symfony Doctrine ORM 3
+#[ORM\OneToMany(targetEntity: Product::class, mappedBy: &#039;category&#039;)]
+private Collection $products; // Initialized to new ArrayCollection() in __construct!
+
+#[ORM\ManyToOne(inversedBy: &#039;products&#039;)]
+#[ORM\JoinColumn(nullable: false, onDelete: &#039;RESTRICT&#039;)]
+private Category $category; // The OWNING side holds the foreign key column!</code></pre></div>
+<div class="callout callout-note"><strong>Doctrine Owning vs Inverse Side Rule:</strong> Doctrine ONLY reads changes made on the <strong>owning side</strong> (<code>#[ManyToOne]</code> or the side with <code>inversedBy</code>)! Always synchronize both sides inside domain helper methods (<code>$product-&gt;assignCategory($cat)</code> updating <code>$cat-&gt;addProduct($this)</code>).</div>
+<h3>Many-to-Many With Extra Pivot Columns (<code>Order</code> &lt;-&gt; <code>Product</code> Quantity &amp; Price Snapshot)</h3>
+<ul><li><strong>Eloquent</strong>: declare pivot columns via <code>-&gt;withPivot([&#039;qty&#039;, &#039;unit_price_cents&#039;])-&gt;withTimestamps()</code>, or define a custom <code>Pivot</code> subclass (<code>OrderLine extends Pivot</code>).</li><li><strong>Doctrine</strong>: the moment a junction table stores extra attributes (<code>qty</code>, <code>unitPriceCents</code>), DO NOT use <code>#[ORM\ManyToMany]</code> — create a first-class <strong><code>OrderLine</code> Join Entity</strong> with two <code>#[ORM\ManyToOne]</code> links (<code>Order</code> and <code>Product</code>)!</li></ul>
+<h2>2. Polymorphic Relations vs Doctrine Inheritance Mapping</h2>
+<div class="table-wrap"><table><thead><tr><th>Use Case: Shared <code>Comment</code> on <code>Post</code>, <code>Product</code>, and <code>Video</code></th><th>Laravel Eloquent (<strong>Polymorphic</strong>)</th><th>Symfony Doctrine (<strong>Inheritance Mapping</strong>)</th></tr></thead><tbody><tr><td><strong>Schema Strategy</strong></td><td><code>$table-&gt;morphs(&#039;commentable&#039;)</code> creates <code>commentable_id</code> + <code>commentable_type</code></td><td><code>#[ORM\InheritanceType(&#039;SINGLE_TABLE&#039;)]</code> or <code>&#039;JOINED&#039;</code> with <code>#[ORM\DiscriminatorMap]</code></td></tr><tr><td><strong>Code Pattern</strong></td><td><code>Comment::morphTo()</code> + <code>Product::morphMany(Comment::class, &#039;commentable&#039;)</code></td><td>Abstract <code>Comment</code> entity subclassed by <code>ProductComment</code>, <code>PostComment</code> (real SQL foreign keys preserved!)</td></tr><tr><td><strong>Data Integrity Note</strong></td><td>Avoid hard class-name strings in <code>*_type</code>: map short aliases via <code>Relation::enforceMorphMap([...])</code></td><td>Enforces genuine DB <code>FOREIGN KEY</code> integrity constraints at SQL level</td></tr></tbody></table></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// Laravel Eloquent: Enforce safe short morph aliases in AppServiceProvider::boot()
+Relation::enforceMorphMap([
+    &#039;post&#039; =&gt; Post::class,
+    &#039;product&#039; =&gt; Product::class,
+]);</code></pre></div>
+<h2>3. The N+1 Query Problem &amp; How Both ORMs Eliminate It</h2>
+<p>Suppose a page displays 25 products and accesses <code>$product-&gt;category-&gt;name</code> inside a loop:</p>
+<ul><li><strong>Naive Lazy Loop</strong>: <code>1</code> query for <code>25</code> products + <code>25</code> separate <code>SELECT * FROM categories WHERE id = ?</code> queries = <strong><code>26</code> queries</strong>.</li><li><strong>Eloquent Batched Eager Loading (<code>with</code>)</strong>: executes <code>SELECT * FROM products</code> + <code>SELECT id, name FROM categories WHERE id IN (1,2,3,4,5)</code> = <strong><code>2</code> queries total</strong>!</li></ul>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">  // Specify column projections (`:id,name`) — `id` is REQUIRED for Eloquent to match keys!
+  $products = Product::with([&#039;category:id,name&#039;, &#039;tags:id,name&#039;])-&gt;latest()-&gt;get();
+  // Later on already-loaded models:
+  $products-&gt;loadMissing(&#039;supplier:id,company_name&#039;);</code></pre></div>
+<ul><li><strong>Doctrine <code>JOIN FETCH</code> (DQL Single-Query Hydration)</strong>:</li></ul>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">  $products = $entityManager-&gt;createQuery(
+      &#039;SELECT p, c FROM App\Entity\Product p INNER JOIN p.category c&#039;
+  )-&gt;getResult(); // 1 SQL query total!</code></pre></div>
+<ul><li><strong>Cartesian Product &amp; Pagination Trap in Doctrine</strong>: NEVER combine <code>-&gt;setMaxResults(20)</code> with a to-many <code>JOIN FETCH</code> (<code>Order JOIN FETCH OrderLines</code>) directly! SQL <code>LIMIT 20</code> cuts across joined lines instead of orders — wrap it with Doctrine&#039;s <strong><code>Paginator</code></strong> (<code>new Paginator($query)</code>) or use two-step eager fetching (<code>batch</code>/<code>IN</code>).</li><li><strong>Extra-Lazy Collections in Doctrine</strong>: set <code>fetch: &#039;EXTRA_LAZY&#039;</code> on large collections (<code>$post-&gt;getComments()-&gt;count()</code> or <code>-&gt;slice(0, 10)</code>) so SQL runs <code>SELECT COUNT(*)</code> or <code>LIMIT 10</code> instead of loading 50,000 objects into RAM!</li></ul>
+<div class="callout callout-note"><strong>Try It Locally:</strong> Run <a href="./labs/02_n_plus_one_and_eager_loading.php" class="md-link"><code>labs/02_n_plus_one_and_eager_loading.php</code></a> to compare real query counts across Lazy Loop (<code>26</code>), Eager <code>IN (...)</code> (<code>2</code>), and <code>JOIN FETCH</code> (<code>1</code>).</div>
+<h2>Key Takeaways</h2>
+<ul><li>Turn on <code>Model::preventLazyLoading(! app()-&gt;isProduction())</code> in Laravel to catch N+1 bugs immediately.</li><li>In Doctrine, modify the <strong>owning side</strong> (<code>ManyToOne</code>), use <code>JOIN FETCH</code> for to-one relations, and wrap paginated to-many <code>JOIN FETCH</code> queries in <code>Doctrine\ORM\Tools\Pagination\Paginator</code>.</li><li>Always define <code>Relation::enforceMorphMap()</code> in Laravel so database <code>*_type</code> strings don&#039;t couple directly to PHP FQCN refactors.</li></ul>
+<div class="callout callout-note"><strong>Previous:</strong> <a href="#ch-04" class="md-link">Chapter 4 — Querying Data</a> · <strong>Next:</strong> <a href="#ch-06" class="md-link">Chapter 6 — Aggregations &amp; DTO Projections</a></div><div class="labs-box"><h3>Verified Runnable SQLite PDO Lab</h3><details class="lab-details"><summary><span><code>labs/02_n_plus_one_and_eager_loading.php</code></span><span class="lab-link-wrap"><a href="./labs/02_n_plus_one_and_eager_loading.php" class="md-link" onclick="event.stopPropagation()">Open PHP Lab &rarr;</a></span></summary><div class="code-block"><div class="code-head"><span class="code-lang">PHP &middot; 02_n_plus_one_and_eager_loading.php</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Lab 02 — Measuring &amp; Eliminating the N+1 Query Problem in SQLite PDO
+ * Run: php labs/02_n_plus_one_and_eager_loading.php
+ */
+
+final class InstrumentedPdo
+{
+    public int $queryCount = 0;
+    /** @var list&lt;string&gt; */
+    public array $log = [];
+
+    public function __construct(private readonly PDO $pdo) {}
+
+    public function exec(string $sql): int|false
+    {
+        return $this-&gt;pdo-&gt;exec($sql);
+    }
+
+    public function queryAll(string $sql, array $params = []): array
+    {
+        $this-&gt;queryCount++;
+        $this-&gt;log[] = $sql;
+        $stmt = $this-&gt;pdo-&gt;prepare($sql);
+        $stmt-&gt;execute($params);
+        return $stmt-&gt;fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function resetMetrics(): void
+    {
+        $this-&gt;queryCount = 0;
+        $this-&gt;log = [];
+    }
+}
+
+$raw = new PDO(&#039;sqlite::memory:&#039;, null, null, [PDO::ATTR_ERRMODE =&gt; PDO::ERRMODE_EXCEPTION]);
+$db = new InstrumentedPdo($raw);
+
+$db-&gt;exec(&#039;PRAGMA foreign_keys = ON;
+CREATE TABLE categories (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL);
+CREATE TABLE posts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    category_id INTEGER NOT NULL REFERENCES categories(id),
+    title TEXT NOT NULL
+);&#039;);
+
+// Seed 5 categories &amp; 25 posts
+$insCat = $raw-&gt;prepare(&#039;INSERT INTO categories (name) VALUES (?)&#039;);
+foreach ([&#039;Architecture&#039;, &#039;Eloquent&#039;, &#039;Doctrine&#039;, &#039;Indexing&#039;, &#039;Transactions&#039;] as $cat) {
+    $insCat-&gt;execute([$cat]);
+}
+$insPost = $raw-&gt;prepare(&#039;INSERT INTO posts (category_id, title) VALUES (?, ?)&#039;);
+for ($i = 1; $i &lt;= 25; $i++) {
+    $insPost-&gt;execute([($i % 5) + 1, &quot;ORM Guide Article #{$i}&quot;]);
+}
+
+// ----------------------------------------------------------------------------
+// 1. NAIVE LAZY LOADING (N + 1 QUERIES!)
+// ----------------------------------------------------------------------------
+$db-&gt;resetMetrics();
+$posts = $db-&gt;queryAll(&#039;SELECT id, category_id, title FROM posts ORDER BY id&#039;);
+$lazyRendered = [];
+foreach ($posts as $p) {
+    // Fires 1 extra SELECT inside EVERY loop iteration -&gt; 1 + 25 = 26 queries!
+    $cat = $db-&gt;queryAll(&#039;SELECT name FROM categories WHERE id = ?&#039;, [$p[&#039;category_id&#039;]])[0];
+    $lazyRendered[] = &quot;{$p[&#039;title&#039;]} [{$cat[&#039;name&#039;]}]&quot;;
+}
+$lazyCount = $db-&gt;queryCount;
+assert($lazyCount === 26, &quot;Expected 26 queries for N+1 loop, got {$lazyCount}&quot;);
+
+// ----------------------------------------------------------------------------
+// 2. EAGER LOADING VIA BATCHED `IN (...)` (Eloquent -&gt;with(&#039;category&#039;)) -&gt; 2 QUERIES!
+// ----------------------------------------------------------------------------
+$db-&gt;resetMetrics();
+$posts = $db-&gt;queryAll(&#039;SELECT id, category_id, title FROM posts ORDER BY id&#039;);
+$catIds = array_values(array_unique(array_column($posts, &#039;category_id&#039;)));
+$placeholders = implode(&#039;,&#039;, array_fill(0, count($catIds), &#039;?&#039;));
+$catsById = [];
+foreach ($db-&gt;queryAll(&quot;SELECT id, name FROM categories WHERE id IN ({$placeholders})&quot;, $catIds) as $c) {
+    $catsById[(int) $c[&#039;id&#039;]] = $c[&#039;name&#039;];
+}
+$eagerRendered = array_map(
+    static fn (array $p): string =&gt; &quot;{$p[&#039;title&#039;]} [&quot; . $catsById[(int) $p[&#039;category_id&#039;]] . &quot;]&quot;,
+    $posts
+);
+$eagerCount = $db-&gt;queryCount;
+assert($eagerCount === 2, &quot;Expected 2 queries for batched eager loading, got {$eagerCount}&quot;);
+assert($eagerRendered === $lazyRendered, &#039;Eager-loaded output must match lazy output identically.&#039;);
+
+// ----------------------------------------------------------------------------
+// 3. SINGLE FETCH JOIN (Doctrine DQL JOIN FETCH / SQL JOIN) -&gt; 1 QUERY!
+// ----------------------------------------------------------------------------
+$db-&gt;resetMetrics();
+$joined = $db-&gt;queryAll(
+    &#039;SELECT p.id, p.title, c.name AS category_name
+     FROM posts p
+     INNER JOIN categories c ON c.id = p.category_id
+     ORDER BY p.id&#039;
+);
+$joinRendered = array_map(
+    static fn (array $r): string =&gt; &quot;{$r[&#039;title&#039;]} [{$r[&#039;category_name&#039;]}]&quot;,
+    $joined
+);
+$joinCount = $db-&gt;queryCount;
+assert($joinCount === 1, &quot;Expected 1 query for FETCH JOIN, got {$joinCount}&quot;);
+assert($joinRendered === $lazyRendered, &#039;JOIN FETCH output must match lazy output identically.&#039;);
+
+echo &quot;[N+1 Benchmark (25 rows)] Lazy Loop: {$lazyCount} queries | Eager IN(): {$eagerCount} queries | Fetch Join: {$joinCount} query\n&quot;;</code></pre></div></details></div></div></article>
+<article class="chapter-card" id="ch-06" data-track="track-2"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-2">Track 2: Relations &amp; Integrity</span><a class="source-link" href="./chapters/06_orm_aggregations.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">06.</span> Aggregations, Grouping &amp; DTO Projections</h2><button type="button" class="done-toggle" data-ch="ch-06" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Never load thousands of ORM models into PHP RAM just to count rows or sum totals (<code>$orders-&gt;sum(&#039;total&#039;)</code> hydrates every object first!). Push math, grouping, subqueries, and reporting projections directly to the database engine.</p>
+<h2>1. Scalar Aggregations (<code>COUNT</code>, <code>SUM</code>, <code>AVG</code>, <code>MIN</code>, <code>MAX</code>)</h2>
+<div class="table-wrap"><table><thead><tr><th>Metric</th><th>Laravel Eloquent</th><th>Symfony Doctrine ORM 3</th></tr></thead><tbody><tr><td><strong>Count Matching Rows</strong></td><td><code>Product::where(&#039;status&#039;, &#039;active&#039;)-&gt;count()</code></td><td><code>(int) $qb-&gt;select(&#039;COUNT(p.id)&#039;)-&gt;andWhere(...)-&gt;getQuery()-&gt;getSingleScalarResult()</code></td></tr><tr><td><strong>Total Revenue</strong></td><td><code>Order::where(&#039;paid&#039;, true)-&gt;sum(&#039;total_cents&#039;)</code></td><td><code>(int) $qb-&gt;select(&#039;COALESCE(SUM(o.totalCents), 0)&#039;)-&gt;getQuery()-&gt;getSingleScalarResult()</code></td></tr><tr><td><strong>Relation Count Per Parent</strong></td><td><code>Category::withCount(&#039;products&#039;)-&gt;get()</code> (<code>$cat-&gt;products_count</code>)</td><td><code>SELECT c, COUNT(p.id) AS productsCount FROM Category c LEFT JOIN c.products p GROUP BY c.id</code></td></tr><tr><td><strong>Filtered Relation Sum</strong></td><td><code>Order::withSum([&#039;items&#039; =&gt; fn ($q) =&gt; $q-&gt;where(&#039;refunded&#039;, false)], &#039;cents&#039;)</code></td><td>Subquery / conditional <code>SUM(CASE WHEN ... ELSE 0 END)</code> in DQL</td></tr></tbody></table></div>
+<h2>2. Grouping, <code>HAVING</code> &amp; Correlated Subselects</h2>
+<h3>Laravel Eloquent (<code>DB::table</code> Reporting + <code>addSelect</code> Subqueries)</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// Flat grouped analytics per category (no heavy Model hydration!)
+$stats = DB::table(&#039;products&#039;)
+    -&gt;join(&#039;categories&#039;, &#039;categories.id&#039;, &#039;=&#039;, &#039;products.category_id&#039;)
+    -&gt;select(&#039;categories.id&#039;, &#039;categories.name&#039;)
+    -&gt;selectRaw(&#039;COUNT(products.id) AS total_items, COALESCE(AVG(products.price_cents), 0) AS avg_cents&#039;)
+    -&gt;groupBy(&#039;categories.id&#039;, &#039;categories.name&#039;)
+    -&gt;havingRaw(&#039;COUNT(products.id) &gt;= ?&#039;, [5])
+    -&gt;orderByDesc(&#039;total_items&#039;)
+    -&gt;get();
+
+// Attach last login timestamp cleanly via single SQL subquery (no N+1!)
+$users = User::query()
+    -&gt;addSelect([
+        &#039;last_order_at&#039; =&gt; Order::select(&#039;created_at&#039;)
+            -&gt;whereColumn(&#039;user_id&#039;, &#039;users.id&#039;)
+            -&gt;latest(&#039;created_at&#039;)
+            -&gt;limit(1),
+    ])
+    -&gt;withCasts([&#039;last_order_at&#039; =&gt; &#039;datetime&#039;])
+    -&gt;get();</code></pre></div>
+<h2>3. Returning Readonly DTOs Directly From DQL (<code>SELECT NEW</code>)</h2>
+<p>Doctrine has a superpower for read-heavy dashboards — hydrating rows <strong>straight into immutable PHP DTOs</strong> (<code>NEW</code> operator) with zero entity overhead or Identity Map pollution:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">final readonly class CategorySalesDto
+{
+    public function __construct(
+        public string $categoryName,
+        public int $productCount,
+        public float $avgPriceDollars,
+    ) {}
+}</code></pre></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">/** @var list&lt;CategorySalesDto&gt; $report */
+$report = $entityManager-&gt;createQuery(
+    &#039;SELECT NEW App\Dto\CategorySalesDto(
+        c.name,
+        COUNT(p.id),
+        COALESCE(AVG(p.price.amountCents) / 100.0, 0)
+     )
+     FROM App\Entity\Category c
+     LEFT JOIN c.products p
+     GROUP BY c.id, c.name
+     HAVING COUNT(p.id) &gt; :minItems
+     ORDER BY c.name ASC&#039;
+)
+-&gt;setParameter(&#039;minItems&#039;, 2)
+-&gt;getResult();</code></pre></div>
+<h2>4. Reporting Anti-Patterns to Avoid</h2>
+<div class="table-wrap"><table><thead><tr><th>Anti-Pattern</th><th>Why It Breaks Under Scale</th><th>Correct Fix</th></tr></thead><tbody><tr><td><code>count($category-&gt;products)</code></td><td>Loads ALL product rows into PHP RAM first just to measure length</td><td><code>Category::withCount(&#039;products&#039;)</code> or Doctrine <code>EXTRA_LAZY</code> <code>$collection-&gt;count()</code></td></tr><tr><td><code>$orders-&gt;where(&#039;paid&#039;, true)-&gt;sum(&#039;cents&#039;)</code></td><td>Pulls unpaid rows over the network, hydrates objects, filters in PHP</td><td>Filter &amp; <code>SUM</code> inside SQL (<code>Order::where(&#039;paid&#039;, true)-&gt;sum(&#039;cents&#039;)</code>)</td></tr><tr><td><code>COUNT(*)</code> returning <code>&#039;0&#039;</code> string or <code>null</code> on empty sums</td><td>PHP <code>null + 10</code> or strict types error</td><td>Wrap nullable SQL sums in <code>COALESCE(SUM(...), 0)</code> + explicit <code>(int)</code> cast</td></tr></tbody></table></div>
+<h2>Key Takeaways</h2>
+<ul><li>Keep aggregations (<code>COUNT</code>, <code>SUM</code>, <code>AVG</code>, <code>GROUP BY</code>, <code>HAVING</code>) inside SQL — never load full Model collections just to compute statistics in PHP.</li><li>Use <code>withCount()</code> / subqueries (<code>addSelect()</code>) in Eloquent and <code>SELECT NEW App\Dto\...</code> in Doctrine for fast, type-safe reporting endpoints.</li></ul>
+<div class="callout callout-note"><strong>Previous:</strong> <a href="#ch-05" class="md-link">Chapter 5 — Relations &amp; N+1</a> · <strong>Next:</strong> <a href="#ch-07" class="md-link">Chapter 7 — ACID Transactions, Savepoints &amp; Concurrency Locks</a></div></div></article>
+<article class="chapter-card" id="ch-07" data-track="track-2"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-2">Track 2: Relations &amp; Integrity</span><a class="source-link" href="./chapters/07_orm_transactions.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">07.</span> ACID Transactions, Savepoints &amp; Concurrency Locks</h2><button type="button" class="done-toggle" data-ch="ch-07" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Real-world inventory deductions, financial transfers, and multi-table state changes fail corruptively under concurrent requests unless guarded by <strong>ACID transactions</strong>, <strong>post-commit side-effect deferrals</strong>, and <strong>optimistic or pessimistic row locks</strong>.</p>
+<h2>1. Wrapping Atomic Multi-Step Writes (<code>ACID</code>)</h2>
+<h3>Laravel Eloquent (<code>DB::transaction</code> + Automatic Deadlock Retries)</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">use Illuminate\Support\Facades\DB;
+
+DB::transaction(function () use ($buyerId, $sku, $amountCents): void {
+    $wallet = Wallet::where(&#039;user_id&#039;, $buyerId)-&gt;lockForUpdate()-&gt;firstOrFail();
+
+    if ($wallet-&gt;balance_cents &lt; $amountCents) {
+        throw new DomainException(&#039;Insufficient funds.&#039;);
+    }
+
+    $wallet-&gt;decrement(&#039;balance_cents&#039;, $amountCents);
+    Order::create([&#039;user_id&#039; =&gt; $buyerId, &#039;sku&#039; =&gt; $sku, &#039;total_cents&#039; =&gt; $amountCents]);
+
+    // Fires ONLY AFTER the outer DB transaction commits successfully!
+    DB::afterCommit(fn () =&gt; DispatchOrderEmailJob::dispatch($buyerId, $sku));
+}, attempts: 3); // Retries automatically on MySQL/Postgres deadlock!</code></pre></div>
+<h3>Symfony Doctrine ORM 3 (<code>$em-&gt;wrapInTransaction</code>)</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">$entityManager-&gt;wrapInTransaction(function (EntityManagerInterface $em) use ($buyerId, $amountCents): void {
+    // Acquire pessimistic row lock via LockMode!
+    $wallet = $em-&gt;find(Wallet::class, $buyerId, \Doctrine\DBAL\LockMode::PESSIMISTIC_WRITE);
+    $wallet-&gt;debit($amountCents);
+    $em-&gt;persist(new LedgerEntry($wallet, -$amountCents));
+    // wrapInTransaction automatically flushes &amp; commits, or rolls back on exception!
+});</code></pre></div>
+<div class="callout callout-warning"><strong>Warning:</strong> <strong>Critical Doctrine Exception &amp; Worker Pitfall</strong><br>If a <code>DBALException</code> or uncaught exception happens during <code>$em-&gt;flush()</code> and rolls back manually in older <code>beginTransaction()</code> blocks, Doctrine <strong>closes the <code>EntityManager</code></strong> (<code>!$em-&gt;isOpen()</code>). Never swallow the error and continue using that <code>EntityManager</code> inside long-running queue workers (<code>Messenger</code> / <code>Horizon</code>) — reset it via <code>ManagerRegistry::resetManager()</code>.</div>
+<h2>2. Savepoints (Partial Rollbacks Inside Transactions) &amp; Side-Effect Timing</h2>
+<ul><li>When <code>DB::transaction(...)</code> is nested inside an active outer transaction in Laravel (or via <code>SAVEPOINT</code> in SQL/DBAL), throwing inside the inner block rolls back <strong>only to that savepoint</strong>, leaving the outer valid statements intact if caught cleanly!</li><li><strong>Never dispatch emails, webhooks, or queue jobs inside an uncommitted transaction without <code>DB::afterCommit()</code> (or Messenger&#039;s <code>dispatch_after_current_bus</code> / transactional outbox)</strong>: a queue worker can start <em>before</em> the DB transaction commits (seeing missing rows) or execute even if the transaction later rolls back!</li></ul>
+<h2>3. Pessimistic Locking vs Optimistic Locking</h2>
+<div class="table-wrap"><table><thead><tr><th>Strategy</th><th>How It Works</th><th>Best Fit</th><th>Tradeoff</th></tr></thead><tbody><tr><td><strong>Pessimistic Write Lock</strong></td><td><code>SELECT ... FOR UPDATE</code> (<code>-&gt;lockForUpdate()</code> / <code>LockMode::PESSIMISTIC_WRITE</code>)</td><td>High-contention bank balances, flash-sale stock decrement inside short TXs</td><td>Holds DB row locks — keep transaction short &amp; lock tables in deterministic PK order to avoid deadlocks</td></tr><tr><td><strong>Shared Read Lock</strong></td><td><code>SELECT ... FOR SHARE</code> (<code>-&gt;sharedLock()</code> / <code>LockMode::PESSIMISTIC_READ</code>)</td><td>Ensuring referenced rows aren&#039;t modified until TX finishes</td><td>Blocks writers while allowing other readers</td></tr><tr><td><strong>Optimistic Locking</strong></td><td>Integer <code>version</code> column checked in <code>WHERE id = ? AND version = ?</code></td><td>Low-contention forms, CMS edits, API <code>ETag</code> concurrency (<code>If-Match</code>)</td><td>Zero DB lock waiting; conflicting stale updates fail fast cleanly so callers can reload &amp; retry</td></tr></tbody></table></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// Doctrine native Optimistic Locking attribute (`#[ORM\Version]`)
+#[ORM\Entity]
+final class InventoryItem
+{
+    #[ORM\Id, ORM\GeneratedValue, ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Version, ORM\Column(type: &#039;integer&#039;)]
+    private int $version = 1; // Checked automatically on flush(); throws OptimisticLockException!
+}
+
+// Laravel Optimistic Lock equivalent (`where` version + increment):
+$updated = InventoryItem::where(&#039;id&#039;, $id)
+    -&gt;where(&#039;version&#039;, $loadedVersion)
+    -&gt;update([
+        &#039;stock&#039; =&gt; DB::raw(&#039;stock - 1&#039;),
+        &#039;version&#039; =&gt; DB::raw(&#039;version + 1&#039;),
+    ]);
+if ($updated === 0) {
+    throw new StaleObjectException(&#039;Record changed concurrently; reload and retry.&#039;);
+}</code></pre></div>
+<div class="callout callout-note"><strong>Try It Locally:</strong> Run <a href="./labs/03_transactions_optimistic_locking.php" class="md-link"><code>labs/03_transactions_optimistic_locking.php</code></a> to see full ACID rollback, nested savepoints, and stale-version write detection live on SQLite PDO!</div>
+<h2>Key Takeaways</h2>
+<ul><li>Always pass <code>attempts: 3</code> (or idempotent retry handlers) and keep transaction blocks free of external HTTP calls (<code>Http::get</code>, Stripe API calls inside <code>DB::transaction()</code> hold DB locks while waiting on remote networks!).</li><li>Defer emails and async jobs cleanly with <code>DB::afterCommit()</code>.</li><li>Pick <strong>Pessimistic <code>lockForUpdate</code></strong> for millisecond financial/stock updates and <strong>Optimistic <code>version</code> locking</strong> for long-lived multi-user form edits.</li></ul>
+<div class="callout callout-note"><strong>Previous:</strong> <a href="#ch-06" class="md-link">Chapter 6 — Aggregations &amp; DTOs</a> · <strong>Next:</strong> <a href="#ch-08" class="md-link">Chapter 8 — Mutators, Casts, Observers &amp; Lifecycle Hooks</a></div><div class="labs-box"><h3>Verified Runnable SQLite PDO Lab</h3><details class="lab-details"><summary><span><code>labs/03_transactions_optimistic_locking.php</code></span><span class="lab-link-wrap"><a href="./labs/03_transactions_optimistic_locking.php" class="md-link" onclick="event.stopPropagation()">Open PHP Lab &rarr;</a></span></summary><div class="code-block"><div class="code-head"><span class="code-lang">PHP &middot; 03_transactions_optimistic_locking.php</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Lab 03 — ACID Transactions, Nested Savepoints &amp; Optimistic Locking (`version`)
+ * Run: php labs/03_transactions_optimistic_locking.php
+ */
+
+$pdo = new PDO(&#039;sqlite::memory:&#039;, null, null, [
+    PDO::ATTR_ERRMODE =&gt; PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE =&gt; PDO::FETCH_ASSOC,
+]);
+
+$pdo-&gt;exec(&#039;
+CREATE TABLE wallets (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    owner TEXT NOT NULL,
+    balance_cents INTEGER NOT NULL CHECK (balance_cents &gt;= 0),
+    version INTEGER NOT NULL DEFAULT 1
+);
+CREATE TABLE ledger (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    wallet_id INTEGER NOT NULL,
+    delta_cents INTEGER NOT NULL,
+    note TEXT NOT NULL
+);&#039;);
+
+$pdo-&gt;exec(&quot;INSERT INTO wallets (owner, balance_cents, version) VALUES (&#039;Alice&#039;, 10000, 1), (&#039;Bob&#039;, 2500, 1);&quot;);
+
+// ----------------------------------------------------------------------------
+// 1. ATOMIC TRANSACTION ROLLBACK ON FAILURE
+// ----------------------------------------------------------------------------
+$pdo-&gt;beginTransaction();
+try {
+    $pdo-&gt;prepare(&#039;UPDATE wallets SET balance_cents = balance_cents - ? WHERE id = 1&#039;)-&gt;execute([3000]);
+    $pdo-&gt;prepare(&quot;INSERT INTO ledger (wallet_id, delta_cents, note) VALUES (1, -3000, &#039;Transfer out&#039;)&quot;)-&gt;execute();
+
+    // Simulate downstream failure (e.g. CHECK constraint violation or service error)
+    throw new RuntimeException(&#039;Payment gateway timeout&#039;);
+} catch (RuntimeException) {
+    $pdo-&gt;rollBack();
+}
+
+$aliceBalance = (int) $pdo-&gt;query(&#039;SELECT balance_cents FROM wallets WHERE id = 1&#039;)-&gt;fetchColumn();
+$ledgerCount = (int) $pdo-&gt;query(&#039;SELECT COUNT(*) FROM ledger&#039;)-&gt;fetchColumn();
+assert($aliceBalance === 10000 &amp;&amp; $ledgerCount === 0, &#039;Rollback must revert partial transfer + ledger.&#039;);
+echo &quot;[ACID Rollback] Partial update reverted cleanly: Alice = {$aliceBalance} cents, ledger rows = {$ledgerCount}\n&quot;;
+
+// ----------------------------------------------------------------------------
+// 2. NESTED SAVEPOINT (Partial rollback inside an outer transaction)
+// ----------------------------------------------------------------------------
+$pdo-&gt;beginTransaction();
+$pdo-&gt;prepare(&quot;INSERT INTO ledger (wallet_id, delta_cents, note) VALUES (2, 500, &#039;Deposit ok&#039;)&quot;)-&gt;execute();
+$pdo-&gt;exec(&#039;SAVEPOINT bonus_step&#039;);
+try {
+    $pdo-&gt;prepare(&quot;INSERT INTO ledger (wallet_id, delta_cents, note) VALUES (2, 100, &#039;Failing promo&#039;)&quot;)-&gt;execute();
+    throw new DomainException(&#039;Promo quota exhausted&#039;);
+} catch (DomainException) {
+    $pdo-&gt;exec(&#039;ROLLBACK TO SAVEPOINT bonus_step&#039;);
+    $pdo-&gt;exec(&#039;RELEASE SAVEPOINT bonus_step&#039;);
+}
+$pdo-&gt;commit();
+
+$ledgerCountAfter = (int) $pdo-&gt;query(&#039;SELECT COUNT(*) FROM ledger&#039;)-&gt;fetchColumn();
+assert($ledgerCountAfter === 1, &#039;Savepoint rollback preserves outer deposit while cancelling failing promo.&#039;);
+echo &quot;[Savepoint] Outer commit kept valid deposit; rolled back only failing promo step (ledger rows = {$ledgerCountAfter})\n&quot;;
+
+// ----------------------------------------------------------------------------
+// 3. OPTIMISTIC LOCKING WITH `version` COLUMN (Lost-Update Prevention)
+// ----------------------------------------------------------------------------
+$workerA = $pdo-&gt;query(&#039;SELECT id, balance_cents, version FROM wallets WHERE id = 1&#039;)-&gt;fetch();
+$workerB = $pdo-&gt;query(&#039;SELECT id, balance_cents, version FROM wallets WHERE id = 1&#039;)-&gt;fetch();
+
+// Worker A deducts 2000 cents using loaded version = 1 -&gt; SUCCEEDS (updates version 1 -&gt; 2)
+$stmtA = $pdo-&gt;prepare(&#039;UPDATE wallets SET balance_cents = ?, version = version + 1 WHERE id = ? AND version = ?&#039;);
+$stmtA-&gt;execute([(int) $workerA[&#039;balance_cents&#039;] - 2000, $workerA[&#039;id&#039;], $workerA[&#039;version&#039;]]);
+assert($stmtA-&gt;rowCount() === 1, &#039;First writer must succeed.&#039;);
+
+// Stale Worker B tries deducting 1500 cents with stale version = 1 -&gt; 0 ROWS AFFECTED!
+$stmtB = $pdo-&gt;prepare(&#039;UPDATE wallets SET balance_cents = ?, version = version + 1 WHERE id = ? AND version = ?&#039;);
+$stmtB-&gt;execute([(int) $workerB[&#039;balance_cents&#039;] - 1500, $workerB[&#039;id&#039;], $workerB[&#039;version&#039;]]);
+assert($stmtB-&gt;rowCount() === 0, &#039;Stale writer must affect 0 rows and raise OptimisticLockException!&#039;);
+
+$finalWallet = $pdo-&gt;query(&#039;SELECT balance_cents, version FROM wallets WHERE id = 1&#039;)-&gt;fetch();
+assert((int) $finalWallet[&#039;balance_cents&#039;] === 8000 &amp;&amp; (int) $finalWallet[&#039;version&#039;] === 2);
+echo &quot;[Optimistic Lock] Worker A committed (v1 -&gt; v2, balance = {$finalWallet[&#039;balance_cents&#039;]}); stale Worker B blocked safely (0 rows updated)\n&quot;;</code></pre></div></details></div></div></article>
+<article class="chapter-card" id="ch-08" data-track="track-2"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-2">Track 2: Relations &amp; Integrity</span><a class="source-link" href="./chapters/08_lifecycle_hooks.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">08.</span> Mutators, Accessors, Observers &amp; Lifecycle Hooks</h2><button type="button" class="done-toggle" data-ch="ch-08" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Transforming attributes transparently, auto-generating slugs, busting caches on writes, and enforcing invariants across persistence events work very differently across <strong>Active Record (Eloquent)</strong> and <strong>Data Mapper (Doctrine ORM 3)</strong>.</p>
+<h2>1. Accessors, Mutators &amp; Casts (<code>Eloquent</code>) vs Property Normalization (<code>Doctrine</code>)</h2>
+<h3>Laravel Eloquent (<code>Attribute::make</code> — Modern PHP 8 Syntax)</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">use Illuminate\Database\Eloquent\Casts\Attribute;
+
+final class User extends Model
+{
+    protected function email(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) =&gt; strtolower($value),
+            set: fn (string $value) =&gt; [&#039;email&#039; =&gt; trim(strtolower($value))],
+        );
+    }
+
+    // Computed virtual attribute (never stored in SQL table):
+    protected function fullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn () =&gt; &quot;{$this-&gt;first_name} {$this-&gt;last_name}&quot;,
+        )-&gt;shouldCache();
+    }
+}</code></pre></div>
+<h3>Symfony Doctrine ORM 3 (Domain Constructor + Private Setters)</h3>
+<p>In Data Mapper architecture, <strong>normalization belongs inside domain constructors and methods</strong>, NOT hidden magic mutators:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">#[ORM\Entity]
+final class User
+{
+    #[ORM\Column(length: 180, unique: true)]
+    private string $email;
+
+    public function __construct(string $email)
+    {
+        $this-&gt;changeEmail($email);
+    }
+
+    public function changeEmail(string $email): void
+    {
+        $clean = mb_strtolower(trim($email));
+        if (! filter_var($clean, FILTER_VALIDATE_EMAIL)) {
+            throw new \InvalidArgumentException(&#039;Invalid email address.&#039;);
+        }
+        $this-&gt;email = $clean;
+    }
+}</code></pre></div>
+<h2>2. Observers, Entity Listeners &amp; Lifecycle Callbacks</h2>
+<div class="table-wrap"><table><thead><tr><th>Lifecycle Phase</th><th>Eloquent Event / Observer</th><th>Doctrine Callback / Listener</th></tr></thead><tbody><tr><td><strong>Before First Insert</strong></td><td><code>creating</code> (<code>booted()</code> closure or <code>PostObserver::creating()</code>)</td><td><code>#[ORM\PrePersist]</code> (on entity) or <code>prePersist</code> listener</td></tr><tr><td><strong>After Insert</strong></td><td><code>created</code> (implement <code>ShouldHandleEventsAfterCommit</code>!)</td><td><code>#[ORM\PostPersist]</code> / <code>postPersist</code></td></tr><tr><td><strong>Before Update</strong></td><td><code>updating</code></td><td><code>#[ORM\PreUpdate]</code> (receives <code>PreUpdateEventArgs</code> to inspect old/new changeset!)</td></tr><tr><td><strong>Flush Batch Hook</strong></td><td><em>(No UnitOfWork flush)</em></td><td><code>onFlush</code> / <code>postFlush</code> (<code>EntityManager</code> batch inspection)</td></tr><tr><td><strong>Deletion / Soft Delete</strong></td><td><code>deleting</code>, <code>deleted</code>, <code>restoring</code></td><td><code>preRemove</code>, <code>postRemove</code></td></tr></tbody></table></div>
+<h3>Eloquent Observer With Commit Safety</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+
+#[ObservedBy([PostObserver::class])]
+final class Post extends Model {}
+
+final class PostObserver implements ShouldHandleEventsAfterCommit
+{
+    public function creating(Post $post): void
+    {
+        $post-&gt;slug ??= str($post-&gt;title)-&gt;slug()-&gt;toString();
+    }
+
+    public function saved(Post $post): void
+    {
+        Cache::forget(&quot;posts.{$post-&gt;id}&quot;);
+    }
+}</code></pre></div>
+<h3>Doctrine Entity Listener (<code>#[AsEntityListener]</code>) — Preferred Over Self-Callbacks for Service DI!</h3>
+<p>Never inject repositories, loggers, or cache services directly into a Doctrine Entity — bind a dedicated <strong>Entity Listener</strong> cleanly in Symfony/Doctrine:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">#[AsEntityListener(event: Events::prePersist, entity: Post::class)]
+#[AsEntityListener(event: Events::postUpdate, entity: Post::class)]
+final readonly class PostLifecycleListener
+{
+    public function __construct(private SluggerInterface $slugger, private CacheInterface $cache) {}
+
+    public function prePersist(Post $post): void
+    {
+        $post-&gt;ensureSlug($this-&gt;slugger-&gt;slug($post-&gt;title())-&gt;lower()-&gt;toString());
+    }
+
+    public function postUpdate(Post $post): void
+    {
+        $this-&gt;cache-&gt;delete(&quot;posts.{$post-&gt;id()}&quot;);
+    }
+}</code></pre></div>
+<h2>3. Critical Lifecycle Gotchas (Both ORMs!)</h2>
+<ol><li><strong>Mass Updates Bypass Hooks!</strong></li></ol>
+<ul><li>Laravel <code>Post::where(&#039;status&#039;, &#039;draft&#039;)-&gt;update([&#039;status&#039; =&gt; &#039;archived&#039;])</code> and Doctrine DQL <code>UPDATE App\Entity\Post p SET p.status = &#039;archived&#039;</code> execute direct SQL and <strong>DO NOT trigger <code>updating</code>, <code>saved</code>, <code>PreUpdate</code>, or <code>postUpdate</code> hooks</strong>!</li></ul>
+<ol><li><strong>Never Call <code>$em-&gt;flush()</code> Inside a Doctrine <code>prePersist</code> / <code>preUpdate</code> / <code>onFlush</code> Listener!</strong></li></ol>
+<ul><li>Doing so causes infinite recursion or corrupts the active <code>UnitOfWork</code> commit sequence.</li></ul>
+<ol><li><strong>Modifying Properties Inside <code>preUpdate</code> Requires Care / Recompute ChangeSet</strong>:</li></ol>
+<ul><li>In <code>onFlush</code>, changing any entity property requires calling <code>$uow-&gt;recomputeSingleEntityChangeSet($classMetadata, $entity)</code> so Doctrine emits SQL for the mutated field.</li></ul>
+<h2>Key Takeaways</h2>
+<ul><li>Keep external dependencies (<code>Cache</code>, <code>Mailer</code>, <code>Slugger</code>) out of Entities/Models — place side effects in <strong>Observers</strong> (<code>ShouldHandleEventsAfterCommit</code>) or <strong>Doctrine EntityListeners</strong>.</li><li>Remember bulk <code>update()</code> and DQL <code>UPDATE</code> skip every ORM lifecycle callback.</li></ul>
+<div class="callout callout-note"><strong>Previous:</strong> <a href="#ch-07" class="md-link">Chapter 7 — ACID &amp; Locks</a> · <strong>Next:</strong> <a href="#ch-09" class="md-link">Chapter 9 — Sorting, Offset Traps &amp; Cursor Pagination</a></div></div></article>
+<article class="chapter-card" id="ch-09" data-track="track-3"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-3">Track 3: Scale &amp; Architecture</span><a class="source-link" href="./chapters/09_sorting_pagination.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">09.</span> Sorting, Offset Traps &amp; Cursor Pagination</h2><button type="button" class="done-toggle" data-ch="ch-09" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Offset pagination (<code>LIMIT 20 OFFSET 200000</code>) feels fine during development with 50 rows, then falls off a performance cliff in production when tables pass millions of rows. Understanding <strong>deterministic ordering</strong> and <strong>keyset/cursor pagination</strong> solves both speed and skipped/duplicate rows on infinite feeds.</p>
+<h2>1. Safe Multi-Column Sorting &amp; Deterministic Tie-Breakers</h2>
+<p>Always follow two rules on sorted queries:</p>
+<ol><li><strong>Strict Sort Allowlist</strong>: NEVER pass <code>$request-&gt;input(&#039;sort&#039;)</code> raw into <code>orderBy()</code>. Map user-facing keys (<code>newest</code>, <code>price_asc</code>) through an explicit allowlist array!</li><li><strong>Unique Tie-Breaker Column</strong>: Sorting non-unique columns (<code>ORDER BY created_at DESC LIMIT 15</code>) lets SQL return ties in nondeterministic order across pages -&gt; always pair a unique trailing tie-breaker (<code>ORDER BY created_at DESC, id DESC</code>).</li></ol>
+<h2>2. Offset Pagination vs Keyset (Cursor) Pagination</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">SQL</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-sql">-- OFFSET Pagination (Page 10,000 -&gt; Scans &amp; discards 249,975 rows EVERY request!)
+SELECT id, title, created_at FROM articles ORDER BY id DESC LIMIT 25 OFFSET 249975;
+
+-- CURSOR / KEYSET Pagination (Constant O(log N) B-Tree seek at page 10 or 100,000!)
+SELECT id, title, created_at FROM articles WHERE id &lt; 750025 ORDER BY id DESC LIMIT 25;</code></pre></div>
+<div class="table-wrap"><table><thead><tr><th>Feature</th><th>Offset Pagination (<code>paginate()</code>)</th><th>Cursor / Keyset (<code>cursorPaginate()</code>)</th></tr></thead><tbody><tr><td><strong>Jump to Arbitrary Page <code>?page=42</code></strong></td><td>Yes (<code>Next</code>, <code>Prev</code>, Page 1..N links)</td><td>No (Sequential Next / Prev streams only)</td></tr><tr><td><strong>Deep Page Performance (<code>page=10,000</code>)</strong></td><td>Degrades linearly ($O(\text{offset} + \text{limit})$ discarded scan)</td><td>Constant $O(\log N)$ via composite B-Tree index seek</td></tr><tr><td><strong>Live Feed Insert Drift</strong></td><td>Inserting 3 rows shifts page 2 items -&gt; duplicate rows shown!</td><td>Immune to new inserts above the cursor</td></tr><tr><td><strong>Laravel Method</strong></td><td><code>Post::paginate(15)</code> / <code>simplePaginate(15)</code> (omits <code>COUNT(*)</code>)</td><td><code>Post::orderByDesc(&#039;created_at&#039;)-&gt;orderByDesc(&#039;id&#039;)-&gt;cursorPaginate(25)</code></td></tr><tr><td><strong>Doctrine Method</strong></td><td><code>new Doctrine\ORM\Tools\Pagination\Paginator($dqlQuery)</code></td><td>Keyset DQL <code>WHERE (a.createdAt &lt; :dt OR (a.createdAt = :dt AND a.id &lt; :id))</code></td></tr></tbody></table></div>
+<h2>3. Implementation Side-by-Side</h2>
+<h3>Laravel Eloquent (<code>simplePaginate</code> vs <code>paginate</code> vs <code>cursorPaginate</code>)</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// 1. Admin table needing page numbers + continuous serial index (`firstItem() + $loop-&gt;index`)
+$posts = Post::with(&#039;author:id,name&#039;)
+    -&gt;latest(&#039;created_at&#039;)
+    -&gt;latest(&#039;id&#039;)
+    -&gt;paginate(15)
+    -&gt;withQueryString();
+
+// 2. High-scale public API / mobile infinite scroll (zero COUNT(*) overhead!)
+$feed = Post::published()
+    -&gt;orderByDesc(&#039;published_at&#039;)
+    -&gt;orderByDesc(&#039;id&#039;)
+    -&gt;cursorPaginate(25);</code></pre></div>
+<div class="callout callout-note"><strong>Blade Tip:</strong> In numbered tables using <code>-&gt;paginate(15)</code>, keep serial numbers continuous across pages with <code>{{ $posts-&gt;firstItem() + $loop-&gt;index }}</code> rather than <code>{{ $loop-&gt;iteration }}</code>!</div>
+<h3>Symfony Doctrine <code>Paginator</code> (Safe With To-Many <code>JOIN FETCH</code>)</h3>
+<p>When a DQL query uses <code>LEFT JOIN a.tags t</code> (<code>JOIN FETCH</code>) alongside <code>setMaxResults(20)</code>, raw SQL returns multiple rows per parent article. Doctrine&#039;s <strong><code>Paginator</code></strong> issues a dedicated distinct ID slice query first so you ALWAYS receive exact entity counts:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">use Doctrine\ORM\Tools\Pagination\Paginator;
+
+$query = $entityManager-&gt;createQuery(
+    &#039;SELECT a, c FROM App\Entity\Article a LEFT JOIN a.category c ORDER BY a.createdAt DESC, a.id DESC&#039;
+)
+-&gt;setFirstResult(($page - 1) * $perPage)
+-&gt;setMaxResults($perPage);
+
+$paginator = new Paginator($query, fetchJoinCollection: true);
+$totalCount = count($paginator); // Total distinct entities</code></pre></div>
+<div class="callout callout-note"><strong>Try It Locally:</strong> Run <a href="./labs/04_cursor_vs_offset_pagination_and_hydration.php" class="md-link"><code>labs/04_cursor_vs_offset_pagination_and_hydration.php</code></a> and observe SQLite&#039;s <code>EXPLAIN QUERY PLAN</code> (<code>SEARCH articles USING INTEGER PRIMARY KEY (rowid&gt;?)</code>) on keyset queries!</div>
+<h2>Key Takeaways</h2>
+<ul><li>Avoid <code>paginate()</code> (which executes an extra full <code>SELECT COUNT(*)</code>) on huge tables unless exact total page counts are mandatory — use <code>simplePaginate()</code> or <code>cursorPaginate()</code>.</li><li>Always index your exact cursor sort columns (<code>CREATE INDEX idx_articles_pub_id ON articles (published_at DESC, id DESC)</code>).</li></ul>
+<div class="callout callout-note"><strong>Previous:</strong> <a href="#ch-08" class="md-link">Chapter 8 — Lifecycle Hooks</a> · <strong>Next:</strong> <a href="#ch-10" class="md-link">Chapter 10 — Hydration, Streaming Batches &amp; Caching Optimization</a></div><div class="labs-box"><h3>Verified Runnable SQLite PDO Lab</h3><details class="lab-details"><summary><span><code>labs/04_cursor_vs_offset_pagination_and_hydration.php</code></span><span class="lab-link-wrap"><a href="./labs/04_cursor_vs_offset_pagination_and_hydration.php" class="md-link" onclick="event.stopPropagation()">Open PHP Lab &rarr;</a></span></summary><div class="code-block"><div class="code-head"><span class="code-lang">PHP &middot; 04_cursor_vs_offset_pagination_and_hydration.php</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Lab 04 — Offset vs Cursor (Keyset) Pagination + Array vs Object Hydration Memory Benchmark
+ * Run: php labs/04_cursor_vs_offset_pagination_and_hydration.php
+ */
+
+$pdo = new PDO(&#039;sqlite::memory:&#039;, null, null, [PDO::ATTR_ERRMODE =&gt; PDO::ERRMODE_EXCEPTION]);
+$pdo-&gt;exec(&#039;CREATE TABLE articles (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, score INTEGER NOT NULL);&#039;);
+
+// Seed 5,000 rows in one wrapped transaction (~10ms)
+$pdo-&gt;beginTransaction();
+$ins = $pdo-&gt;prepare(&#039;INSERT INTO articles (title, score) VALUES (?, ?)&#039;);
+for ($i = 1; $i &lt;= 5000; $i++) {
+    $ins-&gt;execute([&quot;ORM Performance Entry #{$i}&quot;, $i % 100]);
+}
+$pdo-&gt;commit();
+
+// ----------------------------------------------------------------------------
+// 1. OFFSET VS KEYSET CURSOR PAGINATION EQUIVALENCE (Page after ID 4,900)
+// ----------------------------------------------------------------------------
+$offsetStmt = $pdo-&gt;prepare(&#039;SELECT id, title FROM articles ORDER BY id ASC LIMIT 5 OFFSET 4900&#039;);
+$offsetStmt-&gt;execute();
+$offsetRows = $offsetStmt-&gt;fetchAll(PDO::FETCH_ASSOC);
+
+// Keyset cursor seeks directly on PRIMARY KEY B-Tree index without scanning 4,900 discarded rows:
+$cursorStmt = $pdo-&gt;prepare(&#039;SELECT id, title FROM articles WHERE id &gt; ? ORDER BY id ASC LIMIT 5&#039;);
+$cursorStmt-&gt;execute([4900]);
+$cursorRows = $cursorStmt-&gt;fetchAll(PDO::FETCH_ASSOC);
+
+assert($offsetRows === $cursorRows, &#039;Cursor page must return identical slice starting at 4901..4905&#039;);
+assert((int) $cursorRows[0][&#039;id&#039;] === 4901 &amp;&amp; (int) $cursorRows[4][&#039;id&#039;] === 4905);
+
+// Show SQLite query plan for cursor query: uses SEARCH PRIMARY KEY!
+$plan = $pdo-&gt;query(&#039;EXPLAIN QUERY PLAN SELECT id, title FROM articles WHERE id &gt; 4900 ORDER BY id ASC LIMIT 5&#039;)
+    -&gt;fetchAll(PDO::FETCH_ASSOC);
+echo &quot;[Pagination] Cursor query plan detail: &quot; . ($plan[0][&#039;detail&#039;] ?? &#039;index&#039;) . &quot; (rows 4901..4905 verified)\n&quot;;
+
+// ----------------------------------------------------------------------------
+// 2. BATCHED CHUNK STREAMING BY ID (`chunkById`) — NO IN-MEMORY ACCUMULATION
+// ----------------------------------------------------------------------------
+$processed = 0;
+$lastId = 0;
+$chunkSize = 1000;
+$batches = 0;
+$chunkStmt = $pdo-&gt;prepare(&#039;SELECT id, score FROM articles WHERE id &gt; ? ORDER BY id ASC LIMIT ?&#039;);
+
+while (true) {
+    $chunkStmt-&gt;bindValue(1, $lastId, PDO::PARAM_INT);
+    $chunkStmt-&gt;bindValue(2, $chunkSize, PDO::PARAM_INT);
+    $chunkStmt-&gt;execute();
+    $rows = $chunkStmt-&gt;fetchAll(PDO::FETCH_ASSOC);
+    if ($rows === []) {
+        break;
+    }
+    $batches++;
+    $processed += count($rows);
+    $lastId = (int) $rows[array_key_last($rows)][&#039;id&#039;];
+}
+assert($processed === 5000 &amp;&amp; $batches === 5);
+
+// ----------------------------------------------------------------------------
+// 3. ARRAY HYDRATION VS OBJECT HYDRATION PEAK RAM COMPARISON
+// ----------------------------------------------------------------------------
+final class ArticleEntity
+{
+    public function __construct(public int $id, public string $title, public int $score) {}
+}
+
+$memBeforeArr = memory_get_usage();
+$asArrays = $pdo-&gt;query(&#039;SELECT id, title, score FROM articles&#039;)-&gt;fetchAll(PDO::FETCH_ASSOC);
+$arrDelta = memory_get_usage() - $memBeforeArr;
+unset($asArrays);
+
+$memBeforeObj = memory_get_usage();
+$asObjects = array_map(
+    static fn (array $r): ArticleEntity =&gt; new ArticleEntity((int) $r[&#039;id&#039;], $r[&#039;title&#039;], (int) $r[&#039;score&#039;]),
+    $pdo-&gt;query(&#039;SELECT id, title, score FROM articles&#039;)-&gt;fetchAll(PDO::FETCH_ASSOC)
+);
+$objDelta = memory_get_usage() - $memBeforeObj;
+
+assert(count($asObjects) === 5000);
+echo &quot;[Chunking &amp; Hydration] Streamed {$processed} rows in {$batches} chunks | 5k Array delta: &quot;
+    . number_format($arrDelta) . &quot; B vs Entity delta: &quot; . number_format($objDelta) . &quot; B\n&quot;;</code></pre></div></details></div></div></article>
+<article class="chapter-card" id="ch-10" data-track="track-3"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-3">Track 3: Scale &amp; Architecture</span><a class="source-link" href="./chapters/10_orm_optimization.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">10.</span> Hydration, Memory Streaming &amp; Caching Tuning</h2><button type="button" class="done-toggle" data-ch="ch-10" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>The fastest SQL query still bottlenecks if PHP runs out of RAM hydrating <strong>50,000 full ORM Entities + Identity Map snapshots</strong> or misses query/result caches. Master <strong>projection</strong>, <strong>chunked streaming</strong>, and <strong>caching layers</strong>.</p>
+<h2>1. The Truth About Object Hydration vs Array vs DTO Hydration</h2>
+<p>Many teams reach for plain associative arrays believing they&#039;re universally tiny — let&#039;s measure accurately on modern PHP 8.3+:</p>
+<ul><li><strong>Full Heavy ORM Hydration</strong>: populates <code>Model</code>/<code>Entity</code> attributes, <code>$original</code> dirty-check snapshots, Doctrine <code>UnitOfWork</code> Identity Map arrays, bidirectional <code>Collection</code> lazy proxies, and JSON/date cast objects. Costly in CPU and RAM at high row counts!</li><li><strong>Lightweight Readonly PHP 8.3 DTOs</strong>: declared typed properties (<code>final readonly class RowDto { public int $id; ... }</code>) sit in compact fixed property slots and actually consume <strong>less RAM per row than PHP associative arrays</strong> (<code>HashTable</code> buckets)!</li><li><strong>Doctrine Scalar / Array Hydration</strong>: skips proxy wrapping and Identity Map registration completely (<code>Query::HYDRATE_ARRAY</code>, <code>Query::HYDRATE_SCALAR</code>, <code>Query::HYDRATE_SCALAR_COLUMN</code>) or leaves objects unmanaged (<code>$query-&gt;setHint(Query::HINT_READ_ONLY, true)</code>).</li></ul>
+<div class="table-wrap"><table><thead><tr><th>Optimization Technique</th><th>Laravel Eloquent</th><th>Symfony Doctrine ORM 3</th></tr></thead><tbody><tr><td><strong>Select Only Needed Columns</strong></td><td><code>Post::select([&#039;id&#039;, &#039;title&#039;, &#039;author_id&#039;])-&gt;with(&#039;author:id,name&#039;)-&gt;get()</code></td><td><code>SELECT PARTIAL p.{id, title}, c.{id, name} ...</code> or <code>SELECT NEW App\Dto\PostRowDto(...)</code></td></tr><tr><td><strong>Skip Model Hydration</strong></td><td><code>DB::table(&#039;posts&#039;)-&gt;select(&#039;id&#039;, &#039;title&#039;)-&gt;get()</code> or <code>-&gt;toBase()</code></td><td><code>$query-&gt;getArrayResult()</code> / <code>$query-&gt;getScalarResult()</code></td></tr><tr><td><strong>Bypass Identity Map Snapshots</strong></td><td><em>(No Identity Map)</em></td><td><code>$query-&gt;setHint(Query::HINT_READ_ONLY, true)</code></td></tr></tbody></table></div>
+<h2>2. Streaming Millions of Rows Without Out-of-Memory (<code>OOM</code>)</h2>
+<p>NEVER call <code>Model::all()</code> or <code>$repo-&gt;findAll()</code> inside cron exports, sitemap generators, or batch migrators! Also disable query logging inside long CLI jobs (<code>DB::disableQueryLog()</code> — Laravel keeps SQL query history arrays in RAM if query logging is enabled in debug mode!).</p>
+<h3>Eloquent Batch Streaming (<code>chunkById</code> &amp; <code>lazyById</code>)</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">DB::disableQueryLog();
+
+// Keyset-based chunks (`WHERE id &gt; last_id LIMIT 500`) — immune to offset drift!
+Post::where(&#039;status&#039;, &#039;published&#039;)-&gt;chunkById(500, function ($posts): void {
+    foreach ($posts as $post) {
+        // Process 500 rows at a time; memory stays flat!
+    }
+});
+
+// LazyCollection: iterates 1 model at a time cleanly while fetching 500-row pages internally:
+foreach (Post::published()-&gt;lazyById(500) as $post) {
+    // Low constant RAM footprint
+}</code></pre></div>
+<div class="callout callout-note"><strong>Pitfall:</strong> NEVER use offset-based <code>chunk(500)</code> when <strong>mutating the filter column inside the loop</strong> (e.g., setting <code>status = &#039;processed&#039;</code> while querying <code>where(&#039;status&#039;, &#039;pending&#039;)</code>) — shifted offsets skip every alternate batch! Always use <code>chunkById()</code>!</div>
+<h3>Doctrine Streaming (<code>toIterable()</code> + Periodic <code>$em-&gt;clear()</code>)</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">$batchSize = 200;
+$count = 0;
+
+$iterable = $entityManager-&gt;createQuery(&#039;SELECT p FROM App\Entity\Post p&#039;)
+    -&gt;toIterable(); // Streams database cursor rather than loading all rows!
+
+foreach ($iterable as $post) {
+    $post-&gt;recalculateScore();
+
+    if ((++$count % $batchSize) === 0) {
+        $entityManager-&gt;flush();
+        $entityManager-&gt;clear(); // CRITICAL: releases all managed entities from Identity Map RAM!
+    }
+}
+$entityManager-&gt;flush();
+$entityManager-&gt;clear();</code></pre></div>
+<h2>3. Caching Tiers (Metadata, Query Plans, Result Sets &amp; SLC)</h2>
+<ol><li><strong>Doctrine Cache Triad (<code>metadata_cache</code>, <code>query_cache</code>, <code>result_cache</code>)</strong>:</li></ol>
+<ul><li><strong>Metadata Cache</strong>: parses <code>#[ORM\Entity]</code> attributes ONCE (<code>APCu</code> / <code>Redis</code>) instead of running PHP Reflection per request.</li><li><strong>Query Cache</strong>: caches parsed DQL -&gt; SQL compilation trees.</li><li><strong>Result Cache</strong>: <code>$query-&gt;enableResultCache(lifetime: 600, resultCacheId: &#039;catalog_top_10&#039;)</code> for slow read queries (remember explicit invalidation on writes!).</li><li><strong>Second-Level Cache (SLC)</strong>: caches immutable/read-mostly Entities (<code>Regions</code>: <code>READ_ONLY</code> / <code>NONSTRICT_READ_WRITE</code>) directly in Redis/APCu across HTTP requests!</li></ul>
+<ol><li><strong>Laravel Application &amp; Cache-Aside (<code>remember</code> / <code>flexible</code>)</strong>:</li></ol>
+<ul><li>Pair <code>Cache::flexible(&#039;catalog.featured&#039;, [300, 600], fn () =&gt; ...)</code> with <code>PostObserver</code> invalidation (<code>ShouldHandleEventsAfterCommit</code>).</li></ul>
+<div class="callout callout-note"><strong>Try It Locally:</strong> Run <a href="./labs/04_cursor_vs_offset_pagination_and_hydration.php" class="md-link"><code>labs/04_cursor_vs_offset_pagination_and_hydration.php</code></a> to benchmark <code>chunkById</code> batching and measure real PHP 8.3 memory deltas (<code>Array</code> vs typed PHP objects)!</div>
+<h2>Key Takeaways</h2>
+<ul><li>Always stream large jobs using <code>chunkById()</code> / <code>lazyById()</code> (Eloquent) or <code>$query-&gt;toIterable()</code> + periodic <code>$em-&gt;clear()</code> (Doctrine), with <code>DB::disableQueryLog()</code>.</li><li>Trim <code>SELECT</code> columns (<code>select([&#039;id&#039;, ...])</code>) and hydrate lightweight typed DTOs or scalar arrays on read-heavy endpoints.</li></ul>
+<div class="callout callout-note"><strong>Previous:</strong> <a href="#ch-09" class="md-link">Chapter 9 — Pagination</a> · <strong>Next:</strong> <a href="#ch-11" class="md-link">Chapter 11 — Schema Migrations, Indexes &amp; ORM Testing</a></div><div class="labs-box"><h3>Verified Runnable SQLite PDO Lab</h3><details class="lab-details"><summary><span><code>labs/04_cursor_vs_offset_pagination_and_hydration.php</code></span><span class="lab-link-wrap"><a href="./labs/04_cursor_vs_offset_pagination_and_hydration.php" class="md-link" onclick="event.stopPropagation()">Open PHP Lab &rarr;</a></span></summary><div class="code-block"><div class="code-head"><span class="code-lang">PHP &middot; 04_cursor_vs_offset_pagination_and_hydration.php</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Lab 04 — Offset vs Cursor (Keyset) Pagination + Array vs Object Hydration Memory Benchmark
+ * Run: php labs/04_cursor_vs_offset_pagination_and_hydration.php
+ */
+
+$pdo = new PDO(&#039;sqlite::memory:&#039;, null, null, [PDO::ATTR_ERRMODE =&gt; PDO::ERRMODE_EXCEPTION]);
+$pdo-&gt;exec(&#039;CREATE TABLE articles (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, score INTEGER NOT NULL);&#039;);
+
+// Seed 5,000 rows in one wrapped transaction (~10ms)
+$pdo-&gt;beginTransaction();
+$ins = $pdo-&gt;prepare(&#039;INSERT INTO articles (title, score) VALUES (?, ?)&#039;);
+for ($i = 1; $i &lt;= 5000; $i++) {
+    $ins-&gt;execute([&quot;ORM Performance Entry #{$i}&quot;, $i % 100]);
+}
+$pdo-&gt;commit();
+
+// ----------------------------------------------------------------------------
+// 1. OFFSET VS KEYSET CURSOR PAGINATION EQUIVALENCE (Page after ID 4,900)
+// ----------------------------------------------------------------------------
+$offsetStmt = $pdo-&gt;prepare(&#039;SELECT id, title FROM articles ORDER BY id ASC LIMIT 5 OFFSET 4900&#039;);
+$offsetStmt-&gt;execute();
+$offsetRows = $offsetStmt-&gt;fetchAll(PDO::FETCH_ASSOC);
+
+// Keyset cursor seeks directly on PRIMARY KEY B-Tree index without scanning 4,900 discarded rows:
+$cursorStmt = $pdo-&gt;prepare(&#039;SELECT id, title FROM articles WHERE id &gt; ? ORDER BY id ASC LIMIT 5&#039;);
+$cursorStmt-&gt;execute([4900]);
+$cursorRows = $cursorStmt-&gt;fetchAll(PDO::FETCH_ASSOC);
+
+assert($offsetRows === $cursorRows, &#039;Cursor page must return identical slice starting at 4901..4905&#039;);
+assert((int) $cursorRows[0][&#039;id&#039;] === 4901 &amp;&amp; (int) $cursorRows[4][&#039;id&#039;] === 4905);
+
+// Show SQLite query plan for cursor query: uses SEARCH PRIMARY KEY!
+$plan = $pdo-&gt;query(&#039;EXPLAIN QUERY PLAN SELECT id, title FROM articles WHERE id &gt; 4900 ORDER BY id ASC LIMIT 5&#039;)
+    -&gt;fetchAll(PDO::FETCH_ASSOC);
+echo &quot;[Pagination] Cursor query plan detail: &quot; . ($plan[0][&#039;detail&#039;] ?? &#039;index&#039;) . &quot; (rows 4901..4905 verified)\n&quot;;
+
+// ----------------------------------------------------------------------------
+// 2. BATCHED CHUNK STREAMING BY ID (`chunkById`) — NO IN-MEMORY ACCUMULATION
+// ----------------------------------------------------------------------------
+$processed = 0;
+$lastId = 0;
+$chunkSize = 1000;
+$batches = 0;
+$chunkStmt = $pdo-&gt;prepare(&#039;SELECT id, score FROM articles WHERE id &gt; ? ORDER BY id ASC LIMIT ?&#039;);
+
+while (true) {
+    $chunkStmt-&gt;bindValue(1, $lastId, PDO::PARAM_INT);
+    $chunkStmt-&gt;bindValue(2, $chunkSize, PDO::PARAM_INT);
+    $chunkStmt-&gt;execute();
+    $rows = $chunkStmt-&gt;fetchAll(PDO::FETCH_ASSOC);
+    if ($rows === []) {
+        break;
+    }
+    $batches++;
+    $processed += count($rows);
+    $lastId = (int) $rows[array_key_last($rows)][&#039;id&#039;];
+}
+assert($processed === 5000 &amp;&amp; $batches === 5);
+
+// ----------------------------------------------------------------------------
+// 3. ARRAY HYDRATION VS OBJECT HYDRATION PEAK RAM COMPARISON
+// ----------------------------------------------------------------------------
+final class ArticleEntity
+{
+    public function __construct(public int $id, public string $title, public int $score) {}
+}
+
+$memBeforeArr = memory_get_usage();
+$asArrays = $pdo-&gt;query(&#039;SELECT id, title, score FROM articles&#039;)-&gt;fetchAll(PDO::FETCH_ASSOC);
+$arrDelta = memory_get_usage() - $memBeforeArr;
+unset($asArrays);
+
+$memBeforeObj = memory_get_usage();
+$asObjects = array_map(
+    static fn (array $r): ArticleEntity =&gt; new ArticleEntity((int) $r[&#039;id&#039;], $r[&#039;title&#039;], (int) $r[&#039;score&#039;]),
+    $pdo-&gt;query(&#039;SELECT id, title, score FROM articles&#039;)-&gt;fetchAll(PDO::FETCH_ASSOC)
+);
+$objDelta = memory_get_usage() - $memBeforeObj;
+
+assert(count($asObjects) === 5000);
+echo &quot;[Chunking &amp; Hydration] Streamed {$processed} rows in {$batches} chunks | 5k Array delta: &quot;
+    . number_format($arrDelta) . &quot; B vs Entity delta: &quot; . number_format($objDelta) . &quot; B\n&quot;;</code></pre></div></details></div></div></article>
+<article class="chapter-card" id="ch-11" data-track="track-3"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-3">Track 3: Scale &amp; Architecture</span><a class="source-link" href="./chapters/11_orm_migrations_indexes_and_testing.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">11.</span> Schema Migrations, Indexing &amp; ORM Testing</h2><button type="button" class="done-toggle" data-ch="ch-11" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Your ORM is only as reliable as the underlying schema constraints, SQL indexes, and automated database test suite verifying behavior under concurrency and invalid input.</p>
+<h2>1. Schema Evolution: Migration-First vs Entity-Diff Migrations</h2>
+<div class="table-wrap"><table><thead><tr><th>Aspect</th><th>Laravel Migrations (Schema Builder)</th><th>Doctrine Migrations (<code>doctrine:migrations:diff</code>)</th></tr></thead><tbody><tr><td><strong>Workflow</strong></td><td>Hand-authored forward <code>up()</code> / <code>down()</code> schema classes (<code>php artisan make:migration</code>)</td><td>Reflects PHP <code>#[ORM\*]</code> Entity attributes vs live DB and generates diff SQL (<code>php bin/console doctrine:migrations:diff</code>)</td></tr><tr><td><strong>Execution</strong></td><td><code>php artisan migrate</code> (<code>migrate --pretend</code> dry-run SQL preview)</td><td><code>php bin/console doctrine:migrations:migrate</code> (<code>--dry-run</code> preview)</td></tr><tr><td><strong>Production Safety</strong></td><td><strong>NEVER run <code>migrate:fresh</code>!</strong> Always write additive backward-compatible migrations</td><td>Review every generated diff SQL manually before merging (watch for accidental <code>DROP COLUMN</code> / data loss on renames!)</td></tr></tbody></table></div>
+<h3>Zero-Downtime Expand-and-Contract Column Changes</h3>
+<p>Never rename or enforce <code>NOT NULL</code> on a hot table with zero transition step while old app code is still serving requests:</p>
+<ol><li><strong>Expand</strong>: Add the nullable new column (plus composite index online/concurrently).</li><li><strong>Dual-Write &amp; Backfill</strong>: Deploy code reading fallback and writing both columns; run <code>chunkById</code> backfill in batches.</li><li><strong>Contract</strong>: Enforce <code>NOT NULL</code> and drop the legacy column in a subsequent deploy.</li></ol>
+<h2>2. Essential SQL Indexing Rules for ORMs</h2>
+<ul><li><strong>Index EVERY Foreign Key Manually If Needed</strong>: MySQL/InnoDB auto-indexes foreign key constraints (<code>foreignId()-&gt;constrained()</code>), while <strong>PostgreSQL and SQLite DO NOT auto-create indexes on foreign key columns</strong> unless you add <code>-&gt;index()</code> explicitly! Missing child indexes turn eager <code>WHERE IN (...)</code> and cascade <code>DELETE</code>s into full table scans!</li><li><strong>Leftmost-Prefix Composite Indexes</strong>: Match your exact <code>WHERE</code> + <code>ORDER BY</code> clauses:</li></ul>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">  // Optimizes: WHERE status = &#039;active&#039; ORDER BY published_at DESC, id DESC
+  $table-&gt;index([&#039;status&#039;, &#039;published_at&#039;, &#039;id&#039;], &#039;idx_posts_status_pub_id&#039;);</code></pre></div>
+<ul><li><strong>Avoid Low-Selectivity Single Indexes</strong> alone on booleans (<code>is_active</code>): combine with tenant/category/timestamp columns (<code>(tenant_id, is_active, created_at)</code>).</li></ul>
+<h2>3. Seeding, Factories, Fixtures &amp; Testing the Database Boundary</h2>
+<h3>Fast Factories vs Fixtures</h3>
+<ul><li><strong>Laravel Factories</strong>: <code>Post::factory(40)-&gt;published()-&gt;recycle($authors)-&gt;sequence([...])-&gt;create()</code> reuses parent rows cleanly without spawning 40 extra users!</li><li><strong>Doctrine Fixtures</strong>: <code>ORMExecutor</code> + <code>AbstractFixture</code> classes using <code>addReference(&#039;cat_tech&#039;, $cat)</code> / <code>getReference(...)</code>.</li></ul>
+<h3>Testing Rules for ORM-Backed Code</h3>
+<ol><li><strong>Never Mock Eloquent Models or Doctrine Repositories for SQL Queries!</strong></li></ol>
+<p>Mocking <code>User::shouldReceive(&#039;where&#039;)</code> tests your mock setup, not your SQL, casts, foreign keys, triggers, or <code>lockForUpdate</code> queries. Use an actual database via <code>RefreshDatabase</code> (Laravel Pest/PHPUnit) or <code>zenstruck/foundry</code> + <code>DAMA\DoctrineTestBundle</code> (rolls back every test case inside an outer DB transaction in ~2ms!).</p>
+<ol><li><strong>Enforce Query Budget Assertions in CI</strong>:</li></ol>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">   // Catch N+1 regressions automatically inside Pest / PHPUnit Feature tests!
+   DB::flushQueryLog();
+   DB::enableQueryLog();
+
+   $this-&gt;getJson(&#039;/api/v1/posts&#039;)-&gt;assertOk();
+
+   expect(count(DB::getQueryLog()))-&gt;toBeLessThanOrEqual(4);</code></pre></div>
+<ol><li><strong>Engine Parity Matters</strong>: SQLite <code>:memory:</code> runs tests fast, but <strong>SQLite ignores MySQL/PostgreSQL-specific SQL</strong> (strict <code>GROUP BY</code>, <code>FULLTEXT</code>, enum DDL, <code>FOR UPDATE NOWAIT</code>, JSON indexing). Run CI tests against the same PostgreSQL/MySQL engine used in production!</li></ol>
+<h2>Key Takeaways</h2>
+<ul><li>Index child foreign key columns explicitly when targeting PostgreSQL/SQLite, and align composite index order cleanly with <code>WHERE</code> -&gt; <code>ORDER BY</code> clauses.</li><li>Inspect every generated migration (<code>--pretend</code> / <code>--dry-run</code>) and test real SQL queries inside transaction-rolled-back integration tests rather than mocking ORM builders.</li></ul>
+<div class="callout callout-note"><strong>Previous:</strong> <a href="#ch-10" class="md-link">Chapter 10 — Hydration &amp; Optimization</a> · <strong>Next:</strong> <a href="#ch-12" class="md-link">Chapter 12 — Clean Architecture, CQRS Split &amp; Decision Playbook</a></div></div></article>
+<article class="chapter-card" id="ch-12" data-track="track-3"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-3">Track 3: Scale &amp; Architecture</span><a class="source-link" href="./chapters/12_orm_clean_architecture_and_benchmarks.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">12.</span> Clean Architecture, CQRS Split &amp; Playbook</h2><button type="button" class="done-toggle" data-ch="ch-12" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Knowing <em>how</em> Eloquent and Doctrine work is half the skill — knowing <strong>when NOT to wrap Eloquent in a heavy Repository layer</strong>, <strong>when to bypass ORMs via CQRS Read DTOs</strong>, and <strong>which ORM fits your project</strong> separates maintainable production systems from over-engineered ones.</p>
+<h2>1. Do You Need the Repository Pattern?</h2>
+<div class="table-wrap"><table><thead><tr><th>Architecture / ORM</th><th>Should You Write Custom Repository Classes?</th><th>Cleanest Boundary Pattern</th></tr></thead><tbody><tr><td><strong>Doctrine ORM 3 (Data Mapper)</strong></td><td><strong>YES — built in!</strong> (<code>ServiceEntityRepository</code>)</td><td>Keeps DQL/Criteria lookups cleanly separated from POPO Domain Entities and <code>EntityManager</code> flush orchestration</td></tr><tr><td><strong>Laravel Eloquent (Active Record)</strong></td><td><strong>Usually NO!</strong> Wrapping <code>EloquentUserRepository</code> around <code>Model</code> adds boilerplate while breaking Eloquent scopes, relations, and <code>with()</code></td><td>Put writes in focused <strong>Action</strong> classes (<code>PublishOrderAction</code> wrapped in <code>DB::transaction</code>), reusable queries in <strong>Model Scopes</strong>, and complex queries in <strong>Query Objects</strong></td></tr></tbody></table></div>
+<h2>2. CQRS Read / Write Split in Production Apps</h2>
+<p>Every large ORM system eventually separates <strong>Command (Write)</strong> paths from <strong>Query (Read)</strong> paths cleanly inside one database (no microservice needed!):</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">TEXT</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-text">WRITE / COMMAND SIDE (Strict Domain Safety):
+  CheckoutAction -&gt; Eloquent Model + lockForUpdate() / Doctrine Entity + UnitOfWork + Version Lock
+                    (Enforces invariants, FK integrity, tax calculations, audit ledger)
+
+READ / REPORTING SIDE (Raw Speed &amp; Zero Overhead):
+  SalesDashboardQuery -&gt; Parameterized DB::table()-&gt;join() / DBAL QueryBuilder -&gt; Immutable SummaryDto
+                         (Skips Model/Entity instantiation, dirty snapshots &amp; proxy lazy wrappers)</code></pre></div>
+<h2>3. Framework Selection Playbook (Eloquent vs Doctrine)</h2>
+<p>Choose <strong>Laravel Eloquent (Active Record)</strong> when:</p>
+<ul><li>Building SaaS products, CMS platforms, REST APIs, CRUD admin portals, or teams shipping fast with Migrations + Factories + Queues.</li><li>Domain models map closely 1-to-1 with normalized database tables and business rules live cleanly in Action classes + FormRequests + Policies.</li></ul>
+<p>Choose <strong>Symfony Doctrine ORM 3 (Data Mapper)</strong> when:</p>
+<ul><li>Building strict Domain-Driven Design (DDD) cores where Domain Entities must remain framework-agnostic POPOs with Value Objects (<code>#[ORM\Embedded]</code>), Inheritance (<code>SINGLE_TABLE</code>/<code>JOINED</code>), and constructor invariants.</li><li>Managing complex multi-entity object graphs needing an Identity Map (<code>$a === $b</code>), deferred batched <code>flush()</code> commits, or second-level entity caching.</li></ul>
+<p>Choose <strong>Bypassing the ORM (Raw DBAL / <code>DB::table</code> / CTEs)</strong> when:</p>
+<ul><li>Running BI analytics (<code>WITH RECURSIVE</code> CTEs, window functions <code>ROW_NUMBER() OVER (...)</code>, pivot tables).</li><li>Importing or archiving hundreds of thousands of rows (<code>upsert()</code>, <code>INSERT INTO ... SELECT ...</code>).</li></ul>
+<h2>4. Production ORM Readiness Checklist &amp; Capstone Blueprint</h2>
+<p>Build the <strong>Multi-Vendor Order &amp; Ledger Engine</strong> using every discipline across Chapters 1–12:</p>
+<ol><li><code>Model::shouldBeStrict(! app()-&gt;isProduction())</code> (or Doctrine metadata/query/result APCu/Redis cache in prod).</li><li><code>Money</code> immutable Value Object backed by integer <code>*_cents</code> columns (never <code>FLOAT</code>).</li><li>Polymorphic <code>comments</code>/<code>media</code> with <code>Relation::enforceMorphMap()</code> (Eloquent) or Doctrine table inheritance.</li><li><code>DB::transaction(..., attempts: 3)</code> with <code>lockForUpdate()</code> on wallet/inventory stock + <code>version</code> optimistic locks on admin edits + <code>DB::afterCommit()</code> before dispatching notifications.</li><li><code>chunkById(500)</code> / <code>toIterable()</code> + <code>$em-&gt;clear()</code> for batch jobs, <code>cursorPaginate(25)</code> on infinite feeds, and automated SQL query-count tests (<code>&lt;= 4</code> queries) in CI!</li></ol>
+<div class="callout callout-note"><strong>Previous:</strong> <a href="#ch-11" class="md-link">Chapter 11 — Migrations, Indexes &amp; Testing</a> · <strong>Dashboard:</strong> <a href="#compare-section" class="md-link">Side-by-Side Comparison Portal</a> · <strong>Hub:</strong> <a href="./README.md" class="md-link">Home</a></div></div></article>
+
+        <article class="chapter-card" id="compare-section" data-track="track-compare">
+          <header class="chapter-head">
+            <div class="chapter-meta">
+              <span class="track-badge track-compare">Side-by-Side Comparison</span>
+              <a class="source-link" href="./CHEATSHEET.md">Open ORM Cheatsheet &rarr;</a>
+            </div>
+            <div class="title-row">
+              <h2><span class="ch-prefix">VS.</span> Laravel Eloquent vs Symfony Doctrine ORM 3 (12 Operations)</h2>
+              <div class="filter-pills">
+                <button type="button" class="btn active" onclick="setCompareStage('all', this)">All</button>
+                <button type="button" class="btn" onclick="setCompareStage('crud', this)">CRUD</button>
+                <button type="button" class="btn" onclick="setCompareStage('relations', this)">Relations</button>
+                <button type="button" class="btn" onclick="setCompareStage('advanced', this)">Advanced</button>
+              </div>
+            </div>
+          </header>
+          <div class="chapter-body">
+<!-- CRUD Stage -->
+            <div class="stage-container" data-stage="crud">
+                <div class="section-header">
+                    <h2>CRUD Operations</h2>
+                    <span class="badge-count">4 Operations</span>
+                </div>
+                <div class="cards-container">
+                    
+                    <!-- Card: Attributes & Value Objects -->
+                    <div class="comparison-card" data-tags="model entity attributes embeddable casts value object enum fillable crud">
+                        <div class="card-meta">
+                            <span class="card-topic-title">Models, Entities & Value Objects</span>
+                            <span class="card-stage-badge">CRUD</span>
+                        </div>
+                        <p class="card-description">Defining schema metadata, Backed Enums, and domain Value Objects cleanly via Eloquent Casts/Attributes vs Doctrine Embeddables.</p>
+                        <div class="split-code-grid">
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-laravel">Laravel 12/13 (Eloquent)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>#[Fillable(['sku', 'name', 'status', 'price_cents'])]
+final class Product extends Model
+{
+    protected function casts(): array
+    {
+        return ['status' => ProductStatus::class, 'price_cents' => 'integer'];
+    }
+}</code></pre>
+                            </div>
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-symfony">Symfony (Doctrine ORM 3)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>#[ORM\Entity]
+final class Product
+{
+    #[ORM\Embedded(class: Money::class, columnPrefix: 'price_')]
+    private Money $price;
+
+    #[ORM\Column(enumType: ProductStatus::class)]
+    private ProductStatus $status = ProductStatus::Draft;
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card: Bulk Upserts & Reference Proxies -->
+                    <div class="comparison-card" data-tags="upsert batch bulk getReference proxy save insert crud">
+                        <div class="card-meta">
+                            <span class="card-topic-title">Bulk Upsert & Reference Proxies</span>
+                            <span class="card-stage-badge">CRUD</span>
+                        </div>
+                        <p class="card-description">Efficient mass upserts in Eloquent versus attaching foreign keys via proxy references without extra SELECT queries in Doctrine.</p>
+                        <div class="split-code-grid">
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-laravel">Laravel 12/13 (Eloquent)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>Product::upsert(
+    values: [['sku' => 'A1', 'name' => 'Mouse', 'price_cents' => 2500]],
+    uniqueBy: ['sku'],
+    update: ['name', 'price_cents']
+);</code></pre>
+                            </div>
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-symfony">Symfony (Doctrine ORM 3)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>// Zero SELECT issued for category row:
+$catRef = $em->getReference(Category::class, $categoryId);
+$product->assignCategory($catRef);
+$em->flush();</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Card 1: Save -->
+                    <div class="comparison-card" data-tags="save create insert persist push data database crud">
+                        <div class="card-meta">
+                            <span class="card-topic-title">Inserting & Saving Records</span>
+                            <span class="card-stage-badge">CRUD</span>
+                        </div>
+                        <p class="card-description">Laravel Eloquent uses ActiveRecord where the model itself handles database updates. Symfony Doctrine uses the DataMapper pattern where entities are pure data containers, and the Entity Manager handles database writes.</p>
+                        
+                        <div class="split-code-grid">
+                            <!-- Laravel -->
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-laravel">Laravel (Eloquent ActiveRecord)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>// Instantiate and save directly
+$user = new User();
+$user->name = 'Jane Doe';
+$user->email = 'jane@example.com';
+$user->save(); // Writes immediately</code></pre>
+                            </div>
+
+                            <!-- Symfony -->
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-symfony">Symfony (Doctrine DataMapper)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>// Instantiate, persist in manager unit, flush
+$user = new User();
+$user->setName('Jane Doe');
+$user->setEmail('jane@example.com');
+
+$entityManager->persist($user);
+$entityManager->flush(); // Writes to database</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Fetch / SELECT -->
+                    <div class="comparison-card" data-tags="select find query where filter search fetch crud">
+                        <div class="card-meta">
+                            <span class="card-topic-title">Basic Querying (SELECT & WHERE)</span>
+                            <span class="card-stage-badge">CRUD</span>
+                        </div>
+                        <p class="card-description">Querying active records via Eloquent builder chain versus DQL/repository queries via Doctrine.</p>
+                        
+                        <div class="split-code-grid">
+                            <!-- Laravel -->
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-laravel">Laravel (Eloquent ActiveRecord)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>// Query Builder interface on Model
+$users = User::where('status', 'active')
+    ->orderBy('name', 'asc')
+    ->get();</code></pre>
+                            </div>
+
+                            <!-- Symfony -->
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-symfony">Symfony (Doctrine DataMapper)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>// EntityRepository interface
+$users = $entityManager->getRepository(User::class)
+    ->findBy(
+        ['status' => 'active'],
+        ['name' => 'ASC']
+    );</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Relations Stage -->
+            <div class="stage-container" data-stage="relations">
+                <div class="section-header">
+                    <h2>ORM Associations (Relations)</h2>
+                    <span class="badge-count">3 Operations</span>
+                </div>
+                <div class="cards-container">
+
+                    <!-- Card: Polymorphic vs Inheritance -->
+                    <div class="comparison-card" data-tags="polymorphic morphTo morphMany inheritance discriminator table relations">
+                        <div class="card-meta">
+                            <span class="card-topic-title">Polymorphic Associations vs Table Inheritance</span>
+                            <span class="card-stage-badge">Relations</span>
+                        </div>
+                        <p class="card-description">Shared comments/media across multiple parents via Eloquent morph maps versus SQL FK-preserving inheritance hierarchies in Doctrine.</p>
+                        <div class="split-code-grid">
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-laravel">Laravel 12/13 (Eloquent)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>// Enforce safe short aliases in AppServiceProvider::boot()
+Relation::enforceMorphMap(['post' => Post::class, 'product' => Product::class]);
+// On Product: $this->morphMany(Comment::class, 'commentable')</code></pre>
+                            </div>
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-symfony">Symfony (Doctrine ORM 3)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>#[ORM\Entity]
+#[ORM\InheritanceType('SINGLE_TABLE')]
+#[ORM\DiscriminatorMap(['post' => PostComment::class, 'product' => ProductComment::class])]
+abstract class Comment {}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Card 3: One to Many -->
+                    <div class="comparison-card" data-tags="relations hasmany belongsTo association link one to many mapping">
+                        <div class="card-meta">
+                            <span class="card-topic-title">One-to-Many Associations</span>
+                            <span class="card-stage-badge">Relations</span>
+                        </div>
+                        <p class="card-description">Mapping models relationships (e.g. Category containing many Products) using PHP methods vs PHP Attributes / Docblock Metadata mappings.</p>
+                        
+                        <div class="split-code-grid">
+                            <!-- Laravel -->
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-laravel">Laravel (Eloquent ActiveRecord)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>// Defined on Category class model
+public function products()
+{
+    return $this->hasMany(Product::class);
+}</code></pre>
+                            </div>
+
+                            <!-- Symfony -->
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-symfony">Symfony (Doctrine DataMapper)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>// Defined inside Category entity using annotations/attributes
+#[ORM\OneToMany(
+    targetEntity: Product::class, 
+    mappedBy: 'category'
+)]
+private Collection $products;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Eager Loading -->
+                    <div class="comparison-card" data-tags="eager load join performance select lazy relation N+1 problem with">
+                        <div class="card-meta">
+                            <span class="card-topic-title">Eager Loading (N+1 Query Prevention)</span>
+                            <span class="card-stage-badge">Relations</span>
+                        </div>
+                        <p class="card-description">Load related associations in a single database query to prevent massive performance degradation (N+1 query execution loops).</p>
+                        
+                        <div class="split-code-grid">
+                            <!-- Laravel -->
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-laravel">Laravel (Eloquent ActiveRecord)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>// Uses the 'with' chain method
+$products = Product::with('category')->get();</code></pre>
+                            </div>
+
+                            <!-- Symfony -->
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-symfony">Symfony (Doctrine DataMapper)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>// Fetch JOIN query inside Repository DQL
+$query = $entityManager->createQuery(
+    'SELECT p, c FROM App\Entity\Product p 
+     INNER JOIN p.category c'
+);
+$products = $query->getResult();</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Advanced Stage -->
+            <div class="stage-container" data-stage="advanced">
+                <div class="section-header">
+                    <h2>Advanced ORM Capabilities</h2>
+                    <span class="badge-count">5 Operations</span>
+                </div>
+                <div class="cards-container">
+
+                    <!-- Card: Aggregations & DTO Projections -->
+                    <div class="comparison-card" data-tags="aggregations sum count dto projection subselect reporting advanced">
+                        <div class="card-meta">
+                            <span class="card-topic-title">Aggregations & Lightweight DTO Projections</span>
+                            <span class="card-stage-badge">Advanced</span>
+                        </div>
+                        <p class="card-description">Computing counts/sums inside SQL rather than hydrating full objects — using withCount/DB::table vs Doctrine DQL NEW DTOs.</p>
+                        <div class="split-code-grid">
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-laravel">Laravel 12/13 (Eloquent)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>$categories = Category::withCount('products')
+    ->withSum('products', 'price_cents')
+    ->get();</code></pre>
+                            </div>
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-symfony">Symfony (Doctrine ORM 3)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>$dtos = $em->createQuery(
+    'SELECT NEW App\Dto\SalesSummary(c.name, COUNT(p.id))
+     FROM App\Entity\Category c LEFT JOIN c.products p GROUP BY c.id'
+)->getResult();</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card: Optimistic & Pessimistic Locking -->
+                    <div class="comparison-card" data-tags="locking lockForUpdate version optimistic pessimistic concurrency race advanced">
+                        <div class="card-meta">
+                            <span class="card-topic-title">Pessimistic & Optimistic Concurrency Locks</span>
+                            <span class="card-stage-badge">Advanced</span>
+                        </div>
+                        <p class="card-description">Preventing lost updates and negative balances during concurrent writes via row locks or monotonic version checks.</p>
+                        <div class="split-code-grid">
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-laravel">Laravel 12/13 (Eloquent)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>// Pessimistic row lock inside retryable transaction
+DB::transaction(function () use ($id) {
+    $wallet = Wallet::whereKey($id)->lockForUpdate()->firstOrFail();
+    $wallet->decrement('balance_cents', 500);
+}, attempts: 3);</code></pre>
+                            </div>
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-symfony">Symfony (Doctrine ORM 3)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>// Native version column auto-checked on flush()
+#[ORM\Version, ORM\Column(type: 'integer')]
+private int $version = 1;
+// Or: $em->find(Wallet::class, $id, LockMode::PESSIMISTIC_WRITE);</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card: Cursor Pagination & Streaming -->
+                    <div class="comparison-card" data-tags="cursor pagination chunkById toIterable streaming memory optimization advanced">
+                        <div class="card-meta">
+                            <span class="card-topic-title">Cursor Pagination & Memory-Flat Streaming</span>
+                            <span class="card-stage-badge">Advanced</span>
+                        </div>
+                        <p class="card-description">Eliminate slow OFFSET scans with keyset cursor pagination and stream millions of records without OOM leaks.</p>
+                        <div class="split-code-grid">
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-laravel">Laravel 12/13 (Eloquent)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>$feed = Post::orderByDesc('published_at')->orderByDesc('id')->cursorPaginate(25);
+Post::published()->chunkById(500, fn ($rows) => /* batch work */);</code></pre>
+                            </div>
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-symfony">Symfony (Doctrine ORM 3)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>foreach ($query->toIterable() as $i => $row) {
+    if (($i % 200) === 0) { $em->flush(); $em->clear(); }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Card 5: Transactions -->
+                    <div class="comparison-card" data-tags="transactions commit rollback acid dynamic transaction block">
+                        <div class="card-meta">
+                            <span class="card-topic-title">Database Transactions (ACID)</span>
+                            <span class="card-stage-badge">Advanced</span>
+                        </div>
+                        <p class="card-description">Wrap operations inside transactions. In Doctrine, `flush()` inherently batches writes inside a transaction block, whereas Eloquent uses callback enclosures.</p>
+                        
+                        <div class="split-code-grid">
+                            <!-- Laravel -->
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-laravel">Laravel (Eloquent ActiveRecord)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>// Transaction closure callback
+DB::transaction(function () {
+    $user = User::create([...]);
+    $user->profiles()->create([...]);
+});</code></pre>
+                            </div>
+
+                            <!-- Symfony -->
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-symfony">Symfony (Doctrine DataMapper)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>// Explicits transactional demarcation
+$entityManager->wrapInTransaction(function ($em) {
+    $user = new User();
+    $em->persist($user);
+    // flush() is triggered automatically
+});</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 6: Mutators & Listeners -->
+                    <div class="comparison-card" data-tags="mutators accessors lifecycle listeners triggers callbacks events prePersist save">
+                        <div class="card-meta">
+                            <span class="card-topic-title">Accessors, Mutators & Lifecycle Hooks</span>
+                            <span class="card-stage-badge">Advanced</span>
+                        </div>
+                        <p class="card-description">Alter values on-the-fly or hook actions before data inserts occur (e.g. hashing passwords or setting default slugs).</p>
+                        
+                        <div class="split-code-grid">
+                            <!-- Laravel -->
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-laravel">Laravel (Eloquent ActiveRecord)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>// Custom attribute cast modifier (Laravel 9+)
+protected function password(): Attribute
+{
+    return Attribute::make(
+        set: fn (string $val) => bcrypt($val),
+    );
+}</code></pre>
+                            </div>
+
+                            <!-- Symfony -->
+                            <div class="code-column">
+                                <div class="code-column-header">
+                                    <span class="brand-badge brand-symfony">Symfony (Doctrine DataMapper)</span>
+                                    <button type="button" class="copy-btn" onclick="copySplitCode(this)">Copy</button>
+                                </div>
+                                <pre><code>// Trigger hooks on Lifecycle events attributes
+#[ORM\PrePersist]
+public function hashPasswordBeforePersist(): void
+{
+    $this->password = password_hash(
+        $this->plainPassword, 
+        PASSWORD_BCRYPT
+    );
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="chapter-card" id="quiz-section" data-track="track-quiz">
+          <header class="chapter-head">
+            <div class="chapter-meta">
+              <span class="track-badge track-quiz">Knowledge Check</span>
+              <a class="source-link" href="./CHEATSHEET.md">Open ORM Cheatsheet &rarr;</a>
+            </div>
+            <div class="title-row">
+              <h2><span class="ch-prefix">QZ.</span> Interactive ORM Mastery Quiz (12 Questions)</h2>
+              <button type="button" class="done-toggle" onclick="resetQuizzes()">Reset Quizzes</button>
+            </div>
+          </header>
+          <div class="chapter-body">
+            <div class="quiz-header">
+              <strong id="quizSummary">Answered 0 / 12 &bull; Score: 0 correct</strong>
+              <span style="font-size:0.85rem;color:var(--muted)">Covers Active Record vs Data Mapper, Identity Map, N+1, Polymorphic maps, Locks, Cursors &amp; Streaming.</span>
+            </div>
+            <div id="quizRoot"></div>
+          </div>
+        </article>
+      </div>
+      <div id="emptyState" class="empty-state hidden">No chapters match your search. Press Escape to clear.</div>
+    </main>
+  </div>
+
+  <script>
+    const totalChapters = 12;
+    const storageKey = 'orm_handbook_done_v1';
+    const themeKey = 'orm_handbook_theme_v1';
+    let activeTrack = 'all';
+
+    const searchIndex = new Map();
+    document.querySelectorAll('.chapter-card').forEach((card) => {
+      searchIndex.set(card.id, (card.textContent || '').toLowerCase());
+    });
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      const btn = document.getElementById('themeBtn');
+      if (btn) btn.textContent = theme === 'dark' ? 'Light Mode' : 'Dark Mode';
+    }
+    function toggleTheme() {
+      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      localStorage.setItem(themeKey, next);
+      applyTheme(next);
+    }
+    function getDoneSet() {
+      try { return new Set(JSON.parse(localStorage.getItem(storageKey) || '[]')); }
+      catch { return new Set(); }
+    }
+    function syncProgress() {
+      const done = getDoneSet();
+      document.querySelectorAll('.done-toggle[data-ch]').forEach((btn) => {
+        const isDone = done.has(btn.dataset.ch);
+        btn.classList.toggle('is-done', isDone);
+        btn.textContent = isDone ? 'Completed' : 'Mark Complete';
+      });
+      document.querySelectorAll('.nav-item').forEach((nav) => {
+        const target = nav.getAttribute('href').slice(1);
+        nav.classList.toggle('completed', done.has(target));
+      });
+      const pct = totalChapters > 0 ? Math.round((done.size / totalChapters) * 100) : 0;
+      document.getElementById('progressLabel').textContent = `${done.size} / ${totalChapters}`;
+      document.getElementById('progressFill').style.width = `${pct}%`;
+    }
+    function toggleDone(btn) {
+      const done = getDoneSet();
+      const id = btn.dataset.ch;
+      if (done.has(id)) done.delete(id); else done.add(id);
+      localStorage.setItem(storageKey, JSON.stringify([...done]));
+      syncProgress();
+    }
+    function applyFilters() {
+      const q = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+      let visible = 0;
+      const visibleIds = new Set();
+      document.querySelectorAll('.chapter-card').forEach((card) => {
+        const trackOk = activeTrack === 'all' || card.dataset.track === activeTrack;
+        const textOk = q === '' || (searchIndex.get(card.id) || '').includes(q);
+        const show = trackOk && textOk;
+        card.classList.toggle('hidden', !show);
+        if (show) { visible++; visibleIds.add(card.id); }
+      });
+      document.querySelectorAll('.nav-item').forEach((nav) => {
+        nav.classList.toggle('hidden', !visibleIds.has(nav.getAttribute('href').slice(1)));
+      });
+      document.getElementById('emptyState').classList.toggle('hidden', visible > 0);
+    }
+    function setTrack(track, btn) {
+      activeTrack = track;
+      document.querySelectorAll('.hero .filter-pills .btn').forEach((b) => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      applyFilters();
+    }
+    function setCompareStage(stage, btn) {
+      document.querySelectorAll('#compare-section .filter-pills .btn').forEach((b) => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      document.querySelectorAll('#compare-section .stage-container').forEach((st) => {
+        st.classList.toggle('hidden', stage !== 'all' && st.dataset.stage !== stage);
+      });
+    }
+    function copyCode(btn) {
+      const codeEl = btn.closest('.code-block')?.querySelector('pre code');
+      if (!codeEl) return;
+      navigator.clipboard.writeText(codeEl.textContent || '').then(() => {
+        const prev = btn.textContent; btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = prev; }, 1400);
+      });
+    }
+    function copySplitCode(btn) {
+      const codeEl = btn.closest('.code-column')?.querySelector('pre code');
+      if (!codeEl) return;
+      navigator.clipboard.writeText(codeEl.textContent || '').then(() => {
+        const prev = btn.textContent; btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = prev; }, 1400);
+      });
+    }
+
+    const quizQuestions = [
+      ['What core architectural pattern does Doctrine ORM 3 implement compared to Laravel Eloquent?', ['Active Record', 'Data Mapper + Unit of Work', 'Event Sourcing'], 1, 'Doctrine separates POPO domain entities from SQL persistence managed by EntityManager + UnitOfWork.'],
+      ['In Doctrine, what guarantees that calling find(1) twice inside one EntityManager returns $a === $b?', ['Query Cache', 'Identity Map', 'Lazy Proxy'], 1, 'The Identity Map ensures one canonical object instance per Entity class + primary key within a Unit of Work.'],
+      ['Why call Model::shouldBeStrict(! app()->isProduction()) in Laravel?', ['Compiles SQL faster', 'Throws locally on N+1 lazy loading, missing attributes & discarded unfillable keys', 'Disables transactions'], 1, 'Strict mode catches N+1 loops and attribute typos during local development and tests.'],
+      ['How do you assign a foreign key in Doctrine WITHOUT firing a SELECT query for the parent row?', ['$em->find()', '$em->getReference(Category::class, $id)', '$em->refresh()'], 1, 'getReference() creates a lightweight proxy holding only the PK without hitting the DB.'],
+      ['When specifying Eloquent eager columns like with("author:id,name"), which column is mandatory?', ['created_at', 'id (or the foreign/owner key column)', 'updated_at'], 1, 'Eloquent needs the key column to match parent records to loaded children in memory.'],
+      ['Why wrap Doctrine pagination with to-many JOIN FETCH inside Doctrine\\ORM\\Tools\\Pagination\\Paginator?', ['It caches SQL results in Redis', 'Because SQL LIMIT slices joined rows instead of distinct parent entities', 'It disables lazy loading'], 1, 'Paginator computes distinct parent IDs first so LIMIT 20 returns 20 true entities.'],
+      ['How do you avoid coupling database *_type strings to PHP class names in Eloquent polymorphic tables?', ['Relation::enforceMorphMap([...])', 'Disable foreign keys', 'Store JSON blobs'], 0, 'enforceMorphMap stores short aliases like "post" or "product" rather than brittle FQCNs.'],
+      ['Inside DB::transaction(), how do you prevent a queued email job from reading uncommitted rows or firing before commit?', ['Call dispatch() at top of closure', 'Wrap dispatch inside DB::afterCommit()', 'Skip transactions'], 1, 'DB::afterCommit() runs callbacks strictly after the outermost SQL transaction commits.'],
+      ['Which lock acquires an exclusive SQL row lock during a high-contention balance decrement?', ['sharedLock()', 'lockForUpdate() / LockMode::PESSIMISTIC_WRITE', '#[ORM\\Version]'], 1, 'lockForUpdate() executes SELECT ... FOR UPDATE, serializing concurrent writers on that row.'],
+      ['What happens when calling Post::where("status", "draft")->update(["status" => "archived"]) in Eloquent?', ['Observers and updating events fire per row', 'SQL runs directly, bypassing PHP model events/observers', 'Identity Map refreshes all rows'], 1, 'Mass update() and DQL UPDATE queries run straight in SQL without firing PHP entity lifecycle hooks.'],
+      ['Why does cursorPaginate() outperform paginate() on page 50,000 of a large table?', ['Cursors omit indexes', 'Keyset seeks use B-Tree index bounds (WHERE id < ?) instead of scanning and discarding 50k offset rows', 'Cursor pagination disables ORDER BY'], 1, 'Keyset seeks jump directly to the boundary leaf in O(log N) time with zero offset scan drift.'],
+      ['How do you process 1,000,000 rows in Doctrine without hitting PHP memory exhaustion?', ['findAll()', 'toIterable() paired with periodic $em->flush() and $em->clear()', 'HYDRATE_OBJECT'], 1, 'Streaming via toIterable() + calling clear() regularly releases Identity Map snapshots from RAM.']
+    ];
+
+    const quizResults = new Array(quizQuestions.length).fill(null);
+    function updateQuizSummary() {
+      const answered = quizResults.filter(v => v !== null).length;
+      const correct = quizResults.filter(v => v === true).length;
+      document.getElementById('quizSummary').textContent = `Answered ${answered} / ${quizQuestions.length} \u2022 Score: ${correct} correct`;
+    }
+    function renderQuizzes() {
+      const root = document.getElementById('quizRoot');
+      root.innerHTML = '';
+      quizQuestions.forEach((q, idx) => {
+        const card = document.createElement('div');
+        card.className = 'quiz-card';
+        const title = document.createElement('strong');
+        title.textContent = `${idx + 1}. ${q[0]}`;
+        card.append(title);
+        q[1].forEach((opt, optIdx) => {
+          const lbl = document.createElement('label');
+          const r = document.createElement('input');
+          r.type = 'radio'; r.name = `qz-${idx}`; r.value = String(optIdx);
+          lbl.append(r, document.createTextNode(' ' + opt));
+          card.append(lbl);
+        });
+        const btn = document.createElement('button');
+        btn.type = 'button'; btn.className = 'btn'; btn.textContent = 'Check Answer';
+        const fb = document.createElement('div');
+        fb.className = 'quiz-fb';
+        btn.addEventListener('click', () => {
+          const chosen = card.querySelector('input:checked');
+          if (!chosen) { fb.textContent = 'Choose an option first.'; fb.style.color = 'var(--amber)'; return; }
+          const ok = Number(chosen.value) === q[2];
+          quizResults[idx] = ok;
+          updateQuizSummary();
+          fb.textContent = (ok ? 'Correct \u2014 ' : 'Not quite \u2014 ') + q[3];
+          fb.style.color = ok ? 'var(--emerald)' : 'var(--amber)';
+        });
+        card.append(btn, fb);
+        root.append(card);
+      });
+      updateQuizSummary();
+    }
+    function resetQuizzes() { quizResults.fill(null); renderQuizzes(); }
+
+    document.getElementById('searchInput').addEventListener('input', applyFilters);
+    document.addEventListener('keydown', (e) => {
+      const tag = document.activeElement?.tagName;
+      if (e.key === '/' && tag !== 'INPUT' && tag !== 'TEXTAREA') {
+        e.preventDefault();
+        document.getElementById('searchInput').focus();
+      } else if (e.key === 'Escape' && document.activeElement === document.getElementById('searchInput')) {
+        document.getElementById('searchInput').value = '';
+        applyFilters();
+      }
+    });
+    window.addEventListener('scroll', () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+      document.getElementById('scrollBar').style.width = `${pct}%`;
+    });
+
+    applyTheme(localStorage.getItem(themeKey) || 'dark');
+    syncProgress();
+    renderQuizzes();
+
+    if (window.location.hostname === 'htmlpreview.github.io') {
+      const ghBase = 'https://github.com/xivig/xivig-all-in-one-notes/blob/master/all-in-one-orm-developer-handbook/index.html';
+      document.querySelectorAll('a[href]').forEach((a) => {
+        const rawHref = a.getAttribute('href') || '';
+        if (!rawHref.startsWith('#') && !/^https?:\/\//i.test(rawHref) && /\.(md|php|sh)$/i.test(rawHref)) {
+          a.setAttribute('href', new URL(rawHref, ghBase).href);
+          a.setAttribute('target', '_blank');
+          a.setAttribute('rel', 'noopener noreferrer');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

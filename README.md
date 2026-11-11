@@ -1,8 +1,9 @@
 # 📚 Xivig Developer Notes & Knowledge Base
 
-[![Topics](https://img.shields.io/badge/Knowledge%20Base-19%20Disciplines-6366f1?style=flat-square)](.)
+[![Topics](https://img.shields.io/badge/Knowledge%20Base-20%20Disciplines-6366f1?style=flat-square)](.)
 [![Python](https://img.shields.io/badge/Python-3.10%20--%203.14-3776AB?style=flat-square&logo=python&logoColor=white)](all-in-one-python-developer-handbook/README.md)
 [![Laravel](https://img.shields.io/badge/Laravel-12%20%7C%2013-FF2D20?style=flat-square&logo=laravel&logoColor=white)](all-in-one-laravel-developer-handbook/README.md)
+[![ORM](https://img.shields.io/badge/ORM-Eloquent%20%7C%20Doctrine%203-e11d48?style=flat-square&logo=laravel&logoColor=white)](all-in-one-orm-developer-handbook/README.md)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES2024%2B-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](javascript-mastery-curriculum/)
 [![DOM](https://img.shields.io/badge/DOM-W3C%20%2F%20WHATWG-E34F26?style=flat-square&logo=html5&logoColor=white)](dom-manipulation-guide/dom-facts.md)
 [![jQuery](https://img.shields.io/badge/jQuery-4.0.0-0769AD?style=flat-square&logo=jquery&logoColor=white)](jquery-4-master-curriculum/README.md)
@@ -41,8 +42,9 @@ xivig-all-in-one-notes/
 ├── homebrew-installer-script/                # Idempotent macOS workstation bootstrap script (homebrew.sh)
 ├── sublime-text-editor-trick/                # Sublime Text shortcuts, multi-cursor, Emmet, snippets & builds
 ├── all-in-one-php-tutorial/                  # Modern PHP 8.0–8.5 18-chapter handbook, runnable labs & portal
-├── all-in-one-laravel-developer-handbook/    # Modern Laravel 12/13 & PHP 8.3–8.5 16-chapter handbook, 3 demo projects & portal
+├── all-in-one-laravel-developer-handbook/    # Modern Laravel 12/13 & PHP 8.3–8.5 19-chapter handbook, demos, quiz & scaffolder
 ├── all-in-one-python-developer-handbook/     # Modern Python 3.10–3.14 18-module handbook, Pyodide academy & verified labs
+├── all-in-one-orm-developer-handbook/        # Eloquent (Active Record) vs Doctrine 3 (Data Mapper) 12-chapter handbook & SQLite labs
 ├── developer-handbook-unix-linux-git-shell/  # Unix/Linux, Git, Shell, macOS, HTML5 handbooks & 25 scripts
 └── rc-meaning.md                             # The historical meaning and origin of Unix 'rc' files
 ```
@@ -201,6 +203,12 @@ xivig-all-in-one-notes/
 * **Track 2 — Intermediate OOP, Stdlib & Testing**: [07. `pathlib`, JSON, CSV & `tomllib`](all-in-one-python-developer-handbook/chapters/07-files-pathlib-json-csv-and-tomllib/README.md) · [08. Exceptions & Logging](all-in-one-python-developer-handbook/chapters/08-exceptions-custom-errors-and-logging/README.md) · [09. OOP, Dataclasses & `Protocol`](all-in-one-python-developer-handbook/chapters/09-oop-dataclasses-inheritance-and-protocols/README.md) · [10. Generators, Decorators & Contexts](all-in-one-python-developer-handbook/chapters/10-iterators-generators-decorators-and-context-managers/README.md) · [11. Standard Library Essentials](all-in-one-python-developer-handbook/chapters/11-stdlib-datetime-collections-itertools-and-functools/README.md) · [12. `unittest`, `pytest`, Ruff & Git](all-in-one-python-developer-handbook/chapters/12-testing-unittest-pytest-ruff-and-git/README.md).
 * **Track 3 — APIs, SQLite, Concurrency & Production**: [13. HTTP, REST, FastAPI & Pydantic](all-in-one-python-developer-handbook/chapters/13-http-rest-apis-fastapi-and-pydantic/README.md) · [14. SQLite Transactions & Data](all-in-one-python-developer-handbook/chapters/14-sqlite-transactions-and-data-workflows/README.md) · [15. `asyncio`, Threads & Processes](all-in-one-python-developer-handbook/chapters/15-concurrency-threads-processes-and-asyncio/README.md) · [16. Security & Profiling](all-in-one-python-developer-handbook/chapters/16-security-profiling-and-reliability/README.md) · [17. Packaging & 12-Factor Config](all-in-one-python-developer-handbook/chapters/17-packaging-configuration-and-deployment/README.md) · [18. Architecture & Algorithms](all-in-one-python-developer-handbook/chapters/18-architecture-code-review-and-interviews/README.md).
 
+### 20. 🗄️ [All-in-One ORM Developer Handbook (Eloquent vs Doctrine 3)](all-in-one-orm-developer-handbook/README.md)
+* **Master Hub & Resources**: 📘 **[12-Chapter ORM Handbook](all-in-one-orm-developer-handbook/README.md)** · 🌐 **Interactive Handbook Portal ([Launch Live ↗](https://htmlpreview.github.io/?https://github.com/xivig/xivig-all-in-one-notes/blob/master/all-in-one-orm-developer-handbook/index.html) · [Local](all-in-one-orm-developer-handbook/index.html))** · ⚡ **[ORM Cheatsheet](all-in-one-orm-developer-handbook/CHEATSHEET.md)** · 📖 **[A–Z Glossary](all-in-one-orm-developer-handbook/GLOSSARY.md)** · 🧪 **[SQLite Lab Runner](all-in-one-orm-developer-handbook/run-all-examples.php)**.
+* **Track 1 — Foundations, Modeling & Core CRUD**: [01. Architectures & Impedance Mismatch](all-in-one-orm-developer-handbook/chapters/01_orm_setup.md) · [02. Models, Entities & Value Objects](all-in-one-orm-developer-handbook/chapters/02_models_entities.md) · [03. Saving, Upserts & Entity States](all-in-one-orm-developer-handbook/chapters/03_saving_records.md) · [04. Querying, Scopes & DQL Safety](all-in-one-orm-developer-handbook/chapters/04_querying_data.md).
+* **Track 2 — Relationships, Analytics & Data Integrity**: [05. Relations, Polymorphic Models & N+1](all-in-one-orm-developer-handbook/chapters/05_orm_relations.md) · [06. Aggregations & DTO Projections](all-in-one-orm-developer-handbook/chapters/06_orm_aggregations.md) · [07. ACID Transactions, Savepoints & Locks](all-in-one-orm-developer-handbook/chapters/07_orm_transactions.md) · [08. Mutators, Observers & Lifecycle Hooks](all-in-one-orm-developer-handbook/chapters/08_lifecycle_hooks.md).
+* **Track 3 — Scale, Migrations & Clean Architecture**: [09. Sorting, Offset Traps & Cursor Pagination](all-in-one-orm-developer-handbook/chapters/09_sorting_pagination.md) · [10. Hydration, Streaming Batches & Caching](all-in-one-orm-developer-handbook/chapters/10_orm_optimization.md) · [11. Migrations, Indexes & ORM Testing](all-in-one-orm-developer-handbook/chapters/11_orm_migrations_indexes_and_testing.md) · [12. Clean Architecture & CQRS Playbook](all-in-one-orm-developer-handbook/chapters/12_orm_clean_architecture_and_benchmarks.md).
+
 ---
 
 ## 🚀 Quick Reference Snippets
@@ -243,6 +251,9 @@ php all-in-one-php-tutorial/run-all-examples.php
 
 # Run and verify all Laravel Handbook standalone PHP labs
 php all-in-one-laravel-developer-handbook/run-all-examples.php
+
+# Run and verify all ORM Handbook SQLite PDO labs
+php all-in-one-orm-developer-handbook/run-all-examples.php
 
 # Run and verify all Python Handbook labs & unittest suite
 python -B all-in-one-python-developer-handbook/run_all_examples.py

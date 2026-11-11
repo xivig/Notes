@@ -1,0 +1,2457 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Git &amp; GitHub — The Complete Developer's Guide (22 Chapters)</title>
+  <meta name="description" content="A comprehensive, modern engineering guide and interactive tutorial for Git and GitHub: plumbing architecture, branching models, PR collaboration, merge conflicts, disaster recovery with reflog, and enterprise best practices.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f17;
+      --bg-gradient: radial-gradient(1000px 600px at 80% -10%, #0f2744 0%, transparent 70%), #0b0f17;
+      --paper: #111827;
+      --paper-card: #152238;
+      --paper-hover: #1a2a47;
+      --ink: #f8fafc;
+      --ink-secondary: #cbd5e1;
+      --muted: #8492a6;
+      --line: #1e293b;
+      --line-strong: #334155;
+      --nav: #0d131f;
+      --nav-active: rgba(59, 130, 246, 0.16);
+      --accent: #3b82f6;
+      --accent-hover: #60a5fa;
+      --accent-glow: rgba(59, 130, 246, 0.4);
+      --accent2: #06b6d4;
+      --accent3: #10b981;
+      --code: #070a10;
+      --codeink: #e2e8f0;
+      --code-border: #1a2436;
+      --badge-bg: rgba(255, 255, 255, 0.08);
+      --badge-border: rgba(255, 255, 255, 0.14);
+      --shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.55);
+      --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.25);
+      --callout-tip-bg: rgba(16, 185, 129, 0.08);
+      --callout-tip-border: #10b981;
+      --callout-warn-bg: rgba(245, 158, 11, 0.09);
+      --callout-warn-border: #f59e0b;
+      --callout-info-bg: rgba(59, 130, 246, 0.09);
+      --callout-info-border: #3b82f6;
+      --callout-mac-bg: rgba(217, 70, 239, 0.09);
+      --callout-mac-border: #d946ef;
+    }
+
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --bg-gradient: radial-gradient(1000px 500px at 80% -10%, #dbeafe 0%, transparent 70%), #f8fafc;
+      --paper: #ffffff;
+      --paper-card: #f8fafc;
+      --paper-hover: #f1f5f9;
+      --ink: #0f172a;
+      --ink-secondary: #334155;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --line-strong: #cbd5e1;
+      --nav: #0f172a;
+      --nav-active: rgba(59, 130, 246, 0.1);
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --accent-glow: rgba(37, 99, 235, 0.2);
+      --accent2: #0891b2;
+      --accent3: #059669;
+      --code: #0f172a;
+      --codeink: #f8fafc;
+      --code-border: #334155;
+      --badge-bg: rgba(15, 23, 42, 0.06);
+      --badge-border: rgba(15, 23, 42, 0.12);
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+      --callout-tip-bg: rgba(16, 185, 129, 0.07);
+      --callout-tip-border: #059669;
+      --callout-warn-bg: rgba(245, 158, 11, 0.07);
+      --callout-warn-border: #d97706;
+      --callout-info-bg: rgba(59, 130, 246, 0.07);
+      --callout-info-border: #2563eb;
+      --callout-mac-bg: rgba(217, 70, 239, 0.07);
+      --callout-mac-border: #c026d3;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      font-size: 15px;
+      line-height: 1.72;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* Top Reading Progress Bar */
+    .topbar {
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      width: var(--progress, 0%);
+      box-shadow: 0 0 10px var(--accent-glow);
+      transition: width 0.1s ease-out;
+    }
+
+    /* Global Navigation Bar / Action Strip */
+    .top-actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 12px 24px 0;
+    }
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--badge-border);
+      background: var(--badge-bg);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s ease;
+    }
+    .action-btn:hover {
+      background: var(--line);
+      border-color: var(--accent);
+      color: var(--accent-hover);
+    }
+    .action-btn svg { width: 14px; height: 14px; }
+
+    /* Header Hero */
+    header {
+      background: var(--bg-gradient);
+      color: #fff;
+      padding: 30px max(24px, calc((100vw - 1460px)/2)) 50px;
+      border-bottom: 1px solid var(--line);
+    }
+    .hero-inner { max-width: 1400px; margin: auto; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--accent-hover);
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent3);
+      box-shadow: 0 0 8px var(--accent3);
+    }
+    h1 {
+      font-size: clamp(32px, 4.5vw, 56px);
+      line-height: 1.08;
+      letter-spacing: -.04em;
+      margin: 8px 0 16px;
+      max-width: 960px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 40%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    [data-theme="light"] h1 {
+      background: linear-gradient(135deg, #0f172a 40%, #1d4ed8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-copy {
+      color: var(--ink-secondary);
+      max-width: 820px;
+      font-size: 16.5px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .hero-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .hero-meta span {
+      border: 1px solid var(--badge-border);
+      background: var(--badge-bg);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink-secondary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Main Layout */
+    .layout {
+      max-width: 1500px;
+      margin: 28px auto;
+      display: grid;
+      grid-template-columns: 320px minmax(0, 1fr);
+      gap: 28px;
+      padding: 0 24px;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      position: sticky;
+      top: 20px;
+      align-self: start;
+      max-height: calc(100vh - 40px);
+      display: flex;
+      flex-direction: column;
+      background: var(--nav);
+      color: #e5e7eb;
+      border-radius: 18px;
+      padding: 18px 14px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+    }
+    .side-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2px 6px 12px;
+    }
+    .side-title {
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+    .chapter-total-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: rgba(59, 130, 246, 0.2);
+      color: #93c5fd;
+    }
+
+    /* Search Box */
+    .search-wrap {
+      position: relative;
+      margin-bottom: 12px;
+    }
+    .search {
+      width: 100%;
+      border: 1px solid var(--line-strong);
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      padding: 10px 38px 10px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    .search:focus {
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+    }
+    .search-kbd {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 10px;
+      font-family: inherit;
+      padding: 2px 6px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 4px;
+      color: var(--muted);
+      pointer-events: none;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .search-clear {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 16px;
+      cursor: pointer;
+      display: none;
+      padding: 4px;
+      line-height: 1;
+    }
+    .search-status {
+      font-size: 11px;
+      color: var(--muted);
+      padding: 0 6px 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    
+    /* Modern Category Navigation (Sidebar) */
+    .category-nav-wrap {
+      margin-bottom: 14px;
+    }
+    .category-nav-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      padding: 0 4px;
+    }
+    .category-nav-title {
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .category-reset-btn {
+      font-size: 10.5px;
+      color: var(--accent-hover);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 2px 4px;
+      font-weight: 600;
+      display: none;
+      border-radius: 4px;
+      transition: background 0.15s ease;
+    }
+    .category-reset-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+    .category-nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .cat-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 9px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--ink-secondary);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    [data-theme="light"] .cat-item {
+      background: rgba(15, 23, 42, 0.03);
+      border-color: rgba(15, 23, 42, 0.06);
+      color: #334155;
+    }
+    .cat-item:hover {
+      background: rgba(255, 255, 255, 0.09);
+      border-color: var(--accent);
+      color: #fff;
+      transform: translateX(2px);
+    }
+    [data-theme="light"] .cat-item:hover {
+      background: rgba(37, 99, 235, 0.06);
+      border-color: var(--accent);
+      color: #0f172a;
+    }
+    .cat-item.active {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.22), rgba(6, 182, 212, 0.12));
+      border-color: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 14px var(--accent-glow);
+      font-weight: 700;
+    }
+    [data-theme="light"] .cat-item.active {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(6, 182, 212, 0.08));
+      border-color: var(--accent);
+      color: #1d4ed8;
+      box-shadow: 0 2px 10px rgba(37, 99, 235, 0.15);
+    }
+    .cat-item-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+    .cat-icon {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      stroke: var(--accent-hover);
+      transition: transform 0.2s ease;
+    }
+    .cat-item:hover .cat-icon {
+      transform: scale(1.15);
+    }
+    .cat-name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cat-badge {
+      font-size: 10px;
+      font-family: 'Fira Code', monospace;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--muted);
+      flex-shrink: 0;
+      letter-spacing: -0.02em;
+    }
+    [data-theme="light"] .cat-badge {
+      background: rgba(15, 23, 42, 0.06);
+      border-color: rgba(15, 23, 42, 0.08);
+    }
+    .cat-item.active .cat-badge {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* Main Content Category Deck */
+    .category-deck-card {
+      background: var(--paper-card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 24px 28px;
+      margin-bottom: 26px;
+      box-shadow: var(--shadow);
+    }
+    .deck-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .deck-title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin: 0;
+    }
+    .deck-badge-counter {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .deck-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+    }
+    .deck-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: var(--shadow-sm);
+    }}
+    .deck-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      box-shadow: 0 8px 24px var(--accent-glow);
+    }
+    .deck-card.active {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(6, 182, 212, 0.06));
+      box-shadow: 0 6px 20px var(--accent-glow);
+    }
+    [data-theme="light"] .deck-card.active {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(6, 182, 212, 0.04));
+    }
+    .deck-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .deck-card-icon-wrap {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .deck-range-badge {
+      font-size: 11px;
+      font-family: 'Fira Code', monospace;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+    .deck-card.active .deck-range-badge {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .deck-card-name {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .deck-card-desc {
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: var(--muted);
+      margin: 0;
+    }
+
+
+    /* Sidebar Navigation Links */
+    .nav-scroller {
+      overflow-y: auto;
+      flex: 1;
+      padding-right: 4px;
+    }
+    .nav-scroller::-webkit-scrollbar { width: 5px; }
+    .nav-scroller::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+    }
+    nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #94a3b8;
+      font-size: 12.5px;
+      line-height: 1.4;
+      padding: 8px 10px;
+      border-radius: 8px;
+      margin: 2px 0;
+      transition: all 0.15s ease;
+    }
+    nav a span {
+      font-size: 10.5px;
+      font-family: 'Fira Code', monospace;
+      color: #64748b;
+      font-weight: 700;
+      min-width: 22px;
+    }
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.07);
+      color: #f1f5f9;
+      transform: translateX(2px);
+    }
+    nav a.active {
+      background: var(--nav-active);
+      color: #fff;
+      border-left: 3px solid var(--accent);
+      font-weight: 600;
+    }
+    nav a.active span { color: var(--accent-hover); }
+
+    /* Main Content Sections */
+    main { min-width: 0; }
+    .overview, .chapter {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: clamp(24px, 3.5vw, 46px);
+      margin-bottom: 26px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .overview {
+      background: var(--paper-card);
+      border-top: 4px solid var(--accent);
+    }
+    .overview h2 {
+      margin: 0 0 12px;
+      font-size: 26px;
+      letter-spacing: -.03em;
+      font-weight: 800;
+    }
+    .overview p { color: var(--ink-secondary); font-size: 16px; margin: 0 0 20px; }
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 24px;
+    }
+    .metric {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 18px;
+      box-shadow: var(--shadow-sm);
+    }
+    .metric strong {
+      display: block;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -.03em;
+      background: linear-gradient(135deg, var(--accent-hover), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
+    }
+    .metric small {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+      display: block;
+    }
+
+    /* Chapter Components */
+    .chapter-kicker {
+      font-size: 11px;
+      letter-spacing: .16em;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    .chapter-kicker span { color: var(--muted); }
+    .chapter h2 {
+      font-size: clamp(24px, 2.8vw, 34px);
+      line-height: 1.22;
+      letter-spacing: -.035em;
+      margin: 0 0 12px;
+      font-weight: 800;
+    }
+    .intro {
+      font-size: 16px;
+      color: var(--muted);
+      margin: 0 0 28px;
+      max-width: 940px;
+      line-height: 1.6;
+    }
+    .chapter-content h3 {
+      font-size: 18px;
+      margin: 30px 0 12px;
+      letter-spacing: -.02em;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .chapter-content p {
+      color: var(--ink-secondary);
+      margin: 14px 0;
+      line-height: 1.75;
+    }
+    .chapter-content ul, .chapter-content ol {
+      padding-left: 24px;
+      color: var(--ink-secondary);
+      margin: 14px 0;
+    }
+    .chapter-content li { padding: 4px 0; }
+    .chapter-content code:not(pre code) {
+      font-family: 'Fira Code', ui-monospace, SFMono-Regular, Consolas, monospace;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      border-radius: 5px;
+      padding: 2px 6px;
+      font-size: .88em;
+      color: var(--accent-hover);
+      font-weight: 500;
+    }
+
+    /* Callout Blocks */
+    .callout {
+      border-left: 4px solid;
+      border-radius: 0 12px 12px 0;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+    .callout strong { font-weight: 700; }
+    .callout-tip {
+      background: var(--callout-tip-bg);
+      border-color: var(--callout-tip-border);
+      color: var(--ink);
+    }
+    .callout-warn {
+      background: var(--callout-warn-bg);
+      border-color: var(--callout-warn-border);
+      color: var(--ink);
+    }
+    .callout-info {
+      background: var(--callout-info-bg);
+      border-color: var(--callout-info-border);
+      color: var(--ink);
+    }
+    .callout-mac {
+      background: var(--callout-mac-bg);
+      border-color: var(--callout-mac-border);
+      color: var(--ink);
+    }
+
+    /* Code Blocks */
+    pre {
+      position: relative;
+      background: var(--code);
+      color: var(--codeink);
+      padding: 22px 20px 20px;
+      border-radius: 14px;
+      overflow-x: auto;
+      margin: 18px 0 22px;
+      font-family: 'Fira Code', ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      border: 1px solid var(--code-border);
+      tab-size: 2;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.4);
+    }
+    pre code { white-space: pre; font-family: inherit; }
+    .copy {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      transition: all 0.2s ease;
+    }
+    .copy:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.35);
+      color: #fff;
+    }
+    .copy.copied {
+      background: #10b981 !important;
+      border-color: #10b981 !important;
+      color: #fff !important;
+    }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 18px 0 24px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 13.5px;
+      text-align: left;
+    }
+    thead th {
+      background: var(--paper-card);
+      color: var(--ink);
+      font-weight: 700;
+      border-bottom: 2px solid var(--line-strong);
+      padding: 12px 16px;
+      white-space: nowrap;
+    }
+    tbody td {
+      border-bottom: 1px solid var(--line);
+      padding: 12px 16px;
+      vertical-align: top;
+      color: var(--ink-secondary);
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: rgba(59, 130, 246, 0.04); }
+    td code { white-space: nowrap; }
+
+    /* Chapter Footer */
+    .chapter-foot {
+      border-top: 1px solid var(--line);
+      margin-top: 36px;
+      padding-top: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .12em;
+      font-weight: 800;
+    }
+    .chapter-foot a {
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0;
+      font-size: 12.5px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.15s ease;
+    }
+    .chapter-foot a:hover { color: var(--accent-hover); }
+
+    /* Floating Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      right: 24px;
+      bottom: 28px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 24px var(--accent-glow);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(12px);
+      transition: all 0.25s ease;
+      z-index: 90;
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .back-to-top:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px var(--accent-glow);
+    }
+
+    /* Mobile Drawer Toggle */
+    .mobile-menu-btn {
+      display: none;
+      position: fixed;
+      left: 18px;
+      bottom: 24px;
+      z-index: 95;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 8px 24px var(--accent-glow);
+      cursor: pointer;
+    }
+
+    .no-results {
+      display: none;
+      padding: 40px 20px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 15px;
+      background: var(--paper);
+      border-radius: 16px;
+      border: 1px dashed var(--line-strong);
+    }
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 40px 24px;
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 1080px) {
+      .layout { grid-template-columns: 280px minmax(0, 1fr); gap: 20px; }
+    }
+    @media (max-width: 980px) {
+      .mobile-menu-btn { display: inline-flex; align-items: center; gap: 6px; }
+      .layout { grid-template-columns: 1fr; }
+      .sidebar {
+        position: fixed;
+        left: -340px;
+        top: 0;
+        bottom: 0;
+        width: 320px;
+        max-height: 100vh;
+        z-index: 1000;
+        border-radius: 0 18px 18px 0;
+        transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .sidebar.open {
+        left: 0;
+        box-shadow: 20px 0 50px rgba(0, 0, 0, 0.6);
+      }
+      .drawer-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        z-index: 999;
+      }
+      .drawer-overlay.visible { display: block; }
+      .overview-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      header { padding: 24px 16px 40px; }
+      .layout { padding: 0 14px; margin: 18px auto; }
+      .overview-grid { grid-template-columns: 1fr; }
+      .chapter, .overview { border-radius: 16px; padding: 22px 18px; }
+      pre { font-size: 12px; padding: 18px 14px; }
+      .top-actions { padding: 10px 14px 0; }
+    }
+
+    /* Print Optimization */
+    @media print {
+      body { background: #fff !important; color: #111 !important; font-size: 10.5pt; }
+      header { background: #fff !important; color: #111 !important; padding: 20px 0; border: none; }
+      h1 { -webkit-text-fill-color: #111 !important; font-size: 24pt; }
+      .hero-copy, .hero-meta { color: #444 !important; }
+      .layout { display: block; margin: 0; padding: 0; }
+      .sidebar, .topbar, .copy, .top-actions, .back-to-top, .mobile-menu-btn, .chapter-foot a { display: none !important; }
+      .overview, .chapter { box-shadow: none !important; border: 1px solid #ddd !important; padding: 16px 0; break-inside: avoid; }
+      .chapter { break-before: page; }
+      pre { white-space: pre-wrap; overflow-wrap: anywhere; border: 1px solid #ccc; }
+      a { text-decoration: none; }
+    }
+  </style>
+</head>
+<body id="top">
+  <!-- Dynamic Reading Progress Bar -->
+  <div class="topbar" id="reading-progress"></div>
+
+  <!-- Top Action Bar -->
+  <div class="top-actions">
+    <a href="Linux_Unix_Shell_Developer_Handbook.html" class="action-btn" title="Open Linux & Unix Shell Developer Handbook">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+      Shell Handbook
+    </a>
+    <a href="documentation/index.html" class="action-btn" title="Open Interactive Documentation Portal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Docs Portal
+    </a>
+    <button type="button" class="action-btn" id="print-btn" title="Print or save as PDF">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Print
+    </button>
+    <button type="button" class="action-btn" id="theme-toggle" aria-label="Toggle theme">
+      <span id="theme-icon">☀️ Light</span>
+    </button>
+  </div>
+
+  <!-- Header Hero -->
+  <header>
+    <div class="hero-inner">
+      <div class="eyebrow">ENGINEERING FIELD MANUAL &middot; 22 COMPREHENSIVE CHAPTERS</div>
+      <h1>Git &amp; GitHub — The Practical Developer's Guide</h1>
+      <p class="hero-copy">A comprehensive, battle-tested masterclass on Git and GitHub: internal plumbing architecture, the Three Trees, clean branching strategies, Pull Request collaboration, merge conflict resolution, disaster recovery with reflog, and enterprise team workflows.</p>
+      <div class="hero-meta">
+        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9"/><path d="M12 12v3"/></svg> 22 In-Depth Chapters</span>
+        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> SSH &amp; PAT Security</span>
+        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Interactive Rebase &amp; Reflog</span>
+        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> 12 Troubleshooting Scenarios</span>
+        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Zero Dependencies</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Toggle and Overlay -->
+  <button type="button" class="mobile-menu-btn" id="mobile-toggle">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    Index Menu
+  </button>
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+
+  <!-- Layout Container -->
+  <div class="layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="side-header">
+        <span class="side-title">Table of Contents</span>
+        <span class="chapter-total-badge">22 Chapters</span>
+      </div>
+
+      <!-- Search Input -->
+      <div class="search-wrap">
+        <input type="search" class="search" id="search" placeholder="Search Git topics... (press '/')" autocomplete="off" spellcheck="false">
+        <kbd class="search-kbd">/</kbd>
+        <button type="button" class="search-clear" id="search-clear" aria-label="Clear search">&times;</button>
+      </div>
+
+      <div class="search-status" id="search-status">
+        <span>Showing 22 of 22 chapters</span>
+      </div>
+
+            <!-- Modern Category Selector -->
+      <div class="category-nav-wrap">
+        <div class="category-nav-header">
+          <span class="category-nav-title">FILTER BY DOMAIN</span>
+          <button type="button" class="category-reset-btn" id="category-reset">Show All &times;</button>
+        </div>
+        <div class="category-nav-list" id="category-nav-list">
+          <button type="button" class="cat-item active" data-cat="all">
+            <span class="cat-item-left">
+              <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              <span class="cat-name">All Chapters</span>
+            </span>
+            <span class="cat-badge">22</span>
+          </button>
+          
+          <button type="button" class="cat-item" data-cat="foundations">
+            <span class="cat-item-left">
+              <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+              <span class="cat-name">Foundations</span>
+            </span>
+            <span class="cat-badge">Ch 1–4</span>
+          </button>
+
+          <button type="button" class="cat-item" data-cat="remotes">
+            <span class="cat-item-left">
+              <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/><polyline points="12 13 12 9 14 11"/></svg>
+              <span class="cat-name">Remotes &amp; Cloud</span>
+            </span>
+            <span class="cat-badge">Ch 5–8</span>
+          </button>
+
+          <button type="button" class="cat-item" data-cat="collaboration">
+            <span class="cat-item-left">
+              <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="6" y1="9" x2="6" y2="15"/><path d="M18 15V9a3 3 0 0 0-3-3H9"/></svg>
+              <span class="cat-name">Collaboration &amp; Undo</span>
+            </span>
+            <span class="cat-badge">Ch 9–12</span>
+          </button>
+
+          <button type="button" class="cat-item" data-cat="reference">
+            <span class="cat-item-left">
+              <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              <span class="cat-name">Reference &amp; Errors</span>
+            </span>
+            <span class="cat-badge">Ch 13–17</span>
+          </button>
+
+          <button type="button" class="cat-item" data-cat="advanced">
+            <span class="cat-item-left">
+              <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+              <span class="cat-name">Advanced Labs &amp; Governance</span>
+            </span>
+            <span class="cat-badge">Ch 18–22</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Links Scroller -->
+      <div class="nav-scroller">
+        <nav id="nav-list">
+        <a href="#chapter-1" data-category="foundations" data-ch="1"><span>01</span> Git and GitHub: know the difference</a>
+        <a href="#chapter-2" data-category="foundations" data-ch="2"><span>02</span> Install and configure Git</a>
+        <a href="#chapter-3" data-category="foundations" data-ch="3"><span>03</span> Create your first local repository</a>
+        <a href="#chapter-4" data-category="foundations" data-ch="4"><span>04</span> The everyday Git workflow</a>
+        <a href="#chapter-5" data-category="remotes" data-ch="5"><span>05</span> Publish the project on GitHub</a>
+        <a href="#chapter-6" data-category="remotes" data-ch="6"><span>06</span> Clone an existing repository</a>
+        <a href="#chapter-7" data-category="remotes" data-ch="7"><span>07</span> Branches: work safely without disturbing main</a>
+        <a href="#chapter-8" data-category="remotes" data-ch="8"><span>08</span> Keep your local and GitHub copies in sync</a>
+        <a href="#chapter-9" data-category="collaboration" data-ch="9"><span>09</span> Pull requests: the collaboration workflow</a>
+        <a href="#chapter-10" data-category="collaboration" data-ch="10"><span>10</span> Undo carefully: the commands worth knowing</a>
+        <a href="#chapter-11" data-category="collaboration" data-ch="11"><span>11</span> Resolve a merge conflict</a>
+        <a href="#chapter-12" data-category="collaboration" data-ch="12"><span>12</span> Add a .gitignore file</a>
+        <a href="#chapter-13" data-category="reference" data-ch="13"><span>13</span> Essential Git command reference</a>
+        <a href="#chapter-14" data-category="reference" data-ch="14"><span>14</span> Troubleshooting: 12 common beginner errors</a>
+        <a href="#chapter-15" data-category="reference" data-ch="15"><span>15</span> Your first practical exercise</a>
+        <a href="#chapter-16" data-category="reference" data-ch="16"><span>16</span> A safe daily workflow</a>
+        <a href="#chapter-17" data-category="reference" data-ch="17"><span>17</span> Git Cheat Sheet: commands and power aliases</a>
+        <a href="#chapter-18" data-category="advanced" data-ch="18"><span>18</span> Remote repositories: complete mastery</a>
+        <a href="#chapter-19" data-category="advanced" data-ch="19"><span>19</span> Push rejected: understand and fix it correctly</a>
+        <a href="#chapter-20" data-category="advanced" data-ch="20"><span>20</span> Stash, amend, and repair commit history</a>
+        <a href="#chapter-21" data-category="advanced" data-ch="21"><span>21</span> Real-world collaboration workflow</a>
+        <a href="#chapter-22" data-category="advanced" data-ch="22"><span>22</span> Git mastery lab: practice the difficult cases</a>
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main>
+      <!-- Overview Card -->
+      <section class="overview" id="overview">
+        <div class="chapter-kicker">CURRICULUM ARCHITECTURE <span> / </span> EXECUTIVE OVERVIEW</div>
+        <h2>Version Control Mastery Blueprint</h2>
+        <p>This tutorial is engineered to transform developers from memorizing isolated commands into mastering Git's underlying directed acyclic graph (DAG), object database, and enterprise collaboration workflows.</p>
+        
+        <div class="overview-grid">
+          <div class="metric">
+            <strong>22</strong>
+            <small>Comprehensive chapters covering every core stage of Git &amp; GitHub.</small>
+          </div>
+          <div class="metric">
+            <strong>100%</strong>
+            <small>Production-verified terminal commands with modern switch and restore syntax.</small>
+          </div>
+          <div class="metric">
+            <strong>Reflog</strong>
+            <small>Disaster recovery labs to rescue lost branches, detached HEADs, and merge conflicts.</small>
+          </div>
+        </div>
+      </section>
+
+      
+      <!-- Interactive Category Deck -->
+      <section class="category-deck-card" id="category-deck">
+        <div class="deck-header">
+          <div>
+            <div class="chapter-kicker" style="margin-bottom:4px;">MODULAR EXPLORATION <span> / </span> 5 SPECIALIZED TRACKS</div>
+            <h3 class="deck-title">Curriculum Tracks &amp; Domains</h3>
+          </div>
+          <span class="deck-badge-counter">Select a track to focus chapters</span>
+        </div>
+
+        <div class="deck-grid">
+          <button type="button" class="deck-card active" data-cat="all">
+            <div class="deck-card-top">
+              <span class="deck-card-icon-wrap" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              </span>
+              <span class="deck-range-badge">22 Chapters</span>
+            </div>
+            <div class="deck-card-name">Complete Handbook</div>
+            <p class="deck-card-desc">All 22 chapters from local fundamentals through production enterprise branching.</p>
+          </button>
+
+          <button type="button" class="deck-card" data-cat="foundations">
+            <div class="deck-card-top">
+              <span class="deck-card-icon-wrap" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+              </span>
+              <span class="deck-range-badge">Ch 1–4</span>
+            </div>
+            <div class="deck-card-name">Foundations (Ch 1–4)</div>
+            <p class="deck-card-desc">Git object architecture, cross-platform install, .git anatomy, and the 3-stage loop.</p>
+          </button>
+
+          <button type="button" class="deck-card" data-cat="remotes">
+            <div class="deck-card-top">
+              <span class="deck-card-icon-wrap" style="background: rgba(6, 182, 212, 0.15); color: #22d3ee;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/><polyline points="12 13 12 9 14 11"/></svg>
+              </span>
+              <span class="deck-range-badge">Ch 5–8</span>
+            </div>
+            <div class="deck-card-name">Remotes &amp; Cloud (Ch 5–8)</div>
+            <p class="deck-card-desc">SSH/PAT authentication, GitHub publishing, shallow cloning, branching, and fetch vs pull.</p>
+          </button>
+
+          <button type="button" class="deck-card" data-cat="collaboration">
+            <div class="deck-card-top">
+              <span class="deck-card-icon-wrap" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="6" y1="9" x2="6" y2="15"/><path d="M18 15V9a3 3 0 0 0-3-3H9"/></svg>
+              </span>
+              <span class="deck-range-badge">Ch 9–12</span>
+            </div>
+            <div class="deck-card-name">Collaboration &amp; Undo (Ch 9–12)</div>
+            <p class="deck-card-desc">Pull requests, complete undo decision matrix, merge conflict resolution, and .gitignore.</p>
+          </button>
+
+          <button type="button" class="deck-card" data-cat="reference">
+            <div class="deck-card-top">
+              <span class="deck-card-icon-wrap" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              </span>
+              <span class="deck-range-badge">Ch 13–17</span>
+            </div>
+            <div class="deck-card-name">Reference &amp; Errors (Ch 13–17)</div>
+            <p class="deck-card-desc">Essential cheat sheets, 12 error diagnostics, practical lab, daily routine, and power aliases.</p>
+          </button>
+
+          <button type="button" class="deck-card" data-cat="advanced">
+            <div class="deck-card-top">
+              <span class="deck-card-icon-wrap" style="background: rgba(236, 72, 153, 0.15); color: #f472b6;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+              </span>
+              <span class="deck-range-badge">Ch 18–22</span>
+            </div>
+            <div class="deck-card-name">Advanced Labs &amp; Governance (Ch 18–22)</div>
+            <p class="deck-card-desc">Multi-remotes, push rejections, interactive rebase, protected branches, and reflog disaster recovery.</p>
+          </button>
+        </div>
+      </section>
+
+<div class="no-results" id="noResults">
+        <p><strong>No matching chapters found.</strong></p>
+        <p style="margin-top: 6px; font-size: 13px;">Try searching for another keyword like <code>rebase</code>, <code>conflict</code>, <code>stash</code>, or <code>reflog</code>.</p>
+      </div>
+
+      <!-- 22 Chapter Sections -->
+<section class="chapter" id="chapter-1" data-title="git and github: know the difference" data-category="foundations">
+<div class="chapter-kicker">CHAPTER 01 <span> / </span> ARCHITECTURAL FOUNDATIONS</div>
+      <h2>Git and GitHub: know the difference</h2>
+      <p class="intro">Understand the distinct separation between Git (the local distributed version control engine) and GitHub (the cloud-hosted collaboration platform), and master Git's internal object model.</p>
+      <div class="chapter-content">
+<p>Many beginners conflate Git with GitHub, leading to confusion about where code lives and when synchronization happens. Git is an offline tool running locally on your computer; GitHub is an online service that hosts Git repositories in the cloud.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Dimension</th><th>Git (Command-Line Tool)</th><th>GitHub (Cloud Platform)</th></tr></thead>
+  <tbody>
+    <tr><td><strong>What it is</strong></td><td>Distributed version control system (CLI tool)</td><td>Cloud-based hosting and collaboration web service</td></tr>
+    <tr><td><strong>Where it runs</strong></td><td>Locally on your laptop or server</td><td>Remote cloud infrastructure operated by GitHub/Microsoft</td></tr>
+    <tr><td><strong>Network requirement</strong></td><td><strong>100% offline</strong>: record commits, create branches, view history without internet</td><td>Requires active internet to push, pull, review PRs, or trigger CI/CD</td></tr>
+    <tr><td><strong>Primary functions</strong></td><td><code>git add</code>, <code>commit</code>, <code>branch</code>, <code>diff</code>, <code>log</code>, <code>rebase</code></td><td>Pull Requests, Issue tracking, Code Reviews, Actions, Discussions</td></tr>
+    <tr><td><strong>Created by</strong></td><td>Linus Torvalds (2005) for Linux kernel development</td><td>Chris Wanstrath, P.J. Hyett, Tom Preston-Werner (2008)</td></tr>
+    <tr><td><strong>Alternatives</strong></td><td>Mercurial, Subversion (SVN), Jujutsu</td><td>GitLab, Bitbucket, Gitea, Sourcehut</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Git's Internal Object Architecture</h3>
+<p>Unlike legacy version control systems (like SVN or CVS) that record file diffs, Git stores data as a sequence of complete cryptographic snapshots. Git uses 4 fundamental object types stored inside the <code>.git/objects/</code> directory, keyed by 40-character SHA-1 (or SHA-256) hashes:</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Object Type</th><th>Role</th><th>Internal Representation</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Blob (Binary Large Object)</strong></td><td>Stores file contents only</td><td>Pure data without filename, timestamps, or permissions</td></tr>
+    <tr><td><strong>Tree</strong></td><td>Represents a directory</td><td>List of pointers to blobs and other sub-trees with filenames and mode bits</td></tr>
+    <tr><td><strong>Commit</strong></td><td>Permanent snapshot of project state</td><td>Pointer to a top-level Tree, parent commit SHA(s), author, committer, timestamp, message</td></tr>
+    <tr><td><strong>Annotated Tag</strong></td><td>Permanent reference mark</td><td>Pointer to a specific commit with message, tagger info, and optional GPG signature</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-info">
+  <strong>The Content-Addressable Database:</strong> Because Git calculates the hash of every object based strictly on its content, you cannot alter a single character in a file or commit message without changing every subsequent hash. This gives Git its mathematical tamper-resistance.
+</div>
+
+<pre><code class="language-bash"># Inspect Git's plumbing objects directly:
+# 1. View the commit object at HEAD
+git cat-file -p HEAD
+
+# 2. View the root Tree pointed to by the commit
+git cat-file -p HEAD^{tree}
+
+# 3. View the raw content of a file blob
+git cat-file -p <BLOB_SHA></code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>GIT &middot; GITHUB</span><a href="#top">Back to top &uarr;</a></div>
+</section>
+
+<section class="chapter" id="chapter-2" data-title="install and configure git" data-category="foundations">
+<div class="chapter-kicker">CHAPTER 02 <span> / </span> ENVIRONMENT SETUP</div>
+      <h2>Install and configure Git</h2>
+      <p class="intro">Install Git across Windows, macOS, and Linux, configure your author identity, establish default branch conventions, configure line-ending handling, and set up credential caching.</p>
+      <div class="chapter-content">
+<p>Before making your first commit, Git requires you to identify who you are. This metadata is permanently stamped into every commit you create.</p>
+
+<h3>Installation Across Platforms</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Operating System</th><th>Recommended Installation Command</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Windows</strong></td><td><code>winget install --id Git.Git -e --source winget</code></td><td>Installs Git, Git BASH, and Git Credential Manager</td></tr>
+    <tr><td><strong>macOS</strong></td><td><code>brew install git</code></td><td>Homebrew provides the latest GNU version (avoiding outdated Apple Git)</td></tr>
+    <tr><td><strong>Ubuntu / Debian</strong></td><td><code>sudo apt update &amp;&amp; sudo apt install -y git</code></td><td>Standard distribution package</td></tr>
+    <tr><td><strong>Fedora / RHEL</strong></td><td><code>sudo dnf install -y git</code></td><td>Standard RPM package</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Essential Global Configuration</h3>
+<pre><code class="language-bash"># 1. Set your commit author identity (MUST match your GitHub email)
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+
+# 2. Set the modern default branch name to 'main' (replaces legacy 'master')
+git config --global init.defaultBranch main
+
+# 3. Choose your default terminal editor
+git config --global core.editor "vim"   # Or: "nano", "code --wait"
+
+# 4. Configure pull behavior to prevent surprise merge commits
+git config --global pull.rebase false   # Standard fast-forward or merge commit
+# Or: git config --global pull.ff only  # Strict fast-forward only</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>Handling Cross-Platform Line Endings (CRLF vs. LF)</h3>
+<div class="callout callout-mac">
+  <strong>The CRLF Trap:</strong> Windows uses Carriage Return + Line Feed (<code>\r\n</code> / CRLF) while macOS and Linux use Line Feed (<code>\n</code> / LF). Without configuration, Git flags every line in a file as modified when collaborating across operating systems!
+</div>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Platform</th><th>Configuration Command</th><th>Behavior</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Windows</strong></td><td><code>git config --global core.autocrlf true</code></td><td>Converts LF to CRLF on checkout; converts CRLF to LF on commit</td></tr>
+    <tr><td><strong>macOS &amp; Linux</strong></td><td><code>git config --global core.autocrlf input</code></td><td>Keeps LF on checkout; converts accidental CRLF to LF on commit</td></tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-bash"># Verify your active configuration settings
+git config --list --show-origin
+git config user.name
+git config user.email</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>GIT &middot; GITHUB</span><a href="#top">Back to top &uarr;</a></div>
+</section>
+
+<section class="chapter" id="chapter-3" data-title="create your first local repository" data-category="foundations">
+<div class="chapter-kicker">CHAPTER 03 <span> / </span> REPOSITORY CREATION</div>
+      <h2>Create your first local repository</h2>
+      <p class="intro">Initialize version control in a project directory, explore the anatomy of the hidden .git metadata folder, and understand repository scoping.</p>
+      <div class="chapter-content">
+<p>A Git repository is simply a directory on your filesystem that contains a hidden <code>.git</code> folder. This folder acts as the repository database, tracking every snapshot, reference, and config setting.</p>
+
+<pre><code class="language-bash"># 1. Create a fresh project directory and enter it
+mkdir my-awesome-app
+cd my-awesome-app
+
+# 2. Initialize Git tracking
+git init
+
+# Expected output:
+# Initialized empty Git repository in /Users/dev/my-awesome-app/.git/</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>Anatomy of the Hidden <code>.git</code> Directory</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Directory / File</th><th>Function</th><th>Engineering Importance</th></tr></thead>
+  <tbody>
+    <tr><td><code>.git/HEAD</code></td><td>Text file pointing to currently checked-out branch ref</td><td>Tells Git where new commits will attach (e.g. <code>ref: refs/heads/main</code>)</td></tr>
+    <tr><td><code>.git/config</code></td><td>Repository-specific configuration file</td><td>Overrides global configs; holds remote URLs and tracking settings</td></tr>
+    <tr><td><code>.git/objects/</code></td><td>The object storage database</td><td>Stores all blobs, trees, commits, and tags compressed with zlib</td></tr>
+    <tr><td><code>.git/refs/heads/</code></td><td>Local branch pointers</td><td>Tiny files containing the 40-character commit hash of branch tips</td></tr>
+    <tr><td><code>.git/refs/tags/</code></td><td>Tag pointers</td><td>Named markers pointing to specific historical commits</td></tr>
+    <tr><td><code>.git/index</code></td><td>The binary staging area file</td><td>Caches tree metadata comparing working directory with last commit</td></tr>
+    <tr><td><code>.git/hooks/</code></td><td>Client-side script triggers</td><td>Custom bash/python scripts executed on pre-commit, pre-push, etc.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-warn">
+  <strong>Never Nest Repositories Manually:</strong> Never run <code>git init</code> inside a folder that is already inside an existing Git repository (unless intentionally configuring Git submodules). Doing so creates an untracked repository boundary.
+</div>
+</div>
+      <div class="chapter-foot"><span>GIT &middot; GITHUB</span><a href="#top">Back to top &uarr;</a></div>
+</section>
+
+<section class="chapter" id="chapter-4" data-title="the everyday git workflow" data-category="foundations">
+<div class="chapter-kicker">CHAPTER 04 <span> / </span> THE CORE WORKFLOW</div>
+      <h2>The everyday Git workflow</h2>
+      <p class="intro">Master the Three Trees of Git: the Working Directory, the Staging Area (Index), and the Commit History. Write atomic commits following professional conventions.</p>
+      <div class="chapter-content">
+<p>To use Git with total confidence, you must build a clear mental model of Git's <strong>Three Trees</strong> architecture:</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>State / Area</th><th>Location</th><th>Command to Move Forward</th><th>Command to Roll Back</th></tr></thead>
+  <tbody>
+    <tr><td><strong>1. Working Directory</strong></td><td>Files visible in your code editor</td><td><code>git add &lt;file&gt;</code> &rarr; stages changes</td><td><code>git restore &lt;file&gt;</code> &rarr; discards edits</td></tr>
+    <tr><td><strong>2. Staging Area (Index)</strong></td><td><code>.git/index</code> (draft for next snapshot)</td><td><code>git commit -m "..."</code> &rarr; commits snapshot</td><td><code>git restore --staged &lt;file&gt;</code> &rarr; un-stages</td></tr>
+    <tr><td><strong>3. Commit History (HEAD)</strong></td><td>Permanent immutable database in <code>.git/</code></td><td><code>git push</code> &rarr; publishes to remote</td><td><code>git revert &lt;hash&gt;</code> &rarr; creates undo commit</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>The 4-Step Everyday Loop</h3>
+<pre><code class="language-bash"># Step 1: Check status to see what has changed
+git status -s  # Short format (?? untracked, M modified, A staged)
+
+# Step 2: Review exact code diffs before staging
+git diff       # Inspect un-staged line changes
+
+# Step 3: Stage specific files (or patches) for the commit
+git add README.md src/app.js
+# Or stage interactively: git add -p (review hunk by hunk)
+
+# Step 4: Verify staged snapshot
+git diff --staged  # Inspect what will actually go into the commit
+
+# Step 5: Record atomic commit with a clear message
+git commit -m "feat(auth): add login endpoint with JWT validation"</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>Conventional Commit Messages Architecture</h3>
+<div class="callout callout-tip">
+  <strong>Standardized Commit Format:</strong> Teams follow the Conventional Commits specification: <code>&lt;type&gt;(&lt;optional-scope&gt;): &lt;imperative-summary&gt;</code>
+  <ul>
+    <li><code>feat:</code> A new user-facing feature or API endpoint</li>
+    <li><code>fix:</code> A bug fix for user or developer</li>
+    <li><code>docs:</code> Documentation only changes</li>
+    <li><code>refactor:</code> Code changes that neither fix bugs nor add features</li>
+    <li><code>test:</code> Adding or correcting automated tests</li>
+    <li><code>chore:</code> Build tasks, dependency updates, package config</li>
+  </ul>
+</div>
+</div>
+      <div class="chapter-foot"><span>GIT &middot; GITHUB</span><a href="#top">Back to top &uarr;</a></div>
+</section>
+
+<section class="chapter" id="chapter-5" data-title="publish the project on github" data-category="remotes">
+<div class="chapter-kicker">CHAPTER 05 <span> / </span> CLOUD SYNCHRONIZATION</div>
+      <h2>Publish the project on GitHub</h2>
+      <p class="intro">Connect local repositories to GitHub using HTTPS with Personal Access Tokens (PAT) or modern ED25519 SSH keys, configure origin remotes, and push upstream.</p>
+      <div class="chapter-content">
+<p>Once you have local commits, you can publish them to GitHub for backup, sharing, and team collaboration. GitHub authentication requires either <strong>Personal Access Tokens (PAT)</strong> or <strong>SSH Keys</strong> (passwords were deprecated in 2021).</p>
+
+<h3>Authentication: SSH vs. HTTPS (PAT)</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Protocol</th><th>URL Format</th><th>Authentication Method</th><th>Recommendation</th></tr></thead>
+  <tbody>
+    <tr><td><strong>SSH</strong></td><td><code>git@github.com:user/repo.git</code></td><td>Public/Private cryptographic key pair</td><td><strong>Best for developers:</strong> Zero password prompts after setup</td></tr>
+    <tr><td><strong>HTTPS</strong></td><td><code>https://github.com/user/repo.git</code></td><td>GitHub Personal Access Token (PAT)</td><td>Good for firewalled networks blocking port 22</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Step-by-Step SSH Setup (Modern ED25519)</h3>
+<pre><code class="language-bash"># 1. Generate an ED25519 key pair (modern, faster, and more secure than RSA)
+ssh-keygen -t ed25519 -C "your.email@example.com"
+# Press Enter to accept default location (~/.ssh/id_ed25519)
+
+# 2. Start the ssh-agent and add your private key
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+
+# 3. Copy the public key to clipboard
+# macOS:   pbcopy < ~/.ssh/id_ed25519.pub
+# Linux:   cat ~/.ssh/id_ed25519.pub
+# Windows: clip < ~/.ssh/id_ed25519.pub
+
+# 4. In GitHub: Settings -> SSH and GPG keys -> New SSH Key -> Paste and Save
+
+# 5. Test connection
+ssh -T git@github.com
+# Expected: "Hi username! You've successfully authenticated..."</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>Linking Local Repo &amp; First Push</h3>
+<pre><code class="language-bash"># Link local repo to remote with the standard name 'origin'
+git remote add origin git@github.com:username/my-awesome-app.git
+
+# Verify remote configuration
+git remote -v
+
+# Push local 'main' branch to remote 'origin' and set upstream tracking (-u)
+git push -u origin main</code><button class="copy" type="button">Copy</button></pre>
+
+<div class="callout callout-info">
+  <strong>The <code>-u</code> (Upstream) Flag:</strong> Running <code>git push -u origin main</code> sets up tracking relationship between local <code>main</code> and <code>origin/main</code>. For all future pushes and pulls on this branch, you simply type <code>git push</code> or <code>git pull</code>!
+</div>
+</div>
+      <div class="chapter-foot"><span>GIT &middot; GITHUB</span><a href="#top">Back to top &uarr;</a></div>
+</section>
+
+<section class="chapter" id="chapter-6" data-title="clone an existing repository" data-category="remotes">
+<div class="chapter-kicker">CHAPTER 06 <span> / </span> REPOSITORY CLONING</div>
+      <h2>Clone an existing repository</h2>
+      <p class="intro">Download remote repositories, understand shallow and single-branch clones, manage submodules, and inspect remote tracking references.</p>
+      <div class="chapter-content">
+<p>When joining an existing project or retrieving code from GitHub, you use <code>git clone</code> instead of <code>git init</code>. Cloning downloads the entire historical commit database, reconstructs the working directory, and automatically creates the <code>origin</code> remote pointer.</p>
+
+<pre><code class="language-bash"># Standard clone via SSH
+git clone git@github.com:facebook/react.git
+
+# Clone into a custom folder name
+git clone git@github.com:facebook/react.git custom-folder-name</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>Cloning Flags for High Performance &amp; Large Repos</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Command Flag</th><th>What It Does</th><th>Best Use Case</th></tr></thead>
+  <tbody>
+    <tr><td><code>--depth 1</code></td><td><strong>Shallow Clone:</strong> Downloads only the latest commit; omits entire history</td><td>CI/CD pipelines, Docker build steps, fast inspection</td></tr>
+    <tr><td><code>--single-branch</code></td><td>Downloads only the specified branch, omitting other remote branches</td><td>Working on a huge multi-branch monolithic repository</td></tr>
+    <tr><td><code>--recurse-submodules</code></td><td>Automatically initializes and clones all nested Git submodules</td><td>Projects containing embedded library repositories</td></tr>
+    <tr><td><code>--filter=blob:none</code></td><td><strong>Blobless Clone:</strong> Downloads commit trees and metadata; fetches file contents on demand</td><td>Massive enterprise monorepos with gigabytes of assets</td></tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-bash"># Example: Lightning-fast clone of a giant repo in CI runner
+git clone --depth 1 --branch main git@github.com:torvalds/linux.git</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>GIT &middot; GITHUB</span><a href="#top">Back to top &uarr;</a></div>
+</section>
+
+<section class="chapter" id="chapter-7" data-title="branches: work safely without disturbing main" data-category="remotes">
+<div class="chapter-kicker">CHAPTER 07 <span> / </span> PARALLEL DEVELOPMENT</div>
+      <h2>Branches: work safely without disturbing main</h2>
+      <p class="intro">Create lightweight branches, master the modern switch/restore CLI commands, explore team branching strategies (GitHub Flow vs Git Flow), and manage branch lifecycles.</p>
+      <div class="chapter-content">
+<p>In Git, a branch is not a heavy copy of your codebase. It is merely a <strong>41-byte plaintext file</strong> inside <code>.git/refs/heads/</code> containing the 40-character commit hash of the branch tip. Creating, switching, and deleting branches happens instantaneously.</p>
+
+<h3>Modern <code>git switch</code> vs. Legacy <code>git checkout</code></h3>
+<div class="callout callout-tip">
+  <strong>Why Git Introduced <code>switch</code> &amp; <code>restore</code> in v2.23:</strong> Historically, <code>git checkout</code> was overloaded with two completely unrelated duties: switching branches AND discarding uncommitted file edits. Git introduced <code>git switch</code> (strictly for branches) and <code>git restore</code> (strictly for files) to eliminate dangerous accidental data loss.
+</div>
+
+<pre><code class="language-bash"># Modern command (Recommended):
+git switch -c feature/payment-gateway  # Create and switch to new branch
+git switch main                        # Switch back to main
+
+# Legacy command:
+git checkout -b feature/payment-gateway
+git checkout main</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>Branching Models Comparison</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Branching Strategy</th><th>Primary Branches</th><th>Workflow Style</th><th>Best Suited For</th></tr></thead>
+  <tbody>
+    <tr><td><strong>GitHub Flow</strong></td><td><code>main</code>, short-lived <code>feature/*</code> branches</td><td>Branches deploy to production immediately upon PR merge</td><td>Web applications, SaaS, microservices, agile teams</td></tr>
+    <tr><td><strong>Trunk-Based Development</strong></td><td><code>main</code> (trunk), feature flags</td><td>Developers commit directly or via micro-PRs merged multiple times daily</td><td>High-velocity continuous delivery engineering orgs</td></tr>
+    <tr><td><strong>Git Flow</strong></td><td><code>main</code>, <code>develop</code>, <code>release/*</code>, <code>hotfix/*</code></td><td>Scheduled releases with strict staging cycles</td><td>Packaged software, mobile apps with app-store review gates</td></tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-bash"># Inspect all local and remote tracking branches
+git branch -a -v
+
+# Safely delete a branch that has already been merged
+git branch -d feature/payment-gateway
+
+# Force-delete a branch containing unmerged experimental commits
+git branch -D feature/abandoned-experiment
+
+# Rename current branch locally
+git branch -m feature/new-branch-name</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>GIT &middot; GITHUB</span><a href="#top">Back to top &uarr;</a></div>
+</section>
+
+<section class="chapter" id="chapter-8" data-title="keep your local and github copies in sync" data-category="remotes">
+<div class="chapter-kicker">CHAPTER 08 <span> / </span> REPOSITORY SYNCHRONIZATION</div>
+      <h2>Keep your local and GitHub copies in sync</h2>
+      <p class="intro">Dissect the critical difference between git fetch and git pull, understand fast-forward vs 3-way merge commits, and resolve diverged branch states.</p>
+      <div class="chapter-content">
+<p>In distributed version control, your local repository and the GitHub remote evolve independently. Understanding how Git synchronizes these separate graphs prevents unwanted merge commits and broken histories.</p>
+
+<h3><code>git fetch</code> vs. <code>git pull</code>: The Crucial Difference</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Command</th><th>What It Does</th><th>Working Files Affected?</th><th>Safety Profile</th></tr></thead>
+  <tbody>
+    <tr><td><code>git fetch</code></td><td>Downloads new commits and branch refs from remote into <code>origin/*</code> tracking branches</td><td><strong>No</strong> (zero changes to your editor or working files)</td><td><strong>100% Safe:</strong> Lets you inspect incoming changes before merging</td></tr>
+    <tr><td><code>git pull</code></td><td>Runs <code>git fetch</code> followed immediately by <code>git merge origin/&lt;branch&gt;</code></td><td><strong>Yes:</strong> Modifies working files and creates commits or merge conflicts</td><td>Can trigger unexpected merge commits if branches diverged</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-tip">
+  <strong>The Professional Sync Habit:</strong>
+  Run <code>git fetch origin</code>, then inspect what teammates pushed with <code>git log HEAD..origin/main --oneline</code>. If the diff looks good, merge with <code>git merge origin/main</code>.
+</div>
+
+<h3>Fast-Forward vs. Three-Way Merge</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Merge Type</th><th>Condition</th><th>Git Action</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Fast-Forward (ff)</strong></td><td>Your local branch has no new commits since you branched from origin</td><td>Git simply advances your branch pointer forward to match remote. No new commit object is created.</td></tr>
+    <tr><td><strong>Three-Way Merge</strong></td><td>Both you and the remote created commits since diverging</td><td>Git computes common ancestor and generates a special <strong>Merge Commit</strong> with two parent hashes.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-bash"># Safe pull that guarantees no surprise merge commits:
+git pull --ff-only
+
+# Alternative: Rebase your local commits on top of incoming remote commits
+git pull --rebase origin main</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>GIT &middot; GITHUB</span><a href="#top">Back to top &uarr;</a></div>
+</section>
+
+<section class="chapter" id="chapter-9" data-title="pull requests: the collaboration workflow" data-category="collaboration">
+<div class="chapter-kicker">CHAPTER 09 <span> / </span> TEAM COLLABORATION</div>
+      <h2>Pull requests: the collaboration workflow</h2>
+      <p class="intro">Master the end-to-end Pull Request (PR) lifecycle: feature branching, pushing upstream, creating PRs, code reviews, draft PRs, and PR merge strategies.</p>
+      <div class="chapter-content">
+<p>A Pull Request (PR) is a GitHub feature that allows developers to propose changes from a feature branch into a target branch (typically <code>main</code>). It serves as the central hub for code review, automated testing (CI/CD), security scanning, and architectural discussion.</p>
+
+<h3>The 6-Stage PR Lifecycle</h3>
+<ol>
+  <li><strong>Branch:</strong> Create a dedicated branch off latest main: <code>git switch -c feature/dark-mode</code>.</li>
+  <li><strong>Develop &amp; Commit:</strong> Build your feature with focused, atomic commits.</li>
+  <li><strong>Push:</strong> Publish your branch upstream: <code>git push -u origin feature/dark-mode</code>.</li>
+  <li><strong>Open PR:</strong> Navigate to GitHub and click <em>Compare &amp; pull request</em>. Fill out description and link issue numbers (e.g. <code>Fixes #142</code>).</li>
+  <li><strong>Code Review &amp; CI:</strong> Automated tests run via GitHub Actions. Teammates review line-by-line diffs and request changes.</li>
+  <li><strong>Merge &amp; Delete:</strong> Once approved and green, merge into <code>main</code> and delete the remote branch.</li>
+</ol>
+
+<h3>GitHub PR Merge Strategies Comparison</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Merge Strategy</th><th>Commit Graph Outcome</th><th>When to Use</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Create a Merge Commit</strong></td><td>Preserves every individual commit plus a merge commit (two parents)</td><td>Open-source projects where every granular commit signature matters</td></tr>
+    <tr><td><strong>Squash and Merge</strong></td><td>Condenses all branch commits into a <strong>single clean commit</strong> on <code>main</code></td><td><strong>Industry standard for feature teams:</strong> Keeps <code>main</code> history clean and easy to revert</td></tr>
+    <tr><td><strong>Rebase and Merge</strong></td><td>Replays all branch commits 1-by-1 linearly onto <code>main</code> without merge commit</td><td>Teams wanting a strict linear history without extra merge nodes</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-info">
+  <strong>Draft Pull Requests:</strong> Open a PR as a "Draft" when your work is in progress. This signals to teammates that the code is not ready for formal review yet, while allowing you to preview CI test runs and gather early feedback.
+</div>
+</div>
+      <div class="chapter-foot"><span>GIT &middot; GITHUB</span><a href="#top">Back to top &uarr;</a></div>
+</section>
+
+<section class="chapter" id="chapter-10" data-title="undo carefully: the commands worth knowing" data-category="collaboration">
+<div class="chapter-kicker">CHAPTER 10 <span> / </span> DISASTER RECOVERY &amp; UNDO</div>
+      <h2>Undo carefully: the commands worth knowing</h2>
+      <p class="intro">A comprehensive decision framework for undoing mistakes across the Working Tree, Staging Area, and Commit History using restore, reset, revert, and clean.</p>
+      <div class="chapter-content">
+<p>One of Git's greatest strengths is that almost nothing is truly lost once committed. Choosing the correct undo command depends on which of the <strong>Three Trees</strong> contains the unwanted change.</p>
+
+<h3>The Complete Undo Decision Matrix</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Scenario</th><th>Target State</th><th>Recommended Command</th><th>Data Loss Risk?</th></tr></thead>
+  <tbody>
+    <tr><td>Discard unstaged edits in a file</td><td>Working Tree</td><td><code>git restore &lt;file&gt;</code></td><td><strong>Permanent:</strong> Overwrites uncommitted edits with last commit</td></tr>
+    <tr><td>Discard ALL unstaged edits in project</td><td>Working Tree</td><td><code>git restore .</code></td><td><strong>Permanent:</strong> Wipes all local unstaged work</td></tr>
+    <tr><td>Unstage a file (keep local edits)</td><td>Staging Area</td><td><code>git restore --staged &lt;file&gt;</code></td><td><strong>Safe:</strong> File remains modified in working tree</td></tr>
+    <tr><td>Undo last commit (keep files staged)</td><td>Commit History</td><td><code>git reset --soft HEAD~1</code></td><td><strong>Safe:</strong> Commits undone; edits stay staged</td></tr>
+    <tr><td>Undo last commit (keep files unstaged)</td><td>Commit History</td><td><code>git reset --mixed HEAD~1</code></td><td><strong>Safe:</strong> Commits undone; edits stay in working tree</td></tr>
+    <tr><td>Destroy last commit and wipe files</td><td>All Trees</td><td><code>git reset --hard HEAD~1</code></td><td><strong>Dangerous:</strong> Destroys commit and uncommitted edits!</td></tr>
+    <tr><td>Safely undo a public commit pushed to GitHub</td><td>Remote History</td><td><code>git revert &lt;commit_hash&gt;</code></td><td><strong>100% Safe:</strong> Creates a NEW commit reversing the changes</td></tr>
+    <tr><td>Remove untracked files and folders</td><td>Working Tree</td><td><code>git clean -fd</code></td><td><strong>Permanent:</strong> Deletes untracked files not in .gitignore</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-warn">
+  <strong>The Golden Rule of <code>git reset</code>:</strong> NEVER run <code>git reset --hard</code> on commits that have already been pushed to a shared remote branch (like <code>main</code>). Rewriting shared public history forces merge nightmares on your entire team. Use <code>git revert</code> instead!
+</div>
+
+<pre><code class="language-bash"># Example: Safely undoing a pushed faulty commit (revert)
+# 1. Locate the bad commit hash in history
+git log --oneline -n 5
+
+# 2. Revert the commit (creates a new commit that inverts the patch)
+git revert a1b2c3d -m "Revert faulty billing migration"
+
+# 3. Push the safe reversal commit upstream
+git push origin main</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>GIT &middot; GITHUB</span><a href="#top">Back to top &uarr;</a></div>
+</section>
+
+<section class="chapter" id="chapter-11" data-title="resolve a merge conflict" data-category="collaboration">
+<div class="chapter-kicker">CHAPTER 11 <span> / </span> CONFLICT RESOLUTION</div>
+      <h2>Resolve a merge conflict</h2>
+      <p class="intro">Understand why conflicts occur, dissect the anatomy of conflict markers, resolve overlapping line edits, configure graphical merge tools, and abort safely.</p>
+      <div class="chapter-content">
+<p>A merge conflict occurs when two branches modify the <em>exact same lines</em> in a file differently, or when one branch deletes a file that another branch modified. Git cannot guess developer intent, so it pauses the merge and asks you to make the decision.</p>
+
+<h3>Anatomy of Conflict Markers</h3>
+<pre><code class="language-markdown">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD (Current branch: main)
+const API_URL = "https://api.production.internal/v2";
+=======
+const API_URL = "https://api.v2.global-gateway.com";
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/gateway-migration (Incoming branch)</code></pre>
+
+<ul>
+  <li><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code>: The state of the code on your currently checked-out branch.</li>
+  <li><code>=======</code>: The divider separating conflicting changes.</li>
+  <li><code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; branch-name</code>: The state of the code on the incoming branch you are merging.</li>
+</ul>
+
+<h3>Step-by-Step Resolution Workflow</h3>
+<pre><code class="language-bash"># 1. Identify conflicted files (marked as 'both modified')
+git status
+
+# 2. Open conflicted files in VS Code / Vim / editor
+# Choose: Keep Current, Keep Incoming, or Write a Hybrid of both.
+# DELETE all marker lines (&lt;&lt;&lt;&lt;&lt;&lt;&lt;, =======, &gt;&gt;&gt;&gt;&gt;&gt;&gt;)!
+
+# 3. Mark the conflict resolved by staging the file
+git add src/config.js
+
+# 4. Finalize the merge commit
+git commit -m "merge: resolve API_URL conflict between main and feature/gateway-migration"
+
+# If you get into trouble and want to cancel the merge cleanly:
+git merge --abort  # Restores working tree to state before merge began!</code><button class="copy" type="button">Copy</button></pre>
+
+<div class="callout callout-tip">
+  <strong>Fast-Resolution Shortcuts:</strong>
+  If you know you want to accept your current branch's version completely: <code>git checkout --ours &lt;file&gt;</code>.<br>
+  If you want to accept the incoming branch's version completely: <code>git checkout --theirs &lt;file&gt;</code>.
+</div>
+</div>
+      <div class="chapter-foot"><span>GIT &middot; GITHUB</span><a href="#top">Back to top &uarr;</a></div>
+</section>
+
+<section class="chapter" id="chapter-12" data-title="add a .gitignore file" data-category="collaboration">
+<div class="chapter-kicker">CHAPTER 12 <span> / </span> REPOSITORY HYGIENE</div>
+      <h2>Add a .gitignore file</h2>
+      <p class="intro">Master .gitignore pattern syntax, prevent committing dependencies and environment secrets, purge accidentally committed files, and configure local private ignores.</p>
+      <div class="chapter-content">
+<p>A <code>.gitignore</code> file tells Git which files and directories to intentionally leave untracked. Keeping build artifacts, virtual environments, log files, and API secrets out of Git preserves repo performance and prevents catastrophic security breaches.</p>
+
+<h3>Pattern Syntax Architecture</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Pattern Rule</th><th>Matches</th><th>Example</th></tr></thead>
+  <tbody>
+    <tr><td><code>filename.ext</code></td><td>Matches any file with this name in any subdirectory</td><td><code>.DS_Store</code>, <code>Thumbs.db</code></td></tr>
+    <tr><td><code>dir/</code></td><td>Trailing slash matches entire directory and all contents</td><td><code>node_modules/</code>, <code>dist/</code>, <code>venv/</code></td></tr>
+    <tr><td><code>*.log</code></td><td>Asterisk wildcards match any characters within directory</td><td><code>npm-debug.log</code></td></tr>
+    <tr><td><code>**/logs/</code></td><td>Double asterisk matches zero or more nested directories</td><td><code>src/auth/logs/</code>, <code>tests/logs/</code></td></tr>
+    <tr><td><code>!important.log</code></td><td>Exclamation mark negates (un-ignores) a previously matched file</td><td>Keep a specific file inside an ignored folder</td></tr>
+    <tr><td><code>/build</code></td><td>Leading slash anchors pattern strictly to repo root</td><td>Matches <code>/build</code> but NOT <code>/src/build</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Production Multi-Language <code>.gitignore</code> Template</h3>
+<pre><code class="language-plaintext"># ==============================================================================
+# Production .gitignore Template
+# ==============================================================================
+# Environment and Secrets (CRITICAL SECURITY)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Dependencies and Package Managers
+node_modules/
+vendor/
+.venv/
+__pycache__/
+
+# Build and Compilation Outputs
+dist/
+build/
+target/
+*.class
+*.exe
+
+# Logs and Runtime Storage
+*.log
+npm-debug.log*
+yarn-debug.log*
+.turbo/
+.cache/
+
+# Operating System Metadata
+.DS_Store
+Thumbs.db
+desktop.ini</code><button class="copy" type="button">Copy</button></pre>
+
+<div class="callout callout-warn">
+  <strong>How to Ignore Files Already Tracked:</strong> Adding a file to <code>.gitignore</code> does NOT untrack it if it was already committed! You must untrack it with:
+  <code>git rm --cached -r &lt;file_or_dir&gt;</code>, then commit the deletion from Git while keeping the local file on disk.
+</div>
+</div>
+      <div class="chapter-foot"><span>GIT &middot; GITHUB</span><a href="#top">Back to top &uarr;</a></div>
+</section>
+
+<section class="chapter" id="chapter-13" data-title="essential git command reference" data-category="reference">
+<div class="chapter-kicker">CHAPTER 13 <span> / </span> COMMAND REFERENCE</div>
+      <h2>Essential Git command reference</h2>
+      <p class="intro">A categorized master reference cheat sheet covering everyday operations, inspection, branch management, remote synchronization, and history inspection.</p>
+      <div class="chapter-content">
+
+<h3>1. Configuration &amp; Setup</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Command</th><th>Purpose &amp; Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>git config --global user.name "Name"</code></td><td>Configure author identity name for all repositories</td></tr>
+    <tr><td><code>git config --global user.email "email"</code></td><td>Configure author email (matches GitHub account)</td></tr>
+    <tr><td><code>git config --global init.defaultBranch main</code></td><td>Set default branch name for fresh repositories</td></tr>
+    <tr><td><code>git init</code></td><td>Initialize a new local Git repository in current folder</td></tr>
+    <tr><td><code>git clone &lt;url&gt;</code></td><td>Download remote repository and initialize <code>origin</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>2. Everyday Workflow &amp; Inspection</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Command</th><th>Purpose &amp; Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>git status -s</code></td><td>Compact status overview of modified, staged, and untracked files</td></tr>
+    <tr><td><code>git add &lt;file&gt;</code></td><td>Stage specific file changes for next commit</td></tr>
+    <tr><td><code>git add -A</code></td><td>Stage all modifications, new files, and deletions across entire repository</td></tr>
+    <tr><td><code>git add -p</code></td><td>Interactive patch mode: review and stage changes hunk by hunk</td></tr>
+    <tr><td><code>git diff</code></td><td>Show line-by-line differences in unstaged working files</td></tr>
+    <tr><td><code>git diff --staged</code></td><td>Show differences between staged snapshot and HEAD commit</td></tr>
+    <tr><td><code>git commit -m "msg"</code></td><td>Record staged changes into permanent commit history</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>3. Branching &amp; Merging</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Command</th><th>Purpose &amp; Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>git switch -c &lt;branch&gt;</code></td><td>Create and immediately switch to a new branch</td></tr>
+    <tr><td><code>git switch &lt;branch&gt;</code></td><td>Switch working directory to an existing branch</td></tr>
+    <tr><td><code>git branch -a</code></td><td>List all local and remote tracking branches</td></tr>
+    <tr><td><code>git merge &lt;branch&gt;</code></td><td>Merge specified branch into active checked-out branch</td></tr>
+    <tr><td><code>git merge --abort</code></td><td>Cancel conflicted merge and restore pre-merge state</td></tr>
+    <tr><td><code>git branch -d &lt;branch&gt;</code></td><td>Safely delete a fully merged local branch</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>4. Remotes &amp; Collaboration</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Command</th><th>Purpose &amp; Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>git remote -v</code></td><td>List configured remote repository names and fetch/push URLs</td></tr>
+    <tr><td><code>git remote add origin &lt;url&gt;</code></td><td>Attach remote repository URL with name <code>origin</code></td></tr>
+    <tr><td><code>git fetch origin</code></td><td>Download latest objects and refs from remote without touching working files</td></tr>
+    <tr><td><code>git pull origin &lt;branch&gt;</code></td><td>Fetch and immediately merge remote branch into local branch</td></tr>
+    <tr><td><code>git push -u origin &lt;branch&gt;</code></td><td>Push local commits and establish upstream tracking</td></tr>
+  </tbody>
+</table>
+</div>
+</div>
+      <div class="chapter-foot"><span>GIT &middot; GITHUB</span><a href="#top">Back to top &uarr;</a></div>
+</section>
+
+<section class="chapter" id="chapter-14" data-title="troubleshooting: 12 common beginner errors" data-category="reference">
+<div class="chapter-kicker">CHAPTER 14 <span> / </span> ERROR DIAGNOSTICS</div>
+      <h2>Troubleshooting: 12 common beginner errors</h2>
+      <p class="intro">Step-by-step diagnostic solutions for the most frequent, frustrating Git errors encountered by developers and teams.</p>
+      <div class="chapter-content">
+
+<h3>1. "fatal: not a git repository"</h3>
+<p><strong>Cause:</strong> You ran a Git command in a folder that has not been initialized with Git or is outside the repository boundary.</p>
+<pre><code class="language-bash"># Solution: Navigate into your project folder or initialize it
+cd path/to/actual/project
+git status
+# Or if this is a brand new project: git init</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>2. "error: failed to push some refs to '...'" (Non-Fast-Forward)</h3>
+<p><strong>Cause:</strong> GitHub contains commits that you do not have locally (e.g. someone else pushed, or you created README on GitHub).</p>
+<pre><code class="language-bash"># Solution: Fetch and merge remote changes before pushing
+git pull --rebase origin main
+git push origin main</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>3. "fatal: refusing to merge unrelated histories"</h3>
+<p><strong>Cause:</strong> You initialized a local repo and created a GitHub repo with a README independently; they share no common root commit.</p>
+<pre><code class="language-bash"># Solution: Allow Git to merge independent commit roots
+git pull origin main --allow-unrelated-histories</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>4. "remote: error: GH001: Large files detected (>100MB)"</h3>
+<p><strong>Cause:</strong> GitHub blocks commits containing individual files larger than 100MB.</p>
+<pre><code class="language-bash"># Solution: Unstage the large file and track with Git LFS (Large File Storage)
+git rm --cached path/to/large_file.zip
+git commit --amend -CHEAD
+git lfs install
+git lfs track "*.zip"
+git add .gitattributes
+git commit -m "chore: track large archive via Git LFS"</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>5. "warning: LF will be replaced by CRLF"</h3>
+<p><strong>Cause:</strong> Normal notification on Windows when Git converts line endings.</p>
+<pre><code class="language-bash"># Solution: Configure autocrlf properly
+git config --global core.autocrlf true   # On Windows
+git config --global core.autocrlf input  # On macOS/Linux</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>6. "You are in 'detached HEAD' state"</h3>
+<p><strong>Cause:</strong> You checked out a specific commit hash or tag rather than a named branch. Any new commits made here will not belong to any branch.</p>
+<pre><code class="language-bash"># Solution: Create a new branch pointing to this state to save work
+git switch -c rescue-branch
+# Or return safely to main: git switch main</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>GIT &middot; GITHUB</span><a href="#top">Back to top &uarr;</a></div>
+</section>
+
+<section class="chapter" id="chapter-15" data-title="your first practical exercise" data-category="reference">
+<div class="chapter-kicker">CHAPTER 15 <span> / </span> GUIDED PRACTICE LAB</div>
+      <h2>Your first practical exercise</h2>
+      <p class="intro">A complete 10-step guided hands-on exercise walking you from zero to initializing, committing, branching, creating a simulated conflict, resolving it, and publishing to GitHub.</p>
+      <div class="chapter-content">
+<p>The best way to build muscle memory is to execute the entire end-to-end lifecycle inside a disposable practice repository.</p>
+
+<pre><code class="language-bash"># Step 1: Create a disposable lab folder and enter it
+mkdir -p ~/git-sandbox && cd ~/git-sandbox
+
+# Step 2: Initialize Git and verify author configuration
+git init
+git config user.name
+git config user.email
+
+# Step 3: Create initial project files and inspect status
+cat <<'EOF' > README.md
+# Git Practice Project
+This is a hands-on sandbox repository to practice Git commands.
+EOF
+git status -s
+
+# Step 4: Stage and record your first commit
+git add README.md
+git commit -m "docs: initialize repository with project README"
+
+# Step 5: Create and switch to a feature branch
+git switch -c feature/calculator
+
+# Step 6: Create a feature file and commit
+cat <<'EOF' > calc.py
+def add(a, b):
+    return a + b
+EOF
+git add calc.py
+git commit -m "feat(calc): implement basic addition function"
+
+# Step 7: Return to main and make a conflicting edit on main
+git switch main
+cat <<'EOF' >> README.md
+
+## Main Branch Notes
+Direct changes applied on main branch.
+EOF
+git commit -am "docs: update readme on main branch"
+
+# Step 8: Merge feature into main (creates merge commit)
+git merge feature/calculator -m "merge: integrate calculator feature into main"
+
+# Step 9: Inspect the complete visual commit history graph
+git log --graph --oneline --decorate --all
+
+# Step 10: Clean up the merged feature branch
+git branch -d feature/calculator</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>GIT &middot; GITHUB</span><a href="#top">Back to top &uarr;</a></div>
+</section>
+
+<section class="chapter" id="chapter-16" data-title="a safe daily workflow" data-category="reference">
+<div class="chapter-kicker">CHAPTER 16 <span> / </span> DAILY BEST PRACTICES</div>
+      <h2>A safe daily workflow</h2>
+      <p class="intro">An 8-step battle-tested daily operating procedure for developers working on agile software teams to avoid merge headaches and lost code.</p>
+      <div class="chapter-content">
+<p>Adopting a disciplined daily routine eliminates 95% of merge conflicts, broken builds, and lost work in team repositories.</p>
+
+<h3>The 8-Step Daily Engineering Cycle</h3>
+<ol>
+  <li><strong>Start of Day Sync:</strong> Switch to <code>main</code> and pull the latest upstream changes:
+    <pre><code class="language-bash">git switch main && git pull --ff-only</code></pre>
+  </li>
+  <li><strong>Branch Off Fresh Base:</strong> Never start work on an old branch. Always branch off the freshly updated <code>main</code>:
+    <pre><code class="language-bash">git switch -c feat/user-onboarding</code></pre>
+  </li>
+  <li><strong>Make Small, Focused Commits:</strong> Commit logical units of work frequently rather than one massive commit at the end of the week:
+    <pre><code class="language-bash">git commit -m "feat(ui): add signup modal skeleton"</code></pre>
+  </li>
+  <li><strong>Run Tests Locally Before Staging:</strong> Verify automated tests pass locally before committing:
+    <pre><code class="language-bash">npm test || pytest || cargo test</code></pre>
+  </li>
+  <li><strong>Inspect Staged Diff Before Finalizing:</strong> Always check what you are about to seal into history:
+    <pre><code class="language-bash">git diff --staged</code></pre>
+  </li>
+  <li><strong>Rebase on Main Before Opening PR:</strong> Keep your branch up to date with teammates' merged work:
+    <pre><code class="language-bash">git fetch origin main && git rebase origin/main</code></pre>
+  </li>
+  <li><strong>Push and Open PR:</strong> Push upstream with tracking and open a Pull Request:
+    <pre><code class="language-bash">git push -u origin feat/user-onboarding</code></pre>
+  </li>
+  <li><strong>Delete Merged Branches:</strong> Once the PR is merged on GitHub, delete the local branch to keep your environment clean:
+    <pre><code class="language-bash">git switch main && git pull && git branch -d feat/user-onboarding</code></pre>
+  </li>
+</ol>
+</div>
+      <div class="chapter-foot"><span>GIT &middot; GITHUB</span><a href="#top">Back to top &uarr;</a></div>
+</section>
+
+<section class="chapter" id="chapter-17" data-title="git cheat sheet: commands and power aliases" data-category="reference">
+<div class="chapter-kicker">CHAPTER 17 <span> / </span> SHORTCUTS &amp; ALIASES</div>
+      <h2>Git Cheat Sheet: commands and power aliases</h2>
+      <p class="intro">Boost terminal velocity: configure high-productivity Git aliases, format ASCII log graphs, search historical commits by code diff, and inspect line authorship with git blame.</p>
+      <div class="chapter-content">
+
+<h3>High-Productivity Git Aliases</h3>
+<pre><code class="language-bash"># Configure these global shortcuts in your terminal:
+git config --global alias.s "status -s"
+git config --global alias.co "switch"
+git config --global alias.cb "switch -c"
+git config --global alias.cm "commit -m"
+git config --global alias.ca "commit --amend --no-edit"
+git config --global alias.df "diff"
+git config --global alias.dfs "diff --staged"
+git config --global alias.last "log -1 HEAD --stat"
+
+# The Ultimate ASCII History Graph Alias:
+git config --global alias.lg "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+
+# Now simply run:
+git lg  # Displays clean, colored, branching graph of all commits</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>Historical Investigation &amp; Archaeology</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Task</th><th>Command Pattern</th><th>Use Case</th></tr></thead>
+  <tbody>
+    <tr><td>Search commit history by code diff</td><td><code>git log -S "SECRET_TOKEN" -p</code></td><td>Pickaxe search: finds exact commits that added or deleted a specific string</td></tr>
+    <tr><td>View commit history for specific file</td><td><code>git log -p --follow path/to/file.ts</code></td><td>Tracks file modifications across renames</td></tr>
+    <tr><td>Inspect line authorship &amp; commit date</td><td><code>git blame -L 40,65 src/auth.js</code></td><td>Discovers who last modified specific lines and why</td></tr>
+    <tr><td>Show changes made in specific commit</td><td><code>git show &lt;commit_hash&gt;</code></td><td>Displays commit author, date, message, and full patch diff</td></tr>
+  </tbody>
+</table>
+</div>
+</div>
+      <div class="chapter-foot"><span>GIT &middot; GITHUB</span><a href="#top">Back to top &uarr;</a></div>
+</section>
+
+<section class="chapter" id="chapter-18" data-title="remote repositories: complete mastery" data-category="advanced">
+<div class="chapter-kicker">CHAPTER 18 <span> / </span> ADVANCED REMOTES</div>
+      <h2>Remote repositories: complete mastery</h2>
+      <p class="intro">Manage multi-remote workflows (origin vs upstream), prune dead remote branches, synchronize open-source forks, and update remote connection URLs.</p>
+      <div class="chapter-content">
+<p>In open-source and enterprise environments, developers often work with multiple remotes: <code>origin</code> (your personal fork or writable copy) and <code>upstream</code> (the official parent repository).</p>
+
+<h3>Multi-Remote Fork Architecture</h3>
+<pre><code class="language-bash"># 1. View configured remotes
+git remote -v
+# origin  git@github.com:your-user/kubernetes.git (fetch)
+# origin  git@github.com:your-user/kubernetes.git (push)
+
+# 2. Add parent open-source repository as 'upstream'
+git remote add upstream git@github.com:kubernetes/kubernetes.git
+
+# 3. Synchronize your fork with upstream changes:
+git fetch upstream main
+git switch main
+git merge --ff-only upstream/main
+git push origin main  # Update your personal GitHub fork</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>Pruning Stale Remote Tracking References</h3>
+<div class="callout callout-tip">
+  <strong>Cleaning Up Dead Branches:</strong> When a teammate merges and deletes a branch on GitHub, your local Git still keeps <code>origin/feature-xyz</code> in its tracking cache. Prune all dead references with:
+  <code>git fetch --prune origin</code> (or configure: <code>git config --global fetch.prune true</code>).
+</div>
+
+<pre><code class="language-bash"># Change remote URL from HTTPS to SSH:
+git remote set-url origin git@github.com:username/repository.git
+
+# Remove an obsolete remote reference:
+git remote remove staging</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>GIT &middot; GITHUB</span><a href="#top">Back to top &uarr;</a></div>
+</section>
+
+<section class="chapter" id="chapter-19" data-title="push rejected: understand and fix it correctly" data-category="advanced">
+<div class="chapter-kicker">CHAPTER 19 <span> / </span> PUSH REJECTIONS &amp; DIVERGENCE</div>
+      <h2>Push rejected: understand and fix it correctly</h2>
+      <p class="intro">Demystify [rejected - non-fast-forward] errors, understand commit graph divergence, avoid the hazards of force push, and use safe --force-with-lease.</p>
+      <div class="chapter-content">
+<p>When you run <code>git push</code> and Git rejects your command with <code>[rejected - non-fast-forward]</code>, it is not broken. Git is actively preventing you from destroying commits that exist on GitHub but not on your local machine.</p>
+
+<h3>Why Non-Fast-Forward Happens</h3>
+<pre><code class="language-plaintext">Remote (origin/main):  A --- B --- C --- D (Teammate pushed D)
+Local (main):          A --- B --- C --- E (You committed E locally)</code></pre>
+<p>Both commits <code>D</code> and <code>E</code> share common parent <code>C</code>, but neither is an ancestor of the other. If Git allowed you to push <code>E</code> directly, commit <code>D</code> would be erased from the remote branch!</p>
+
+<h3>The Two Correct Solutions</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Solution Strategy</th><th>Command</th><th>Outcome</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Method A: Pull Rebase (Preferred)</strong></td><td><code>git pull --rebase origin main</code></td><td>Replays your local commit <code>E</code> on top of <code>D</code>, producing a clean linear history: <code>A-B-C-D-E'</code>.</td></tr>
+    <tr><td><strong>Method B: Pull Merge</strong></td><td><code>git pull origin main</code></td><td>Creates a merge commit tying together <code>D</code> and <code>E</code>. Leaves history intact but adds merge noise.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-warn">
+  <strong>The Danger of <code>git push --force</code>:</strong> Running <code>git push -f</code> forces the remote branch to match your local state, permanently destroying any commits pushed by colleagues. If you must update a rebased feature branch, ALWAYS use the safe alternative:
+  <code>git push --force-with-lease</code> (Refuses to push if someone else pushed changes you haven't seen!).
+</div>
+</div>
+      <div class="chapter-foot"><span>GIT &middot; GITHUB</span><a href="#top">Back to top &uarr;</a></div>
+</section>
+
+<section class="chapter" id="chapter-20" data-title="stash, amend, and repair commit history" data-category="advanced">
+<div class="chapter-kicker">CHAPTER 20 <span> / </span> HISTORY REWRITING</div>
+      <h2>Stash, amend, and repair commit history</h2>
+      <p class="intro">Shelve dirty working files with git stash, amend the latest commit without creating duplicate entries, and reorder, squash, or edit past commits using interactive rebase.</p>
+      <div class="chapter-content">
+<p>Writing clean, professional Git history does not mean writing perfect commits on your first attempt. It means knowing how to polish and groom your local commits before sharing them with your team.</p>
+
+<h3>Stashing Unfinished Work</h3>
+<pre><code class="language-bash"># Save dirty uncommitted work to stash with a descriptive label
+git stash push -m "WIP: stripe webhook handler"
+
+# List all saved stashes
+git stash list
+
+# Re-apply the most recent stash and remove it from stash stack
+git stash pop
+
+# View diff of what is inside stash #0
+git stash show -p stash@{0}</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>Amending the Most Recent Commit</h3>
+<pre><code class="language-bash"># Forgot to include a file or typo in the last commit?
+git add forgotten_file.js
+git commit --amend --no-edit  # Absorbs changes into previous commit seamlessly!
+
+# Change just the commit message of the previous commit:
+git commit --amend -m "feat(auth): correct description of login flow"</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>Interactive Rebase (<code>git rebase -i</code>) Power Matrix</h3>
+<p>Interactive rebase allows you to rewrite the last N commits on your private local branch before opening a PR:</p>
+<pre><code class="language-bash">git rebase -i HEAD~4  # Opens editor with the last 4 commits</code></pre>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Rebase Command</th><th>Action Taken</th></tr></thead>
+  <tbody>
+    <tr><td><code>pick &lt;hash&gt;</code></td><td>Keep commit as is</td></tr>
+    <tr><td><code>reword &lt;hash&gt;</code></td><td>Keep commit changes, but edit commit message</td></tr>
+    <tr><td><code>edit &lt;hash&gt;</code></td><td>Pause rebase at this commit to amend code or add/remove files</td></tr>
+    <tr><td><code>squash &lt;hash&gt;</code></td><td>Melt commit into previous commit and concatenate commit messages</td></tr>
+    <tr><td><code>fixup &lt;hash&gt;</code></td><td>Melt commit into previous commit and discard this commit message</td></tr>
+    <tr><td><code>drop &lt;hash&gt;</code></td><td>Delete commit entirely from history</td></tr>
+  </tbody>
+</table>
+</div>
+</div>
+      <div class="chapter-foot"><span>GIT &middot; GITHUB</span><a href="#top">Back to top &uarr;</a></div>
+</section>
+
+<section class="chapter" id="chapter-21" data-title="real-world collaboration workflow" data-category="advanced">
+<div class="chapter-kicker">CHAPTER 21 <span> / </span> ENTERPRISE PATTERNS</div>
+      <h2>Real-world collaboration workflow</h2>
+      <p class="intro">Enterprise-grade repository governance: protected branches, required reviews, automated CI status checks, semantic release tagging, and GitHub Actions integration.</p>
+      <div class="chapter-content">
+<p>In enterprise engineering organizations, nobody pushes directly to <code>main</code>. Repositories enforce branch protection rules, automated testing pipelines, and semantic versioning tags.</p>
+
+<h3>Branch Protection Architecture</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Protection Rule</th><th>Engineering Rationale</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Require Pull Request Reviews</strong></td><td>At least 1 or 2 senior peer approvals required before merge</td></tr>
+    <tr><td><strong>Require Status Checks to Pass</strong></td><td>CI test suite, linting, and security audits must report green</td></tr>
+    <tr><td><strong>Require Linear History</strong></td><td>Prevents messy merge bubbles; mandates squash or rebase merges</td></tr>
+    <tr><td><strong>Include Administrators</strong></td><td>Ensures no developer or manager can bypass automated controls</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Semantic Versioning &amp; Release Tags</h3>
+<pre><code class="language-bash"># Create an annotated release tag on current commit
+git tag -a v1.4.0 -m "Release version 1.4.0 (Authentication overhaul)"
+
+# List all tags in semantic order
+git tag -n -l "v*"
+
+# Push a specific tag to GitHub (triggers GitHub release pipeline)
+git push origin v1.4.0
+
+# Push all local tags simultaneously
+git push origin --tags</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>GIT &middot; GITHUB</span><a href="#top">Back to top &uarr;</a></div>
+</section>
+
+<section class="chapter" id="chapter-22" data-title="git mastery lab: practice the difficult cases" data-category="advanced">
+<div class="chapter-kicker">CHAPTER 22 <span> / </span> ADVANCED DISASTER LABS</div>
+      <h2>Git mastery lab: practice the difficult cases</h2>
+      <p class="intro">Hands-on disaster recovery simulations: recover accidentally deleted branches with git reflog, cherry-pick hotfixes across branches, and bisect regression bugs.</p>
+      <div class="chapter-content">
+<p>These advanced lab exercises simulate high-stakes production scenarios. Complete them in a disposable repository to build true mastery.</p>
+
+<h3>Lab 1: Recover a Deleted Branch Using <code>git reflog</code></h3>
+<div class="callout callout-tip">
+  <strong>The Safety Net of <code>git reflog</code>:</strong> The reflog (Reference Log) records every movement of <code>HEAD</code> on your machine for 90 days. Even if you run <code>git branch -D</code> or reset hard, the commits still exist in reflog!
+</div>
+<pre><code class="language-bash"># Scenario: You accidentally force-deleted a feature branch with 3 days of work!
+git branch -D feature/important-work
+
+# 1. View the local reference log:
+git reflog
+# Output:
+# a1b2c3d HEAD@{0}: checkout: moving from feature/important-work to main
+# 9f8e7d6 HEAD@{1}: commit: feat: complete database schema migration
+
+# 2. Resurrect the branch at the exact commit hash from reflog:
+git branch feature/important-work 9f8e7d6
+
+# Result: Branch and all commits are 100% recovered!</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>Lab 2: Cherry-Pick a Specific Hotfix Commit</h3>
+<p>When a bug fix was committed to an unready experimental feature branch, but you need to deploy only that fix into production immediately:</p>
+<pre><code class="language-bash"># 1. Find the commit hash of the bug fix on the feature branch
+git log feature/experimental-redesign --oneline
+
+# 2. Switch to production branch
+git switch main
+
+# 3. Cherry-pick only that specific commit
+git cherry-pick 4c5d6e7
+
+# Git applies the exact patch from that commit onto main with a new commit hash!</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>Lab 3: Binary Search for Bugs with <code>git bisect</code></h3>
+<p>When a bug was introduced somewhere among the last 200 commits, <code>git bisect</code> performs an automated binary search (O(log N)) to pinpoint the exact commit that introduced the breakage in seconds:</p>
+<pre><code class="language-bash"># 1. Start bisect mode
+git bisect start
+
+# 2. Mark current state as broken
+git bisect bad
+
+# 3. Mark a known good historical version
+git bisect good v1.2.0
+
+# 4. Git automatically checks out middle commit. Run your test:
+npm test
+# If test passes: git bisect good
+# If test fails:  git bisect bad
+
+# 5. After log2(N) checks, Git announces the culprit commit!
+# Exit bisect mode when done:
+git bisect reset</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>GIT &middot; GITHUB</span><a href="#top">Back to top &uarr;</a></div>
+</section>
+
+    </main>
+  </div>
+
+  <!-- Floating Back to Top Button -->
+  <button id="back-to-top" class="back-to-top" title="Back to top" aria-label="Back to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+  </button>
+
+  <footer class="footer">
+    <p>Git &amp; GitHub &mdash; The Practical Developer's Guide &middot; Modernized &amp; Enhanced Reference Manual</p>
+    <p style="margin-top: 6px; font-size: 12px; color: var(--muted);">Engineered for modern software teams. Pure HTML/CSS/JS with zero external runtime dependencies.</p>
+  </footer>
+
+  <script>
+    // Theme Management
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const htmlElem = document.documentElement;
+
+    function applyTheme(theme) {
+      htmlElem.setAttribute('data-theme', theme);
+      localStorage.setItem('git-tutorial-theme', theme);
+      if (theme === 'dark') {
+        themeIcon.innerHTML = '☀️ Light';
+      } else {
+        themeIcon.innerHTML = '🌙 Dark';
+      }
+    }
+
+    const savedTheme = localStorage.getItem('git-tutorial-theme') || 
+      (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    applyTheme(savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+      const current = htmlElem.getAttribute('data-theme') || 'dark';
+      applyTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    // Print Button
+    document.getElementById('print-btn').addEventListener('click', () => {
+      window.print();
+    });
+
+    // Mobile Drawer
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('drawer-overlay');
+
+    function toggleDrawer(open) {
+      sidebar.classList.toggle('open', open);
+      overlay.classList.toggle('visible', open);
+    }
+
+    mobileToggle.addEventListener('click', () => toggleDrawer(!sidebar.classList.contains('open')));
+    overlay.addEventListener('click', () => toggleDrawer(false));
+
+    // Search and Category Filtering
+    const search = document.getElementById('search');
+    const searchClear = document.getElementById('search-clear');
+    const searchStatus = document.getElementById('search-status');
+    const chapters = [...document.querySelectorAll('.chapter')];
+    const links = [...document.querySelectorAll('nav a')];
+        const noResults = document.getElementById('noResults');
+
+    let activeCategory = 'all';
+
+    function filterContent() {
+      const query = search.value.trim().toLowerCase();
+      searchClear.style.display = query ? 'block' : 'none';
+      
+      let matchedCount = 0;
+      chapters.forEach((chap, idx) => {
+        const cat = chap.getAttribute('data-category');
+        const title = chap.getAttribute('data-title') || '';
+        const bodyText = chap.innerText.toLowerCase();
+        
+        const matchesCategory = (activeCategory === 'all' || cat === activeCategory);
+        const matchesQuery = !query || title.toLowerCase().includes(query) || bodyText.includes(query);
+        
+        const isVisible = matchesCategory && matchesQuery;
+        chap.style.display = isVisible ? '' : 'none';
+        links[idx].style.display = isVisible ? 'flex' : 'none';
+        
+        if (isVisible) matchedCount++;
+      });
+
+      searchStatus.innerHTML = `<span>Showing ${matchedCount} of ${chapters.length} chapters</span>`;
+      noResults.style.display = matchedCount ? 'none' : 'block';
+    }
+
+    search.addEventListener('input', filterContent);
+    searchClear.addEventListener('click', () => {
+      search.value = '';
+      filterContent();
+      search.focus();
+    });
+
+    // Keyboard Shortcuts: '/' to focus search, 'Escape' to clear
+    window.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement !== search) {
+        e.preventDefault();
+        search.focus();
+      } else if (e.key === 'Escape' && document.activeElement === search) {
+        search.value = '';
+        filterContent();
+        search.blur();
+      }
+    });
+
+    // Unified Category Selector (Sidebar + Main Deck)
+    function setActiveCategory(cat) {
+      activeCategory = cat;
+      
+      // Update sidebar items and main deck cards
+      document.querySelectorAll('[data-cat]').forEach(el => {
+        el.classList.toggle('active', el.getAttribute('data-cat') === cat);
+      });
+
+      // Update reset button visibility in sidebar
+      const resetBtn = document.getElementById('category-reset');
+      if (resetBtn) {
+        resetBtn.style.display = (cat === 'all') ? 'none' : 'inline-block';
+      }
+
+      filterContent();
+
+      // If clicked from main deck, smoothly scroll to first chapter of that category
+      if (cat !== 'all') {
+        const firstMatch = document.querySelector(`.chapter[data-category="${cat}"]`);
+        if (firstMatch && window.scrollY > 300) {
+          firstMatch.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    }
+
+    document.querySelectorAll('[data-cat]').forEach(el => {
+      el.addEventListener('click', () => {
+        const cat = el.getAttribute('data-cat');
+        setActiveCategory(cat);
+      });
+    });
+
+    const resetBtn = document.getElementById('category-reset');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => setActiveCategory('all'));
+    }
+
+    // Enhanced Copy Button with Tooltip and Checkmark
+    document.addEventListener('click', async (e) => {
+      const btn = e.target.closest('.copy');
+      if (!btn) return;
+      const codeElem = btn.parentElement.querySelector('code');
+      if (!codeElem) return;
+      
+      try {
+        await navigator.clipboard.writeText(codeElem.innerText);
+        const origText = btn.innerHTML;
+        btn.innerHTML = '&#10003; Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.innerHTML = origText;
+          btn.classList.remove('copied');
+        }, 1600);
+      } catch (err) {
+        btn.textContent = 'Select & copy';
+      }
+    });
+
+    // Active Chapter Highlighting with IntersectionObserver
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const targetId = entry.target.id;
+          links.forEach(a => {
+            const isMatch = a.getAttribute('href') === '#' + targetId;
+            a.classList.toggle('active', isMatch);
+            if (isMatch) {
+              a.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            }
+          });
+        }
+      });
+    }, { rootMargin: '-15% 0px -75% 0px' });
+
+    chapters.forEach(c => observer.observe(c));
+
+    // Dynamic Reading Progress Bar & Back-to-Top Button
+    const backToTop = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const currentScroll = window.scrollY;
+      const progress = max > 0 ? (currentScroll / max) * 100 : 0;
+      document.documentElement.style.setProperty('--progress', progress + '%');
+      
+      if (currentScroll > 360) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    }, { passive: true });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>

@@ -1,11 +1,12 @@
 # 📚 Xivig Developer Notes & Knowledge Base
 
-[![Topics](https://img.shields.io/badge/Knowledge%20Base-16%20Disciplines-6366f1?style=flat-square)](.)
+[![Topics](https://img.shields.io/badge/Knowledge%20Base-17%20Disciplines-6366f1?style=flat-square)](.)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES2024%2B-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](JavaScript/)
 [![DOM](https://img.shields.io/badge/DOM-W3C%20%2F%20WHATWG-E34F26?style=flat-square&logo=html5&logoColor=white)](DOM/dom-facts.md)
 [![jQuery](https://img.shields.io/badge/jQuery-4.0.0-0769AD?style=flat-square&logo=jquery&logoColor=white)](jQuery/README.md)
 [![Jasmine](https://img.shields.io/badge/Testing-Jasmine%20BDD-8A4182?style=flat-square&logo=jasmine&logoColor=white)](Jasmine/unitTest-Jasmine-config.md)
 [![PHP](https://img.shields.io/badge/PHP-8.0%20--%208.5-777BB4?style=flat-square&logo=php&logoColor=white)](all-in-one-php-tutorial/README.md)
+[![Unix/Shell](https://img.shields.io/badge/Unix%20%26%20Shell-Bash%20%7C%20Zsh%20%7C%20HTML5-4EAA25?style=flat-square&logo=gnu-bash&logoColor=white)](developer-handbook-unix-linux-git-shell/README.md)
 [![Git](https://img.shields.io/badge/Git-2.40%2B-F05032?style=flat-square&logo=git&logoColor=white)](git-essential-commands/README.md)
 [![MySQL](https://img.shields.io/badge/MySQL-8.4%20LTS-4479A1?style=flat-square&logo=mysql&logoColor=white)](mysql-cheatsheet-example/README.md)
 [![Markdown](https://img.shields.io/badge/Markdown-GFM%20%2F%20Mermaid-000000?style=flat-square&logo=markdown&logoColor=white)](Markdown/README.md)
@@ -36,9 +37,10 @@ xivig-all-in-one-notes/
 ├── git-essential-commands/      # Rigorous Git manual, desk cheatsheet, aliases & automation scripts
 ├── mysql-cheatsheet-example/    # MySQL 8.4 LTS handbook (Stages 0–18), cheatsheet & practice lab
 ├── homebrew-installer-script/   # Idempotent macOS workstation bootstrap script (homebrew.sh)
-├── sublime-text-editor-trick/   # Sublime Text shortcuts, multi-cursor, Emmet, snippets & builds
-├── all-in-one-php-tutorial/     # Modern PHP 8.0–8.5 18-chapter handbook, runnable labs & portal
-└── rc-meaning.md                # The historical meaning and origin of Unix 'rc' files
+├── sublime-text-editor-trick/                # Sublime Text shortcuts, multi-cursor, Emmet, snippets & builds
+├── all-in-one-php-tutorial/                  # Modern PHP 8.0–8.5 18-chapter handbook, runnable labs & portal
+├── developer-handbook-unix-linux-git-shell/  # Unix/Linux, Git, Shell, macOS, HTML5 handbooks & 25 scripts
+└── rc-meaning.md                             # The historical meaning and origin of Unix 'rc' files
 ```
 
 ---
@@ -172,6 +174,17 @@ xivig-all-in-one-notes/
 * **Track 3 — Modern PHP 8.0–8.5 Architecture**: [12. Type System, Promotion & Enums](all-in-one-php-tutorial/chapters/12-modern-php-8-type-system-and-enums/README.md) · [13. Attributes, Property Hooks (8.4) & Pipe (8.5)](all-in-one-php-tutorial/chapters/13-modern-php-8-syntax-attributes-and-hooks/README.md) · [14. Error Handling, Exceptions & Fibers](all-in-one-php-tutorial/chapters/14-error-handling-exceptions-and-fibers/README.md).
 * **Track 4 — Applied Security, PDO & Production Architecture**: [15. Files, JSON, HTTP/cURL & CLI](all-in-one-php-tutorial/chapters/15-files-json-http-and-cli/README.md) · [16. Web Security, Passwords & CSRF](all-in-one-php-tutorial/chapters/16-web-security-sessions-and-validation/README.md) · [17. PDO & Transactions](all-in-one-php-tutorial/chapters/17-databases-pdo-and-transactions/README.md) · [18. Testing, Performance & Architecture](all-in-one-php-tutorial/chapters/18-testing-performance-and-architecture/README.md).
 
+### 17. 🐧 [Developer Handbook: Unix, Linux, Git, Shell, macOS & HTML5](developer-handbook-unix-linux-git-shell/README.md)
+* **Master Hub & Interactive Portal**: 📘 **[Handbook Index](developer-handbook-unix-linux-git-shell/README.md)** · 🌐 **[Unified Web Documentation Portal (`documentation/index.html`)](developer-handbook-unix-linux-git-shell/documentation/index.html)** · 📚 **[Modular Docs Hub (`docs/`)](developer-handbook-unix-linux-git-shell/docs/README.md)**.
+* **Interactive Single-Page Handbooks**:
+  * 🖥️ **[Linux & Unix Shell Developer Handbook (39 Ch)](developer-handbook-unix-linux-git-shell/Linux_Unix_Shell_Developer_Handbook.html)**
+  * 🌿 **[Git & GitHub Complete Tutorial (22 Ch)](developer-handbook-unix-linux-git-shell/Git_GitHub_Complete_Tutorial.html)**
+  * 🌐 **[HTML5 & Modern Web Architecture Handbook (15 Ch)](developer-handbook-unix-linux-git-shell/HTML5_Web_Developer_Handbook.html)**
+* **6 Modular Markdown Tracks (`docs/`)**:
+  * [Track 1: Unix & Linux Systems (6 Ch)](developer-handbook-unix-linux-git-shell/docs/unix-linux/README.md) · [Track 2: Git Version Control (5 Ch)](developer-handbook-unix-linux-git-shell/docs/git/README.md) · [Track 3: Shell Scripting Masterclass](developer-handbook-unix-linux-git-shell/docs/shell-scripting/README.md)
+  * [Track 4: HTML5 & WCAG 2.2 Standards (7 Ch)](developer-handbook-unix-linux-git-shell/docs/html/README.md) · [Track 5: macOS Darwin Setup (6 Ch)](developer-handbook-unix-linux-git-shell/docs/macos/README.md) · [Track 6: Utility Scripts Architecture](developer-handbook-unix-linux-git-shell/docs/scripts/README.md)
+* **Production Shell Automation Suite**: 🛠️ **[25 Production Shell Scripts (`shell-scripts-repo/`)](developer-handbook-unix-linux-git-shell/shell-scripts-repo/README.md)** · 🧪 **[Automated QA Test Runner (`test_all_scripts.sh`)](developer-handbook-unix-linux-git-shell/shell-scripts-repo/test_all_scripts.sh)**.
+
 ---
 
 ## 🚀 Quick Reference Snippets
@@ -197,7 +210,7 @@ document.querySelector('#todo-list').addEventListener('click', (e) => {
 });
 ```
 
-### Daily Git, MySQL, macOS Bootstrap & PHP Labs
+### Daily Git, MySQL, macOS Bootstrap, PHP & Shell Labs
 ```bash
 # Inspect compact Git status, diff staged changes, or install aliases
 git status -sb && git diff --staged
@@ -211,10 +224,13 @@ INSTALL_CASKS=yes INSTALL_LANGUAGES=yes ./homebrew-installer-script/homebrew.sh
 
 # Run and verify all compatible Modern PHP 8.x handbook labs
 php all-in-one-php-tutorial/run-all-examples.php
+
+# Run the shell scripts QA suite (Unix/Linux/macOS/Git Bash)
+bash developer-handbook-unix-linux-git-shell/shell-scripts-repo/test_all_scripts.sh
 ```
 
 ---
 
 ## 🤝 License
 
-Distributed under the **[GNU General Public License v3.0](LICENSE)** (with imported companion repositories—`git-essential-commands`, `homebrew-installer-script`, `mysql-cheatsheet-example`, `sublime-text-editor-trick`, and `all-in-one-php-tutorial`—retaining their respective **MIT Licenses**). Free for personal, educational, and open-source software development.
+Distributed under the **[GNU General Public License v3.0](LICENSE)** (with imported companion repositories—`git-essential-commands`, `homebrew-installer-script`, `mysql-cheatsheet-example`, `sublime-text-editor-trick`, `all-in-one-php-tutorial`, and `developer-handbook-unix-linux-git-shell`—retaining their respective **MIT Licenses**). Free for personal, educational, and open-source software development.

@@ -1,0 +1,3600 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linux & Unix Shell Developer's Handbook — 39 Complete Chapters</title>
+  <meta name="description" content="A comprehensive, modern engineering field guide and reference handbook for Linux, Unix, Bash scripting, system architecture, command pipelines, and POSIX development.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f17;
+      --bg-gradient: radial-gradient(1000px 600px at 80% -10%, #1e1b4b 0%, transparent 70%), #0b0f17;
+      --paper: #111827;
+      --paper-card: #151f32;
+      --paper-hover: #1a2740;
+      --ink: #f8fafc;
+      --ink-secondary: #cbd5e1;
+      --muted: #8492a6;
+      --line: #1e293b;
+      --line-strong: #334155;
+      --nav: #0d131f;
+      --nav-active: rgba(99, 102, 241, 0.16);
+      --accent: #6366f1;
+      --accent-hover: #818cf8;
+      --accent-glow: rgba(99, 102, 241, 0.4);
+      --accent2: #06b6d4;
+      --accent3: #10b981;
+      --code: #070a10;
+      --codeink: #e2e8f0;
+      --code-border: #1a2436;
+      --code-tag: #818cf8;
+      --badge-bg: rgba(255, 255, 255, 0.08);
+      --badge-border: rgba(255, 255, 255, 0.14);
+      --shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.55);
+      --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.25);
+      --callout-tip-bg: rgba(16, 185, 129, 0.08);
+      --callout-tip-border: #10b981;
+      --callout-warn-bg: rgba(245, 158, 11, 0.09);
+      --callout-warn-border: #f59e0b;
+      --callout-info-bg: rgba(99, 102, 241, 0.09);
+      --callout-info-border: #6366f1;
+      --callout-mac-bg: rgba(217, 70, 239, 0.09);
+      --callout-mac-border: #d946ef;
+    }
+
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --bg-gradient: radial-gradient(1000px 500px at 80% -10%, #e0e7ff 0%, transparent 70%), #f8fafc;
+      --paper: #ffffff;
+      --paper-card: #f8fafc;
+      --paper-hover: #f1f5f9;
+      --ink: #0f172a;
+      --ink-secondary: #334155;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --line-strong: #cbd5e1;
+      --nav: #0f172a;
+      --nav-active: rgba(99, 102, 241, 0.1);
+      --accent: #4f46e5;
+      --accent-hover: #4338ca;
+      --accent-glow: rgba(79, 70, 229, 0.2);
+      --accent2: #0891b2;
+      --accent3: #059669;
+      --code: #0f172a;
+      --codeink: #f8fafc;
+      --code-border: #334155;
+      --code-tag: #6366f1;
+      --badge-bg: rgba(15, 23, 42, 0.06);
+      --badge-border: rgba(15, 23, 42, 0.12);
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+      --callout-tip-bg: rgba(16, 185, 129, 0.07);
+      --callout-tip-border: #059669;
+      --callout-warn-bg: rgba(245, 158, 11, 0.07);
+      --callout-warn-border: #d97706;
+      --callout-info-bg: rgba(99, 102, 241, 0.07);
+      --callout-info-border: #4f46e5;
+      --callout-mac-bg: rgba(217, 70, 239, 0.07);
+      --callout-mac-border: #c026d3;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* Top Reading Progress Bar */
+    .topbar {
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      width: var(--progress, 0%);
+      box-shadow: 0 0 10px var(--accent-glow);
+      transition: width 0.1s ease-out;
+    }
+
+    /* Global Navigation Bar / Action Strip */
+    .top-actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 12px 24px 0;
+    }
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--badge-border);
+      background: var(--badge-bg);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s ease;
+    }
+    .action-btn:hover {
+      background: var(--line);
+      border-color: var(--accent);
+      color: var(--accent-hover);
+    }
+    .action-btn svg { width: 14px; height: 14px; }
+
+    /* Header Hero */
+    header {
+      background: var(--bg-gradient);
+      color: #fff;
+      padding: 30px max(24px, calc((100vw - 1460px)/2)) 50px;
+      border-bottom: 1px solid var(--line);
+    }
+    .hero-inner { max-width: 1400px; margin: auto; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--accent-hover);
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent3);
+      box-shadow: 0 0 8px var(--accent3);
+    }
+    h1 {
+      font-size: clamp(32px, 4.5vw, 56px);
+      line-height: 1.08;
+      letter-spacing: -.04em;
+      margin: 8px 0 16px;
+      max-width: 960px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 40%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    [data-theme="light"] h1 {
+      background: linear-gradient(135deg, #0f172a 40%, #4338ca 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-copy {
+      color: var(--ink-secondary);
+      max-width: 820px;
+      font-size: 16.5px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .hero-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .hero-meta span {
+      border: 1px solid var(--badge-border);
+      background: var(--badge-bg);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink-secondary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Main Layout */
+    .layout {
+      max-width: 1500px;
+      margin: 28px auto;
+      display: grid;
+      grid-template-columns: 320px minmax(0, 1fr);
+      gap: 28px;
+      padding: 0 24px;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      position: sticky;
+      top: 20px;
+      align-self: start;
+      max-height: calc(100vh - 40px);
+      display: flex;
+      flex-direction: column;
+      background: var(--nav);
+      color: #e5e7eb;
+      border-radius: 18px;
+      padding: 18px 14px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+    }
+    .side-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2px 6px 12px;
+    }
+    .side-title {
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+    .chapter-total-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: rgba(99, 102, 241, 0.2);
+      color: #a5b4fc;
+    }
+
+    /* Search Box */
+    .search-wrap {
+      position: relative;
+      margin-bottom: 12px;
+    }
+    .search {
+      width: 100%;
+      border: 1px solid var(--line-strong);
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      padding: 10px 38px 10px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    .search:focus {
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+    }
+    .search-kbd {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 10px;
+      font-family: inherit;
+      padding: 2px 6px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 4px;
+      color: var(--muted);
+      pointer-events: none;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .search-clear {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 16px;
+      cursor: pointer;
+      display: none;
+      padding: 4px;
+      line-height: 1;
+    }
+    .search-status {
+      font-size: 11px;
+      color: var(--muted);
+      padding: 0 6px 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    
+    /* Modern Category Navigation (Sidebar) */
+    .category-nav-wrap {
+      margin-bottom: 14px;
+    }
+    .category-nav-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      padding: 0 4px;
+    }
+    .category-nav-title {
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .category-reset-btn {
+      font-size: 10.5px;
+      color: var(--accent-hover);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 2px 4px;
+      font-weight: 600;
+      display: none;
+      border-radius: 4px;
+      transition: background 0.15s ease;
+    }
+    .category-reset-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+    .category-nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .cat-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 9px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--ink-secondary);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    [data-theme="light"] .cat-item {
+      background: rgba(15, 23, 42, 0.03);
+      border-color: rgba(15, 23, 42, 0.06);
+      color: #334155;
+    }
+    .cat-item:hover {
+      background: rgba(255, 255, 255, 0.09);
+      border-color: var(--accent);
+      color: #fff;
+      transform: translateX(2px);
+    }
+    [data-theme="light"] .cat-item:hover {
+      background: rgba(99, 102, 241, 0.06);
+      border-color: var(--accent);
+      color: #0f172a;
+    }
+    .cat-item.active {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.22), rgba(6, 182, 212, 0.12));
+      border-color: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 14px var(--accent-glow);
+      font-weight: 700;
+    }
+    [data-theme="light"] .cat-item.active {
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.12), rgba(6, 182, 212, 0.08));
+      border-color: var(--accent);
+      color: #4338ca;
+      box-shadow: 0 2px 10px rgba(79, 70, 229, 0.15);
+    }
+    .cat-item-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+    .cat-icon {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      stroke: var(--accent-hover);
+      transition: transform 0.2s ease;
+    }
+    .cat-item:hover .cat-icon {
+      transform: scale(1.15);
+    }
+    .cat-name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cat-badge {
+      font-size: 10px;
+      font-family: 'Fira Code', monospace;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--muted);
+      flex-shrink: 0;
+      letter-spacing: -0.02em;
+    }
+    [data-theme="light"] .cat-badge {
+      background: rgba(15, 23, 42, 0.06);
+      border-color: rgba(15, 23, 42, 0.08);
+    }
+    .cat-item.active .cat-badge {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* Main Content Category Deck */
+    .category-deck-card {
+      background: var(--paper-card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 24px 28px;
+      margin-bottom: 26px;
+      box-shadow: var(--shadow);
+    }
+    .deck-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .deck-title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin: 0;
+    }
+    .deck-badge-counter {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .deck-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+    }
+    .deck-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: var(--shadow-sm);
+    }
+    .deck-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      box-shadow: 0 8px 24px var(--accent-glow);
+    }
+    .deck-card.active {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(6, 182, 212, 0.06));
+      box-shadow: 0 6px 20px var(--accent-glow);
+    }
+    [data-theme="light"] .deck-card.active {
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.08), rgba(6, 182, 212, 0.04));
+    }
+    .deck-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .deck-card-icon-wrap {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .deck-range-badge {
+      font-size: 11px;
+      font-family: 'Fira Code', monospace;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+    .deck-card.active .deck-range-badge {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .deck-card-name {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .deck-card-desc {
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: var(--muted);
+      margin: 0;
+    }
+
+
+    /* Sidebar Navigation Links */
+    .nav-scroller {
+      overflow-y: auto;
+      flex: 1;
+      padding-right: 4px;
+    }
+    .nav-scroller::-webkit-scrollbar { width: 5px; }
+    .nav-scroller::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+    }
+    nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #94a3b8;
+      font-size: 12.5px;
+      line-height: 1.4;
+      padding: 8px 10px;
+      border-radius: 8px;
+      margin: 2px 0;
+      transition: all 0.15s ease;
+    }
+    nav a span {
+      font-size: 10.5px;
+      font-family: 'Fira Code', monospace;
+      color: #64748b;
+      font-weight: 700;
+      min-width: 22px;
+    }
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.07);
+      color: #f1f5f9;
+      transform: translateX(2px);
+    }
+    nav a.active {
+      background: var(--nav-active);
+      color: #fff;
+      border-left: 3px solid var(--accent);
+      font-weight: 600;
+    }
+    nav a.active span { color: var(--accent-hover); }
+
+    /* Main Content Sections */
+    main { min-width: 0; }
+    .overview, .chapter {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: clamp(24px, 3.5vw, 46px);
+      margin-bottom: 26px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .overview {
+      background: var(--paper-card);
+      border-top: 4px solid var(--accent);
+    }
+    .overview h2 {
+      margin: 0 0 12px;
+      font-size: 26px;
+      letter-spacing: -.03em;
+      font-weight: 800;
+    }
+    .overview p { color: var(--ink-secondary); font-size: 16px; margin: 0 0 20px; }
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 24px;
+    }
+    .metric {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 18px;
+      box-shadow: var(--shadow-sm);
+    }
+    .metric strong {
+      display: block;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -.03em;
+      background: linear-gradient(135deg, var(--accent-hover), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
+    }
+    .metric small {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+      display: block;
+    }
+
+    /* Chapter Components */
+    .chapter-kicker {
+      font-size: 11px;
+      letter-spacing: .16em;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    .chapter-kicker span { color: var(--muted); }
+    .chapter h2 {
+      font-size: clamp(24px, 2.8vw, 34px);
+      line-height: 1.22;
+      letter-spacing: -.035em;
+      margin: 0 0 12px;
+      font-weight: 800;
+    }
+    .intro {
+      font-size: 16px;
+      color: var(--muted);
+      margin: 0 0 28px;
+      max-width: 940px;
+      line-height: 1.6;
+    }
+    .chapter-content h3 {
+      font-size: 18px;
+      margin: 30px 0 12px;
+      letter-spacing: -.02em;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .chapter-content p {
+      color: var(--ink-secondary);
+      margin: 14px 0;
+      line-height: 1.75;
+    }
+    .chapter-content ul, .chapter-content ol {
+      padding-left: 24px;
+      color: var(--ink-secondary);
+      margin: 14px 0;
+    }
+    .chapter-content li { padding: 4px 0; }
+    .chapter-content code:not(pre code) {
+      font-family: 'Fira Code', ui-monospace, SFMono-Regular, Consolas, monospace;
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      border-radius: 5px;
+      padding: 2px 6px;
+      font-size: .88em;
+      color: var(--accent-hover);
+      font-weight: 500;
+    }
+
+    /* Callout Blocks */
+    .callout {
+      border-left: 4px solid;
+      border-radius: 0 12px 12px 0;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+    .callout strong { font-weight: 700; }
+    .callout-tip {
+      background: var(--callout-tip-bg);
+      border-color: var(--callout-tip-border);
+      color: var(--ink);
+    }
+    .callout-warn {
+      background: var(--callout-warn-bg);
+      border-color: var(--callout-warn-border);
+      color: var(--ink);
+    }
+    .callout-info {
+      background: var(--callout-info-bg);
+      border-color: var(--callout-info-border);
+      color: var(--ink);
+    }
+    .callout-mac {
+      background: var(--callout-mac-bg);
+      border-color: var(--callout-mac-border);
+      color: var(--ink);
+    }
+
+    /* Code Blocks */
+    pre {
+      position: relative;
+      background: var(--code);
+      color: var(--codeink);
+      padding: 22px 20px 20px;
+      border-radius: 14px;
+      overflow-x: auto;
+      margin: 18px 0 22px;
+      font-family: 'Fira Code', ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      border: 1px solid var(--code-border);
+      tab-size: 2;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.4);
+    }
+    pre code { white-space: pre; font-family: inherit; }
+    .copy {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      transition: all 0.2s ease;
+    }
+    .copy:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.35);
+      color: #fff;
+    }
+    .copy.copied {
+      background: #10b981 !important;
+      border-color: #10b981 !important;
+      color: #fff !important;
+    }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 18px 0 24px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 13.5px;
+      text-align: left;
+    }
+    thead th {
+      background: var(--paper-card);
+      color: var(--ink);
+      font-weight: 700;
+      border-bottom: 2px solid var(--line-strong);
+      padding: 12px 16px;
+      white-space: nowrap;
+    }
+    tbody td {
+      border-bottom: 1px solid var(--line);
+      padding: 12px 16px;
+      vertical-align: top;
+      color: var(--ink-secondary);
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: rgba(99, 102, 241, 0.04); }
+    td code { white-space: nowrap; }
+
+    /* Chapter Footer */
+    .chapter-foot {
+      border-top: 1px solid var(--line);
+      margin-top: 36px;
+      padding-top: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .12em;
+      font-weight: 800;
+    }
+    .chapter-foot a {
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0;
+      font-size: 12.5px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.15s ease;
+    }
+    .chapter-foot a:hover { color: var(--accent-hover); }
+
+    /* Floating Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      right: 24px;
+      bottom: 28px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 24px var(--accent-glow);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(12px);
+      transition: all 0.25s ease;
+      z-index: 90;
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .back-to-top:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px var(--accent-glow);
+    }
+
+    /* Mobile Drawer Toggle */
+    .mobile-menu-btn {
+      display: none;
+      position: fixed;
+      left: 18px;
+      bottom: 24px;
+      z-index: 95;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 8px 24px var(--accent-glow);
+      cursor: pointer;
+    }
+
+    .no-results {
+      display: none;
+      padding: 40px 20px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 15px;
+      background: var(--paper);
+      border-radius: 16px;
+      border: 1px dashed var(--line-strong);
+    }
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 40px 24px;
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 1080px) {
+      .layout { grid-template-columns: 280px minmax(0, 1fr); gap: 20px; }
+    }
+    @media (max-width: 980px) {
+      .mobile-menu-btn { display: inline-flex; align-items: center; gap: 6px; }
+      .layout { grid-template-columns: 1fr; }
+      .sidebar {
+        position: fixed;
+        left: -340px;
+        top: 0;
+        bottom: 0;
+        width: 320px;
+        max-height: 100vh;
+        z-index: 1000;
+        border-radius: 0 18px 18px 0;
+        transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .sidebar.open {
+        left: 0;
+        box-shadow: 20px 0 50px rgba(0, 0, 0, 0.6);
+      }
+      .drawer-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        z-index: 999;
+      }
+      .drawer-overlay.visible { display: block; }
+      .overview-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      header { padding: 24px 16px 40px; }
+      .layout { padding: 0 14px; margin: 18px auto; }
+      .overview-grid { grid-template-columns: 1fr; }
+      .chapter, .overview { border-radius: 16px; padding: 22px 18px; }
+      pre { font-size: 12px; padding: 18px 14px; }
+      .top-actions { padding: 10px 14px 0; }
+    }
+
+    /* Print Optimization */
+    @media print {
+      body { background: #fff !important; color: #111 !important; font-size: 10.5pt; }
+      header { background: #fff !important; color: #111 !important; padding: 20px 0; border: none; }
+      h1 { -webkit-text-fill-color: #111 !important; font-size: 24pt; }
+      .hero-copy, .hero-meta { color: #444 !important; }
+      .layout { display: block; margin: 0; padding: 0; }
+      .sidebar, .topbar, .copy, .top-actions, .back-to-top, .mobile-menu-btn, .chapter-foot a { display: none !important; }
+      .overview, .chapter { box-shadow: none !important; border: 1px solid #ddd !important; padding: 16px 0; break-inside: avoid; }
+      .chapter { break-before: page; }
+      pre { white-space: pre-wrap; overflow-wrap: anywhere; border: 1px solid #ccc; }
+      a { text-decoration: none; }
+    }
+  </style>
+</head>
+<body id="top">
+  <!-- Dynamic Reading Progress Bar -->
+  <div class="topbar" id="reading-progress"></div>
+
+  <!-- Top Action Bar -->
+  <div class="top-actions">
+    <a href="documentation/index.html" class="action-btn" title="Open Interactive Documentation Portal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Docs Portal
+    </a>
+    <button type="button" class="action-btn" id="print-btn" title="Print or save as PDF">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Print
+    </button>
+    <button type="button" class="action-btn" id="theme-toggle" aria-label="Toggle theme">
+      <span id="theme-icon">☀️ Light</span>
+    </button>
+  </div>
+
+  <!-- Header Hero -->
+  <header>
+    <div class="hero-inner">
+      <div class="eyebrow">ENGINEERING FIELD MANUAL &middot; 39 COMPLETE CHAPTERS</div>
+      <h1>Linux &amp; Unix Shell Developer's Handbook</h1>
+      <p class="hero-copy">A comprehensive, production-grade guide to Linux, Unix, Bash scripting, system architecture, command pipelines, and the historical Bourne shell foundation. Engineered for software engineers, DevOps practitioners, and systems administrators.</p>
+      <div class="hero-meta">
+        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> 39 In-Depth Chapters</span>
+        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Production Shell Boilerplates</span>
+        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg> POSIX vs Bashisms</span>
+        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg> Complete Operator Tables</span>
+        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Zero Dependencies</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Toggle and Overlay -->
+  <button type="button" class="mobile-menu-btn" id="mobile-toggle">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    Index Menu
+  </button>
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+
+  <!-- Layout Container -->
+  <div class="layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="side-header">
+        <span class="side-title">Table of Contents</span>
+        <span class="chapter-total-badge">39 Chapters</span>
+      </div>
+
+      <!-- Search Input -->
+      <div class="search-wrap">
+        <input type="search" class="search" id="search" placeholder="Search chapters... (press '/')" autocomplete="off" spellcheck="false">
+        <kbd class="search-kbd">/</kbd>
+        <button type="button" class="search-clear" id="search-clear" aria-label="Clear search">&times;</button>
+      </div>
+
+      <div class="search-status" id="search-status">
+        <span>Showing 39 of 39 chapters</span>
+      </div>
+
+            <!-- Modern Category Selector -->
+      <div class="category-nav-wrap">
+        <div class="category-nav-header">
+          <span class="category-nav-title">FILTER BY DOMAIN</span>
+          <button type="button" class="category-reset-btn" id="category-reset">Show All &times;</button>
+        </div>
+        <div class="category-nav-list" id="category-nav-list">
+          <button type="button" class="cat-item active" data-cat="all">
+            <span class="cat-item-left">
+              <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              <span class="cat-name">All Chapters</span>
+            </span>
+            <span class="cat-badge">39</span>
+          </button>
+          
+          <button type="button" class="cat-item" data-cat="foundations">
+            <span class="cat-item-left">
+              <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+              <span class="cat-name">Foundations</span>
+            </span>
+            <span class="cat-badge">Ch 1–6</span>
+          </button>
+
+          <button type="button" class="cat-item" data-cat="streams">
+            <span class="cat-item-left">
+              <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M12 12v9"/><path d="m8 17 4 4 4-4"/></svg>
+              <span class="cat-name">Streams &amp; Files</span>
+            </span>
+            <span class="cat-badge">Ch 7–11</span>
+          </button>
+
+          <button type="button" class="cat-item" data-cat="system">
+            <span class="cat-item-left">
+              <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              <span class="cat-name">System &amp; Env</span>
+            </span>
+            <span class="cat-badge">Ch 12–16</span>
+          </button>
+
+          <button type="button" class="cat-item" data-cat="scripting">
+            <span class="cat-item-left">
+              <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              <span class="cat-name">Scripting &amp; Logic</span>
+            </span>
+            <span class="cat-badge">Ch 17–23</span>
+          </button>
+
+          <button type="button" class="cat-item" data-cat="workflows">
+            <span class="cat-item-left">
+              <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+              <span class="cat-name">Workflows &amp; Ops</span>
+            </span>
+            <span class="cat-badge">Ch 24–33</span>
+          </button>
+
+          <button type="button" class="cat-item" data-cat="capstones">
+            <span class="cat-item-left">
+              <svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <span class="cat-name">Capstones &amp; Deep Dive</span>
+            </span>
+            <span class="cat-badge">Ch 34–39</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Links Scroller -->
+      <div class="nav-scroller">
+        <nav id="nav-list">
+        <a href="#ch1" data-category="foundations" data-ch="1"><span>01</span> how to use this handbook</a>
+        <a href="#ch2" data-category="foundations" data-ch="2"><span>02</span> linux, unix, shells and terminals</a>
+        <a href="#ch3" data-category="foundations" data-ch="3"><span>03</span> terminal survival kit and help</a>
+        <a href="#ch4" data-category="foundations" data-ch="4"><span>04</span> filesystem hierarchy and paths</a>
+        <a href="#ch5" data-category="foundations" data-ch="5"><span>05</span> navigation and listing</a>
+        <a href="#ch6" data-category="foundations" data-ch="6"><span>06</span> create, copy, move and remove files</a>
+        <a href="#ch7" data-category="streams" data-ch="7"><span>07</span> globbing, quoting and expansion</a>
+        <a href="#ch8" data-category="streams" data-ch="8"><span>08</span> read and write files; streams and redirection</a>
+        <a href="#ch9" data-category="streams" data-ch="9"><span>09</span> pipelines and text processing</a>
+        <a href="#ch10" data-category="streams" data-ch="10"><span>10</span> find files and directories</a>
+        <a href="#ch11" data-category="streams" data-ch="11"><span>11</span> permissions, ownership and links</a>
+        <a href="#ch12" data-category="system" data-ch="12"><span>12</span> processes, jobs and signals</a>
+        <a href="#ch13" data-category="system" data-ch="13"><span>13</span> environment variables and shell variables</a>
+        <a href="#ch14" data-category="system" data-ch="14"><span>14</span> path and command discovery</a>
+        <a href="#ch15" data-category="system" data-ch="15"><span>15</span> persist environment configuration</a>
+        <a href="#ch16" data-category="system" data-ch="16"><span>16</span> bash prompt, aliases and shell quality of life</a>
+        <a href="#ch17" data-category="scripting" data-ch="17"><span>17</span> bash scripting: first executable script</a>
+        <a href="#ch18" data-category="scripting" data-ch="18"><span>18</span> variables, arguments and user input</a>
+        <a href="#ch19" data-category="scripting" data-ch="19"><span>19</span> conditionals and tests</a>
+        <a href="#ch20" data-category="scripting" data-ch="20"><span>20</span> loops and iteration</a>
+        <a href="#ch21" data-category="scripting" data-ch="21"><span>21</span> functions, arrays and reusable scripts</a>
+        <a href="#ch22" data-category="scripting" data-ch="22"><span>22</span> exit codes, errors and defensive scripting</a>
+        <a href="#ch23" data-category="scripting" data-ch="23"><span>23</span> text processing with awk</a>
+        <a href="#ch24" data-category="workflows" data-ch="24"><span>24</span> vim essentials for developers</a>
+        <a href="#ch25" data-category="workflows" data-ch="25"><span>25</span> shell history and operational privacy</a>
+        <a href="#ch26" data-category="workflows" data-ch="26"><span>26</span> directory inventories and safe batch file automation</a>
+        <a href="#ch27" data-category="workflows" data-ch="27"><span>27</span> build a website scaffold with bash</a>
+        <a href="#ch28" data-category="workflows" data-ch="28"><span>28</span> developer workflows: git, builds, logs and remote servers</a>
+        <a href="#ch29" data-category="workflows" data-ch="29"><span>29</span> networking and service troubleshooting</a>
+        <a href="#ch30" data-category="workflows" data-ch="30"><span>30</span> scheduling: cron and one-off tasks</a>
+        <a href="#ch31" data-category="workflows" data-ch="31"><span>31</span> security essentials for shell users</a>
+        <a href="#ch32" data-category="workflows" data-ch="32"><span>32</span> debugging shell scripts</a>
+        <a href="#ch33" data-category="workflows" data-ch="33"><span>33</span> posix sh vs bash: portability checklist</a>
+        <a href="#ch34" data-category="capstones" data-ch="34"><span>34</span> capstone 1: project health-check script</a>
+        <a href="#ch35" data-category="capstones" data-ch="35"><span>35</span> capstone 2: log analyzer with awk</a>
+        <a href="#ch36" data-category="capstones" data-ch="36"><span>36</span> capstone 3: safe batch organizer</a>
+        <a href="#ch37" data-category="capstones" data-ch="37"><span>37</span> exercises and 30-day learning plan</a>
+        <a href="#ch38" data-category="capstones" data-ch="38"><span>38</span> essential command quick reference</a>
+        <a href="#ch39" data-category="capstones" data-ch="39"><span>39</span> deep dive tutorial: bourne shell conditionals, operators and file tests</a>
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main>
+      <!-- Overview Card -->
+      <section class="overview" id="overview">
+        <div class="chapter-kicker">CURRICULUM ARCHITECTURE <span> / </span> EXECUTIVE OVERVIEW</div>
+        <h2>Engineering Mastery Blueprint</h2>
+        <p>This handbook is structured as a rigorous, progressive path from core terminal fundamentals to production-grade automation, robust error defense, and historical Bourne shell foundations.</p>
+        
+        <div class="overview-grid">
+          <div class="metric">
+            <strong>39</strong>
+            <small>Comprehensive chapters covering every core aspect of Unix &amp; Linux.</small>
+          </div>
+          <div class="metric">
+            <strong>100%</strong>
+            <small>Production-ready code snippets with strict mode and defensive trapping.</small>
+          </div>
+          <div class="metric">
+            <strong>30-Day</strong>
+            <small>Structured developer curriculum with daily hands-on verification exercises.</small>
+          </div>
+        </div>
+      </section>
+
+      
+      <!-- Interactive Category Deck -->
+      <section class="category-deck-card" id="category-deck">
+        <div class="deck-header">
+          <div>
+            <div class="chapter-kicker" style="margin-bottom:4px;">MODULAR EXPLORATION <span> / </span> 6 SPECIALIZED TRACKS</div>
+            <h3 class="deck-title">Curriculum Tracks &amp; Domains</h3>
+          </div>
+          <span class="deck-badge-counter">Select a track to focus chapters</span>
+        </div>
+
+        <div class="deck-grid">
+          <button type="button" class="deck-card active" data-cat="all">
+            <div class="deck-card-top">
+              <span class="deck-card-icon-wrap" style="background: rgba(99, 102, 241, 0.15); color: #818cf8;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              </span>
+              <span class="deck-range-badge">39 Chapters</span>
+            </div>
+            <div class="deck-card-name">Complete Handbook</div>
+            <p class="deck-card-desc">All 39 chapters from terminal basics to production capstones and Bourne shell deep dive.</p>
+          </button>
+
+          <button type="button" class="deck-card" data-cat="foundations">
+            <div class="deck-card-top">
+              <span class="deck-card-icon-wrap" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+              </span>
+              <span class="deck-range-badge">Ch 1–6</span>
+            </div>
+            <div class="deck-card-name">Foundations (Ch 1–6)</div>
+            <p class="deck-card-desc">Handbook methodology, Unix vs Linux architecture, manual navigation, FHS storage, and file operations.</p>
+          </button>
+
+          <button type="button" class="deck-card" data-cat="streams">
+            <div class="deck-card-top">
+              <span class="deck-card-icon-wrap" style="background: rgba(6, 182, 212, 0.15); color: #22d3ee;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M12 12v9"/><path d="m8 17 4 4 4-4"/></svg>
+              </span>
+              <span class="deck-range-badge">Ch 7–11</span>
+            </div>
+            <div class="deck-card-name">Streams &amp; Files (Ch 7–11)</div>
+            <p class="deck-card-desc">7-stage shell expansions, file descriptors (0, 1, 2), pipeline filtering, find with xargs -0, and SUID permissions.</p>
+          </button>
+
+          <button type="button" class="deck-card" data-cat="system">
+            <div class="deck-card-top">
+              <span class="deck-card-icon-wrap" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              </span>
+              <span class="deck-range-badge">Ch 12–16</span>
+            </div>
+            <div class="deck-card-name">System &amp; Env (Ch 12–16)</div>
+            <p class="deck-card-desc">Signals (1–15), process jobs, environment parameter expansion, dotfiles lifecycle, and dynamic PS1 prompts.</p>
+          </button>
+
+          <button type="button" class="deck-card" data-cat="scripting">
+            <div class="deck-card-top">
+              <span class="deck-card-icon-wrap" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              </span>
+              <span class="deck-range-badge">Ch 17–23</span>
+            </div>
+            <div class="deck-card-name">Scripting &amp; Logic (Ch 17–23)</div>
+            <p class="deck-card-desc">Shebang execution, argument parsing, [[ ... ]] tests, while read loops, local functions, set -euo pipefail, and AWK.</p>
+          </button>
+
+          <button type="button" class="deck-card" data-cat="workflows">
+            <div class="deck-card-top">
+              <span class="deck-card-icon-wrap" style="background: rgba(236, 72, 153, 0.15); color: #f472b6;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+              </span>
+              <span class="deck-range-badge">Ch 24–33</span>
+            </div>
+            <div class="deck-card-name">Workflows &amp; Ops (Ch 24–33)</div>
+            <p class="deck-card-desc">Vim modal editing, history privacy, safe batching, rsync/SSH workflows, cron scheduling, PS4 tracing, and POSIX portability.</p>
+          </button>
+
+          <button type="button" class="deck-card" data-cat="capstones">
+            <div class="deck-card-top">
+              <span class="deck-card-icon-wrap" style="background: rgba(239, 68, 68, 0.15); color: #f87171;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </span>
+              <span class="deck-range-badge">Ch 34–39</span>
+            </div>
+            <div class="deck-card-name">Capstones &amp; Deep Dive (Ch 34–39)</div>
+            <p class="deck-card-desc">3 production capstone scripts, 30-day mastery curriculum, master cheat sheet, and Bourne shell deep dive tutorial.</p>
+          </button>
+        </div>
+      </section>
+
+<div class="no-results" id="noResults">
+        <p><strong>No matching chapters found.</strong></p>
+        <p style="margin-top: 6px; font-size: 13px;">Try searching for another keyword like <code>awk</code>, <code>permissions</code>, <code>signals</code>, or <code>cron</code>.</p>
+      </div>
+
+      <!-- 39 Chapter Sections -->
+<section class="chapter" id="ch1" data-title="how to use this handbook" data-category="foundations">
+<div class="chapter-kicker">CHAPTER 1 <span> / </span> FIELD MANUAL FOUNDATIONS</div>
+      <h2>How to use this handbook</h2>
+      <p class="intro">A battle-tested reference manual and progressive learning guide for engineers, developers, and DevOps practitioners seeking complete fluency across Linux, Unix, and macOS command-line environments.</p>
+      <div class="chapter-content">
+<p>Modern software engineering is built on top of Unix abstractions. Whether you are deploying microservices to Kubernetes clusters, configuring CI/CD runners, managing remote cloud instances, or automating developer workstations, fluency with the shell is a non-negotiable superpower.</p>
+
+<div class="callout callout-tip">
+  <strong>The Unix Philosophy:</strong> Write programs that do one thing and do it well. Write programs to work together. Write programs to handle text streams, because that is a universal interface. — <em>Doug McIlroy (Bell Labs)</em>
+</div>
+
+<h3>Handbook Architecture &amp; Methodology</h3>
+<p>This handbook is designed with a dual-mode pedagogical architecture:</p>
+<ul>
+  <li><strong>Progressive Curriculum (Ch 1 &ndash; 37):</strong> Starts with terminal navigation and file operations, expands into pipelines and text manipulation, dives into defensive shell programming, and culminates in real-world systems capstones.</li>
+  <li><strong>Production Reference (Ch 38 &ndash; 39):</strong> High-density cheat sheets, syntax matrices, operator tables, and historical Bourne shell paradigms reconstructed from production test cases.</li>
+</ul>
+
+<h3>Typographic &amp; Code Conventions</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Convention</th><th>Meaning</th><th>Example</th></tr></thead>
+  <tbody>
+    <tr><td><code>$ command</code></td><td>Standard unprivileged user prompt in terminal</td><td><code>$ id -u  # Returns 1000+</code></td></tr>
+    <tr><td><code># command</code></td><td>Root / elevated superuser prompt in terminal</td><td><code># systemctl restart nginx</code></td></tr>
+    <tr><td><code>&lt;variable&gt;</code></td><td>Placeholder to replace with your actual identifier</td><td><code>$ kill -15 &lt;PID&gt;</code></td></tr>
+    <tr><td><code>[optional]</code></td><td>Optional flag or parameter</td><td><code>$ grep [-i] &lt;pattern&gt; &lt;file&gt;</code></td></tr>
+    <tr><td><code>"$VAR"</code></td><td>Double-quoted expansion (preserves whitespace)</td><td><code>rm -f -- "$target_file"</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-warn">
+  <strong>Production Safety Rule:</strong> Never run destructive commands (such as <code>rm -rf</code>, <code>dd</code>, or bulk <code>chmod</code>) with unverified wildcards or variables. Always preview expansion first using <code>echo</code> or <code>printf '%s\n'</code> before executing destructive actions.
+</div>
+
+<h3>Interactive Learning Workflow</h3>
+<pre><code class="language-bash"># Recommended setup for experimenting with handbook commands:
+# 1. Create an isolated sandbox directory
+mkdir -p ~/shell-handbook-lab &amp;&amp; cd ~/shell-handbook-lab
+
+# 2. Check your active shell and OS environment
+echo "Active Shell : $SHELL ($BASH_VERSION)"
+uname -srm  # Operating system, kernel release, and hardware architecture
+
+# 3. Enable safety options in your interactive testing sessions
+set -o noclobber  # Prevents accidental overwriting of files with '>'</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch2" data-title="linux, unix, shells and terminals" data-category="foundations">
+<div class="chapter-kicker">CHAPTER 2 <span> / </span> SYSTEMS ARCHITECTURE</div>
+      <h2>Linux, Unix, shells and terminals</h2>
+      <p class="intro">Understand the architectural layers: the Unix kernel, terminal emulators, pseudoterminals (pty), standard shells (Bash, Zsh, Dash), and POSIX compliance standards.</p>
+      <div class="chapter-content">
+<p>To master the command line, you must clearly distinguish between four distinct abstraction layers that are often conflated in conversation: <strong>Hardware &rarr; Kernel &rarr; Terminal Emulator &rarr; Shell</strong>.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Layer</th><th>Primary Role</th><th>Common Implementations</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Kernel</strong></td><td>Hardware management, memory, process scheduling, syscalls</td><td>Linux, Darwin (macOS XNU), FreeBSD</td></tr>
+    <tr><td><strong>Terminal Emulator</strong></td><td>GUI window receiving keyboard events &amp; rendering ANSI characters</td><td>Alacritty, Kitty, iTerm2, GNOME Terminal, Windows Terminal</td></tr>
+    <tr><td><strong>PTY (Pseudoterminal)</strong></td><td>Bidirectional communication channel between terminal &amp; shell</td><td><code>/dev/pts/*</code> (Linux), <code>/dev/ttys*</code> (macOS)</td></tr>
+    <tr><td><strong>Shell</strong></td><td>Command language interpreter parsing text into kernel syscalls</td><td>Bash, Zsh, Dash, Ksh, Ash, Fish</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Shell Family Comparison</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Shell</th><th>Default OS</th><th>Key Strengths</th><th>Best Use Case</th></tr></thead>
+  <tbody>
+    <tr><td><strong>GNU Bash</strong></td><td>Ubuntu, Debian, RHEL, Arch</td><td>Ubiquitous, programmable completion, associative arrays, process substitution</td><td>Industry-standard automation &amp; CI/CD scripts</td></tr>
+    <tr><td><strong>Zsh</strong></td><td>macOS (since Catalina)</td><td>Rich themes (Oh-My-Zsh, Starship), superior globbing, powerful auto-complete</td><td>Modern interactive developer workstation</td></tr>
+    <tr><td><strong>Dash (Debian Almquist)</strong></td><td><code>/bin/sh</code> on Ubuntu/Debian</td><td>Ultra-lightweight, extremely fast startup, minimal memory footprint</td><td>System boot scripts and pure POSIX execution</td></tr>
+    <tr><td><strong>Fish</strong></td><td>User-installed</td><td>Out-of-the-box autosuggestions, 24-bit color, clean syntax</td><td>Interactive daily driving (non-POSIX syntax)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-mac">
+  <strong>macOS BSD vs Linux GNU Divergence:</strong> macOS uses FreeBSD userland utilities and Zsh as its default shell. Many core commands (such as <code>sed -i</code>, <code>stat</code>, <code>readlink</code>, <code>tar</code>, and <code>date</code>) exhibit subtle syntax differences between GNU/Linux and BSD/macOS. This handbook highlights these differences throughout.
+</div>
+
+<pre><code class="language-bash"># Inspect your active shell environment
+echo "Current Shell Binary : $0"
+echo "Process Hierarchy    : $PPID (parent) -> $$ (current shell)"
+
+# Verify whether /bin/sh is Bash, Dash, or Zsh on your machine
+ls -l $(which sh)
+
+# Check POSIX compatibility mode in Bash
+set -o | grep posix   # Off by default in Bash; turns on strict POSIX adherence</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch3" data-title="terminal survival kit and help" data-category="foundations">
+<div class="chapter-kicker">CHAPTER 3 <span> / </span> COMMAND DISCOVERY &amp; HELP</div>
+      <h2>Terminal survival kit and help</h2>
+      <p class="intro">Never get lost: navigate system manuals, query built-in shell assistance, search documentation by keyword, and master the standard pager.</p>
+      <div class="chapter-content">
+<p>Every Unix system ships with exhaustive offline documentation. Knowing how to query these embedded manuals frees you from dependency on web searches when working on isolated bastion hosts or production clusters.</p>
+
+<h3>The Manual Sections Architecture</h3>
+<p>The Unix manual is divided into numbered sections to avoid naming conflicts between commands, system calls, and config files:</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Section</th><th>Category</th><th>Example Lookup</th></tr></thead>
+  <tbody>
+    <tr><td><strong>1</strong></td><td>Executable programs and user shell commands</td><td><code>man 1 printf</code> (User command)</td></tr>
+    <tr><td><strong>2</strong></td><td>Kernel System calls</td><td><code>man 2 open</code> (C library / kernel syscall)</td></tr>
+    <tr><td><strong>3</strong></td><td>C Library library functions</td><td><code>man 3 printf</code> (Standard C runtime)</td></tr>
+    <tr><td><strong>4</strong></td><td>Special files (devices in <code>/dev</code>)</td><td><code>man 4 random</code></td></tr>
+    <tr><td><strong>5</strong></td><td>File formats and configuration conventions</td><td><code>man 5 crontab</code>, <code>man 5 ssh_config</code></td></tr>
+    <tr><td><strong>7</strong></td><td>Overview, conventions, protocols, miscellaneous</td><td><code>man 7 regex</code>, <code>man 7 signal</code></td></tr>
+    <tr><td><strong>8</strong></td><td>System administration and root daemons</td><td><code>man 8 iptables</code>, <code>man 8 sshd</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Essential Pager Shortcuts (<code>less</code>)</h3>
+<p>When manual pages open, they use <code>less</code> as the pager. Memorize these fundamental navigation keystrokes:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Keystroke</th><th>Action</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><code>/pattern</code></td><td>Search forward for pattern</td><td>Supports regular expressions</td></tr>
+    <tr><td><code>?pattern</code></td><td>Search backward for pattern</td><td>Reverse search</td></tr>
+    <tr><td><code>n</code> / <code>N</code></td><td>Repeat search forward / backward</td><td>Jumps to next/previous occurrence</td></tr>
+    <tr><td><code>g</code> / <code>G</code></td><td>Jump to first line / last line</td><td>Fast document traversal</td></tr>
+    <tr><td><code>Ctrl+F</code> / <code>Ctrl+B</code></td><td>Page forward / Page backward</td><td>Scrolls one full screen</td></tr>
+    <tr><td><code>h</code></td><td>Display interactive help screen</td><td>Lists all pager commands</td></tr>
+    <tr><td><code>q</code></td><td>Quit pager immediately</td><td>Returns to shell prompt</td></tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-bash"># 1. Look up command manual
+man tar                # Read full reference manual for tar
+
+# 2. Distinguish shell builtins from external binaries
+type cd                # "cd is a shell builtin" -> read with: help cd
+type ls                # "ls is aliased to..." or "ls is /bin/ls"
+
+# 3. Query builtin command help (fast and concise)
+help read              # Help for Bash builtins
+help -m test           # Display builtin help in man-page formatting
+
+# 4. Search man pages by topic keyword
+apropos "compress"     # Search short descriptions for matches
+whatis chmod           # Display one-line summary description</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch4" data-title="filesystem hierarchy and paths" data-category="foundations">
+<div class="chapter-kicker">CHAPTER 4 <span> / </span> STORAGE &amp; DIRECTORIES</div>
+      <h2>Filesystem hierarchy and paths</h2>
+      <p class="intro">Navigate the Filesystem Hierarchy Standard (FHS), understand absolute vs. relative paths, and recognize Linux vs. macOS storage layouts.</p>
+      <div class="chapter-content">
+<p>Unlike Windows, which assigns drive letters (<code>C:</code>, <code>D:</code>) to individual storage partitions, Unix organizes everything beneath a single inverted tree rooted at <code>/</code> (the root directory). Devices, network shares, memory buffers, and files all mount into this unified namespace.</p>
+
+<h3>Filesystem Hierarchy Standard (FHS)</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Path</th><th>Standard Purpose</th><th>Engineering Significance</th></tr></thead>
+  <tbody>
+    <tr><td><code>/bin</code>, <code>/usr/bin</code></td><td>Essential user command binaries</td><td>Where standard CLI tools reside (<code>bash</code>, <code>grep</code>, <code>curl</code>)</td></tr>
+    <tr><td><code>/sbin</code>, <code>/usr/sbin</code></td><td>System administrator binaries</td><td>Root-only administrative tools (<code>fdisk</code>, <code>iptables</code>)</td></tr>
+    <tr><td><code>/etc</code></td><td>Host-specific system configuration files</td><td>Static plaintext configs (<code>/etc/hosts</code>, <code>/etc/passwd</code>)</td></tr>
+    <tr><td><code>/var</code></td><td>Variable runtime data</td><td>Logs (<code>/var/log</code>), spools, web root, database storage</td></tr>
+    <tr><td><code>/home</code> (or <code>/Users</code>)</td><td>User personal home directories</td><td>Per-user storage, configs, and personal dotfiles</td></tr>
+    <tr><td><code>/tmp</code></td><td>Temporary volatile storage</td><td>Flushed on system reboot; world-writable with sticky bit</td></tr>
+    <tr><td><code>/proc</code></td><td>Virtual kernel and process information</td><td>In-memory interface to active processes and kernel state</td></tr>
+    <tr><td><code>/sys</code></td><td>Kernel device tree and hardware subsystem</td><td>sysfs virtual interface for drivers and kernel tunables</td></tr>
+    <tr><td><code>/opt</code></td><td>Optional third-party software packages</td><td>Self-contained proprietary or enterprise packages</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-info">
+  <strong>The <code>/proc</code> Virtual Filesystem:</strong> In Linux, <code>/proc</code> is not on physical disk. It is a live window into kernel memory:
+  <code>cat /proc/cpuinfo</code> (CPU details), <code>cat /proc/meminfo</code> (RAM allocation), <code>ls /proc/$$</code> (current shell process state).
+</div>
+
+<h3>Path Navigation Syntax</h3>
+<pre><code class="language-bash"># Absolute vs Relative paths
+/var/log/nginx/access.log   # Absolute path: starts with '/' from the root
+../../config/database.yml   # Relative path: evaluated relative to current directory
+
+# Special path symbols
+.                           # Current directory
+..                          # Parent directory
+~                           # Current user's home directory ($HOME)
+~deploy                     # Home directory of user 'deploy'
+-                           # Previous working directory (used with: cd -)
+
+# Real path canonicalization
+readlink -f ./relative/path # Linux: resolves symlinks and canonicalizes path
+realpath ./relative/path    # Cross-platform path resolver</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch5" data-title="navigation and listing" data-category="foundations">
+<div class="chapter-kicker">CHAPTER 5 <span> / </span> DIRECTORY TRAVERSAL</div>
+      <h2>Navigation and listing</h2>
+      <p class="intro">Move through directories with speed, master directory stacks, and inspect file attributes, hidden dotfiles, and human-readable metadata.</p>
+      <div class="chapter-content">
+<p>Navigating directory trees quickly and accurately is the hallmark of an effective engineer. Combining directory manipulation with advanced listing flags avoids unnecessary keystrokes.</p>
+
+<h3>Advanced <code>cd</code> Navigation Techniques</h3>
+<pre><code class="language-bash"># Rapid jumping
+cd                          # Fast return to $HOME (equivalent to cd ~)
+cd -                        # Jump to previous directory ($OLDPWD) and print path
+cd /var/log &amp;&amp; pwd          # Navigate and confirm in one command
+
+# The Directory Stack (pushd, popd, dirs)
+pushd /var/log/nginx        # Save current directory and jump to /var/log/nginx
+pushd /etc/systemd/system   # Push another directory onto the stack
+dirs -v                     # View indexed directory stack:
+                            # 0: /etc/systemd/system
+                            # 1: /var/log/nginx
+                            # 2: ~/project
+popd                        # Pop top directory and jump back to previous position</code><button class="copy" type="button">Copy</button></pre>
+
+<h3><code>ls</code> Listing Power Flags</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Flag</th><th>Description</th><th>Use Case</th></tr></thead>
+  <tbody>
+    <tr><td><code>-l</code></td><td>Long format with permissions, owner, group, size, date</td><td>Standard detailed file audit</td></tr>
+    <tr><td><code>-a</code> (or <code>-A</code>)</td><td>Show hidden dotfiles (<code>-A</code> excludes <code>.</code> and <code>..</code>)</td><td>Inspecting git repos and dotfiles</td></tr>
+    <tr><td><code>-h</code></td><td>Human-readable file sizes (K, M, G)</td><td>Used alongside <code>-l</code></td></tr>
+    <tr><td><code>-t</code></td><td>Sort by modification time (newest first)</td><td>Diagnosing recent changes</td></tr>
+    <tr><td><code>-r</code></td><td>Reverse sort order</td><td>Pair with <code>-t</code> (<code>ls -ltr</code>) to show latest files at the bottom</td></tr>
+    <tr><td><code>-S</code></td><td>Sort by file size (largest first)</td><td>Identifying large files</td></tr>
+    <tr><td><code>-R</code></td><td>Recursive directory listing</td><td>Inspecting nested subfolders</td></tr>
+    <tr><td><code>-F</code></td><td>Append indicator character (<code>/</code> dir, <code>*</code> exe, <code>@</code> link)</td><td>Quick visual distinction</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-tip">
+  <strong>Golden Alias for Daily Work:</strong> <code>alias ll='ls -lahF --color=auto'</code> provides human-readable sizes, reveals hidden dotfiles, colorizes file types, and indicators.
+</div>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch6" data-title="create, copy, move and remove files" data-category="foundations">
+<div class="chapter-kicker">CHAPTER 6 <span> / </span> FILE OPERATIONS</div>
+      <h2>Create, copy, move and remove files</h2>
+      <p class="intro">Safely create, duplicate, relocate, and delete files and nested hierarchies without accidental data loss or clobbering.</p>
+      <div class="chapter-content">
+<p>File lifecycle management commands are deceptively simple, but production incidents frequently occur from subtle mistakes in copying permissions or unintended wildcards during removal.</p>
+
+<h3>Safe File Operations Matrix</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Command</th><th>Flags</th><th>Safe Behavior</th></tr></thead>
+  <tbody>
+    <tr><td><code>mkdir -p</code></td><td><code>-p, --parents</code></td><td>Creates intermediate parent folders without failing if directory exists</td></tr>
+    <tr><td><code>cp -a</code></td><td><code>-a, --archive</code></td><td>Preserves file permissions, ownership, timestamps, and symlinks recursively</td></tr>
+    <tr><td><code>cp -u</code></td><td><code>-u, --update</code></td><td>Copies only if source file is newer than target or target is missing</td></tr>
+    <tr><td><code>mv -n</code></td><td><code>-n, --no-clobber</code></td><td>Moves/renames without silently overwriting an existing destination file</td></tr>
+    <tr><td><code>rm -i</code></td><td><code>-i, --interactive</code></td><td>Prompts for confirmation before each file deletion</td></tr>
+    <tr><td><code>rm -f --</code></td><td><code>--</code> (end of flags)</td><td>Safely deletes files whose names begin with a dash (e.g. <code>-rf</code>)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-warn">
+  <strong>The <code>--</code> Argument Separator:</strong> If a file is accidentally created named <code>-rf</code>, running <code>rm -f *</code> may interpret the filename as flags! Always pass <code>--</code> before filename arguments: <code>rm -f -- "$filename"</code>.
+</div>
+
+<pre><code class="language-bash"># 1. Complex directory creation using brace expansion
+mkdir -p project/{src/{api,components,utils},tests/unit,docs,build}
+
+# 2. Atomic backup of a configuration file before editing
+cp -av /etc/nginx/nginx.conf /etc/nginx/nginx.conf.$(date +%Y%m%d_%H%M%S).bak
+
+# 3. Create zero-byte files or update timestamps
+touch deployment.lock
+
+# 4. Remove empty directories safely
+rmdir temp_directory/  # Fails safely if directory contains any files
+
+# 5. Tree visualization of nested directory structures
+tree -L 2 project/     # Print clean ASCII directory tree up to depth 2</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch7" data-title="globbing, quoting and expansion" data-category="streams">
+<div class="chapter-kicker">CHAPTER 7 <span> / </span> SHELL EXPANSION MECHANICS</div>
+      <h2>Globbing, quoting and expansion</h2>
+      <p class="intro">Master how the shell parses lines: brace expansion, tilde expansion, parameter expansion, command substitution, word splitting, and globbing order.</p>
+      <div class="chapter-content">
+<p>Understanding the exact sequence in which the shell evaluates an input line before passing arguments to a command prevents countless bugs and subtle security flaws.</p>
+
+<h3>The 7-Stage Shell Evaluation Order</h3>
+<ol>
+  <li><strong>Brace Expansion:</strong> <code>{a,b,c}</code>, <code>{1..10}</code> expands into discrete tokens.</li>
+  <li><strong>Tilde Expansion:</strong> <code>~</code> expands to <code>$HOME</code>.</li>
+  <li><strong>Parameter &amp; Variable Expansion:</strong> <code>$VAR</code>, <code>${VAR:-default}</code> replaces values.</li>
+  <li><strong>Command Substitution:</strong> <code>$(command)</code> executes subshell and captures stdout.</li>
+  <li><strong>Arithmetic Expansion:</strong> <code>$(( 5 * 20 ))</code> evaluates integer math.</li>
+  <li><strong>Word Splitting:</strong> Unquoted expansions are split into words on characters in <code>$IFS</code>.</li>
+  <li><strong>Pathname Expansion (Globbing):</strong> <code>*</code>, <code>?</code>, <code>[...]</code> match filesystem paths.</li>
+</ol>
+
+<h3>Quoting Rules Comparison</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Quoting Style</th><th>Syntax</th><th>Behavior &amp; Expansions</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Single Quotes</strong></td><td><code>'text $VAR'</code></td><td><strong>Literal:</strong> All characters preserved literally. No expansions or substitutions occur.</td></tr>
+    <tr><td><strong>Double Quotes</strong></td><td><code>"text $VAR"</code></td><td><strong>Interpolated:</strong> Allows <code>$VAR</code>, <code>$(cmd)</code>, and <code>$((math))</code>, but disables word splitting and globbing.</td></tr>
+    <tr><td><strong>ANSI C Quoting</strong></td><td><code>$'line1\nline2\t'</code></td><td>Interprets backslash escape sequences (<code>\n</code> newline, <code>\t</code> tab, <code>\xHH</code> hex).</td></tr>
+    <tr><td><strong>Unquoted</strong></td><td><code>text $VAR *</code></td><td>Dangerous: Subject to word splitting on spaces and wildcards matching files.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-tip">
+  <strong>Cardinal Rule of Shell Variables:</strong> Always wrap variable references in double quotes: <code>"$VAR"</code>. This prevents filenames containing spaces or tabs from being split into multiple arguments!
+</div>
+
+<pre><code class="language-bash"># Brace expansion patterns
+echo file_{A,B,C}.txt            # file_A.txt file_B.txt file_C.txt
+echo {01..10}                    # 01 02 03 04 05 06 07 08 09 10
+echo {a..z..2}                   # a c e g i k m o q s u w y (step by 2)
+
+# Command substitution (modern $() vs legacy backticks)
+backup_file="backup-$(date +%F).tar.gz"  # Preferred: readable and nestable
+legacy_file="backup-`date +%F`.tar.gz"   # Avoid: backticks are difficult to nest
+
+# Extended Globbing in Bash (turn on with: shopt -s extglob)
+# ?(pattern) = 0 or 1 match; *(pattern) = 0 or more; +(pattern) = 1 or more
+# !(pattern) = matches everything EXCEPT the pattern
+rm -f !(*.jpg|*.png)  # Deletes all files EXCEPT .jpg and .png images</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch8" data-title="read and write files; streams and redirection" data-category="streams">
+<div class="chapter-kicker">CHAPTER 8 <span> / </span> I/O STREAMS &amp; REDIRECTION</div>
+      <h2>Read and write files; streams and redirection</h2>
+      <p class="intro">Control standard file descriptors (stdin, stdout, stderr), combine streams, write Heredocs, and stream logs without locking.</p>
+      <div class="chapter-content">
+<p>In Unix, every process starts with three standardized I/O file descriptors already open: standard input (<code>0</code>), standard output (<code>1</code>), and standard error (<code>2</code>). Mastering how to route these streams is essential for reliable automation.</p>
+
+<h3>Standard File Descriptors</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Descriptor</th><th>Name</th><th>Default Source / Target</th><th>File Constant</th></tr></thead>
+  <tbody>
+    <tr><td><code>0</code></td><td><strong>Standard Input (stdin)</strong></td><td>Keyboard input or incoming pipe</td><td><code>/dev/stdin</code></td></tr>
+    <tr><td><code>1</code></td><td><strong>Standard Output (stdout)</strong></td><td>Terminal screen (normal messages)</td><td><code>/dev/stdout</code></td></tr>
+    <tr><td><code>2</code></td><td><strong>Standard Error (stderr)</strong></td><td>Terminal screen (error &amp; diagnostics)</td><td><code>/dev/stderr</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>I/O Redirection Operators Matrix</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Operator</th><th>Effect</th><th>Practical Example</th></tr></thead>
+  <tbody>
+    <tr><td><code>&gt; file</code></td><td>Redirect stdout; truncates/overwrites file</td><td><code>echo "ready" &gt; status.txt</code></td></tr>
+    <tr><td><code>&gt;&gt; file</code></td><td>Redirect stdout; appends to end of file</td><td><code>echo "$(date): deployed" &gt;&gt; audit.log</code></td></tr>
+    <tr><td><code>2&gt; file</code></td><td>Redirect stderr only; ignores stdout</td><td><code>curl -s https://api.com 2&gt; errors.log</code></td></tr>
+    <tr><td><code>2&gt;&amp;1</code></td><td>Merge stderr into stdout stream</td><td><code>./worker.sh &gt; combined.log 2&gt;&amp;1</code></td></tr>
+    <tr><td><code>&amp;&gt; file</code></td><td>Bash shortcut to redirect both stdout &amp; stderr</td><td><code>make build &amp;&gt; build.log</code></td></tr>
+    <tr><td><code>&lt; file</code></td><td>Redirect file contents into command stdin</td><td><code>grep "FATAL" &lt; /var/log/syslog</code></td></tr>
+    <tr><td><code>&lt;&lt;&lt; "string"</code></td><td>Here-string (passes string into stdin)</td><td><code>bc &lt;&lt;&lt; "scale=2; 22/7"</code></td></tr>
+    <tr><td><code>&gt; /dev/null 2&gt;&amp;1</code></td><td>Silence all command output completely</td><td><code>command -v docker &gt;/dev/null 2&gt;&amp;1</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-tip">
+  <strong>Dual Streaming with <code>tee</code>:</strong> Want to view command output on screen while saving it to a log file? Use <code>tee</code>:
+  <code>./deploy.sh 2&gt;&amp;1 | tee -a deployment.log</code> (The <code>-a</code> flag appends rather than overwrites).
+</div>
+
+<h3>Heredoc Multiline Input Pattern</h3>
+<pre><code class="language-bash"># Writing clean multiline configuration files without multiple echo statements:
+# Note: Quoting 'EOF' prevents variable expansion inside the block.
+cat &lt;&lt;'EOF' &gt; /tmp/database.env
+# Generated Database Config
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_USER=postgres
+DB_TIMEOUT=30
+EOF
+
+# Heredoc with variable interpolation (unquoted EOF)
+TARGET_ENV="production"
+cat &lt;&lt;EOF &gt; /tmp/environment.info
+Environment : $TARGET_ENV
+Deployed By : $USER
+Host Machine: $(hostname)
+Timestamp   : $(date -u +"%Y-%m-%dT%H:%M:%SZ")
+EOF</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch9" data-title="pipelines and text processing" data-category="streams">
+<div class="chapter-kicker">CHAPTER 9 <span> / </span> PIPELINE COMPOSITION</div>
+      <h2>Pipelines and text processing</h2>
+      <p class="intro">Combine modular single-purpose utilities using Unix pipes to filter, transform, sort, aggregate, and inspect streaming text data.</p>
+      <div class="chapter-content">
+<p>The Unix pipe (<code>|</code>) connects the standard output of the preceding command directly into the standard input of the subsequent command in kernel memory. Commands execute concurrently, streaming data with zero intermediate temporary disk files.</p>
+
+<h3>Core Text Processing Toolset</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Tool</th><th>Primary Purpose</th><th>Common Flags &amp; Invocations</th></tr></thead>
+  <tbody>
+    <tr><td><code>grep</code></td><td>Search lines matching regex</td><td><code>-i</code> (case-insensitive), <code>-v</code> (invert/exclude), <code>-c</code> (count matches)</td></tr>
+    <tr><td><code>sort</code></td><td>Sort lines of text</td><td><code>-n</code> (numerical), <code>-r</code> (reverse), <code>-k 2</code> (sort on column 2), <code>-u</code> (unique)</td></tr>
+    <tr><td><code>uniq</code></td><td>Report or omit repeated lines</td><td><code>-c</code> (prefix line counts), <code>-d</code> (only duplicates). <em>Requires sorted input!</em></td></tr>
+    <tr><td><code>cut</code></td><td>Extract sections from lines</td><td><code>-d':' -f1,3</code> (split on delimiter <code>:</code>, extract fields 1 and 3)</td></tr>
+    <tr><td><code>tr</code></td><td>Translate or delete characters</td><td><code>tr '[:lower:]' '[:upper:]'</code> (uppercase), <code>-d '\r'</code> (strip DOS newlines)</td></tr>
+    <tr><td><code>wc</code></td><td>Count lines, words, characters</td><td><code>-l</code> (lines), <code>-w</code> (words), <code>-c</code> (bytes)</td></tr>
+    <tr><td><code>head</code> / <code>tail</code></td><td>Output first/last lines</td><td><code>head -n 20</code>, <code>tail -n 50</code>, <code>tail -f</code> (follow live log growth)</td></tr>
+    <tr><td><code>paste</code></td><td>Merge lines of files side-by-side</td><td><code>paste -d',' file1.txt file2.txt</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-info">
+  <strong>The Uniq Gotcha:</strong> <code>uniq</code> only detects adjacent repeated lines. To count unique occurrences across an entire file, you must always pipe through <code>sort</code> first: <code>sort | uniq -c | sort -nr</code>.
+</div>
+
+<h3>Production Pipeline Recipes</h3>
+<pre><code class="language-bash"># Recipe 1: Find the top 5 IP addresses hitting a webserver
+cat access.log | cut -d' ' -f1 | sort | uniq -c | sort -nr | head -n 5
+
+# Recipe 2: Find all unique shell types configured in /etc/passwd
+cut -d: -f7 /etc/passwd | sort -u
+
+# Recipe 3: Count total lines of code across all TypeScript files
+find src -name '*.ts' -print0 | xargs -0 wc -l | sort -n
+
+# Recipe 4: Normalize Windows CRLF line endings to Unix LF
+tr -d '\r' &lt; windows_script.sh &gt; unix_script.sh</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch10" data-title="find files and directories" data-category="streams">
+<div class="chapter-kicker">CHAPTER 10 <span> / </span> ADVANCED FILE SEARCH</div>
+      <h2>Find files and directories</h2>
+      <p class="intro">Execute complex filesystem queries by name, modification time, size, permissions, and depth; safely execute batch actions on search results.</p>
+      <div class="chapter-content">
+<p>The <code>find</code> utility performs real-time recursive searches through directory trees using rich Boolean expressions. Unlike desktop indexers, <code>find</code> evaluates live metadata directly from inodes.</p>
+
+<h3>Comprehensive <code>find</code> Predicates</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Predicate</th><th>Test Condition</th><th>Practical Example</th></tr></thead>
+  <tbody>
+    <tr><td><code>-name "pat"</code></td><td>Match filename with globbing</td><td><code>find . -name "*.conf"</code></td></tr>
+    <tr><td><code>-iname "pat"</code></td><td>Case-insensitive name match</td><td><code>find . -iname "readme*"</code></td></tr>
+    <tr><td><code>-type [f/d/l]</code></td><td>Match file type (f=regular, d=dir, l=symlink)</td><td><code>find /etc -type l</code> (find all symlinks)</td></tr>
+    <tr><td><code>-size [+|-]N</code></td><td>Match size (k=kilo, M=mega, G=giga)</td><td><code>find /var/log -type f -size +50M</code> (&gt;50MB)</td></tr>
+    <tr><td><code>-mtime [+|-]N</code></td><td>Modified N days ago (<code>-mmin</code> for minutes)</td><td><code>find . -mtime -7</code> (modified in last 7 days)</td></tr>
+    <tr><td><code>-maxdepth N</code></td><td>Descend at most N directory levels</td><td><code>find . -maxdepth 2 -type f</code></td></tr>
+    <tr><td><code>-perm mode</code></td><td>Match exact or masked permission bits</td><td><code>find /bin -perm -4000</code> (find SUID binaries)</td></tr>
+    <tr><td><code>-empty</code></td><td>Empty file or empty directory</td><td><code>find . -type d -empty -delete</code></td></tr>
+    <tr><td><code>-not</code> or <code>!</code></td><td>Invert predicate match</td><td><code>find . -type f ! -name "*.go"</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Safe Execution on Search Results</h3>
+<pre><code class="language-bash"># Action Method 1: Using -exec with '+' (Fastest & most efficient)
+# Bundles thousands of matching files into a single command invocation:
+find . -type f -name '*.log' -exec gzip {} +
+
+# Action Method 2: Using -print0 and xargs -0 (Safest against spaces in filenames)
+# Delimits items with NUL byte (\0), making it 100% immune to whitespace or newlines:
+find /var/tmp -type f -mtime +30 -print0 | xargs -0 rm -v
+
+# Action Method 3: In-place interactive deletion
+find . -type f -name '*.orig' -ok rm {} \;  # Prompts y/n before each delete</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch11" data-title="permissions, ownership and links" data-category="streams">
+<div class="chapter-kicker">CHAPTER 11 <span> / </span> PERMISSIONS &amp; INODES</div>
+      <h2>Permissions, ownership and links</h2>
+      <p class="intro">Control read, write, execute bits, understand octal notation, configure SUID/SGID/sticky bits, calculate umask, and master hard vs. symbolic links.</p>
+      <div class="chapter-content">
+<p>Unix filesystem security relies on discretionary access control (DAC) defined by user, group, and other permissions, augmented by special permission bits and inode links.</p>
+
+<h3>Permission Bit Architecture</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Permission</th><th>Octal</th><th>Symbolic</th><th>Effect on Regular File</th><th>Effect on Directory</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Read</strong></td><td>4</td><td><code>r</code></td><td>Can view and read file contents</td><td>Can list contents with <code>ls</code></td></tr>
+    <tr><td><strong>Write</strong></td><td>2</td><td><code>w</code></td><td>Can modify/overwrite file contents</td><td>Can create, delete, and rename files in directory</td></tr>
+    <tr><td><strong>Execute</strong></td><td>1</td><td><code>x</code></td><td>Can execute file as program/script</td><td>Can <code>cd</code> into and traverse through directory</td></tr>
+    <tr><td><strong>None</strong></td><td>0</td><td><code>-</code></td><td>No access granted</td><td>No traversal access</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Special Permission Bits</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Special Bit</th><th>Octal Prefix</th><th>Appearance</th><th>Engineering Purpose</th><th>Example Target</th></tr></thead>
+  <tbody>
+    <tr><td><strong>SUID (Set User ID)</strong></td><td><code>4000</code></td><td><code>-rwsr-xr-x</code></td><td>Process executes with privileges of file owner, not caller</td><td><code>/usr/bin/passwd</code> (allows users to update shadow file)</td></tr>
+    <tr><td><strong>SGID (Set Group ID)</strong></td><td><code>2000</code></td><td><code>-rwxr-sr-x</code></td><td>New files created inside directory inherit directory's group ownership</td><td>Shared team directories (<code>/var/shared</code>)</td></tr>
+    <tr><td><strong>Sticky Bit</strong></td><td><code>1000</code></td><td><code>drwxrwxrwt</code></td><td>Only file owner or root can delete or rename files inside directory</td><td><code>/tmp</code> (prevents users from deleting each other's files)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-info">
+  <strong>Hard Links vs Symbolic (Soft) Links:</strong>
+  <ul>
+    <li><strong>Hard Link (<code>ln target link</code>):</strong> Creates a new directory entry pointing to the <em>exact same inode number</em>. Cannot cross filesystem boundaries or link directories. Deleting the original file keeps the data intact until all hard links are removed.</li>
+    <li><strong>Symbolic Link (<code>ln -s target link</code>):</strong> Creates an independent file containing a text path pointing to the target. Can span across filesystems and point to directories. If target is deleted, link becomes broken ("dangling").</li>
+  </ul>
+</div>
+
+<pre><code class="language-bash"># Modify permissions symbolically
+chmod u+rwx,g+rx,o-rwx script.sh   # User rwx, group rx, others none
+
+# Modify permissions with octal numbers
+chmod 750 script.sh                # User=7 (rwx), Group=5 (r-x), Others=0 (---)
+chmod 644 config.json              # Standard read-write for owner, read-only for all
+
+# Change user and group ownership recursively
+sudo chown -R www-data:www-data /var/www/html
+
+# Apply Sticky Bit to a directory
+chmod 1777 /var/shared_scratch     # Equivalent to: chmod +t /var/shared_scratch
+
+# Calculate umask defaults
+umask                              # e.g. 0022 -> Default new files: 644, directories: 755
+umask 027                          # Hardens defaults -> Files: 640, directories: 750</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch12" data-title="processes, jobs and signals" data-category="system">
+<div class="chapter-kicker">CHAPTER 12 <span> / </span> DEVELOPER FIELD GUIDE</div>
+      <h2>Processes, jobs and signals</h2><p class="intro">Inspect programs, control execution priority, manage foreground/background jobs, and handle signals safely.</p>
+      <div class="chapter-content">
+<p>Every running program on a Unix system is represented as a <strong>process</strong> with a unique Process ID (<code>PID</code>), parent process ID (<code>PPID</code>), user ownership, and memory space. The shell manages interactive commands as <strong>jobs</strong>.</p>
+
+<pre><code class="language-bash"># Process inspection
+ps aux                 # Snapshot of all running processes (BSD style)
+ps -ef                 # Standard System V format showing PPID hierarchy
+pgrep -af nginx        # Find PIDs matching name with full command line
+top                    # Interactive system monitor (or htop / btop)
+
+# Managing shell background jobs
+sleep 300 &amp;            # Run in background; returns [job_number] PID
+jobs -l                # List active background jobs with PIDs
+fg %1                  # Bring job 1 to the foreground
+# Press Ctrl+Z to suspend running foreground process (sends SIGTSTP)
+bg %1                  # Resume suspended job 1 in background
+
+# Decoupling from the terminal
+nohup ./long-task.sh > task.log 2>&1 &amp; # Immune to terminal hangups (SIGHUP)
+disown -h %1           # Remove job from shell job table so logout won't terminate it
+
+# Adjusting execution priority (nice levels range from -20 highest to +19 lowest)
+nice -n 10 ./build.sh  # Launch CPU-heavy task with lower priority
+renice +5 -p 12345     # Alter priority of an already-running process</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>Unix Signals Reference Table</h3>
+<p>Signals are asynchronous software interrupts delivered to processes. Always prefer graceful termination (<code>SIGTERM</code>) before resorting to forced destruction (<code>SIGKILL</code>).</p>
+
+<div class='table-wrap'><table><thead><tr><th>Signal</th><th>Number</th><th>Description</th><th>Catchable?</th><th>Common Usage</th></tr></thead><tbody>
+<tr><td><code>SIGHUP</code></td><td>1</td><td>Hangup (terminal disconnection)</td><td>Yes</td><td>Trigger daemon to reload configuration without restart</td></tr>
+<tr><td><code>SIGINT</code></td><td>2</td><td>Terminal Interrupt (Ctrl+C)</td><td>Yes</td><td>Immediately cancel or abort interactive command</td></tr>
+<tr><td><code>SIGQUIT</code></td><td>3</td><td>Terminal Quit (Ctrl+\)</td><td>Yes</td><td>Terminate process and generate a core dump for debugging</td></tr>
+<tr><td><code>SIGKILL</code></td><td>9</td><td>Forced Termination (Instant Kill)</td><td><strong>No</strong></td><td>Kernel forcefully terminates process; cannot clean up locks/files</td></tr>
+<tr><td><code>SIGTERM</code></td><td>15</td><td>Termination Request (Default kill)</td><td>Yes</td><td>Allows process to flush buffers, release sockets, and exit cleanly</td></tr>
+<tr><td><code>SIGSTOP</code></td><td>19</td><td>Pause Process Execution</td><td><strong>No</strong></td><td>Kernel pauses process execution unconditionally</td></tr>
+<tr><td><code>SIGTSTP</code></td><td>20</td><td>Terminal Suspend (Ctrl+Z)</td><td>Yes</td><td>Suspends foreground task so it can be resumed via <code>bg</code> or <code>fg</code></td></tr>
+<tr><td><code>SIGCONT</code></td><td>18</td><td>Continue Paused Process</td><td>Yes</td><td>Resumes execution of a process stopped by SIGSTOP/SIGTSTP</td></tr>
+</tbody></table></div>
+
+<div class="callout callout-warn">
+  <strong>⚠️ The SIGKILL Anti-Pattern:</strong> Never start by running <code>kill -9 PID</code>. Because SIGKILL cannot be caught by the program, it prevents database connections from closing, leaves stale lockfiles on disk, and corrupts open files. Always send <code>kill -15 PID</code> (or simply <code>kill PID</code>) first, allowing the process 5–10 seconds to shut down cleanly.
+</div>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch13" data-title="environment variables and shell variables" data-category="system">
+<div class="chapter-kicker">CHAPTER 13 <span> / </span> ENVIRONMENT &amp; PARAMETERS</div>
+      <h2>Environment variables and shell variables</h2>
+      <p class="intro">Distinguish shell-local vs. exported environment variables, inspect inherited subshell contexts, and master Bash parameter expansion operators.</p>
+      <div class="chapter-content">
+<p>Variables store configuration, system states, and temporary values. A critical distinction is between <strong>shell-local variables</strong> (visible only within current process) and <strong>exported environment variables</strong> (inherited by spawned child processes).</p>
+
+<h3>Core Standard Environment Variables</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Variable</th><th>Purpose</th><th>Typical Content</th></tr></thead>
+  <tbody>
+    <tr><td><code>$PATH</code></td><td>Colon-delimited list of directories searched for executables</td><td><code>/usr/local/bin:/usr/bin:/bin</code></td></tr>
+    <tr><td><code>$HOME</code></td><td>Current user's home directory path</td><td><code>/home/developer</code> or <code>/Users/name</code></td></tr>
+    <tr><td><code>$USER</code></td><td>Active logged-in username</td><td><code>deploy</code></td></tr>
+    <tr><td><code>$SHELL</code></td><td>Path to default login shell executable</td><td><code>/bin/bash</code> or <code>/bin/zsh</code></td></tr>
+    <tr><td><code>$PWD</code> / <code>$OLDPWD</code></td><td>Current and previous working directories</td><td><code>/var/log/nginx</code></td></tr>
+    <tr><td><code>$?</code></td><td>Exit status code of most recently executed command</td><td><code>0</code> (success), <code>1-255</code> (failure)</td></tr>
+    <tr><td><code>$$</code></td><td>Process ID (PID) of current shell</td><td><code>48120</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Bash Parameter Expansion Power Matrix</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Syntax</th><th>Behavior</th><th>Example (Given <code>NAME="antigravity"</code>)</th></tr></thead>
+  <tbody>
+    <tr><td><code>${VAR:-default}</code></td><td>Use default if unset or empty; does not set VAR</td><td><code>${PORT:-8080}</code> &rarr; 8080</td></tr>
+    <tr><td><code>${VAR:=default}</code></td><td>Set VAR to default if unset or empty</td><td><code>${CACHE_DIR:=/tmp/cache}</code></td></tr>
+    <tr><td><code>${VAR:?error}</code></td><td>Fail script with error message if unset or empty</td><td><code>${DB_PASS:?"Missing DB password"}</code></td></tr>
+    <tr><td><code>${VAR:+val}</code></td><td>Use alternate value if VAR is set and not empty</td><td><code>${DEBUG:+"--verbose"}</code></td></tr>
+    <tr><td><code>${#VAR}</code></td><td>Return character length of string</td><td><code>${#NAME}</code> &rarr; 12</td></tr>
+    <tr><td><code>${VAR#pattern}</code></td><td>Remove shortest matching prefix</td><td><code>FILE="app.tar.gz"; ${FILE#*.}</code> &rarr; tar.gz</td></tr>
+    <tr><td><code>${VAR##pattern}</code></td><td>Remove longest matching prefix</td><td><code>FILE="app.tar.gz"; ${FILE##*.}</code> &rarr; gz</td></tr>
+    <tr><td><code>${VAR%pattern}</code></td><td>Remove shortest matching suffix</td><td><code>PATH="/a/b/c/"; ${PATH%/}</code> &rarr; /a/b/c</td></tr>
+    <tr><td><code>${VAR%%pattern}</code></td><td>Remove longest matching suffix</td><td><code>URL="http://x/y/z"; ${URL%%/*}</code> &rarr; http:</td></tr>
+    <tr><td><code>${VAR/find/replace}</code></td><td>Replace first match</td><td><code>${NAME/anti/hyper}</code> &rarr; hypergravity</td></tr>
+    <tr><td><code>${VAR//find/replace}</code></td><td>Replace all matches</td><td><code>${PATH//:/\n}</code> &rarr; prints each path line</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-tip">
+  <strong>Exporting for Subprocesses:</strong> To make a variable accessible to scripts or programs called by the shell, prefix with <code>export</code>:
+  <code>export NODE_ENV="production"</code>. Without <code>export</code>, child processes receive an empty value!
+</div>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch14" data-title="path and command discovery" data-category="system">
+<div class="chapter-kicker">CHAPTER 14 <span> / </span> DEVELOPER FIELD GUIDE</div>
+      <h2>PATH and command discovery</h2><p class="intro">Understand how the shell resolves typed command names into executable code.</p>
+      <div class="chapter-content">
+<p>When you enter a command name (like <code>git</code> or <code>node</code>), the shell does not perform a full-disk search. Instead, it evaluates a strictly ordered resolution sequence.</p>
+
+<pre><code class="language-bash"># View PATH directories formatted one per line
+printf '%s\n' "$PATH" | tr ':' '\n'
+
+# Inspect command resolution type and path
+type -a ls             # Shows all aliases, builtins and paths matching 'ls'
+command -v git         # The standard, portable way to test if a command exists in PATH
+which python3          # Shows external binary path (fails on builtins/aliases)
+
+# Prepending vs. Appending to PATH
+export PATH="$HOME/.local/bin:$PATH"  # Custom tools override system versions
+export PATH="$PATH:/opt/custom/bin"   # System tools take precedence
+
+# Clear the shell command hash cache
+hash -r                # Forces shell to re-discover command locations after installing software</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>Command Resolution Precedence Hierarchy</h3>
+<p>When you type a command token in Bash, it evaluates candidates in the following order:</p>
+
+<div class='table-wrap'><table><thead><tr><th>Priority</th><th>Resolution Category</th><th>Example</th><th>Behavior</th></tr></thead><tbody>
+<tr><td><strong>1st</strong></td><td>Aliases</td><td><code>alias ll='ls -lah'</code></td><td>Replaced inline before parsing</td></tr>
+<tr><td><strong>2nd</strong></td><td>Reserved Keywords</td><td><code>if</code>, <code>for</code>, <code>while</code>, <code>case</code></td><td>Shell syntax structures</td></tr>
+<tr><td><strong>3rd</strong></td><td>Shell Functions</td><td><code>deploy() { ... }</code></td><td>Executes in-memory function within current shell</td></tr>
+<tr><td><strong>4th</strong></td><td>Builtin Commands</td><td><code>cd</code>, <code>pwd</code>, <code>read</code>, <code>echo</code></td><td>Executed directly by the shell process without forking</td></tr>
+<tr><td><strong>5th</strong></td><td>Executables in `$PATH`</td><td><code>/usr/bin/git</code>, <code>/bin/grep</code></td><td>Searched left-to-right across colon-separated `$PATH` directories</td></tr>
+</tbody></table></div>
+
+<div class="callout callout-warn">
+  <strong>⚠️ Security Alert: Never Put `.` in Your PATH:</strong> Adding the current directory (<code>.</code>) to <code>$PATH</code> (e.g. <code>PATH=".:$PATH"</code>) allows an attacker to place a malicious script named <code>ls</code> or <code>git</code> in a public or shared folder that executes whenever you browse that directory!
+</div>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch15" data-title="persist environment configuration" data-category="system">
+<div class="chapter-kicker">CHAPTER 15 <span> / </span> SHELL INITIALIZATION &amp; DOTFILES</div>
+      <h2>Persist environment configuration</h2>
+      <p class="intro">Understand the shell startup lifecycle: login vs. non-login, interactive vs. non-interactive, and maintain modular dotfiles across Linux and macOS.</p>
+      <div class="chapter-content">
+<p>Why do variables set in <code>~/.bashrc</code> sometimes fail to appear in SSH sessions or cron jobs? The answer lies in the <strong>shell startup lifecycle</strong>.</p>
+
+<h3>The Shell Invocations Matrix</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Session Type</th><th>How Started</th><th>Files Loaded (In Order)</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Interactive Login</strong></td><td>SSH login, virtual console, <code>su - user</code>, or macOS terminal tab</td><td><code>/etc/profile</code> &rarr; <code>~/.bash_profile</code> (or <code>~/.bash_login</code> or <code>~/.profile</code>)</td></tr>
+    <tr><td><strong>Interactive Non-Login</strong></td><td>Opening a new terminal window/tab inside Linux desktop, running <code>bash</code></td><td><code>/etc/bash.bashrc</code> &rarr; <code>~/.bashrc</code></td></tr>
+    <tr><td><strong>Non-Interactive</strong></td><td>Shell scripts (<code>./script.sh</code>), automated cron jobs, CI runners</td><td>Reads file pointed to by <code>$BASH_ENV</code> (no startup files by default)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-mac">
+  <strong>macOS Default Behavior:</strong> By default, macOS Terminal opens every new tab and window as an <em>Interactive Login Shell</em>. Hence, it executes <code>~/.bash_profile</code> (or <code>~/.zprofile</code> / <code>~/.zshrc</code>), while Linux GUI terminals launch non-login shells executing <code>~/.bashrc</code>.
+</div>
+
+<h3>Clean Universal Dotfiles Architecture</h3>
+<pre><code class="language-bash"># Place this in ~/.bash_profile to ensure ~/.bashrc is always loaded:
+if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+fi
+
+# Recommended modular ~/.bashrc layout:
+# 1. Guard against non-interactive execution
+[[ $- != *i* ]] &amp;&amp; return
+
+# 2. Source modular config snippets if present
+for config_file in ~/.config/shell/*.sh; do
+    [ -r "$config_file" ] &amp;&amp; . "$config_file"
+done
+unset config_file
+
+# 3. Add personal local binaries to PATH safely without duplicates
+if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch16" data-title="bash prompt, aliases and shell quality of life" data-category="system">
+<div class="chapter-kicker">CHAPTER 16 <span> / </span> DEVELOPER FIELD GUIDE</div>
+      <h2>Bash prompt, aliases and shell quality of life</h2><p class="intro">Customize your interactive environment, design informative prompts, and configure robust aliases.</p>
+      <div class="chapter-content">
+<p>Your command line prompt is controlled by the primary prompt variable <code>PS1</code>. Modern prompts display the logged-in user, hostname, current directory, and dynamic Git status.</p>
+
+<pre><code class="language-bash"># Standard informative prompt: user@host:working_directory$
+PS1='\u@\h:\w\$ '
+
+# Production Prompt with Dynamic Git Branch in Color:
+parse_git_branch() {
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+PS1='\[\e[1;32m\]\u@\h\[\e[0m\]:\[\e[1;34m\]\w\[\e[1;35m\]\$(parse_git_branch)\[\e[0m\]\$ '
+
+# Essential daily aliases (add to ~/.bashrc or ~/.zshrc)
+alias ll='ls -lah'
+alias gs='git status --short --branch'
+alias gl='git log --oneline --graph -n 10'
+alias ..='cd ..'
+alias ...='cd ../..'
+
+# Functions are strictly superior to complex aliases
+mkcd() {
+  mkdir -p -- "$1" &amp;&amp; cd -- "$1"
+}
+
+# Reload configuration immediately
+source ~/.bashrc</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>Prompt Escape Sequences Reference Table</h3>
+<div class='table-wrap'><table><thead><tr><th>Sequence</th><th>Output</th><th>Example Value</th></tr></thead><tbody>
+<tr><td><code>\u</code></td><td>Current username</td><td><code>developer</code></td></tr>
+<tr><td><code>\h</code></td><td>Hostname up to the first dot</td><td><code>server01</code></td></tr>
+<tr><td><code>\H</code></td><td>Complete fully-qualified hostname</td><td><code>server01.example.com</code></td></tr>
+<tr><td><code>\w</code></td><td>Full current working directory (with <code>~</code> for home)</td><td><code>~/projects/api</code></td></tr>
+<tr><td><code>\W</code></td><td>Basename of the current working directory</td><td><code>api</code></td></tr>
+<tr><td><code>\t</code> / <code>\T</code></td><td>Current time in 24-hr (<code>HH:MM:SS</code>) / 12-hr format</td><td><code>14:32:05</code></td></tr>
+<tr><td><code>\d</code></td><td>Date in "Weekday Month Date" format</td><td><code>Sun Nov 08</code></td></tr>
+<tr><td><code>\$</code></td><td>Displays <code>#</code> if effective UID is 0 (root); else <code>$</code></td><td><code>$</code></td></tr>
+<tr><td><code>\n</code></td><td>Inserts a line break for multi-line prompts</td><td>Newline</td></tr>
+</tbody></table></div>
+
+<div class="callout callout-tip">
+  <strong>💡 The Non-Printing Escape Rule (`\[` and `\]`):</strong> When adding ANSI colors to <code>PS1</code>, you <strong>must</strong> enclose every color code inside <code>\[ ... \]</code>. This instructs readline that the enclosed characters have zero visual display width. If you omit these brackets, Bash miscalculates the prompt length, resulting in overlapping characters and erratic text wrapping during long command entry!
+</div>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch17" data-title="bash scripting: first executable script" data-category="scripting">
+<div class="chapter-kicker">CHAPTER 17 <span> / </span> SHELL SCRIPTING 101</div>
+      <h2>Bash scripting: first executable script</h2>
+      <p class="intro">Construct robust scripts: shebang selection, execution modes, strict error flags, and a production script template.</p>
+      <div class="chapter-content">
+<p>A shell script is an executable text file containing a sequence of commands executed by an interpreter. Writing production-grade scripts requires adopting defensive boilerplate from day one.</p>
+
+<h3>The Shebang (<code>#!</code>) Architecture</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Shebang</th><th>Portability</th><th>Behavior &amp; Recommendation</th></tr></thead>
+  <tbody>
+    <tr><td><code>#!/usr/bin/env bash</code></td><td><strong>High (Preferred)</strong></td><td>Finds Bash via system <code>PATH</code>; works seamlessly across Linux, macOS, FreeBSD, Homebrew</td></tr>
+    <tr><td><code>#!/bin/bash</code></td><td>Medium</td><td>Hardcoded path; may fail on NixOS, FreeBSD, or macOS with modern Homebrew Bash</td></tr>
+    <tr><td><code>#!/bin/sh</code></td><td>Universal</td><td>Strict POSIX mode (Dash on Ubuntu, Bash in POSIX mode on macOS)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Three Ways to Run a Script</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Invocation</th><th>Subshell Spawned?</th><th>Exported State Retained?</th><th>Permissions Needed</th></tr></thead>
+  <tbody>
+    <tr><td><code>./script.sh</code></td><td>Yes (separate process)</td><td>No (dies on script exit)</td><td>Requires <code>chmod +x</code></td></tr>
+    <tr><td><code>bash script.sh</code></td><td>Yes (separate process)</td><td>No (dies on script exit)</td><td>Only read permission (<code>r</code>)</td></tr>
+    <tr><td><code>source script.sh</code> (or <code>. script.sh</code>)</td><td><strong>No (runs in current shell)</strong></td><td><strong>Yes (alters current shell variables)</strong></td><td>Only read permission (<code>r</code>)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Production Shell Script Boilerplate</h3>
+<pre><code class="language-bash">#!/usr/bin/env bash
+# ==============================================================================
+# Script Name: deploy-service.sh
+# Description: Automated service deployment with health checks
+# ==============================================================================
+
+# Strict Execution Mode:
+# -e: Exit immediately if any command fails
+# -u: Treat unset variables as errors and exit immediately
+# -o pipefail: Pipeline fails if ANY command in the pipeline fails
+set -euo pipefail
+
+readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &amp;&amp; pwd)"
+readonly APP_ENV="${1:-development}"
+
+log() {
+    printf '[%s] %s\n' "$(date +'%Y-%m-%dT%H:%M:%S%z')" "$*"
+}
+
+main() {
+    log "Initiating deployment for environment: $APP_ENV"
+    log "Executing from directory: $SCRIPT_DIR"
+    
+    # Pre-flight check
+    command -v curl >/dev/null 2>&1 || { echo "Error: curl is required" >&2; exit 1; }
+    
+    log "Deployment completed successfully."
+}
+
+main "$@"</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch18" data-title="variables, arguments and user input" data-category="scripting">
+<div class="chapter-kicker">CHAPTER 18 <span> / </span> INPUT &amp; ARGUMENTS</div>
+      <h2>Variables, arguments and user input</h2>
+      <p class="intro">Handle command-line positional parameters, shift arguments, parse flags, prompt users interactively, and validate inputs.</p>
+      <div class="chapter-content">
+<p>Scripts become dynamic and reusable when they accept positional parameters, optional flags, and interactive user prompts while defending against invalid inputs.</p>
+
+<h3>Special Positional Parameters Table</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Variable</th><th>Meaning</th><th>Example Usage</th></tr></thead>
+  <tbody>
+    <tr><td><code>$0</code></td><td>Name of script or shell invocation</td><td><code>basename "$0"</code> (prints script filename)</td></tr>
+    <tr><td><code>$1</code> &ndash; <code>$9</code></td><td>First through ninth command-line argument</td><td><code>TARGET="$1"</code></td></tr>
+    <tr><td><code>${10}</code></td><td>Tenth argument and beyond (braces required!)</td><td><code>EXTRA="${10}"</code></td></tr>
+    <tr><td><code>$#</code></td><td>Total count of arguments passed to script</td><td><code>if [ "$#" -lt 2 ]; then ...</code></td></tr>
+    <tr><td><code>$@</code></td><td>All arguments as separate words: <code>"$1" "$2" ...</code></td><td><code>for arg in "$@"; do ...</code></td></tr>
+    <tr><td><code>$*</code></td><td>All arguments combined into a single string separated by <code>$IFS</code></td><td><code>echo "$*"</code></td></tr>
+    <tr><td><code>$$</code></td><td>Process ID (PID) of running script</td><td>Creating PID files or unique temp names</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Interactive User Input with <code>read</code></h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Flag</th><th>Function</th><th>Example</th></tr></thead>
+  <tbody>
+    <tr><td><code>-p "prompt"</code></td><td>Displays prompt message without trailing newline</td><td><code>read -p "Enter username: " user</code></td></tr>
+    <tr><td><code>-s</code></td><td>Silent mode (does not echo characters; for passwords)</td><td><code>read -s -p "Password: " pass</code></td></tr>
+    <tr><td><code>-r</code></td><td>Raw mode (prevents backslash escaping. Always use!)</td><td><code>read -r line</code></td></tr>
+    <tr><td><code>-t N</code></td><td>Timeout after N seconds if no input provided</td><td><code>read -t 10 -p "Continue? " ans</code></td></tr>
+    <tr><td><code>-n N</code></td><td>Return after reading N characters without pressing Enter</td><td><code>read -n 1 -p "Proceed [y/N]? " char</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-bash"># Command-line argument parser with shifting:
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -e|--env)
+            ENVIRONMENT="$2"
+            shift 2
+            ;;
+        -v|--verbose)
+            VERBOSE=true
+            shift 1
+            ;;
+        -h|--help)
+            echo "Usage: $0 [--env <name>] [--verbose] [--help]"
+            exit 0
+            ;;
+        *)
+            echo "Unknown option: $1" >&2
+            exit 1
+            ;;
+    esac
+done</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch19" data-title="conditionals and tests" data-category="scripting">
+<div class="chapter-kicker">CHAPTER 19 <span> / </span> LOGIC &amp; CONDITIONALS</div>
+      <h2>Conditionals and tests</h2>
+      <p class="intro">Evaluate conditions safely: compare classic [ vs modern [[, perform string, integer, and file tests, and master case statement branching.</p>
+      <div class="chapter-content">
+<p>Conditional execution in the shell is determined entirely by the <strong>exit status</strong> of commands (<code>0</code> = True/Success, non-zero = False/Error). The shell provides two testing constructs: POSIX <code>[</code> (test) and Bash <code>[[</code>.</p>
+
+<h3><code>[ ... ]</code> vs <code>[[ ... ]]</code> Comparison</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Feature</th><th>Classic <code>[ ... ]</code> (test)</th><th>Modern Bash <code>[[ ... ]]</code></th></tr></thead>
+  <tbody>
+    <tr><td><strong>Standard</strong></td><td>POSIX compliant; available on all Unix shells</td><td>Bash, Zsh, Ksh extension</td></tr>
+    <tr><td><strong>Word Splitting</strong></td><td>Splits unquoted variables (causing syntax errors if variable contains spaces)</td><td><strong>Safe:</strong> No word splitting on unquoted variables</td></tr>
+    <tr><td><strong>Regex Matching</strong></td><td>Not supported</td><td>Supported via <code>=~</code> operator</td></tr>
+    <tr><td><strong>Logical Operators</strong></td><td>Requires <code>-a</code> (AND) and <code>-o</code> (OR)</td><td>Standard <code>&amp;&amp;</code> (AND), <code>||</code> (OR), and <code>!</code> (NOT)</td></tr>
+    <tr><td><strong>Pattern Matching</strong></td><td>Literal string comparison only</td><td>Supports glob wildcards (e.g. <code>[[ $file == *.tar.gz ]]</code>)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Comprehensive Test Operators Table</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Category</th><th>Operator</th><th>Condition Verified True When:</th></tr></thead>
+  <tbody>
+    <tr><td rowspan="3"><strong>String Tests</strong></td><td><code>-z "$str"</code></td><td>String is empty (zero length)</td></tr>
+    <tr><td><code>-n "$str"</code></td><td>String is not empty (length &gt; 0)</td></tr>
+    <tr><td><code>"$a" == "$b"</code></td><td>Strings are equal (use <code>=</code> for POSIX)</td></tr>
+    <tr><td rowspan="4"><strong>Integer Tests</strong></td><td><code>$x -eq $y</code></td><td>Integers are equal</td></tr>
+    <tr><td><code>$x -ne $y</code></td><td>Integers are not equal</td></tr>
+    <tr><td><code>$x -lt $y</code> / <code>-gt</code></td><td>Less than / Greater than</td></tr>
+    <tr><td><code>(( x &lt; y ))</code></td><td>Arithmetic comparison using standard symbols</td></tr>
+    <tr><td rowspan="4"><strong>File Tests</strong></td><td><code>-f "$file"</code></td><td>Path exists and is a regular file</td></tr>
+    <tr><td><code>-d "$dir"</code></td><td>Path exists and is a directory</td></tr>
+    <tr><td><code>-s "$file"</code></td><td>File exists and has size &gt; 0 bytes</td></tr>
+    <tr><td><code>-r / -w / -x</code></td><td>File exists and has read / write / execute permission</td></tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-bash"># Regex matching in Bash:
+email="dev@company.com"
+if [[ "$email" =~ ^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$ ]]; then
+    echo "Valid email format"
+fi
+
+# Multi-branching with case pattern matching:
+case "$1" in
+    start|boot)
+        echo "Starting daemon..."
+        ;;
+    stop|shutdown)
+        echo "Stopping daemon..."
+        ;;
+    status)
+        echo "Checking daemon status..."
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|status}" >&2
+        exit 1
+        ;;
+esac</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch20" data-title="loops and iteration" data-category="scripting">
+<div class="chapter-kicker">CHAPTER 20 <span> / </span> DEVELOPER FIELD GUIDE</div>
+      <h2>Loops and iteration</h2><p class="intro">Master safe stream processing, arithmetic iteration, and bulk directory traversal.</p>
+      <div class="chapter-content">
+<p>Loops automate repeated operations. Choosing the correct iteration construct prevents word-splitting bugs and infinite loops.</p>
+
+<pre><code class="language-bash"># 1. The ONLY safe way to read a file line-by-line:
+while IFS= read -r line || [[ -n "$line" ]]; do
+  # Skip comments and blank lines
+  [[ "$line" =~ ^[[:space:]]*# ]] &amp;&amp; continue
+  [[ -z "${line// }" ]] &amp;&amp; continue
+
+  printf 'Processing server: %s\n' "$line"
+done < "servers.txt"
+
+# 2. Iterating over files safely (handles spaces and special characters):
+shopt -s nullglob  # Ensures loop doesn't run if no matches exist
+for file in ./logs/*.log; do
+  printf 'Compressing: %s\n' "$file"
+  gzip -9 "$file"
+done
+shopt -u nullglob
+
+# 3. C-Style arithmetic loop:
+for (( i = 1; i <= 5; i++ )); do
+  printf 'Execution attempt #%d\n' "$i"
+done
+
+# 4. Cross-platform range stepping (works on Linux and macOS):
+for step in $(seq 0 25 100); do
+  printf 'Progress: %d%%\n' "$step"
+done
+
+# 5. Loop control: break and continue
+for port in 80 443 8080 3000; do
+  if nc -z localhost "$port" 2>/dev/null; then
+    printf 'Found active service on port %d\n' "$port"
+    break # Exit loop immediately
+  fi
+done</code><button class="copy" type="button">Copy</button></pre>
+
+<div class="callout callout-warn">
+  <strong>⚠️ The `for line in $(cat file)` Anti-Pattern:</strong> Never iterate over file contents using <code>for line in $(cat file.txt)</code>. The shell performs word splitting on whitespace, splitting lines containing spaces into separate loop iterations, and expands glob characters like <code>*</code> into directory listings. Always use <code>while IFS= read -r line</code>.
+</div>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch21" data-title="functions, arrays and reusable scripts" data-category="scripting">
+<div class="chapter-kicker">CHAPTER 21 <span> / </span> MODULAR FUNCTIONS &amp; ARRAYS</div>
+      <h2>Functions, arrays and reusable scripts</h2>
+      <p class="intro">Architect modular shell functions, manage local variable scoping, capture return values, and leverage indexed and associative arrays.</p>
+      <div class="chapter-content">
+<p>Functions allow you to decompose complex shell scripts into testable, reusable routines. In Bash, functions behave like mini-commands: they receive positional parameters (<code>$1</code>, <code>$2</code>), maintain their own local variables, and return status codes.</p>
+
+<h3>Bash Array Operations Table</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Syntax</th><th>Operation</th><th>Example Output</th></tr></thead>
+  <tbody>
+    <tr><td><code>declare -a arr=(a b c)</code></td><td>Declare indexed array</td><td>Array with indices 0, 1, 2</td></tr>
+    <tr><td><code>"${arr[0]}"</code></td><td>Access element at index 0</td><td><code>a</code></td></tr>
+    <tr><td><code>"${arr[@]}"</code></td><td>Expand all elements as separate words</td><td><code>"a" "b" "c"</code></td></tr>
+    <tr><td><code>"${#arr[@]}"</code></td><td>Count of elements in array</td><td><code>3</code></td></tr>
+    <tr><td><code>"${!arr[@]}"</code></td><td>List of all populated indices/keys</td><td><code>0 1 2</code></td></tr>
+    <tr><td><code>arr+=("new")</code></td><td>Append element to array</td><td>Appends to end</td></tr>
+    <tr><td><code>unset arr[1]</code></td><td>Delete element at index 1</td><td>Removes item (sparse array)</td></tr>
+    <tr><td><code>declare -A map</code></td><td>Declare associative array (key-value map)</td><td><code>map=([user]="alice" [role]="admin")</code></td></tr>
+    <tr><td><code>"${map[user]}"</code></td><td>Access associative array by key</td><td><code>alice</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-tip">
+  <strong>Variable Scoping:</strong> Always declare internal variables with <code>local</code> inside functions. Without <code>local</code>, shell variables pollute the global script namespace!
+</div>
+
+<pre><code class="language-bash"># Defining clean modular functions:
+calculate_disk_usage() {
+    local target_dir="${1:-.}"
+    local threshold="${2:-80}"
+    
+    if [[ ! -d "$target_dir" ]]; then
+        echo "Error: Directory '$target_dir' does not exist." >&2
+        return 1
+    fi
+    
+    local current_usage
+    current_usage=$(df -h "$target_dir" | awk 'NR==2 {print $5}' | tr -d '%')
+    
+    if (( current_usage >= threshold )); then
+        echo "WARNING: Disk usage at ${current_usage}% (threshold: ${threshold}%)" >&2
+        return 2
+    fi
+    
+    echo "Disk usage OK: ${current_usage}%"
+    return 0
+}
+
+# Associative Array (Key-Value Dictionary):
+declare -A server_ips=(
+    ["web01"]="192.168.1.10"
+    ["web02"]="192.168.1.11"
+    ["db01"]="192.168.1.20"
+)
+
+for host in "${!server_ips[@]}"; do
+    echo "Host: $host -> IP: ${server_ips[$host]}"
+done</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch22" data-title="exit codes, errors and defensive scripting" data-category="scripting">
+<div class="chapter-kicker">CHAPTER 22 <span> / </span> DEVELOPER FIELD GUIDE</div>
+      <h2>Exit codes, errors and defensive scripting</h2><p class="intro">Build fault-tolerant scripts with strict mode, signal traps, and atomic cleanup.</p>
+      <div class="chapter-content">
+<p>Every Unix command returns an exit status (<code>0</code> for success, <code>1–255</code> for failure), accessible immediately via the special variable <code>$?</code>. Production scripts must handle failures gracefully.</p>
+
+<pre><code class="language-bash">#!/usr/bin/env bash
+# ==============================================================================
+# Unofficial Bash Strict Mode
+# ==============================================================================
+set -euo pipefail
+IFS=$'\n\t'
+
+# Guaranteed atomic temporary directory creation and cleanup
+TEMP_DIR="$(mktemp -d)"
+
+cleanup() {
+  local exit_code=$?
+  rm -rf "$TEMP_DIR"
+  printf 'Cleaned temporary workspace: %s (Exit: %d)\n' "$TEMP_DIR" "$exit_code"
+  exit "$exit_code"
+}
+# Trap normal exit (0), Ctrl+C (SIGINT 2), and kill (SIGTERM 15)
+trap cleanup EXIT INT TERM
+
+# Intended non-zero exit guard (e.g. grep finding no matches without failing script)
+grep -q "admin" /etc/passwd || true
+
+printf 'Script payload executing safely in %s\n' "$TEMP_DIR"</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>Strict Mode Flags Breakdown</h3>
+<div class='table-wrap'><table><thead><tr><th>Option</th><th>Name</th><th>Protection Provided</th></tr></thead><tbody>
+<tr><td><code>set -e</code></td><td><code>errexit</code></td><td>Exits script immediately if any command returns a non-zero exit code.</td></tr>
+<tr><td><code>set -u</code></td><td><code>nounset</code></td><td>Treats unset variables as errors when referenced, preventing accidental <code>rm -rf "$DIR/*"</code> when <code>$DIR</code> is unset.</td></tr>
+<tr><td><code>set -o pipefail</code></td><td><code>pipefail</code></td><td>Propagates pipeline errors; ensures <code>cmd1 | cmd2 | cmd3</code> fails if <code>cmd1</code> fails.</td></tr>
+<tr><td><code>IFS=$'\n\t'</code></td><td>Field Separator</td><td>Restricts token splitting to newlines and tabs, preventing spaces from breaking filenames.</td></tr>
+</tbody></table></div>
+
+<div class="callout callout-tip">
+  <strong>💡 Defensive Guard Technique:</strong> When using <code>set -e</code>, if you anticipate that a command may return non-zero under normal circumstances (such as <code>diff</code> detecting changes or <code>pgrep</code> finding no process), append <code>|| true</code> or test it inside an <code>if</code> statement: <code>if grep -q "pattern" file; then ... fi</code>.
+</div>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch23" data-title="text processing with awk" data-category="scripting">
+<div class="chapter-kicker">CHAPTER 23 <span> / </span> ADVANCED TEXT FILTERING</div>
+      <h2>Text processing with awk</h2>
+      <p class="intro">Master the AWK programming model: pattern-action pairs, built-in variables, field delimiters, and production log analytics.</p>
+      <div class="chapter-content">
+<p><code>awk</code> is a complete data-driven programming language designed specifically for text processing, column extraction, and tabular report generation. AWK automatically splits every incoming line into fields (<code>$1</code>, <code>$2</code> ... <code>$NF</code>) based on whitespace or a custom field separator.</p>
+
+<h3>The AWK Execution Lifecycle</h3>
+<ol>
+  <li><strong><code>BEGIN { ... }</code>:</strong> Runs once before any input lines are read (used for initializing headers, delimiters, and variables).</li>
+  <li><strong><code>pattern { action }</code>:</strong> Executes for every input line where the pattern evaluates to True.</li>
+  <li><strong><code>END { ... }</code>:</strong> Runs once after all input lines and files have been processed (used for summaries and totals).</li>
+</ol>
+
+<h3>AWK Built-in Variables Reference</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Variable</th><th>Meaning</th><th>Default Value</th></tr></thead>
+  <tbody>
+    <tr><td><code>$0</code></td><td>Entire current input line</td><td>Raw line text</td></tr>
+    <tr><td><code>$1</code> &ndash; <code>$NF</code></td><td>Individual fields on current line</td><td>Whitespace-delimited words</td></tr>
+    <tr><td><code>NF</code></td><td>Number of fields on current line</td><td>Calculated per line</td></tr>
+    <tr><td><code>$NF</code></td><td>Value of the very last field on the line</td><td>Last column value</td></tr>
+    <tr><td><code>NR</code></td><td>Number of records (lines) processed so far</td><td>Starts at 1, increments</td></tr>
+    <tr><td><code>FS</code></td><td>Field separator (delimiter)</td><td>Space or Tab (set via <code>-F:</code>)</td></tr>
+    <tr><td><code>OFS</code></td><td>Output field separator</td><td>Space (e.g. <code>OFS=","</code>)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code class="language-bash"># Example 1: Extract username and default shell from /etc/passwd
+awk -F: '{ printf "%-20s %s\n", $1, $7 }' /etc/passwd
+
+# Example 2: Sum the total bytes transferred in an Nginx access log (Column 10)
+awk '{ sum += $10 } END { printf "Total Data Transferred: %.2f MB\n", sum / 1024 / 1024 }' access.log
+
+# Example 3: Filter processes using more than 50MB of RAM
+ps aux | awk 'NR>1 &amp;&amp; $6 > 51200 { printf "%-10s %-8s %6.1f MB %s\n", $1, $2, $6/1024, $11 }'</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch24" data-title="vim essentials for developers" data-category="workflows">
+<div class="chapter-kicker">CHAPTER 24 <span> / </span> DEVELOPER FIELD GUIDE</div>
+      <h2>Vim essentials for developers</h2><p class="intro">Master modal editing, navigation shortcuts, and the definitive exit survival matrix.</p>
+      <div class="chapter-content">
+<p>Vim is the omnipresent terminal text editor available on virtually every Unix server, Linux distribution, container, and macOS machine. Learning Vim's core modal editing workflow is essential for server administration.</p>
+
+<pre><code class="language-bash">vim config.json        # Open file in Normal mode
+
+# --- Essential Normal Mode Editing ---
+# Press Esc first to ensure you are in Normal mode:
+# i       : Enter Insert mode before cursor
+# a       : Enter Insert mode after cursor (append)
+# o       : Open new line below cursor and enter Insert mode
+# dd      : Delete (cut) current line
+# 5dd     : Delete 5 lines
+# yy      : Copy (yank) current line
+# p       : Paste copied text below cursor
+# u       : Undo last action
+# Ctrl+r  : Redo undone action
+
+# --- Fast Navigation ---
+# h, j, k, l : Left, Down, Up, Right
+# w / b      : Jump forward / backward by word
+# 0 / $      : Jump to beginning / end of line
+# gg / G     : Jump to first / last line of file
+# :50        : Jump directly to line 50
+# /pattern   : Search forward (press n for next, N for previous)
+# :%s/old/new/g : Replace all occurrences of 'old' with 'new' globally</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>The Definitive Vim Exit Matrix</h3>
+<p>From Normal mode (press <code>Esc</code> first), type <code>:</code> followed by the command and press <code>Enter</code>:</p>
+
+<div class='table-wrap'><table><thead><tr><th>Command</th><th>Action</th><th>Condition / Result</th></tr></thead><tbody>
+<tr><td><code>:wq</code></td><td>Write and Quit</td><td>Saves changes and closes editor</td></tr>
+<tr><td><code>:x</code></td><td>Exit</td><td>Writes only if changes exist, then quits (preserves file modification timestamp)</td></tr>
+<tr><td><code>ZZ</code></td><td>Save and Quit</td><td>Fast keyboard shortcut from Normal mode (no colon required)</td></tr>
+<tr><td><code>:q</code></td><td>Quit</td><td>Closes file if no unsaved changes have been made</td></tr>
+<tr><td><code>:q!</code></td><td>Force Quit</td><td>Discards all unsaved changes and exits immediately</td></tr>
+<tr><td><code>ZQ</code></td><td>Quit Without Saving</td><td>Fast keyboard shortcut from Normal mode (no colon required)</td></tr>
+<tr><td><code>:wq!</code></td><td>Force Save and Quit</td><td>Saves even if file is marked read-only (if user owns the file)</td></tr>
+<tr><td><code>:qa!</code></td><td>Quit All</td><td>Closes all open windows and split buffers, discarding unsaved edits</td></tr>
+</tbody></table></div>
+
+<div class="callout callout-tip">
+  <strong>💡 The Emergency Escape Hatch:</strong> If Vim appears frozen or you are stuck inside a strange mode, press <code>Esc</code> three times, type <code>:q!</code>, and hit <code>Enter</code>. This cleanly aborts without modifying the file.
+</div>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch25" data-title="shell history and operational privacy" data-category="workflows">
+<div class="chapter-kicker">CHAPTER 25 <span> / </span> RECALL &amp; OPERATIONAL HYGIENE</div>
+      <h2>Shell history and operational privacy</h2>
+      <p class="intro">Recall commands instantly with reverse search, leverage history expansion shortcuts, and prevent passwords and tokens from persisting in history logs.</p>
+      <div class="chapter-content">
+<p>Your shell maintains a history list of executed commands. Leveraging keyboard shortcuts speeds up repetition, while configuring operational privacy safeguards against accidentally committing secrets to disk.</p>
+
+<h3>History Expansion Syntax (Bang Operators)</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Shortcut</th><th>What It Expands To</th><th>Practical Example</th></tr></thead>
+  <tbody>
+    <tr><td><code>!!</code></td><td>The entire previous command</td><td><code>apt update</code> &rarr; <code>sudo !!</code> (runs with sudo)</td></tr>
+    <tr><td><code>!$</code></td><td>The last argument of the previous command</td><td><code>mkdir -p /var/log/app</code> &rarr; <code>cd !$</code></td></tr>
+    <tr><td><code>!^</code></td><td>The first argument of the previous command</td><td><code>cp source.txt target.txt</code> &rarr; <code>vim !^</code> (opens source)</td></tr>
+    <tr><td><code>!*</code></td><td>All arguments of the previous command</td><td><code>cat file1 file2</code> &rarr; <code>rm -f !*</code></td></tr>
+    <tr><td><code>!docker</code></td><td>Most recent command starting with "docker"</td><td>Re-runs last docker command</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Operational Privacy &amp; Secret Protection</h3>
+<div class="callout callout-warn">
+  <strong>Credential Leak Prevention:</strong> If you enter commands containing API tokens, database passwords, or private keys, they are written to <code>~/.bash_history</code> in plaintext!
+</div>
+
+<pre><code class="language-bash"># 1. Prevent single commands from entering history (leading space technique):
+# Configure this in ~/.bashrc:
+export HISTCONTROL=ignoreboth  # Ignores duplicates AND commands starting with space
+
+# Then simply type a space before running sensitive commands:
+ export AWS_SECRET_ACCESS_KEY="xyz123"  # Notice the leading space!
+
+# 2. Disable history recording for current session completely:
+set +o history   # Turn off history logging
+# ... execute sensitive commands ...
+set -o history   # Turn history logging back on
+
+# 3. Search history interactively:
+# Press Ctrl+R in terminal, then type search query.
+# Press Ctrl+R again to cycle backward through matches. Press Enter to execute.</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch26" data-title="directory inventories and safe batch file automation" data-category="workflows">
+<div class="chapter-kicker">CHAPTER 26 <span> / </span> BATCH AUTOMATION PATTERNS</div>
+      <h2>Directory inventories and safe batch file automation</h2>
+      <p class="intro">Process thousands of files safely: handle filenames with spaces, newlines, and unicode characters using NUL-delimited pipelines and dry-run flags.</p>
+      <div class="chapter-content">
+<p>Standard shell loops like <code>for f in $(ls)</code> fail catastrophically when filenames contain spaces, tabs, or newlines. Robust file processing scripts must use <strong>NUL-delimited streams</strong> (<code>\0</code>).</p>
+
+<div class="callout callout-tip">
+  <strong>The NUL Byte Invariant:</strong> In Unix, filenames can contain any character except the forward slash (<code>/</code>, which separates directories) and the NUL byte (<code>\0</code>, which terminates strings in C). Therefore, NUL is the only 100% collision-free delimiter.
+</div>
+
+<h3>Production File Batch Processing Loop</h3>
+<pre><code class="language-bash">#!/usr/bin/env bash
+set -euo pipefail
+
+TARGET_DIR="${1:-./data}"
+DRY_RUN=true  # Default to dry-run mode for safety
+
+log() { printf '[%s] %s\n' "$(date +'%Y-%m-%dT%H:%M:%S')" "$*"; }
+
+# Process files safely using process substitution and find -print0:
+while IFS= read -r -d '' file_path; do
+    log "Processing file: $file_path"
+    
+    # Calculate checksum
+    sha=$(sha256sum "$file_path" | cut -d' ' -f1)
+    
+    if [ "$DRY_RUN" = true ]; then
+        log "[DRY-RUN] Would process: $file_path (SHA256: $sha)"
+    else
+        # Perform actual transformation or relocation
+        gzip -9 -k "$file_path"
+        log "[DONE] Compressed: $file_path.gz"
+    fi
+done &lt; &lt;(find "$TARGET_DIR" -type f -name '*.csv' -print0)</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch27" data-title="build a website scaffold with bash" data-category="workflows">
+<div class="chapter-kicker">CHAPTER 27 <span> / </span> PRACTICAL PROJECT SCAFFOLDING</div>
+      <h2>Build a website scaffold with bash</h2>
+      <p class="intro">Automate developer project initialization: scaffold clean directory structures, generate boilerplates via Heredocs, and configure git repositories.</p>
+      <div class="chapter-content">
+<p>Repetitive project initialization is a prime candidate for shell automation. Here is a production-grade Bash generator that builds an HTML5/CSS/JavaScript project structure with standard git configuration in milliseconds.</p>
+
+<pre><code class="language-bash">#!/usr/bin/env bash
+set -euo pipefail
+
+PROJECT_NAME="${1:?Error: Project name required as first argument}"
+TARGET_DIR="./$PROJECT_NAME"
+
+if [[ -d "$TARGET_DIR" ]]; then
+    echo "Error: Directory '$TARGET_DIR' already exists." >&2
+    exit 1
+fi
+
+echo "Scaffolding web project at: $TARGET_DIR..."
+
+# 1. Create directory hierarchy
+mkdir -p "$TARGET_DIR"/{css,js,assets/images,docs}
+
+# 2. Inject HTML5 boilerplate via Heredoc
+cat &lt;&lt;EOF &gt; "$TARGET_DIR/index.html"
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;$PROJECT_NAME&lt;/title&gt;
+  &lt;link rel="stylesheet" href="css/style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header&gt;
+    &lt;h1&gt;Welcome to $PROJECT_NAME&lt;/h1&gt;
+  &lt;/header&gt;
+  &lt;main&gt;
+    &lt;p&gt;Scaffolded via Unix Bash Automation.&lt;/p&gt;
+  &lt;/main&gt;
+  &lt;script src="js/app.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+EOF
+
+# 3. Inject CSS boilerplate
+cat &lt;&lt;'EOF' &gt; "$TARGET_DIR/css/style.css"
+:root { --font-sans: system-ui, -apple-system, sans-serif; --bg: #0f172a; --text: #f8fafc; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); background: var(--bg); color: var(--text); padding: 2rem; }
+EOF
+
+# 4. Inject Git ignore file
+cat &lt;&lt;'EOF' &gt; "$TARGET_DIR/.gitignore"
+.DS_Store
+node_modules/
+dist/
+*.log
+.env
+EOF
+
+# 5. Initialize git repository
+cd "$TARGET_DIR"
+git init -q
+git add .
+git commit -q -m "Initial commit from bash scaffolder"
+
+echo "Project scaffolded successfully in $TARGET_DIR"</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch28" data-title="developer workflows: git, builds, logs and remote servers" data-category="workflows">
+<div class="chapter-kicker">CHAPTER 28 <span> / </span> DEVELOPER FIELD GUIDE</div>
+      <h2>Developer workflows: Git, builds, logs and remote servers</h2><p class="intro">Connect shell skills to everyday software engineering.</p>
+      <div class="chapter-content"><h3>Git and repository inspection</h3><pre><code class="language-bash">git status --short --branch
+git diff
+git log --oneline --decorate -10
+find . -maxdepth 2 -type f | sort
+grep -Rni --exclude-dir=.git &#x27;TODO\|FIXME&#x27; .</code><button class="copy" type="button">Copy</button></pre><h3>Build and test commands</h3><pre><code class="language-bash"># Generic pattern; replace with your project&#x27;s actual commands
+./configure
+make -j&quot;$(getconf _NPROCESSORS_ONLN 2&gt;/dev/null || echo 2)&quot;
+make test
+
+# Node project example
+npm ci
+npm test
+npm run build</code><button class="copy" type="button">Copy</button></pre><h3>Remote development</h3><pre><code class="language-bash">ssh user@server
+scp ./artifact.tar.gz user@server:/tmp/
+rsync -av --dry-run ./dist/ user@server:/var/www/app/
+# Review the dry-run output before removing --dry-run.</code><button class="copy" type="button">Copy</button></pre><p>Treat deployment commands as production operations. Verify host, user, destination and backup before copying or deleting. Use SSH keys and a least-privilege account rather than routinely logging in as root.</p></div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch29" data-title="networking and service troubleshooting" data-category="workflows">
+<div class="chapter-kicker">CHAPTER 29 <span> / </span> DEVELOPER FIELD GUIDE</div>
+      <h2>Networking and service troubleshooting</h2><p class="intro">Diagnose DNS resolution, listening ports, network sockets, HTTP endpoints, and firewalls.</p>
+      <div class="chapter-content">
+<p>A software developer should be able to diagnose connection timeouts, port conflicts, DNS propagation issues, and HTTP header anomalies directly from the terminal.</p>
+
+<pre><code class="language-bash"># Inspecting IP addresses and routes
+ip -br addr            # Linux: compact network interface view
+ifconfig               # macOS / legacy Unix interface list
+ip route               # Show default gateway and routing table
+
+# Identifying listening ports and active sockets
+ss -tulpn              # Linux: show TCP/UDP listening sockets with process names
+lsof -i :8080          # Cross-platform (macOS &amp; Linux): show process holding port 8080
+kill -9 $(lsof -t -i :8080) # Terminate hung process occupying port 8080
+
+# Testing port connectivity
+nc -zv api.example.com 443   # Test if remote TCP port is open and accepting traffic
+
+# DNS diagnostics
+dig +short api.example.com   # Query DNS A-records
+dig +trace example.com       # Trace hierarchical DNS resolution from root servers
+nslookup example.com         # Simple DNS lookup query
+
+# HTTP probing
+curl -I -s https://api.example.com        # Fetch response headers only (status, CDN, CORS)
+curl -v https://api.example.com           # Verbose mode: inspect TLS handshake and headers
+curl -w "Time total: %{time_total}s\n" -o /dev/null -s https://example.com # Measure request latency</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>Network Diagnostic Quick Reference</h3>
+<div class='table-wrap'><table><thead><tr><th>Diagnostic Goal</th><th>Linux Command</th><th>macOS Command</th></tr></thead><tbody>
+<tr><td>Find what holds a local port</td><td><code>ss -tulpn | grep :PORT</code></td><td><code>lsof -i :PORT</code></td></tr>
+<tr><td>Test remote port connectivity</td><td><code>nc -zv host port</code></td><td><code>nc -zv host port</code></td></tr>
+<tr><td>Inspect HTTP response headers</td><td><code>curl -I https://url</code></td><td><code>curl -I https://url</code></td></tr>
+<tr><td>Display network interfaces</td><td><code>ip -br addr</code></td><td><code>ifconfig</code></td></tr>
+<tr><td>Check DNS records</td><td><code>dig +short host</code></td><td><code>dig +short host</code></td></tr>
+</tbody></table></div>
+
+<div class="callout callout-mac">
+  <strong>🍏 macOS Networking Nuance:</strong> macOS does not include the modern Linux <code>ip</code> or <code>ss</code> binaries. Instead, use <code>lsof -i :PORT</code> for port inspection and <code>networksetup -getv4networkservice</code> or <code>ifconfig</code> for interface details.
+</div>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch30" data-title="scheduling: cron and one-off tasks" data-category="workflows">
+<div class="chapter-kicker">CHAPTER 30 <span> / </span> DEVELOPER FIELD GUIDE</div>
+      <h2>Scheduling: cron and one-off tasks</h2><p class="intro">Automate recurring scripts with cron and understand the minimal cron environment.</p>
+      <div class="chapter-content">
+<p>The <strong>cron</strong> daemon schedules recurring background jobs. Each user maintains their own crontab file.</p>
+
+<pre><code class="language-bash">crontab -l             # List active cron jobs for current user
+crontab -e             # Edit crontab file in configured $EDITOR
+crontab -r             # Remove current crontab file (use with caution!)
+
+# Example crontab entry structure:
+# Run database backup every night at 02:30 AM:
+30 2 * * * /home/deploy/scripts/backup.sh >> /var/log/backup.log 2>&amp;1</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>The 5-Asterisk Cron Syntax</h3>
+<pre><code class="language-text">* * * * * command_to_execute
+| | | | |
+| | | | +----- Day of Week (0 - 7) (0 and 7 are Sunday)
+| | | +------- Month (1 - 12)
+| | +--------- Day of Month (1 - 31)
+| +----------- Hour (0 - 23)
++------------- Minute (0 - 59)</code></pre>
+
+<div class='table-wrap'><table><thead><tr><th>Schedule Expression</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><code>*/15 * * * *</code></td><td>Every 15 minutes</td></tr>
+<tr><td><code>0 * * * *</code></td><td>At minute 0 of every hour (hourly)</td></tr>
+<tr><td><code>30 2 * * *</code></td><td>Every day at 02:30 AM</td></tr>
+<tr><td><code>0 0 * * 1</code></td><td>Every Monday at midnight</td></tr>
+<tr><td><code>0 0 1 * *</code></td><td>At midnight on the 1st of every month</td></tr>
+<tr><td><code>@reboot</code></td><td>Executes once automatically upon system boot</td></tr>
+<tr><td><code>@daily</code></td><td>Shortcut for <code>0 0 * * *</code></td></tr>
+</tbody></table></div>
+
+<div class="callout callout-warn">
+  <strong>⚠️ The Cron Environment Gotcha:</strong> Cron executes with a stripped-down, minimal environment. It does <strong>not</strong> load your <code>~/.bashrc</code> or <code>~/.zshrc</code>, and its <code>$PATH</code> is typically restricted to <code>/usr/bin:/bin</code>. Always specify absolute paths for binaries (e.g. <code>/usr/local/bin/node</code>) or declare <code>PATH=/usr/local/bin:/usr/bin:/bin</code> at the top of your crontab file!
+</div>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch31" data-title="security essentials for shell users" data-category="workflows">
+<div class="chapter-kicker">CHAPTER 31 <span> / </span> OPERATIONAL SECURITY</div>
+      <h2>Security essentials for shell users</h2>
+      <p class="intro">Harden your shell environment: prevent command injection vulnerabilities, audit SUID/SGID binaries, manage secrets securely, and use atomic temporary files.</p>
+      <div class="chapter-content">
+<p>Shell scripts frequently execute with elevated privileges or handle untrusted input from webhooks, API requests, and environment variables. Failing to sanitize inputs leads directly to remote code execution (RCE) vulnerabilities.</p>
+
+<h3>The Golden Rules of Shell Security</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Rule</th><th>Vulnerability</th><th>Secure Pattern</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Never use <code>eval</code></strong></td><td>Arbitrary code execution via shell metacharacters (<code>;</code>, <code>|</code>, <code>`</code>)</td><td>Use arrays, indirect expansions, or safe builtins</td></tr>
+    <tr><td><strong>Always quote variables</strong></td><td>Argument injection and path traversal</td><td><code>cat -- "$user_supplied_filename"</code></td></tr>
+    <tr><td><strong>Pass <code>--</code> to commands</strong></td><td>Flag injection (e.g. filename starting with <code>--</code>)</td><td><code>grep -e "$pattern" -- "$file"</code></td></tr>
+    <tr><td><strong>Atomic temp files</strong></td><td>Symlink race conditions in <code>/tmp</code> (TOCTOU attacks)</td><td>Use <code>mktemp</code> or <code>mktemp -d</code></td></tr>
+    <tr><td><strong>Audit SUID binaries</strong></td><td>Privilege escalation via misconfigured setuid programs</td><td>Inspect with <code>find / -perm -4000</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-warn">
+  <strong>The <code>eval</code> Trap:</strong> <code>eval "$user_input"</code> evaluates text as raw shell code. If <code>user_input</code> contains <code>; rm -rf /</code>, the command executes with full user privileges!
+</div>
+
+<pre><code class="language-bash"># 1. Create secure, race-free temporary files and directories:
+TEMP_DIR=$(mktemp -d "/tmp/app_build.XXXXXX")
+TEMP_FILE=$(mktemp "/tmp/app_data.XXXXXX")
+# Guarantee cleanup on script exit or interrupt:
+trap 'rm -rf "$TEMP_DIR" "$TEMP_FILE"' EXIT INT TERM
+
+# 2. Audit all SUID binaries on Linux system
+find / -perm -4000 -type f -exec ls -la {} + 2>/dev/null
+
+# 3. Read secrets safely without echoing to screen or history:
+read -s -p "Enter API Secret: " API_KEY
+echo ""  # Add newline after silent read
+
+# 4. Restrict permissions on sensitive configuration files:
+chmod 600 ~/.ssh/id_rsa ~/.pgpass ~/.netrc</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch32" data-title="debugging shell scripts" data-category="workflows">
+<div class="chapter-kicker">CHAPTER 32 <span> / </span> DEBUGGING &amp; TRACING</div>
+      <h2>Debugging shell scripts</h2>
+      <p class="intro">Diagnose script bugs with execution tracing, custom PS4 line-number prompts, trap debugging, and static analysis via ShellCheck.</p>
+      <div class="chapter-content">
+<p>Debugging a shell script without proper tooling often devolves into scattering <code>echo</code> statements throughout the code. Bash provides powerful built-in tracing, error trapping, and static analysis capabilities.</p>
+
+<h3>Bash Debugging Flags Table</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Flag</th><th>Mode Name</th><th>Effect</th></tr></thead>
+  <tbody>
+    <tr><td><code>-n</code></td><td>No-exec syntax check</td><td>Parses script syntax without executing any commands. Catches missing <code>fi</code>, <code>done</code>, or quotes.</td></tr>
+    <tr><td><code>-v</code></td><td>Verbose</td><td>Prints shell input lines exactly as they are read before expansion.</td></tr>
+    <tr><td><code>-x</code></td><td>Execution trace (xtrace)</td><td>Prints each command after argument expansion with a leading <code>+</code>.</td></tr>
+    <tr><td><code>-u</code></td><td>Nounset</td><td>Treats unset variables as errors and terminates immediately.</td></tr>
+    <tr><td><code>-e</code></td><td>Errexit</td><td>Exits immediately if any unhandled command returns non-zero.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Custom <code>PS4</code> Execution Trace Architecture</h3>
+<p>By default, <code>bash -x</code> only prefixes output with <code>+</code>. By customizing the <code>PS4</code> prompt variable, you can display the exact script source file, line number, and active function name!</p>
+
+<pre><code class="language-bash">#!/usr/bin/env bash
+# Set rich debug tracing prompt:
+export PS4='+ [${BASH_SOURCE[0]##*/}:${LINENO}] ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
+
+# Toggle debugging dynamically for a specific code block only:
+echo "Normal execution..."
+
+set -x  # Turn on execution tracing
+user_id="4812"
+api_url="https://api.internal/users/$user_id"
+response=$(curl -s "$api_url")
+set +x  # Turn off execution tracing
+
+echo "Execution trace completed."</code><button class="copy" type="button">Copy</button></pre>
+
+<div class="callout callout-tip">
+  <strong>Static Analysis with ShellCheck:</strong> Always run <code>shellcheck script.sh</code> before deploying. ShellCheck detects quoting bugs, subshell pitfalls, and portability errors before execution.
+</div>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch33" data-title="posix sh vs bash: portability checklist" data-category="workflows">
+<div class="chapter-kicker">CHAPTER 33 <span> / </span> PORTABILITY STANDARDS</div>
+      <h2>POSIX sh vs bash: portability checklist</h2>
+      <p class="intro">Identify non-portable Bashisms, adapt scripts for Alpine Linux (musl/ash) and Ubuntu (/bin/sh -> dash), and write strictly conforming POSIX scripts.</p>
+      <div class="chapter-content">
+<p>Many scripts written with a <code>#!/bin/sh</code> shebang accidentally use GNU Bash extensions ("Bashisms"). When run in lightweight Alpine Linux containers (using Busybox <code>ash</code>) or Debian/Ubuntu systems (where <code>/bin/sh</code> points to <code>dash</code>), these scripts fail with cryptic syntax errors.</p>
+
+<h3>Bashisms vs. POSIX Compliant Equivalents</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Feature</th><th>Non-Portable Bashism</th><th>POSIX Compliant Equivalent</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Tests</strong></td><td><code>[[ $str =~ regex ]]</code></td><td>Use <code>[ ... ]</code> and pipe to <code>expr</code> or <code>grep -q -E</code></td></tr>
+    <tr><td><strong>Arrays</strong></td><td><code>declare -a arr=(a b c)</code></td><td>Use space-delimited strings or positional parameters (<code>set -- a b c</code>)</td></tr>
+    <tr><td><strong>Here-Strings</strong></td><td><code>cmd &lt;&lt;&lt; "$string"</code></td><td><code>printf '%s\n' "$string" | cmd</code></td></tr>
+    <tr><td><strong>Function Definition</strong></td><td><code>function my_func() { ... }</code></td><td><code>my_func() { ... }</code> (Omit the <code>function</code> keyword!)</td></tr>
+    <tr><td><strong>Output Redirection</strong></td><td><code>cmd &amp;&gt; output.log</code></td><td><code>cmd &gt; output.log 2&gt;&amp;1</code></td></tr>
+    <tr><td><strong>Sourcing Files</strong></td><td><code>source ./config.env</code></td><td><code>. ./config.env</code> (Dot operator is universal)</td></tr>
+    <tr><td><strong>Echo Escapes</strong></td><td><code>echo -e "line\n"</code></td><td><code>printf '%s\n' "line"</code> (Never use <code>echo -e</code> in POSIX)</td></tr>
+    <tr><td><strong>Substring Replacement</strong></td><td><code>${VAR//find/replace}</code></td><td>Pipe through <code>sed</code> or <code>awk</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-tip">
+  <strong>Automated Linter:</strong> Install <code>checkbashisms</code> (available via package managers) to scan POSIX scripts and flag incompatible syntax automatically.
+</div>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch34" data-title="capstone 1: project health-check script" data-category="capstones">
+<div class="chapter-kicker">CHAPTER 34 <span> / </span> PRODUCTION CAPSTONE 1</div>
+      <h2>Capstone 1: project health-check script</h2>
+      <p class="intro">A complete, production-grade system and service diagnostic tool featuring colorized reporting, disk and memory checks, and exit status aggregation.</p>
+      <div class="chapter-content">
+<p>This capstone script inspects host health, verifies network connectivity to critical endpoints, confirms required binaries exist, checks disk and RAM thresholds, and returns non-zero if any check fails.</p>
+
+<pre><code class="language-bash">#!/usr/bin/env bash
+# ==============================================================================
+# Capstone 1: Host & Service Health Check Utility
+# ==============================================================================
+set -euo pipefail
+
+# ANSI Color Codes
+readonly C_RESET='\033[0m'
+readonly C_RED='\033[0;31m'
+readonly C_GREEN='\033[0;32m'
+readonly C_YELLOW='\033[1;33m'
+readonly C_CYAN='\033[0;36m'
+
+FAILED_CHECKS=0
+
+check_status() {
+    local title="$1"
+    local status="$2"
+    local details="$3"
+    
+    if [ "$status" -eq 0 ]; then
+        printf "${C_GREEN}[PASS]${C_RESET} %-30s : %s\n" "$title" "$details"
+    else
+        printf "${C_RED}[FAIL]${C_RESET} %-30s : %s\n" "$title" "$details"
+        ((FAILED_CHECKS++))
+    fi
+}
+
+echo -e "${C_CYAN}======================================================${C_RESET}"
+echo -e "${C_CYAN} SYSTEM HEALTH MONITOR : $(hostname) ($(date -u +%FT%TZ)) ${C_RESET}"
+echo -e "${C_CYAN}======================================================${C_RESET}"
+
+# 1. Disk Space Inspection (Root Partition < 85%)
+DISK_USAGE=$(df -h / | awk 'NR==2 {print $5}' | tr -d '%')
+if (( DISK_USAGE &lt; 85 )); then
+    check_status "Root Disk Capacity" 0 "${DISK_USAGE}% utilized (Under 85%)"
+else
+    check_status "Root Disk Capacity" 1 "CRITICAL: ${DISK_USAGE}% utilized"
+fi
+
+# 2. Memory Utilization
+MEM_FREE_MB=$(free -m 2>/dev/null | awk '/^Mem:/ {print $7}' || echo "N/A")
+check_status "Available RAM" 0 "${MEM_FREE_MB} MB available"
+
+# 3. Essential Binaries Check
+for bin in curl git tar docker; do
+    if command -v "$bin" >/dev/null 2>&1; then
+        check_status "Binary: $bin" 0 "$(command -v "$bin")"
+    else
+        check_status "Binary: $bin" 1 "Missing binary from PATH"
+    fi
+done
+
+# 4. Outbound Internet Connectivity Check
+if curl -s --connect-timeout 3 https://1.1.1.1 >/dev/null 2>&1; then
+    check_status "Outbound Connectivity" 0 "DNS & HTTP handshake successful"
+else
+    check_status "Outbound Connectivity" 1 "Failed to reach external network"
+fi
+
+echo -e "${C_CYAN}------------------------------------------------------${C_RESET}"
+if [ "$FAILED_CHECKS" -eq 0 ]; then
+    echo -e "${C_GREEN}All systems operational.${C_RESET}"
+    exit 0
+else
+    echo -e "${C_RED}Health check failed with $FAILED_CHECKS issue(s).${C_RESET}" >&2
+    exit 1
+fi</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch35" data-title="capstone 2: log analyzer with awk" data-category="capstones">
+<div class="chapter-kicker">CHAPTER 35 <span> / </span> PRODUCTION CAPSTONE 2</div>
+      <h2>Capstone 2: log analyzer with awk</h2>
+      <p class="intro">High-performance log parsing: analyze Nginx/Apache access logs to extract HTTP status code distributions, bandwidth consumption, and top client IP addresses.</p>
+      <div class="chapter-content">
+<p>When incident triage requires analyzing a multi-gigabyte access log on a remote server, external logging UIs may be inaccessible. This AWK script processes millions of lines in seconds.</p>
+
+<pre><code class="language-bash">#!/usr/bin/env bash
+# ==============================================================================
+# Capstone 2: Production Log Analyzer via AWK
+# Usage: ./log_analyzer.sh /var/log/nginx/access.log
+# ==============================================================================
+set -euo pipefail
+
+LOG_FILE="${1:?Usage: $0 <path_to_access.log>}"
+
+if [[ ! -f "$LOG_FILE" ]]; then
+    echo "Error: File '$LOG_FILE' not found." >&2
+    exit 1
+fi
+
+awk '
+BEGIN {
+    print "=================================================";
+    print " ACCESS LOG ANALYTICS REPORT                     ";
+    print "=================================================";
+}
+{
+    total_requests++;
+    ip = $1;
+    status = $9;
+    bytes = $10;
+    
+    # Track status code categories
+    if (status ~ /^2/) status_2xx++;
+    else if (status ~ /^3/) status_3xx++;
+    else if (status ~ /^4/) status_4xx++;
+    else if (status ~ /^5/) status_5xx++;
+    
+    # Track IP frequencies and bytes
+    ip_count[ip]++;
+    if (bytes != "-") total_bytes += bytes;
+}
+END {
+    printf "Total Requests Analyzed : %'"'"'d\n", total_requests;
+    printf "Total Bandwidth Served  : %.2f MB\n", total_bytes / 1024 / 1024;
+    print "\n--- HTTP Status Code Breakdown ---";
+    printf "2xx (Success)    : %-8d (%.1f%%)\n", status_2xx, (status_2xx/total_requests)*100;
+    printf "3xx (Redirect)   : %-8d (%.1f%%)\n", status_3xx, (status_3xx/total_requests)*100;
+    printf "4xx (Client Err) : %-8d (%.1f%%)\n", status_4xx, (status_4xx/total_requests)*100;
+    printf "5xx (Server Err) : %-8d (%.1f%%)\n", status_5xx, (status_5xx/total_requests)*100;
+    
+    print "\n--- Top 5 Client IP Addresses ---";
+    n = asorti(ip_count, sorted_ips, "@val_num_desc");
+    for (i = 1; i <= 5 && i <= n; i++) {
+        client = sorted_ips[i];
+        printf "%-18s : %d hits (%.1f%%)\n", client, ip_count[client], (ip_count[client]/total_requests)*100;
+    }
+    print "=================================================";
+}
+' "$LOG_FILE"</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch36" data-title="capstone 3: safe batch organizer" data-category="capstones">
+<div class="chapter-kicker">CHAPTER 36 <span> / </span> PRODUCTION CAPSTONE 3</div>
+      <h2>Capstone 3: safe batch organizer</h2>
+      <p class="intro">Automate file organization: categorize files by extension and creation date, create rollback audit manifests, and support dry-run previews.</p>
+      <div class="chapter-content">
+<p>This script reorganizes chaotic directory trees into structured subdirectories (e.g. <code>documents/</code>, <code>images/</code>, <code>archives/</code>). It guarantees zero data loss by generating a timestamped rollback manifest before making changes.</p>
+
+<pre><code class="language-bash">#!/usr/bin/env bash
+# ==============================================================================
+# Capstone 3: Safe Batch File Organizer with Rollback Manifest
+# Usage: ./batch_organizer.sh [--dry-run] <target_dir>
+# ==============================================================================
+set -euo pipefail
+
+DRY_RUN=false
+[[ "${1:-}" == "--dry-run" ]] &amp;&amp; { DRY_RUN=true; shift; }
+
+TARGET_DIR="${1:?Usage: $0 [--dry-run] <target_dir>}"
+MANIFEST_FILE="$TARGET_DIR/organizer_rollback_$(date +%Y%m%d_%H%M%S).tsv"
+
+mkdir -p "$TARGET_DIR"/{docs,images,archives,data,misc}
+
+log() { printf '[%s] %s\n' "$(date +'%H:%M:%S')" "$*"; }
+
+log "Starting organization for: $TARGET_DIR (Dry Run: $DRY_RUN)"
+[[ "$DRY_RUN" == false ]] &amp;&amp; printf "SOURCE\tDESTINATION\n" > "$MANIFEST_FILE"
+
+find "$TARGET_DIR" -maxdepth 1 -type f -print0 | while IFS= read -r -d '' filepath; do
+    filename=$(basename "$filepath")
+    ext="${filename##*.}"
+    ext=$(echo "$ext" | tr '[:upper:]' '[:lower:]')
+    
+    case "$ext" in
+        pdf|doc|docx|txt|md)  category="docs" ;;
+        jpg|jpeg|png|gif|svg) category="images" ;;
+        zip|tar|gz|bz2|xz)    category="archives" ;;
+        csv|json|xml|yaml|yml) category="data" ;;
+        *)                    category="misc" ;;
+    esac
+    
+    dest="$TARGET_DIR/$category/$filename"
+    
+    if [ "$DRY_RUN" = true ]; then
+        log "[PREVIEW] Move '$filename' -> '$category/'"
+    else
+        printf "%s\t%s\n" "$filepath" "$dest" >> "$MANIFEST_FILE"
+        mv -n "$filepath" "$dest"
+        log "[MOVED] '$filename' -> '$category/'"
+    fi
+done
+
+log "Batch organization complete."
+[[ "$DRY_RUN" == false ]] &amp;&amp; log "Rollback manifest saved at: $MANIFEST_FILE"</code><button class="copy" type="button">Copy</button></pre>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch37" data-title="exercises and 30-day learning plan" data-category="capstones">
+<div class="chapter-kicker">CHAPTER 37 <span> / </span> 30-DAY CURRICULUM</div>
+      <h2>Exercises and 30-day learning plan</h2>
+      <p class="intro">A structured four-week learning curriculum designed to transition any software engineer from basic terminal user to confident command-line master.</p>
+      <div class="chapter-content">
+<p>Fluency is built through deliberate daily repetition. Follow this 30-day roadmap spending 20-30 minutes each day writing commands and scripts in a personal sandbox.</p>
+
+<h3>Week-by-Week Mastery Schedule</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Week</th><th>Theme</th><th>Daily Modules &amp; Objectives</th><th>Self-Evaluation Milestone</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Week 1: Foundations &amp; Navigation</strong></td>
+      <td>CLI Survival, Filesystems &amp; Basic Commands</td>
+      <td>
+        <strong>Day 1-2:</strong> Shell architecture &amp; manual navigation (<code>man</code>, <code>less</code>)<br>
+        <strong>Day 3-4:</strong> FHS navigation, directory stacks (<code>pushd</code>/<code>popd</code>)<br>
+        <strong>Day 5-7:</strong> Safe file operations, globbing &amp; brace expansions
+      </td>
+      <td>Can navigate nested trees and manipulate files without using mouse or GUI finder.</td>
+    </tr>
+    <tr>
+      <td><strong>Week 2: Streams &amp; Text Processing</strong></td>
+      <td>Pipelines, Redirection &amp; Regex</td>
+      <td>
+        <strong>Day 8-10:</strong> File descriptors, stderr redirection &amp; Heredocs<br>
+        <strong>Day 11-12:</strong> Pipelines with <code>grep</code>, <code>sort</code>, <code>uniq</code>, <code>cut</code><br>
+        <strong>Day 13-14:</strong> Inode search with <code>find</code> and <code>xargs -0</code>
+      </td>
+      <td>Can parse server access logs and extract top IP addresses in a one-liner pipeline.</td>
+    </tr>
+    <tr>
+      <td><strong>Week 3: Scripting &amp; Defensive Logic</strong></td>
+      <td>Bash Scripting, Conditionals &amp; Flow Control</td>
+      <td>
+        <strong>Day 15-17:</strong> Script shebangs, strict mode (<code>set -euo pipefail</code>), variables<br>
+        <strong>Day 18-19:</strong> Tests (<code>[[ ... ]]</code>), integer math &amp; case branching<br>
+        <strong>Day 20-21:</strong> Loops, safe file iteration &amp; error traps (<code>trap EXIT</code>)
+      </td>
+      <td>Can write an automated backup script with argument validation and error trapping.</td>
+    </tr>
+    <tr>
+      <td><strong>Week 4: Advanced Systems &amp; Capstones</strong></td>
+      <td>Processes, AWK, Security &amp; Full Automation</td>
+      <td>
+        <strong>Day 22-24:</strong> Signals, jobs, PATH resolution &amp; operational privacy<br>
+        <strong>Day 25-27:</strong> Production AWK reports &amp; Vim modal editing<br>
+        <strong>Day 28-30:</strong> Complete Capstones 1, 2, and 3
+      </td>
+      <td>Can build resilient DevOps automation and troubleshoot remote production systems under pressure.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Daily Verification Challenges</h3>
+<ul>
+  <li><strong>Challenge 1:</strong> Find all files in <code>/var/log</code> modified in the last 48 hours larger than 10MB and compress them with <code>gzip</code> using <code>xargs -0</code>.</li>
+  <li><strong>Challenge 2:</strong> Write a Bash function that computes the SHA256 checksum of every <code>.sh</code> script in the current directory and warns if any script lacks execution permissions.</li>
+  <li><strong>Challenge 3:</strong> Build an AWK script that reads <code>/etc/passwd</code> and prints a clean columnized table showing Username, UID, Home Directory, and Login Shell for all accounts with UID &ge; 1000.</li>
+</ul>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch38" data-title="essential command quick reference" data-category="capstones">
+<div class="chapter-kicker">CHAPTER 38 <span> / </span> DEVELOPER FIELD GUIDE</div>
+      <h2>Essential command quick reference</h2><p class="intro">A comprehensive, categorized cheat sheet for daily developer operations.</p>
+      <div class="chapter-content">
+
+<h3>1. Filesystem &amp; Navigation</h3>
+<div class='table-wrap'><table><thead><tr><th>Task</th><th>Command Pattern</th><th>Notes</th></tr></thead><tbody>
+<tr><td>Print current path</td><td><code>pwd</code></td><td>Displays absolute working directory</td></tr>
+<tr><td>Detailed list with hidden files</td><td><code>ls -lah</code></td><td>Human-readable sizes (K, M, G)</td></tr>
+<tr><td>Sort by modification time</td><td><code>ls -lt | head -n 10</code></td><td>Most recently modified files first</td></tr>
+<tr><td>Create nested folder hierarchy</td><td><code>mkdir -p src/{components,utils,api}</code></td><td>Creates parent directories as needed</td></tr>
+<tr><td>Find files by name</td><td><code>find . -type f -name '*.ts'</code></td><td>Recursively inspects subdirectories</td></tr>
+<tr><td>Find files larger than 100MB</td><td><code>find /var/log -type f -size +100M</code></td><td>Identifies disk hogs</td></tr>
+<tr><td>Disk usage summary</td><td><code>df -h; du -sh * | sort -h</code></td><td>Partition capacity and folder sizes</td></tr>
+</tbody></table></div>
+
+<h3>2. Text Processing &amp; Search</h3>
+<div class='table-wrap'><table><thead><tr><th>Task</th><th>Command Pattern</th><th>Notes</th></tr></thead><tbody>
+<tr><td>Recursive case-insensitive grep</td><td><code>grep -Rni 'SECRET_KEY' .</code></td><td>Line numbers and matched paths</td></tr>
+<tr><td>Extract column with awk</td><td><code>awk -F: '{print $1, $7}' /etc/passwd</code></td><td>Custom delimiter (colon)</td></tr>
+<tr><td>In-place stream edit (Linux GNU)</td><td><code>sed -i 's/http:/https:/g' file.txt</code></td><td>Modifies file directly</td></tr>
+<tr><td>In-place stream edit (macOS BSD)</td><td><code>sed -i '' 's/http:/https:/g' file.txt</code></td><td>Requires empty string for no backup</td></tr>
+<tr><td>Batch command with xargs</td><td><code>find . -name '*.tmp' -print0 | xargs -0 rm -v</code></td><td>Safe against spaces in filenames</td></tr>
+<tr><td>Count lines, words, characters</td><td><code>wc -l file.txt</code></td><td>Number of lines in file</td></tr>
+</tbody></table></div>
+
+<h3>3. Process &amp; System Administration</h3>
+<div class='table-wrap'><table><thead><tr><th>Task</th><th>Command Pattern</th><th>Notes</th></tr></thead><tbody>
+<tr><td>Inspect running processes</td><td><code>ps aux | grep nginx</code></td><td>Active process status and CPU/RAM</td></tr>
+<tr><td>Find process ID by name</td><td><code>pgrep -af node</code></td><td>Prints PID and full command line</td></tr>
+<tr><td>Graceful termination</td><td><code>kill -15 PID</code></td><td>Sends SIGTERM allowing clean shutdown</td></tr>
+<tr><td>Forced termination</td><td><code>kill -9 PID</code></td><td>Kernel kills process immediately</td></tr>
+<tr><td>Port kill one-liner</td><td><code>kill -9 $(lsof -t -i :3000)</code></td><td>Frees up occupied development port</td></tr>
+<tr><td>Listening ports</td><td><code>ss -tulpn  # Linux | lsof -i  # macOS</code></td><td>Active network sockets</td></tr>
+</tbody></table></div>
+
+<h3>4. Shell Scripting &amp; Quality Control</h3>
+<div class='table-wrap'><table><thead><tr><th>Task</th><th>Command Pattern</th><th>Notes</th></tr></thead><tbody>
+<tr><td>Validate script syntax without running</td><td><code>bash -n script.sh</code></td><td>Catches missing fi, quotes, syntax errors</td></tr>
+<tr><td>Debug script with execution trace</td><td><code>bash -x script.sh</code></td><td>Prints each command as executed</td></tr>
+<tr><td>Static analysis with ShellCheck</td><td><code>shellcheck script.sh</code></td><td>Catches latent bugs and portability issues</td></tr>
+<tr><td>Make script executable</td><td><code>chmod +x script.sh</code></td><td>Grants execution permission bit</td></tr>
+<tr><td>Check previous exit code</td><td><code>echo $?</code></td><td>0 = success, 1-255 = failure</td></tr>
+</tbody></table></div>
+
+<h3>Daily Shell Safety Checklist</h3>
+<ul>
+  <li><strong>Check Location:</strong> Am I in the directory I think I am? (<code>pwd</code>)</li>
+  <li><strong>Quote Variables:</strong> Have I double-quoted all variable expansions (<code>"$VAR"</code>)?</li>
+  <li><strong>Preview Destructive Actions:</strong> Have I previewed bulk removals with <code>echo rm ...</code> or <code>find ... -print</code>?</li>
+  <li><strong>Check Exit Codes:</strong> Did the previous command succeed before running dependent operations?</li>
+  <li><strong>Privacy Guard:</strong> Am I entering secrets with a leading space or environment variables to prevent history leaks?</li>
+</ul>
+</div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+<section class="chapter" id="ch39" data-title="deep dive tutorial: bourne shell conditionals, operators and file tests" data-category="capstones">
+<div class="chapter-kicker">CHAPTER 39 <span> / </span> DEEP DIVE TUTORIAL</div>
+      <h2>Deep dive tutorial: Bourne shell conditionals, operators and file tests</h2><p class="intro">An in-depth, hands-on masterclass reconstructing all foundational lessons, script mechanics, arithmetic/relational/boolean operators, and the exhaustive 14 file test expressions from <code>unix examples.txt</code> with modern defensive engineering annotations.</p>
+      <div class="chapter-content">
+
+<div class="callout callout-info">
+  <strong>Architectural Significance of the Bourne Shell:</strong>
+  The original Bourne shell (<code>/bin/sh</code>), designed by Stephen Bourne at Bell Labs in 1977 for Unix Version 7, introduced the syntax rules, test primitives, and tokenization conventions that power modern POSIX shells, GNU Bash, and Zsh today. Understanding how the Bourne shell tokenizes square brackets, handles stateful file persistence, and evaluates operator suites is the ultimate masterclass in shell engineering.
+</div>
+
+<h3>Deep Dive Curriculum Overview</h3>
+<p>This masterclass expands every lesson and script from the classic <code>unix examples.txt</code> curriculum with complete mechanical explanations, annotated code blocks, and modern safety guidelines:</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Module</th><th>Core Concept</th><th>Key Primitives &amp; Operators</th><th>Engineering Focus</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Module 1</strong></td><td>If/Else Branching &amp; Tokenization</td><td><code>if [ "$a" == "$b" ]; then ... else ... fi</code></td><td>Why <code>[</code> is a command binary and spaces are mandatory token separators</td></tr>
+    <tr><td><strong>Module 2</strong></td><td>Stateful File Persistence</td><td><code>&gt; ${USER}_DAT</code>, <code>`cat ...`</code> vs <code>$(cat ...)</code></td><td>Writing state to disk, process substitution, and command capture</td></tr>
+    <tr><td><strong>Module 3</strong></td><td>Compound Branching &amp; Logic</td><td><code>&amp;&amp;</code>, <code>||</code>, <code>elif</code>, <code>-a</code>, <code>-o</code></td><td>Short-circuit evaluation and age/value range classification</td></tr>
+    <tr><td><strong>Module 4</strong></td><td>Arithmetic Operators</td><td><code>expr $a + $b</code>, <code>$(( a + b ))</code></td><td>Integer arithmetic, escaping multiplication <code>\*</code>, modular division</td></tr>
+    <tr><td><strong>Module 5</strong></td><td>Numeric Relational Operators</td><td><code>-eq</code>, <code>-ne</code>, <code>-gt</code>, <code>-lt</code>, <code>-ge</code>, <code>-le</code></td><td>Numeric comparisons vs string sorting</td></tr>
+    <tr><td><strong>Module 6</strong></td><td>Boolean &amp; String Operators</td><td><code>!</code>, <code>=</code>, <code>!=</code>, <code>-z</code>, <code>-n</code>, <code>str</code></td><td>String equality, zero-length checks, and truthiness</td></tr>
+    <tr><td><strong>Module 7</strong></td><td>Exhaustive File Test Suite</td><td>All 14 file operators (<code>-b</code>, <code>-c</code>, <code>-d</code>, <code>-f</code>, <code>-r</code>, <code>-w</code>, <code>-x</code>, etc.)</td><td>Filesystem inspection directly from kernel inode flags</td></tr>
+    <tr><td><strong>Module 8</strong></td><td>Defensive Modernization</td><td><code>set -euo pipefail</code>, quoting, <code>[[ ... ]]</code></td><td>Transforming legacy 1980s scripts into hardened production automation</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>1. If/Else Conditionals & The Strict Spacing Rule</h3>
+<p>Unlike most programming languages where spaces are largely stylistic, the Bourne shell treats spaces in an <code>if [ ... ]</code> statement as syntactic tokens. The opening bracket <code>[</code> is not syntax; it is an alias for the command <code>test</code>. Therefore, arguments must be separated by spaces, and the test command must terminate with a matching <code>]</code>.</p>
+<p>Every <code>if</code> construct must conclude with <code>fi</code> (the reverse of <code>if</code>), regardless of whether an <code>else</code> branch is present.</p>
+
+<pre><code class="language-bash">#!/bin/sh
+# Security demonstration script using Bourne shell if/else
+VALID_PASSWORD="secret"
+
+echo "Please enter the password:"
+read PASSWORD
+
+if [ "$PASSWORD" == "$VALID_PASSWORD" ]; then
+    echo "You have access!"
+else
+    echo "ACCESS DENIED!"
+fi</code><button class="copy" type="button">Copy</button></pre>
+
+<p><strong>Syntax Analysis:</strong></p>
+<ul>
+  <li><code>[ "$PASSWORD" == "$VALID_PASSWORD" ]</code>: Evaluates string equality. Notice the mandatory space after <code>[</code> and before <code>]</code>.</li>
+  <li>To test if variables are <strong>not</strong> equal, replace <code>==</code> with <code>!=</code>: <code>[ "$PASSWORD" != "$VALID_PASSWORD" ]</code>.</li>
+  <li>In strict POSIX <code>sh</code>, single <code>=</code> is the standard string equality operator; Bash supports both <code>=</code> and <code>==</code>.</li>
+</ul>
+
+<h3>2. File Persistence, Stateful Flow & Command Substitution</h3>
+<p>The following script demonstrates user input handling, file existence testing, and reading/writing state to disk. It prompts for a username; if a data file named <code>username_DAT</code> exists and is not empty (using the <code>-s</code> operator), it reads and displays the stored age. If the file does not exist, it prompts for the user's age, validates acceptable boundaries, and writes the age to disk.</p>
+
+<pre><code class="language-bash">#!/bin/sh
+# Interactive age validation and file persistence
+
+# Prompt for a username...
+echo "Please enter your name:"
+read USERNAME
+
+# Check if the persistence file exists and is not empty (-s)
+if [ -s ${USERNAME}_DAT ]; then
+    # Read the age from the file using command substitution
+    AGE=`cat ${USERNAME}_DAT`
+    echo "You are $AGE years old!"
+else
+    # Ask the user for his/her age
+    echo "How old are you?"
+    read AGE
+
+    if [ "$AGE" -le 2 ]; then
+        echo "You are too young!"
+    else
+        if [ "$AGE" -ge 100 ]; then
+            echo "You are too old!"
+        else
+            # Write the validated age to a new file
+            echo $AGE > ${USERNAME}_DAT
+        fi
+    fi
+fi</code><button class="copy" type="button">Copy</button></pre>
+
+<p><strong>Walkthrough of the 4 Execution Scenarios:</strong></p>
+<ul>
+  <li><strong>Run 1 (Underage):</strong> Enter name <code>john</code>, age <code>1</code>. Condition <code>"$AGE" -le 2</code> matches; script prints <em>"You are too young!"</em> and exits without saving.</li>
+  <li><strong>Run 2 (Overage):</strong> Enter name <code>john</code>, age <code>200</code>. Condition <code>"$AGE" -ge 100</code> matches; script prints <em>"You are too old!"</em> and exits.</li>
+  <li><strong>Run 3 (Valid age):</strong> Enter name <code>john</code>, age <code>30</code>. Script enters the inner else branch, executes <code>echo $AGE > john_DAT</code>, creating file <code>john_DAT</code> containing <code>30</code>.</li>
+  <li><strong>Run 4 (Persistent recall):</strong> Enter name <code>john</code>. Condition <code>[ -s john_DAT ]</code> evaluates to true! The script skips the age prompt entirely, reads the age from disk, and outputs <em>"You are 30 years old!"</em>.</li>
+</ul>
+
+<p><strong>Understanding Command Substitution:</strong></p>
+<p>The expression <code>AGE=`cat ${USERNAME}_DAT`</code> captures the stdout of <code>cat</code> into variable <code>AGE</code>. While backticks were the historical Bourne standard, modern shell scripts use <code>AGE=$(cat "${USERNAME}_DAT")</code> for nesting capability and clearer readability.</p>
+
+<h3>3. Compound Tests (&&, ||) and Multi-Branching with elif</h3>
+<p>Rather than writing deeply nested <code>if</code> statements, you can test multiple expressions simultaneously using logical OR (<code>||</code>) and logical AND (<code>&&</code>), combined with <code>elif</code> (else-if) branches:</p>
+
+<pre><code class="language-bash">#!/bin/sh
+# Age range tiering using logical operators and elif
+
+echo "Please enter your age:"
+read AGE
+
+if [ "$AGE" -lt 20 ] || [ "$AGE" -ge 50 ]; then
+    echo "Sorry, you are out of the age range."
+elif [ "$AGE" -ge 20 ] && [ "$AGE" -lt 30 ]; then
+    echo "You are in your 20s"
+elif [ "$AGE" -ge 30 ] && [ "$AGE" -lt 40 ]; then
+    echo "You are in your 30s"
+elif [ "$AGE" -ge 40 ] && [ "$AGE" -lt 50 ]; then
+    echo "You are in your 40s"
+fi</code><button class="copy" type="button">Copy</button></pre>
+
+<h3>4. Complete Bourne Shell Operator Suites</h3>
+<p>Bourne shell organizes operators into five distinct categories: Arithmetic, Relational, Boolean, String, and File Test.</p>
+
+<h4>A. Arithmetic Operators (`expr` vs. Modern `$(( ... ))`)</h4>
+<p>The original Bourne shell possessed no built-in math parser, relying instead on external binaries such as <code>expr</code> or <code>awk</code>. Spaces around arithmetic operators are mandatory (<code>2 + 2</code>, not <code>2+2</code>), and multiplication requires escaping (<code>\*</code>).</p>
+
+<div class='table-wrap'><table><thead><tr><th>Operator</th><th>Description</th><th>Bourne Syntax (`expr`)</th><th>Modern Bash / POSIX (`$(( ))`)</th></tr></thead><tbody>
+<tr><td><code>+</code></td><td>Addition</td><td><code>`expr $a + $b`</code></td><td><code>$(( a + b ))</code></td></tr>
+<tr><td><code>-</code></td><td>Subtraction</td><td><code>`expr $a - $b`</code></td><td><code>$(( a - b ))</code></td></tr>
+<tr><td><code>*</code></td><td>Multiplication (must escape <code>\*</code> in expr)</td><td><code>`expr $a \* $b`</code></td><td><code>$(( a * b ))</code></td></tr>
+<tr><td><code>/</code></td><td>Integer Division</td><td><code>`expr $b / $a`</code></td><td><code>$(( b / a ))</code></td></tr>
+<tr><td><code>%</code></td><td>Modulus (remainder)</td><td><code>`expr $b % $a`</code></td><td><code>$(( b % a ))</code></td></tr>
+<tr><td><code>=</code></td><td>Assignment</td><td><code>a=$b</code></td><td><code>a=$b</code></td></tr>
+<tr><td><code>==</code></td><td>Equality check (returns 0/1)</td><td><code>[ $a == $b ]</code></td><td><code>(( a == b ))</code></td></tr>
+<tr><td><code>!=</code></td><td>Inequality check</td><td><code>[ $a != $b ]</code></td><td><code>(( a != b ))</code></td></tr>
+</tbody></table></div>
+
+<h4>B. Relational Operators (Numeric Comparisons)</h4>
+<p>These operators evaluate relationships between integer values. They must be enclosed in square brackets with surrounding whitespace (<code>[ $a -eq $b ]</code>).</p>
+
+<div class='table-wrap'><table><thead><tr><th>Operator</th><th>Description</th><th>Example Expression</th><th>Result (if a=10, b=20)</th></tr></thead><tbody>
+<tr><td><code>-eq</code></td><td>Equal to</td><td><code>[ $a -eq $b ]</code></td><td>False</td></tr>
+<tr><td><code>-ne</code></td><td>Not equal to</td><td><code>[ $a -ne $b ]</code></td><td>True</td></tr>
+<tr><td><code>-gt</code></td><td>Greater than</td><td><code>[ $a -gt $b ]</code></td><td>False</td></tr>
+<tr><td><code>-lt</code></td><td>Less than</td><td><code>[ $a -lt $b ]</code></td><td>True</td></tr>
+<tr><td><code>-ge</code></td><td>Greater than or equal to</td><td><code>[ $a -ge $b ]</code></td><td>False</td></tr>
+<tr><td><code>-le</code></td><td>Less than or equal to</td><td><code>[ $a -le $b ]</code></td><td>True</td></tr>
+</tbody></table></div>
+
+<h4>C. Boolean Operators</h4>
+<p>Used to chain logical conditions within classic <code>[ ... ]</code> test brackets.</p>
+
+<div class='table-wrap'><table><thead><tr><th>Operator</th><th>Description</th><th>Bourne `test` Syntax</th><th>Modern Bash `[[ ... ]]`</th></tr></thead><tbody>
+<tr><td><code>!</code></td><td>Logical Negation (inverts condition)</td><td><code>[ ! false ]</code></td><td><code>[[ ! condition ]]</code></td></tr>
+<tr><td><code>-o</code></td><td>Logical OR (true if either operand is true)</td><td><code>[ $a -lt 20 -o $b -gt 100 ]</code></td><td><code>[[ $a -lt 20 || $b -gt 100 ]]</code></td></tr>
+<tr><td><code>-a</code></td><td>Logical AND (true if both operands are true)</td><td><code>[ $a -lt 20 -a $b -gt 100 ]</code></td><td><code>[[ $a -lt 20 && $b -gt 100 ]]</code></td></tr>
+</tbody></table></div>
+
+<h4>D. String Operators</h4>
+<p>Used for testing string equality and length constraints.</p>
+
+<div class='table-wrap'><table><thead><tr><th>Operator</th><th>Description</th><th>Example Expression</th><th>Evaluation</th></tr></thead><tbody>
+<tr><td><code>=</code></td><td>Strings are identical</td><td><code>[ "$a" = "$b" ]</code></td><td>True if identical character sequences</td></tr>
+<tr><td><code>!=</code></td><td>Strings are not identical</td><td><code>[ "$a" != "$b" ]</code></td><td>True if characters differ</td></tr>
+<tr><td><code>-z</code></td><td>String length is ZERO (empty string)</td><td><code>[ -z "$a" ]</code></td><td>True if string is empty ("")</td></tr>
+<tr><td><code>-n</code></td><td>String length is NON-ZERO (populated)</td><td><code>[ -n "$a" ]</code></td><td>True if string has 1+ characters</td></tr>
+<tr><td><code>str</code></td><td>String is not empty (bare check)</td><td><code>[ "$a" ]</code></td><td>True if string is non-empty</td></tr>
+</tbody></table></div>
+
+<h4>E. Exhaustive File Test Operators</h4>
+<p>The Bourne shell provides a comprehensive array of operators to inspect Unix file descriptors, modes, and types:</p>
+
+<div class='table-wrap'><table><thead><tr><th>Operator</th><th>Test Condition</th><th>Common Production Use Case</th></tr></thead><tbody>
+<tr><td><code>-e file</code></td><td>File or directory exists (any type)</td><td>Verifying configuration file presence before starting app</td></tr>
+<tr><td><code>-s file</code></td><td>File exists and has size greater than 0 (not empty)</td><td>Checking if state file, PID file, or error log contains data</td></tr>
+<tr><td><code>-f file</code></td><td>File exists and is a regular file (not directory/device)</td><td>Ensuring target is an actual text or binary script file</td></tr>
+<tr><td><code>-d file</code></td><td>Path exists and is a directory</td><td>Checking if deployment output folder or backup dir exists</td></tr>
+<tr><td><code>-r file</code></td><td>File exists and is readable by current user</td><td>Permission check before attempting to read configs</td></tr>
+<tr><td><code>-w file</code></td><td>File exists and is writable by current user</td><td>Permission check before writing database dumps</td></tr>
+<tr><td><code>-x file</code></td><td>File exists and has execute permission</td><td>Verifying helper binary or script is executable</td></tr>
+<tr><td><code>-b file</code></td><td>File is a block special file (disk, partition)</td><td>Storage volume checks (e.g., <code>/dev/sda1</code>)</td></tr>
+<tr><td><code>-c file</code></td><td>File is a character special file</td><td>Terminal/device node checks (e.g., <code>/dev/null</code>, <code>/dev/urandom</code>)</td></tr>
+<tr><td><code>-p file</code></td><td>File is a named pipe (FIFO buffer)</td><td>Inter-process communication (IPC) channel validation</td></tr>
+<tr><td><code>-L file</code></td><td>File is a symbolic link (symlink)</td><td>Validating symlink targets without resolving</td></tr>
+<tr><td><code>-t fd</code></td><td>File descriptor is open and associated with a terminal</td><td>Checking if script is running interactively vs cron (<code>[ -t 1 ]</code>)</td></tr>
+<tr><td><code>-u file</code></td><td>File has Set-User-ID (SUID) permission bit set</td><td>Security auditing for elevated privilege binaries</td></tr>
+<tr><td><code>-g file</code></td><td>File has Set-Group-ID (SGID) permission bit set</td><td>Security auditing for shared group collaborative folders</td></tr>
+<tr><td><code>-k file</code></td><td>File has its sticky bit set</td><td>Checking shared temporary directories (e.g., <code>/tmp</code>)</td></tr>
+</tbody></table></div>
+
+<h3>5. Key Engineering Modernizations for Developers</h3>
+<ul>
+  <li><strong>Always quote variables:</strong> Use <code>[ "$AGE" -le 2 ]</code> instead of <code>[ $AGE -le 2 ]</code>. Unquoted variables cause syntax crashes when empty.</li>
+  <li><strong>Upgrade from <code>expr</code> to <code>$(( ... ))</code>:</strong> Modern shells perform integer math internally in C without launching slow external subshells.</li>
+  <li><strong>Upgrade from backticks to <code>$(...)</code>:</strong> Backticks (<code>`command`</code>) cannot be nested easily and obscure escaping. Use <code>$(cat file)</code>.</li>
+  <li><strong>Prefer <code>[[ ... ]]</code> in Bash:</strong> For Bash scripts, use double brackets <code>[[ ... ]]</code> instead of <code>[ ... ]</code> to eliminate word-splitting bugs and gain native regex matching.</li>
+  <li><strong>Secrets handling:</strong> The original password check in <code>unix examples.txt</code> embeds passwords in plain text. For production systems, use environment variables, hashes, or secret managers.</li>
+</ul></div>
+      <div class="chapter-foot"><span>LINUX · UNIX · BASH</span><a href="#top">Back to top ↑</a></div>
+</section>
+
+    </main>
+  </div>
+
+  <!-- Floating Back to Top Button -->
+  <button id="back-to-top" class="back-to-top" title="Back to top" aria-label="Back to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+  </button>
+
+  <footer class="footer">
+    <p>Linux &amp; Unix Shell Developer's Handbook &middot; Modernized &amp; Enhanced Reference Manual</p>
+    <p style="margin-top: 6px; font-size: 12px; color: var(--muted);">Crafted for modern systems engineers. Pure HTML/CSS/JS with zero external runtime dependencies.</p>
+  </footer>
+
+  <script>
+    // Theme Management
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const htmlElem = document.documentElement;
+
+    function applyTheme(theme) {
+      htmlElem.setAttribute('data-theme', theme);
+      localStorage.setItem('handbook-theme', theme);
+      if (theme === 'dark') {
+        themeIcon.innerHTML = '☀️ Light';
+      } else {
+        themeIcon.innerHTML = '🌙 Dark';
+      }
+    }
+
+    const savedTheme = localStorage.getItem('handbook-theme') || 
+      (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    applyTheme(savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+      const current = htmlElem.getAttribute('data-theme') || 'dark';
+      applyTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    // Print Button
+    document.getElementById('print-btn').addEventListener('click', () => {
+      window.print();
+    });
+
+    // Mobile Drawer
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('drawer-overlay');
+
+    function toggleDrawer(open) {
+      sidebar.classList.toggle('open', open);
+      overlay.classList.toggle('visible', open);
+    }
+
+    mobileToggle.addEventListener('click', () => toggleDrawer(!sidebar.classList.contains('open')));
+    overlay.addEventListener('click', () => toggleDrawer(false));
+
+    // Search and Category Filtering
+    const search = document.getElementById('search');
+    const searchClear = document.getElementById('search-clear');
+    const searchStatus = document.getElementById('search-status');
+    const chapters = [...document.querySelectorAll('.chapter')];
+    const links = [...document.querySelectorAll('nav a')];
+        const noResults = document.getElementById('noResults');
+
+    let activeCategory = 'all';
+
+    function filterContent() {
+      const query = search.value.trim().toLowerCase();
+      searchClear.style.display = query ? 'block' : 'none';
+      
+      let matchedCount = 0;
+      chapters.forEach((chap, idx) => {
+        const cat = chap.getAttribute('data-category');
+        const title = chap.getAttribute('data-title') || '';
+        const bodyText = chap.innerText.toLowerCase();
+        
+        const matchesCategory = (activeCategory === 'all' || cat === activeCategory);
+        const matchesQuery = !query || title.toLowerCase().includes(query) || bodyText.includes(query);
+        
+        const isVisible = matchesCategory && matchesQuery;
+        chap.style.display = isVisible ? '' : 'none';
+        links[idx].style.display = isVisible ? 'flex' : 'none';
+        
+        if (isVisible) matchedCount++;
+      });
+
+      searchStatus.innerHTML = `<span>Showing ${matchedCount} of ${chapters.length} chapters</span>`;
+      noResults.style.display = matchedCount ? 'none' : 'block';
+    }
+
+    search.addEventListener('input', filterContent);
+    searchClear.addEventListener('click', () => {
+      search.value = '';
+      filterContent();
+      search.focus();
+    });
+
+    // Keyboard Shortcuts: '/' to focus search, 'Escape' to clear
+    window.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement !== search) {
+        e.preventDefault();
+        search.focus();
+      } else if (e.key === 'Escape' && document.activeElement === search) {
+        search.value = '';
+        filterContent();
+        search.blur();
+      }
+    });
+
+    // Unified Category Selector (Sidebar + Main Deck)
+    function setActiveCategory(cat) {
+      activeCategory = cat;
+      
+      // Update sidebar items and main deck cards
+      document.querySelectorAll('[data-cat]').forEach(el => {
+        el.classList.toggle('active', el.getAttribute('data-cat') === cat);
+      });
+
+      // Update reset button visibility in sidebar
+      const resetBtn = document.getElementById('category-reset');
+      if (resetBtn) {
+        resetBtn.style.display = (cat === 'all') ? 'none' : 'inline-block';
+      }
+
+      filterContent();
+
+      // If clicked from main deck, smoothly scroll to first chapter of that category
+      if (cat !== 'all') {
+        const firstMatch = document.querySelector(`.chapter[data-category="${cat}"]`);
+        if (firstMatch && window.scrollY > 300) {
+          firstMatch.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    }
+
+    document.querySelectorAll('[data-cat]').forEach(el => {
+      el.addEventListener('click', () => {
+        const cat = el.getAttribute('data-cat');
+        setActiveCategory(cat);
+      });
+    });
+
+    const resetBtn = document.getElementById('category-reset');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => setActiveCategory('all'));
+    }
+
+    // Enhanced Copy Button with Tooltip and Checkmark
+    document.addEventListener('click', async (e) => {
+      const btn = e.target.closest('.copy');
+      if (!btn) return;
+      const codeElem = btn.parentElement.querySelector('code');
+      if (!codeElem) return;
+      
+      try {
+        await navigator.clipboard.writeText(codeElem.innerText);
+        const origText = btn.innerHTML;
+        btn.innerHTML = '&#10003; Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.innerHTML = origText;
+          btn.classList.remove('copied');
+        }, 1600);
+      } catch (err) {
+        btn.textContent = 'Select & copy';
+      }
+    });
+
+    // Active Chapter Highlighting with IntersectionObserver
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const targetId = entry.target.id;
+          links.forEach(a => {
+            const isMatch = a.getAttribute('href') === '#' + targetId;
+            a.classList.toggle('active', isMatch);
+            if (isMatch) {
+              a.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            }
+          });
+        }
+      });
+    }, { rootMargin: '-15% 0px -75% 0px' });
+
+    chapters.forEach(c => observer.observe(c));
+
+    // Dynamic Reading Progress Bar & Back-to-Top Button
+    const backToTop = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const currentScroll = window.scrollY;
+      const progress = max > 0 ? (currentScroll / max) * 100 : 0;
+      document.documentElement.style.setProperty('--progress', progress + '%');
+      
+      if (currentScroll > 360) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    }, { passive: true });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>

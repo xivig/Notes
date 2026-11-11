@@ -1,0 +1,37 @@
+{
+  "name": "developer-handbook-unix-linux-git-shell",
+  "version": "2.0.0",
+  "description": "Comprehensive developer handbooks, interactive single-page tutorials, modular guides, and production shell automation scripts for Unix, Linux, macOS, and Git.",
+  "scripts": {
+    "docs": "open documentation/index.html",
+    "handbook": "open Linux_Unix_Shell_Developer_Handbook.html",
+    "git-guide": "open Git_GitHub_Complete_Tutorial.html",
+    "html-guide": "open HTML5_Web_Developer_Handbook.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xivig/developer-handbook-unix-linux-git-shell.git"
+  },
+  "keywords": [
+    "developer-handbook",
+    "unix",
+    "linux",
+    "shell-scripting",
+    "bash",
+    "zsh",
+    "git",
+    "github",
+    "macos",
+    "devops",
+    "cheatsheet",
+    "awk",
+    "sed",
+    "vim"
+  ],
+  "author": "xivig",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xivig/developer-handbook-unix-linux-git-shell/issues"
+  },
+  "homepage": "https://github.com/xivig/developer-handbook-unix-linux-git-shell#readme"
+}

@@ -1,0 +1,1939 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML5 &amp; Modern Web Architecture &mdash; The Complete Developer's Handbook (15 Chapters)</title>
+  <meta name="description" content="A comprehensive, production-grade guide to HTML5, semantic web architecture, modern forms and constraint validation, responsive media, Web Components, WCAG 2.2 accessibility, and security standards.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f17;
+      --bg-gradient: radial-gradient(1000px 600px at 80% -10%, #311808 0%, transparent 70%), #0b0f17;
+      --paper: #111827;
+      --paper-card: #172033;
+      --paper-hover: #1f2c45;
+      --ink: #f8fafc;
+      --ink-secondary: #cbd5e1;
+      --muted: #8492a6;
+      --line: #1e293b;
+      --line-strong: #334155;
+      --nav: #0d131f;
+      --nav-active: rgba(249, 115, 22, 0.16);
+      --accent: #f97316;
+      --accent-hover: #fb923c;
+      --accent-glow: rgba(249, 115, 22, 0.4);
+      --accent2: #06b6d4;
+      --accent3: #10b981;
+      --accent4: #a855f7;
+      --code: #070a10;
+      --codeink: #e2e8f0;
+      --code-border: #1e293b;
+      --badge-bg: rgba(255, 255, 255, 0.08);
+      --badge-border: rgba(255, 255, 255, 0.14);
+      --shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.55);
+      --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.25);
+      --callout-tip-bg: rgba(16, 185, 129, 0.08);
+      --callout-tip-border: #10b981;
+      --callout-warn-bg: rgba(245, 158, 11, 0.09);
+      --callout-warn-border: #f59e0b;
+      --callout-info-bg: rgba(6, 182, 212, 0.09);
+      --callout-info-border: #06b6d4;
+      --callout-sec-bg: rgba(239, 68, 68, 0.09);
+      --callout-sec-border: #ef4444;
+      --header-h: 68px;
+    }
+
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --bg-gradient: radial-gradient(1000px 500px at 80% -10%, #ffedd5 0%, transparent 70%), #f8fafc;
+      --paper: #ffffff;
+      --paper-card: #f8fafc;
+      --paper-hover: #f1f5f9;
+      --ink: #0f172a;
+      --ink-secondary: #334155;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --line-strong: #cbd5e1;
+      --nav: #0f172a;
+      --nav-active: rgba(249, 115, 22, 0.12);
+      --accent: #ea580c;
+      --accent-hover: #c2410c;
+      --accent-glow: rgba(234, 88, 12, 0.2);
+      --accent2: #0891b2;
+      --accent3: #059669;
+      --accent4: #9333ea;
+      --code: #0f172a;
+      --codeink: #f8fafc;
+      --code-border: #334155;
+      --badge-bg: rgba(15, 23, 42, 0.06);
+      --badge-border: rgba(15, 23, 42, 0.12);
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+      --callout-tip-bg: rgba(16, 185, 129, 0.06);
+      --callout-warn-bg: rgba(245, 158, 11, 0.07);
+      --callout-info-bg: rgba(6, 182, 212, 0.07);
+      --callout-sec-bg: rgba(239, 68, 68, 0.07);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--ink);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    #reading-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: var(--progress, 0%);
+      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+      z-index: 1000;
+      transition: width 0.1s ease-out;
+    }
+
+    header.top-bar {
+      position: sticky;
+      top: 0;
+      height: var(--header-h);
+      background: rgba(11, 15, 23, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+    }
+    [data-theme="light"] header.top-bar {
+      background: rgba(255, 255, 255, 0.85);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      color: var(--ink);
+    }
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), #e44d26);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.95rem;
+      box-shadow: 0 0 16px var(--accent-glow);
+    }
+    .brand-badge {
+      font-size: 0.7rem;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      color: var(--accent);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .nav-pill-btn {
+      padding: 0.4rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--ink-secondary);
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .nav-pill-btn:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+    .nav-pill-btn.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .nav-pill-btn.primary:hover {
+      background: var(--accent-hover);
+      color: #fff;
+    }
+
+    .theme-toggle {
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      border-radius: 8px;
+      padding: 0.45rem 0.75rem;
+      cursor: pointer;
+      color: var(--ink);
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .layout-container {
+      max-width: 1540px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 290px 1fr;
+      gap: 2.5rem;
+      padding: 2rem 2rem 6rem;
+    }
+
+    /* Sidebar Navigation */
+    aside.sidebar {
+      position: sticky;
+      top: calc(var(--header-h) + 1.5rem);
+      height: calc(100vh - var(--header-h) - 3rem);
+      overflow-y: auto;
+      padding-right: 1rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--line) transparent;
+    }
+    aside.sidebar::-webkit-scrollbar { width: 5px; }
+    aside.sidebar::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+
+    .sidebar-section-title {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-weight: 700;
+      margin: 1.25rem 0 0.5rem;
+      padding-left: 0.5rem;
+    }
+    .sidebar-menu { list-style: none; }
+    .sidebar-menu li { margin-bottom: 2px; }
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: var(--ink-secondary);
+      text-decoration: none;
+      transition: all 0.15s ease;
+      line-height: 1.35;
+    }
+    .sidebar-menu a:hover {
+      background: var(--nav-active);
+      color: var(--accent);
+      transform: translateX(2px);
+    }
+    .sidebar-menu a.active {
+      background: var(--nav-active);
+      color: var(--accent);
+      font-weight: 600;
+      border-left: 3px solid var(--accent);
+      padding-left: calc(0.65rem - 3px);
+    }
+    .sidebar-menu .ch-num {
+      font-size: 0.72rem;
+      font-family: 'Fira Code', monospace;
+      color: var(--muted);
+      min-width: 20px;
+    }
+
+    /* Main Deck & Hero */
+    main.content { min-width: 0; }
+
+    .hero-banner {
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.12), rgba(6, 182, 212, 0.08));
+      border: 1px solid var(--line-strong);
+      border-radius: 16px;
+      padding: 2.75rem 2.5rem;
+      margin-bottom: 2.5rem;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-banner::after {
+      content: '</>';
+      position: absolute;
+      right: 2rem;
+      bottom: -1rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 8rem;
+      font-weight: 800;
+      color: var(--accent);
+      opacity: 0.07;
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.75rem;
+    }
+    .hero-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+      color: var(--ink);
+    }
+    .hero-title span {
+      background: linear-gradient(90deg, var(--accent), #fb923c, var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--ink-secondary);
+      max-width: 820px;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--line);
+    }
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .stat-val {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--ink);
+      font-family: 'Fira Code', monospace;
+    }
+    .stat-lbl {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Category Selection Tracks */
+    .category-deck {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .category-deck-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .category-deck-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+    .category-reset-btn {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 0.85rem;
+    }
+    .category-card {
+      background: var(--paper-card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+    .category-card:hover {
+      background: var(--paper-hover);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .category-card.active {
+      border-color: var(--accent);
+      background: var(--nav-active);
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+    .cat-name {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.25rem;
+    }
+    .cat-range {
+      font-size: 0.74rem;
+      font-family: 'Fira Code', monospace;
+      color: var(--accent);
+      margin-bottom: 0.35rem;
+    }
+    .cat-desc {
+      font-size: 0.75rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* Chapters Content */
+    .chapter {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 2.5rem;
+      margin-bottom: 2.5rem;
+      box-shadow: var(--shadow-sm);
+      scroll-margin-top: calc(var(--header-h) + 1.5rem);
+      transition: border-color 0.2s ease;
+    }
+    .chapter:hover { border-color: var(--line-strong); }
+    .chapter.filtered-out { display: none !important; }
+
+    .ch-header {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+    .ch-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .ch-badge {
+      font-size: 0.72rem;
+      font-family: 'Fira Code', monospace;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .ch-cat-tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .chapter h2 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+
+    .chapter h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 1.75rem 0 0.75rem;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+    .chapter h4 {
+      font-size: 0.98rem;
+      font-weight: 700;
+      margin: 1.25rem 0 0.5rem;
+      color: var(--ink-secondary);
+    }
+    .chapter p {
+      margin-bottom: 1rem;
+      color: var(--ink-secondary);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+    .chapter ul, .chapter ol {
+      margin: 0.75rem 0 1.25rem 1.5rem;
+      color: var(--ink-secondary);
+      font-size: 0.93rem;
+    }
+    .chapter li { margin-bottom: 0.4rem; line-height: 1.6; }
+
+    /* Code Blocks */
+    .code-block {
+      background: var(--code);
+      border: 1px solid var(--code-border);
+      border-radius: 10px;
+      margin: 1.25rem 0 1.5rem;
+      overflow: hidden;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.4);
+    }
+    .code-header {
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid var(--code-border);
+      padding: 0.5rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      font-family: 'Fira Code', monospace;
+      color: var(--muted);
+    }
+    .code-header span.lang {
+      color: var(--accent);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .copy-btn {
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      color: var(--ink-secondary);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .copy-btn:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .copy-btn.copied {
+      background: var(--accent3);
+      color: #fff;
+      border-color: var(--accent3);
+    }
+    pre {
+      padding: 1.15rem 1.25rem;
+      overflow-x: auto;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.86rem;
+      line-height: 1.6;
+      color: var(--codeink);
+    }
+    code {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.86em;
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--accent);
+    }
+    pre code {
+      background: transparent;
+      border: none;
+      padding: 0;
+      color: inherit;
+    }
+
+    /* Tables */
+    .table-container {
+      overflow-x: auto;
+      margin: 1.25rem 0 1.75rem;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+    th {
+      background: var(--paper-card);
+      color: var(--ink);
+      font-weight: 700;
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--line-strong);
+    }
+    td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink-secondary);
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255, 255, 255, 0.02); }
+    [data-theme="light"] tr:hover td { background: rgba(0, 0, 0, 0.015); }
+
+    /* Callouts */
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: var(--paper-card);
+      border-radius: 0 10px 10px 0;
+      padding: 1.15rem 1.35rem;
+      margin: 1.35rem 0;
+      font-size: 0.91rem;
+      line-height: 1.6;
+    }
+    .callout.tip { border-color: var(--accent3); background: var(--callout-tip-bg); }
+    .callout.warn { border-color: #f59e0b; background: var(--callout-warn-bg); }
+    .callout.info { border-color: var(--accent2); background: var(--callout-info-bg); }
+    .callout.sec { border-color: #ef4444; background: var(--callout-sec-bg); }
+    .callout-title {
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--ink);
+    }
+
+    /* Live Sandbox Editor */
+    .sandbox-container {
+      background: var(--code);
+      border: 1px solid var(--code-border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 2rem 0;
+      box-shadow: var(--shadow);
+    }
+    .sandbox-header {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .sandbox-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .sandbox-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 280px;
+    }
+    .sandbox-editor {
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+    }
+    .sandbox-editor-label {
+      font-size: 0.7rem;
+      padding: 0.4rem 0.85rem;
+      background: rgba(0, 0, 0, 0.3);
+      color: var(--muted);
+      border-bottom: 1px solid var(--line);
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .sandbox-textarea {
+      width: 100%;
+      height: 100%;
+      min-height: 240px;
+      background: transparent;
+      border: none;
+      color: #38bdf8;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.84rem;
+      line-height: 1.5;
+      padding: 0.85rem;
+      resize: vertical;
+      outline: none;
+    }
+    .sandbox-preview {
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+    }
+    .sandbox-preview-label {
+      font-size: 0.7rem;
+      padding: 0.4rem 0.85rem;
+      background: #f1f5f9;
+      color: #475569;
+      border-bottom: 1px solid #cbd5e1;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .sandbox-iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 240px;
+      border: none;
+      background: #ffffff;
+    }
+
+    #back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--paper-card);
+      border: 1px solid var(--line);
+      color: var(--ink);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s ease;
+      z-index: 90;
+    }
+    #back-to-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    #back-to-top:hover {
+      background: var(--accent);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 1024px) {
+      .layout-container {
+        grid-template-columns: 1fr;
+        padding: 1.5rem 1rem;
+      }
+      aside.sidebar { display: none; }
+      .sandbox-grid { grid-template-columns: 1fr; }
+      .sandbox-editor { border-right: none; border-bottom: 1px solid var(--line); }
+      .hero-title { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div id="reading-progress"></div>
+
+  <!-- Top Navigation Header -->
+  <header class="top-bar">
+    <a href="#" class="brand">
+      <div class="brand-icon">5</div>
+      <span>HTML5 Architecture Handbook</span>
+      <span class="brand-badge">15 Chapters</span>
+    </a>
+    <nav class="top-nav">
+      <a href="Linux_Unix_Shell_Developer_Handbook.html" class="nav-pill-btn" title="Open Linux & Unix Shell Developer Handbook">Shell Handbook (39 Ch)</a>
+      <a href="Git_GitHub_Complete_Tutorial.html" class="nav-pill-btn" title="Open Git & GitHub Complete Tutorial">Git Guide (22 Ch)</a>
+      <a href="documentation/index.html" class="nav-pill-btn" title="Open Interactive Documentation Portal">Docs Portal ↗</a>
+      <a href="https://github.com/xivig/developer-handbook-unix-linux-git-shell" class="nav-pill-btn" target="_blank" rel="noopener noreferrer">GitHub Repo ↗</a>
+      <button class="theme-toggle" id="theme-btn" aria-label="Toggle theme">
+        <span id="theme-icon">&#9790;</span>
+      </button>
+    </nav>
+  </header>
+
+  <div class="layout-container">
+    <!-- Sidebar Navigation Rail -->
+    <aside class="sidebar">
+      <div class="sidebar-section-title">Domain 1: Foundations & Anatomy</div>
+      <ul class="sidebar-menu">
+        <li><a href="#ch1"><span class="ch-num">01</span> Web Execution Model</a></li>
+        <li><a href="#ch2"><span class="ch-num">02</span> Document Anatomy & Head Meta</a></li>
+        <li><a href="#ch3"><span class="ch-num">03</span> Global Attributes & Semantics</a></li>
+      </ul>
+
+      <div class="sidebar-section-title">Domain 2: Semantics & Layout</div>
+      <ul class="sidebar-menu">
+        <li><a href="#ch4"><span class="ch-num">04</span> Semantic Landmarks</a></li>
+        <li><a href="#ch5"><span class="ch-num">05</span> Responsive Page Flow & SEO</a></li>
+        <li><a href="#ch6"><span class="ch-num">06</span> Dialogs, Details & Popovers</a></li>
+      </ul>
+
+      <div class="sidebar-section-title">Domain 3: Forms & Native Validation</div>
+      <ul class="sidebar-menu">
+        <li><a href="#ch7"><span class="ch-num">07</span> Form Controls & Structure</a></li>
+        <li><a href="#ch8"><span class="ch-num">08</span> Native Validation Engine</a></li>
+        <li><a href="#ch9"><span class="ch-num">09</span> Advanced Inputs & FormData</a></li>
+      </ul>
+
+      <div class="sidebar-section-title">Domain 4: Media & Web Components</div>
+      <ul class="sidebar-menu">
+        <li><a href="#ch10"><span class="ch-num">10</span> Responsive Images (<picture>)</a></li>
+        <li><a href="#ch11"><span class="ch-num">11</span> Video, Audio & IFrames</a></li>
+        <li><a href="#ch12"><span class="ch-num">12</span> Web Components & Shadow DOM</a></li>
+      </ul>
+
+      <div class="sidebar-section-title">Domain 5: Accessibility, Security & Recipes</div>
+      <ul class="sidebar-menu">
+        <li><a href="#ch13"><span class="ch-num">13</span> Accessible Tables & Grids</a></li>
+        <li><a href="#ch14"><span class="ch-num">14</span> WCAG 2.2 AA & ARIA Standards</a></li>
+        <li><a href="#ch15"><span class="ch-num">15</span> Production Boilerplate & Sandbox</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="content">
+      <!-- Hero Section -->
+      <section class="hero-banner">
+        <div class="hero-eyebrow">&#9889; W3C &amp; WHATWG LIVING STANDARD</div>
+        <h1 class="hero-title">HTML5 &amp; Modern <span>Web Architecture</span></h1>
+        <p class="hero-desc">The exhaustive developer reference for engineering modern, semantic, accessible, and high-performance web applications without framework bloat.</p>
+        <div class="hero-stats">
+          <div class="stat-item"><span class="stat-val">15</span><span class="stat-lbl">In-Depth Chapters</span></div>
+          <div class="stat-item"><span class="stat-val">5</span><span class="stat-lbl">Domain Tracks</span></div>
+          <div class="stat-item"><span class="stat-val">WCAG 2.2</span><span class="stat-lbl">Accessibility Standard</span></div>
+          <div class="stat-item"><span class="stat-val">Live Sandbox</span><span class="stat-lbl">Interactive Playground</span></div>
+        </div>
+      </section>
+
+      <!-- Category Filter Deck -->
+      <section class="category-deck">
+        <div class="category-deck-header">
+          <span class="category-deck-title">Filter by Domain Track</span>
+          <button class="category-reset-btn" id="category-reset">Show All (15 Ch)</button>
+        </div>
+        <div class="category-grid">
+          <div class="category-card" data-cat="foundations">
+            <div class="cat-name">Foundations &amp; Anatomy</div>
+            <div class="cat-range">Chapters 1 &ndash; 3</div>
+            <div class="cat-desc">DOM execution pipeline, DOCTYPE, head meta tags, script deferral, global attributes.</div>
+          </div>
+          <div class="category-card" data-cat="semantics">
+            <div class="cat-name">Semantics &amp; Layout</div>
+            <div class="cat-range">Chapters 4 &ndash; 6</div>
+            <div class="cat-desc">Landmarks, outlines, accessible navigation, native modals (`<dialog>`), and disclosure.</div>
+          </div>
+          <div class="category-card" data-cat="forms">
+            <div class="cat-name">Forms &amp; Validation</div>
+            <div class="cat-range">Chapters 7 &ndash; 9</div>
+            <div class="cat-desc">Accessible form controls, native client-side validation, Constraint API, FormData.</div>
+          </div>
+          <div class="category-card" data-cat="media">
+            <div class="cat-name">Media &amp; Web Components</div>
+            <div class="cat-range">Chapters 10 &ndash; 12</div>
+            <div class="cat-desc">Responsive `<picture>` and `srcset`, audio/video with WebVTT, Declarative Shadow DOM.</div>
+          </div>
+          <div class="category-card" data-cat="recipes">
+            <div class="cat-name">Accessibility, Security &amp; Recipes</div>
+            <div class="cat-range">Chapters 13 &ndash; 15</div>
+            <div class="cat-desc">Data tables, WCAG 2.2 AA ARIA, CSP headers, production boilerplate, and Live Sandbox.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHAPTER 1 -->
+      <section class="chapter" id="ch1" data-category="foundations">
+        <div class="ch-header">
+          <div class="ch-badge-row">
+            <span class="ch-badge">CHAPTER 01</span>
+            <span class="ch-cat-tag">Foundations &amp; Anatomy</span>
+          </div>
+          <h2>The Modern Web Execution Model &amp; HTML5 Standards</h2>
+        </div>
+        <p>HTML is not merely a markup syntax for rendering text; it is the structural backbone of the browser execution model. When a browser initiates an HTTP/2 or HTTP/3 request for an HTML resource, it processes bytes into tokens, tokens into nodes, and nodes into the Document Object Model (DOM) tree in a streaming, incremental pipeline.</p>
+
+        <h3>1.1 The Critical Rendering Path</h3>
+        <p>Understanding how HTML turns into pixels allows you to prevent render-blocking bottlenecks and cumulative layout shifts (CLS):</p>
+        <ol>
+          <li><strong>Network Streaming:</strong> Bytes arrive over the network socket and are converted into characters based on the specified character encoding (UTF-8).</li>
+          <li><strong>Tokenization:</strong> The state machine tokenizer breaks characters into start tags, end tags, attribute names, and values.</li>
+          <li><strong>DOM Tree Construction:</strong> Tags are linked in parent-child hierarchies to produce the live in-memory tree.</li>
+          <li><strong>CSSOM Construction:</strong> External and embedded stylesheets are parsed into the CSS Object Model.</li>
+          <li><strong>Render Tree &amp; Layout:</strong> Visible DOM nodes are combined with CSSOM rules to compute exact geometry and coordinates (Reflow/Layout).</li>
+          <li><strong>Painting &amp; Compositing:</strong> Pixels are painted onto layers and composited by the GPU.</li>
+        </ol>
+
+        <div class="callout tip">
+          <div class="callout-title">&#10003; Performance Invariant: Incremental Parsing</div>
+          <p>Browsers do not wait for the entire HTML document to download before rendering. The parser builds and displays DOM nodes as chunks arrive over the network. Never block the parser with synchronous external scripts.</p>
+        </div>
+
+        <h3>1.2 Script Execution: Regular vs. <code>defer</code> vs. <code>async</code> vs. <code>type="module"</code></h3>
+        <p>How you load JavaScript completely dictates whether your HTML parser stalls:</p>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Loading Paradigm</th>
+                <th>Parser Impact</th>
+                <th>Execution Timing</th>
+                <th>Execution Order</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>&lt;script src="..."&gt;</code></td>
+                <td><strong>Blocks parser</strong> immediately during download &amp; execution</td>
+                <td>Immediately when encountered in HTML stream</td>
+                <td>Preserves document source order</td>
+              </tr>
+              <tr>
+                <td><code>&lt;script defer src="..."&gt;</code></td>
+                <td><strong>Zero block:</strong> downloads asynchronously in parallel</td>
+                <td>After DOM parsing finishes, before <code>DOMContentLoaded</code></td>
+                <td><strong>Guaranteed</strong> execution order matching HTML order</td>
+              </tr>
+              <tr>
+                <td><code>&lt;script async src="..."&gt;</code></td>
+                <td><strong>Zero block</strong> during download; <strong>blocks</strong> during execution</td>
+                <td>As soon as download finishes, interrupting the parser</td>
+                <td><strong>Unordered:</strong> first downloaded executes first (ideal for analytics)</td>
+              </tr>
+              <tr>
+                <td><code>&lt;script type="module" src="..."&gt;</code></td>
+                <td><strong>Zero block:</strong> deferred by default across modern engines</td>
+                <td>After DOM is complete, supports ES modules (import/export)</td>
+                <td>Preserves module dependency graph order</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="lang">html</span><button class="copy-btn">Copy</button></div>
+          <pre><code>&lt;!-- &#10060; Bad: Blocks parser during early HTML parsing --&gt;
+&lt;script src="/assets/app.js"&gt;&lt;/script&gt;
+
+&lt;!-- &#9989; Best: Modern non-blocking deferred module --&gt;
+&lt;script type="module" src="/assets/app.js"&gt;&lt;/script&gt;
+
+&lt;!-- &#9989; Best for classic scripts: Defer execution until DOM is ready --&gt;
+&lt;script defer src="/assets/legacy-bundle.js"&gt;&lt;/script&gt;
+
+&lt;!-- &#9989; Independent tracking/analytics: Async execution --&gt;
+&lt;script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXX"&gt;&lt;/script&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- CHAPTER 2 -->
+      <section class="chapter" id="ch2" data-category="foundations">
+        <div class="ch-header">
+          <div class="ch-badge-row">
+            <span class="ch-badge">CHAPTER 02</span>
+            <span class="ch-cat-tag">Foundations &amp; Anatomy</span>
+          </div>
+          <h2>Document Anatomy, DOCTYPE &amp; Head Metadata</h2>
+        </div>
+        <p>The <code>&lt;head&gt;</code> element is the mission control center of your web document. It provides critical directives to browser layout engines, web crawlers, social share cards, and mobile viewports.</p>
+
+        <h3>2.1 The Minimal HTML5 Skeleton</h3>
+        <div class="code-block">
+          <div class="code-header"><span class="lang">html</span><button class="copy-btn">Copy</button></div>
+          <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en" dir="ltr"&gt;
+&lt;head&gt;
+  &lt;!-- 1. Character Encoding: MUST be within the first 1024 bytes --&gt;
+  &lt;meta charset="UTF-8"&gt;
+
+  &lt;!-- 2. Responsive Viewport Scaling: Disables mobile 980px virtual viewport --&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+
+  &lt;!-- 3. Primary Metadata --&gt;
+  &lt;title&gt;Engineering Portfolio &mdash; High Performance Web Systems&lt;/title&gt;
+  &lt;meta name="description" content="Technical portfolio and distributed systems engineering architecture."&gt;
+
+  &lt;!-- 4. Resource Hints: Speed up high-priority third-party connections --&gt;
+  &lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+  &lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
+  &lt;link rel="dns-prefetch" href="https://api.github.com"&gt;
+
+  &lt;!-- 5. OpenGraph & Twitter Cards --&gt;
+  &lt;meta property="og:type" content="website"&gt;
+  &lt;meta property="og:title" content="Engineering Portfolio"&gt;
+  &lt;meta property="og:description" content="Technical portfolio and distributed systems."&gt;
+  &lt;meta property="og:image" content="https://example.com/og-preview.png"&gt;
+  &lt;meta property="og:url" content="https://example.com"&gt;
+  &lt;meta name="twitter:card" content="summary_large_image"&gt;
+
+  &lt;!-- 6. Favicon & Web Manifest --&gt;
+  &lt;link rel="icon" type="image/svg+xml" href="/favicon.svg"&gt;
+  &lt;link rel="manifest" href="/site.webmanifest"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;!-- Visible page content --&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+
+        <h3>2.2 Crucial DOCTYPE Nuance: Standards vs. Quirks Mode</h3>
+        <p>The declaration <code>&lt;!DOCTYPE html&gt;</code> is case-insensitive. Its sole purpose is to instruct the browser layout engine to render in <strong>No-Quirks (Standards) Mode</strong> according to W3C/WHATWG specifications. Omitting the doctype triggers <strong>Quirks Mode</strong>, causing modern browsers to emulate bugs from 1999 Internet Explorer and Netscape Navigator (e.g. broken CSS box model where padding is subtracted from width).</p>
+      </section>
+
+      <!-- CHAPTER 3 -->
+      <section class="chapter" id="ch3" data-category="foundations">
+        <div class="ch-header">
+          <div class="ch-badge-row">
+            <span class="ch-badge">CHAPTER 03</span>
+            <span class="ch-cat-tag">Foundations &amp; Anatomy</span>
+          </div>
+          <h2>Global Attributes, Text Semantics &amp; Formatting</h2>
+        </div>
+        <p>Global attributes can be applied to <em>any</em> valid HTML5 element. Mastering them enables keyboard accessibility, client-side data binding, and editable UI widgets.</p>
+
+        <h3>3.1 Essential Global Attributes</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Attribute</th>
+                <th>Type</th>
+                <th>Technical Purpose &amp; Behavior</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>id</code></td>
+                <td>Unique String</td>
+                <td>Unique document identifier. Used for CSS styling, JS lookups, and URL fragment targets (`#ch3`).</td>
+              </tr>
+              <tr>
+                <td><code>class</code></td>
+                <td>Space-delimited</td>
+                <td>Element classification. Reusable styling hook and component selector.</td>
+              </tr>
+              <tr>
+                <td><code>data-*</code></td>
+                <td>Custom String</td>
+                <td>Private client-side data storage accessible via JavaScript `element.dataset.*`.</td>
+              </tr>
+              <tr>
+                <td><code>hidden</code></td>
+                <td>Boolean</td>
+                <td>Hides element from both visual display and screen readers (applies `display: none`).</td>
+              </tr>
+              <tr>
+                <td><code>tabindex</code></td>
+                <td>Integer</td>
+                <td><code>0</code>: natural tab focus; <code>-1</code>: programmatic focus only; <code>&gt;0</code>: anti-pattern.</td>
+              </tr>
+              <tr>
+                <td><code>contenteditable</code></td>
+                <td>Boolean / String</td>
+                <td>Makes element text editable inline by the user without requiring an `<input>`.</td>
+              </tr>
+              <tr>
+                <td><code>dir</code></td>
+                <td><code>ltr | rtl | auto</code></td>
+                <td>Sets text directionality. Critical for internationalization (Arabic, Hebrew).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>3.2 Inline Semantic Text Elements</h3>
+        <p>HTML5 distinguishes between visual typography and semantic meaning:</p>
+        <div class="code-block">
+          <div class="code-header"><span class="lang">html</span><button class="copy-btn">Copy</button></div>
+          <pre><code>&lt;!-- Strong importance (screen readers alter inflection) vs bold styling --&gt;
+&lt;p&gt;&lt;strong&gt;Warning:&lt;/strong&gt; This action is irreversible.&lt;/p&gt;
+
+&lt;!-- Stress emphasis vs italic cosmetic styling --&gt;
+&lt;p&gt;You &lt;em&gt;must&lt;/em&gt; sign the deployment manifest.&lt;/p&gt;
+
+&lt;!-- Machine-readable date/time stamp for crawlers and calendar aggregators --&gt;
+&lt;p&gt;Published on &lt;time datetime="2026-11-08T15:30:00Z"&gt;November 8, 2026&lt;/time&gt;.&lt;/p&gt;
+
+&lt;!-- Keyboard keystroke inputs --&gt;
+&lt;p&gt;Press &lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;C&lt;/kbd&gt; to terminate the process.&lt;/p&gt;
+
+&lt;!-- Highlighting search query results --&gt;
+&lt;p&gt;Found 1 match for &lt;mark&gt;production&lt;/mark&gt; in cluster logs.&lt;/p&gt;
+
+&lt;!-- Inline code snippets --&gt;
+&lt;p&gt;Execute &lt;code&gt;git status -s&lt;/code&gt; to view dirty working trees.&lt;/p&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- CHAPTER 4 -->
+      <section class="chapter" id="ch4" data-category="semantics">
+        <div class="ch-header">
+          <div class="ch-badge-row">
+            <span class="ch-badge">CHAPTER 04</span>
+            <span class="ch-cat-tag">Semantics &amp; Layout</span>
+          </div>
+          <h2>Semantic Landmarks &amp; Document Outlining</h2>
+        </div>
+        <p>Before HTML5, web documents were an unnavigable labyrinth of generic <code>&lt;div class="header"&gt;</code>, <code>&lt;div id="nav"&gt;</code>, and <code>&lt;div class="footer"&gt;</code>. HTML5 introduced explicit structural landmark elements that map directly to accessibility API landmarks.</p>
+
+        <h3>4.1 The Core Landmark Elements</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>HTML5 Element</th>
+                <th>Implicit ARIA Role</th>
+                <th>Proper Semantic Usage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>&lt;header&gt;</code></td>
+                <td><code>banner</code> (if top-level)</td>
+                <td>Introductory content, site logos, search bars, and global navigation.</td>
+              </tr>
+              <tr>
+                <td><code>&lt;nav&gt;</code></td>
+                <td><code>navigation</code></td>
+                <td>Major navigation links (primary header nav, sidebar index, pagination).</td>
+              </tr>
+              <tr>
+                <td><code>&lt;main&gt;</code></td>
+                <td><code>main</code></td>
+                <td>The dominant content of the document. Only <strong>one</strong> visible per page.</td>
+              </tr>
+              <tr>
+                <td><code>&lt;article&gt;</code></td>
+                <td><code>article</code></td>
+                <td>Self-contained, syndicatable content (blog post, news item, forum comment, card).</td>
+              </tr>
+              <tr>
+                <td><code>&lt;section&gt;</code></td>
+                <td><code>region</code> (with label)</td>
+                <td>Thematic grouping of content, almost always accompanied by a heading (`<h2>`).</td>
+              </tr>
+              <tr>
+                <td><code>&lt;aside&gt;</code></td>
+                <td><code>complementary</code></td>
+                <td>Tangentially related content (sidebars, callout cards, related posts).</td>
+              </tr>
+              <tr>
+                <td><code>&lt;footer&gt;</code></td>
+                <td><code>contentinfo</code> (if top-level)</td>
+                <td>Authorship, copyright, legal links, and secondary sitemaps.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="lang">html</span><button class="copy-btn">Copy</button></div>
+          <pre><code>&lt;!-- High-Performance Semantic Layout Structure --&gt;
+&lt;header&gt;
+  &lt;a href="/" class="brand-logo"&gt;DevPortal&lt;/a&gt;
+  &lt;nav aria-label="Primary"&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href="/guides"&gt;Guides&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="/api"&gt;API Reference&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+&lt;/header&gt;
+
+&lt;div class="page-layout"&gt;
+  &lt;main id="content"&gt;
+    &lt;article&gt;
+      &lt;header&gt;
+        &lt;h1&gt;Distributed Consensus Algorithms&lt;/h1&gt;
+        &lt;p&gt;By &lt;span rel="author"&gt;Engineering Team&lt;/span&gt;&lt;/p&gt;
+      &lt;/header&gt;
+      &lt;section&gt;
+        &lt;h2&gt;1. The Raft Protocol&lt;/h2&gt;
+        &lt;p&gt;Leader election and log replication guarantees...&lt;/p&gt;
+      &lt;/section&gt;
+    &lt;/article&gt;
+  &lt;/main&gt;
+
+  &lt;aside aria-label="Related Specifications"&gt;
+    &lt;h3&gt;Specifications&lt;/h3&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href="/paxos"&gt;Paxos Comparison&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/aside&gt;
+&lt;/div&gt;
+
+&lt;footer&gt;
+  &lt;p&gt;&copy; 2026 DevPortal. All rights reserved.&lt;/p&gt;
+&lt;/footer&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- CHAPTER 5 -->
+      <section class="chapter" id="ch5" data-category="semantics">
+        <div class="ch-header">
+          <div class="ch-badge-row">
+            <span class="ch-badge">CHAPTER 05</span>
+            <span class="ch-cat-tag">Semantics &amp; Layout</span>
+          </div>
+          <h2>Responsive Page Flow &amp; Structured SEO Data</h2>
+        </div>
+        <p>Combining semantic markup with modern microdata allows search engines (Google, Bing) and AI assistants to parse your content into rich snippet cards in search results.</p>
+
+        <h3>5.1 Structured Data with JSON-LD</h3>
+        <p>Instead of scattering microdata attributes across HTML tags, the modern standard is embedded JSON-LD (JavaScript Object Notation for Linked Data) in a <code>&lt;script type="application/ld+json"&gt;</code> block:</p>
+
+        <div class="code-block">
+          <div class="code-header"><span class="lang">html</span><button class="copy-btn">Copy</button></div>
+          <pre><code>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "HTML5 & Modern Web Architecture Handbook",
+  "image": "https://example.com/images/html5-cover.png",
+  "author": {
+    "@type": "Organization",
+    "name": "XIVIG Engineering",
+    "url": "https://github.com/xivig"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "XIVIG",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://example.com/logo.png"
+    }
+  },
+  "datePublished": "2026-11-08",
+  "description": "Comprehensive developer reference for HTML5, responsive media, and accessibility."
+}
+&lt;/script&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- CHAPTER 6 -->
+      <section class="chapter" id="ch6" data-category="semantics">
+        <div class="ch-header">
+          <div class="ch-badge-row">
+            <span class="ch-badge">CHAPTER 06</span>
+            <span class="ch-cat-tag">Semantics &amp; Layout</span>
+          </div>
+          <h2>Native Dialogs (<code>&lt;dialog&gt;</code>), Disclosure (<code>&lt;details&gt;</code>) &amp; Popovers</h2>
+        </div>
+        <p>In legacy web development, creating a modal dialog required 200 lines of JavaScript to trap keyboard focus, prevent background scrolling, and handle the Escape key. HTML5 now provides native primitives for interactive disclosure.</p>
+
+        <h3>6.1 The Native <code>&lt;dialog&gt;</code> Element</h3>
+        <p>The <code>&lt;dialog&gt;</code> element has built-in accessibility, native backdrop styling via <code>::backdrop</code>, and automatic focus management:</p>
+
+        <div class="code-block">
+          <div class="code-header"><span class="lang">html</span><button class="copy-btn">Copy</button></div>
+          <pre><code>&lt;!-- Trigger Button --&gt;
+&lt;button type="button" id="open-modal-btn"&gt;Deploy Service&lt;/button&gt;
+
+&lt;!-- Native Accessible Modal Dialog --&gt;
+&lt;dialog id="deploy-dialog" aria-labelledby="dialog-title"&gt;
+  &lt;form method="dialog"&gt;
+    &lt;h3 id="dialog-title"&gt;Confirm Production Deployment&lt;/h3&gt;
+    &lt;p&gt;Are you sure you want to deploy build #492 to the production cluster?&lt;/p&gt;
+    
+    &lt;div class="dialog-actions"&gt;
+      &lt;!-- Buttons inside method="dialog" automatically close the dialog --&gt;
+      &lt;button value="cancel" formnovalidate&gt;Cancel&lt;/button&gt;
+      &lt;button value="confirm" class="primary"&gt;Confirm Deploy&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/form&gt;
+&lt;/dialog&gt;
+
+&lt;script&gt;
+  const dialog = document.getElementById('deploy-dialog');
+  const openBtn = document.getElementById('open-modal-btn');
+
+  // .showModal() creates a true modal with background inert & Escape key handler
+  openBtn.addEventListener('click', () => dialog.showModal());
+
+  // Listen for the dialog close event and inspect return value
+  dialog.addEventListener('close', () => {
+    console.log('Dialog result:', dialog.returnValue);
+  });
+&lt;/script&gt;</code></pre>
+        </div>
+
+        <h3>6.2 Zero-JavaScript Accordions: <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code></h3>
+        <div class="code-block">
+          <div class="code-header"><span class="lang">html</span><button class="copy-btn">Copy</button></div>
+          <pre><code>&lt;details name="faq"&gt;
+  &lt;summary&gt;What browsers support native &lt;code&gt;&amp;lt;dialog&amp;gt;&lt;/code&gt;?&lt;/summary&gt;
+  &lt;p&gt;All modern engines (Chromium, Firefox, Safari iOS/macOS) have 100% baseline support since 2022.&lt;/p&gt;
+&lt;/details&gt;
+
+&lt;details name="faq"&gt;
+  &lt;summary&gt;How does exclusive accordion grouping work?&lt;/summary&gt;
+  &lt;p&gt;Adding the &lt;code&gt;name="faq"&lt;/code&gt; attribute automatically ensures only one details accordion opens at a time!&lt;/p&gt;
+&lt;/details&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- CHAPTER 7 -->
+      <section class="chapter" id="ch7" data-category="forms">
+        <div class="ch-header">
+          <div class="ch-badge-row">
+            <span class="ch-badge">CHAPTER 07</span>
+            <span class="ch-cat-tag">Forms &amp; Native Validation</span>
+          </div>
+          <h2>Modern Form Controls &amp; Structural Architecture</h2>
+        </div>
+        <p>Forms represent the primary mechanism for human-to-machine input on the web. Ensuring strict input association, grouping related controls, and leveraging correct virtual keyboard types are fundamental engineering requirements.</p>
+
+        <h3>7.1 Accessible Label Association</h3>
+        <p>Every form control MUST be programmatically linked to a label. Never use <code>placeholder</code> as a replacement for <code>&lt;label&gt;</code>:</p>
+        <div class="code-block">
+          <div class="code-header"><span class="lang">html</span><button class="copy-btn">Copy</button></div>
+          <pre><code>&lt;!-- Explicit Association: matching for and id (Preferred) --&gt;
+&lt;label for="user-email"&gt;Work Email Address&lt;/label&gt;
+&lt;input type="email" id="user-email" name="email" autocomplete="email" required&gt;
+
+&lt;!-- Logical Grouping with Fieldset & Legend --&gt;
+&lt;fieldset&gt;
+  &lt;legend&gt;Deployment Target Environment&lt;/legend&gt;
+  &lt;label&gt;&lt;input type="radio" name="env" value="staging" checked&gt; Staging&lt;/label&gt;
+  &lt;label&gt;&lt;input type="radio" name="env" value="production"&gt; Production&lt;/label&gt;
+&lt;/fieldset&gt;</code></pre>
+        </div>
+
+        <h3>7.2 Mobile Virtual Keyboard Control</h3>
+        <p>Specifying the exact <code>type</code> and <code>inputmode</code> optimizes mobile keyboards for user input speed:</p>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Element Configuration</th>
+                <th>Mobile Keyboard UI</th>
+                <th>Intended Use Case</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>type="email"</code></td>
+                <td>Shows <code>@</code> and <code>.com</code> keys</td>
+                <td>Email account inputs</td>
+              </tr>
+              <tr>
+                <td><code>type="tel"</code></td>
+                <td>10-digit telephone numeric dialpad</td>
+                <td>Phone numbers with formatting symbols</td>
+              </tr>
+              <tr>
+                <td><code>type="text" inputmode="numeric" pattern="[0-9]*"</code></td>
+                <td>Strict 0-9 numeric keypad without phone characters</td>
+                <td>Two-factor OTP auth codes, credit card numbers, ZIP codes</td>
+              </tr>
+              <tr>
+                <td><code>type="search"</code></td>
+                <td>Shows blue "Search" action button in bottom right</td>
+                <td>Query inputs and document searches</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- CHAPTER 8 -->
+      <section class="chapter" id="ch8" data-category="forms">
+        <div class="ch-header">
+          <div class="ch-badge-row">
+            <span class="ch-badge">CHAPTER 08</span>
+            <span class="ch-cat-tag">Forms &amp; Native Validation</span>
+          </div>
+          <h2>The Native Validation Engine &amp; Constraint API</h2>
+        </div>
+        <p>HTML5 contains a robust, declarative validation engine built directly into the browser. You do not need third-party validation libraries for standard client-side constraint checking.</p>
+
+        <h3>8.1 Declarative Validation Attributes</h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Attribute</th>
+                <th>Applies To</th>
+                <th>Validation Constraint</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>required</code></td>
+                <td>text, email, radio, checkbox, select</td>
+                <td>Value cannot be empty upon submission.</td>
+              </tr>
+              <tr>
+                <td><code>pattern="[A-Za-z0-9]+"</code></td>
+                <td>text, search, url, tel, email</td>
+                <td>Value must strictly match the JavaScript regular expression.</td>
+              </tr>
+              <tr>
+                <td><code>min="1" max="100" step="5"</code></td>
+                <td>number, range, date, time</td>
+                <td>Numeric or date value boundary constraints and granularity.</td>
+              </tr>
+              <tr>
+                <td><code>minlength="8" maxlength="64"</code></td>
+                <td>text, password, textarea</td>
+                <td>Character count boundaries.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>8.2 Modern CSS Validation Pseudo-Classes: <code>:user-valid</code> vs. <code>:valid</code></h3>
+        <div class="callout tip">
+          <div class="callout-title">&#10003; Modern CSS Best Practice: :user-invalid</div>
+          <p>The classic <code>:invalid</code> pseudo-class styles inputs as red immediately when the page loads, frustrating users before they even type. Modern browsers now support <code>:user-invalid</code> and <code>:user-valid</code>, which only trigger <em>after</em> the user has interacted with and blurred the input.</p>
+        </div>
+
+        <div class="code-block">
+          <div class="code-header"><span class="lang">css</span><button class="copy-btn">Copy</button></div>
+          <pre><code>/* Only style errors after user finishes typing and leaves the field */
+input:user-invalid {
+  border-color: #ef4444;
+  outline: 2px solid rgba(239, 68, 68, 0.25);
+}
+
+input:user-valid {
+  border-color: #10b981;
+}</code></pre>
+        </div>
+
+        <h3>8.3 The JavaScript Constraint Validation API</h3>
+        <div class="code-block">
+          <div class="code-header"><span class="lang">javascript</span><button class="copy-btn">Copy</button></div>
+          <pre><code>const form = document.querySelector('form');
+const username = document.getElementById('username');
+
+// Set a custom validation error message
+username.addEventListener('input', () => {
+  if (username.value.includes('admin')) {
+    username.setCustomValidity('Username cannot contain the reserved word "admin".');
+  } else {
+    username.setCustomValidity(''); // Reset validity
+  }
+});
+
+form.addEventListener('submit', (e) => {
+  if (!form.checkValidity()) {
+    e.preventDefault();
+    form.reportValidity(); // Displays browser error bubble
+  }
+});</code></pre>
+        </div>
+      </section>
+
+      <!-- CHAPTER 9 -->
+      <section class="chapter" id="ch9" data-category="forms">
+        <div class="ch-header">
+          <div class="ch-badge-row">
+            <span class="ch-badge">CHAPTER 09</span>
+            <span class="ch-cat-tag">Forms &amp; Native Validation</span>
+          </div>
+          <h2>Advanced Form Controls &amp; The <code>FormData</code> API</h2>
+        </div>
+        <p>Beyond simple inputs, HTML5 provides autocomplete datalists, color pickers, range sliders, and clean async submission pipelines using the <code>FormData</code> interface.</p>
+
+        <h3>9.1 Autocomplete Lists with <code>&lt;datalist&gt;</code></h3>
+        <p>Provides native, accessible autocomplete suggestions while still allowing arbitrary user input:</p>
+        <div class="code-block">
+          <div class="code-header"><span class="lang">html</span><button class="copy-btn">Copy</button></div>
+          <pre><code>&lt;label for="cluster"&gt;Select Deployment Cluster:&lt;/label&gt;
+&lt;input list="clusters" id="cluster" name="cluster" placeholder="Type or choose..."&gt;
+
+&lt;datalist id="clusters"&gt;
+  &lt;option value="us-east-1-primary"&gt;
+  &lt;option value="us-west-2-secondary"&gt;
+  &lt;option value="eu-central-1-frankfurt"&gt;
+  &lt;option value="ap-southeast-1-singapore"&gt;
+&lt;/datalist&gt;</code></pre>
+        </div>
+
+        <h3>9.2 Asynchronous Submission with <code>FormData</code></h3>
+        <div class="code-block">
+          <div class="code-header"><span class="lang">javascript</span><button class="copy-btn">Copy</button></div>
+          <pre><code>document.querySelector('form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+
+  // Automatically captures all form fields, file uploads, and radio values!
+  try {
+    const res = await fetch('/api/deploy', {
+      method: 'POST',
+      body: formData // Automatically sets multipart/form-data boundary
+    });
+    const data = await res.json();
+    console.log('Success:', data);
+  } catch (err) {
+    console.error('Submission failed:', err);
+  }
+});</code></pre>
+        </div>
+      </section>
+
+      <!-- CHAPTER 10 -->
+      <section class="chapter" id="ch10" data-category="media">
+        <div class="ch-header">
+          <div class="ch-badge-row">
+            <span class="ch-badge">CHAPTER 10</span>
+            <span class="ch-cat-tag">Media &amp; Web Components</span>
+          </div>
+          <h2>Responsive Images (<code>&lt;picture&gt;</code>) &amp; Next-Gen Formats</h2>
+        </div>
+        <p>Images make up the majority of bytes transferred on the web. Serving oversized desktop JPEG images to mobile devices over cellular networks destroys Core Web Vitals (Largest Contentful Paint &mdash; LCP).</p>
+
+        <h3>10.1 The <code>&lt;picture&gt;</code> Element: Art Direction &amp; Format Negotiation</h3>
+        <p>The <code>&lt;picture&gt;</code> element evaluates <code>&lt;source&gt;</code> tags from top to bottom. The first matching source is loaded by the browser, falling back to <code>&lt;img&gt;</code>:</p>
+
+        <div class="code-block">
+          <div class="code-header"><span class="lang">html</span><button class="copy-btn">Copy</button></div>
+          <pre><code>&lt;picture&gt;
+  &lt;!-- 1. Next-Gen Format 1: AVIF (Maximum compression) --&gt;
+  &lt;source type="image/avif" srcset="/images/hero-1200.avif 1200w, /images/hero-600.avif 600w" sizes="(max-width: 768px) 100vw, 1200px"&gt;
+
+  &lt;!-- 2. Next-Gen Format 2: WebP (Universal modern support) --&gt;
+  &lt;source type="image/webp" srcset="/images/hero-1200.webp 1200w, /images/hero-600.webp 600w" sizes="(max-width: 768px) 100vw, 1200px"&gt;
+
+  &lt;!-- 3. Fallback: Classic Optimized JPEG --&gt;
+  &lt;img 
+    src="/images/hero-1200.jpg" 
+    alt="High-availability server rack cluster architecture"
+    width="1200" 
+    height="675"
+    loading="lazy" 
+    decoding="async"&gt;
+&lt;/picture&gt;</code></pre>
+        </div>
+
+        <div class="callout tip">
+          <div class="callout-title">&#10003; Prevent Layout Shift (CLS): Explicit Width &amp; Height</div>
+          <p>Always specify the native <code>width</code> and <code>height</code> attribute values on the fallback <code>&lt;img&gt;</code> tag. Modern browsers compute the aspect ratio before downloading the image bytes, reserving the exact layout space and eliminating Cumulative Layout Shift!</p>
+        </div>
+      </section>
+
+      <!-- CHAPTER 11 -->
+      <section class="chapter" id="ch11" data-category="media">
+        <div class="ch-header">
+          <div class="ch-badge-row">
+            <span class="ch-badge">CHAPTER 11</span>
+            <span class="ch-cat-tag">Media &amp; Web Components</span>
+          </div>
+          <h2>Video, Audio, WebVTT Captions &amp; Sandboxed IFrames</h2>
+        </div>
+        <p>HTML5 completely eliminated the need for proprietary plugins (like Flash) by introducing native <code>&lt;video&gt;</code> and <code>&lt;audio&gt;</code> tags, paired with WebVTT subtitle tracks for accessibility.</p>
+
+        <h3>11.1 Accessible Video with Subtitles</h3>
+        <div class="code-block">
+          <div class="code-header"><span class="lang">html</span><button class="copy-btn">Copy</button></div>
+          <pre><code>&lt;video controls preload="metadata" poster="/assets/poster.webp" playsinline&gt;
+  &lt;source src="/assets/keynote.mp4" type="video/mp4"&gt;
+  &lt;source src="/assets/keynote.webm" type="video/webm"&gt;
+  
+  &lt;!-- Subtitles & Captions via WebVTT --&gt;
+  &lt;track kind="captions" src="/captions/en.vtt" srclang="en" label="English" default&gt;
+  &lt;track kind="subtitles" src="/captions/es.vtt" srclang="es" label="Español"&gt;
+  
+  &lt;p&gt;Your browser does not support HTML5 video. &lt;a href="/assets/keynote.mp4"&gt;Download video&lt;/a&gt;.&lt;/p&gt;
+&lt;/video&gt;</code></pre>
+        </div>
+
+        <h3>11.2 IFrame Security: The <code>sandbox</code> Attribute</h3>
+        <p>Embedding third-party content without a sandbox exposes your application to clickjacking and cross-site scripting (XSS):</p>
+        <div class="code-block">
+          <div class="code-header"><span class="lang">html</span><button class="copy-btn">Copy</button></div>
+          <pre><code>&lt;!-- Sandboxed IFrame with restricted permissions --&gt;
+&lt;iframe 
+  src="https://third-party-widget.com" 
+  title="Interactive System Widget"
+  sandbox="allow-scripts allow-same-origin"
+  loading="lazy"
+  referrerpolicy="no-referrer"
+  width="600" 
+  height="400"&gt;
+&lt;/iframe&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- CHAPTER 12 -->
+      <section class="chapter" id="ch12" data-category="media">
+        <div class="ch-header">
+          <div class="ch-badge-row">
+            <span class="ch-badge">CHAPTER 12</span>
+            <span class="ch-cat-tag">Media &amp; Web Components</span>
+          </div>
+          <h2>Web Components, <code>&lt;template&gt;</code> &amp; Declarative Shadow DOM</h2>
+        </div>
+        <p>Web Components allow engineers to author custom, encapsulated HTML elements that function across any framework (React, Vue, Angular, Svelte) or in vanilla JavaScript.</p>
+
+        <h3>12.1 The Three Pillars of Web Components</h3>
+        <ol>
+          <li><strong>Custom Elements:</strong> The JavaScript API (<code>customElements.define()</code>) to create new HTML tags with lifecycle callbacks.</li>
+          <li><strong>Shadow DOM:</strong> Encapsulated DOM and scoped CSS that prevents styles from leaking in or out.</li>
+          <li><strong>HTML Templates:</strong> <code>&lt;template&gt;</code> and <code>&lt;slot&gt;</code> elements that define dormant markup instantiated at runtime.</li>
+        </ol>
+
+        <div class="code-block">
+          <div class="code-header"><span class="lang">html</span><button class="copy-btn">Copy</button></div>
+          <pre><code>&lt;!-- Declarative Shadow DOM: Server-Renderable Encapsulated Component --&gt;
+&lt;user-card&gt;
+  &lt;template shadowrootmode="open"&gt;
+    &lt;style&gt;
+      :host {
+        display: block;
+        background: #1e293b;
+        color: #f8fafc;
+        border-radius: 8px;
+        padding: 1rem;
+        font-family: sans-serif;
+      }
+      h4 { margin: 0 0 0.5rem; color: #38bdf8; }
+    &lt;/style&gt;
+    &lt;h4&gt;&lt;slot name="name"&gt;Anonymous&lt;/slot&gt;&lt;/h4&gt;
+    &lt;p&gt;Role: &lt;slot name="role"&gt;Engineer&lt;/slot&gt;&lt;/p&gt;
+  &lt;/template&gt;
+  
+  &lt;!-- Projected Content --&gt;
+  &lt;span slot="name"&gt;Alex Morgan&lt;/span&gt;
+  &lt;span slot="role"&gt;Principal Infrastructure Architect&lt;/span&gt;
+&lt;/user-card&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- CHAPTER 13 -->
+      <section class="chapter" id="ch13" data-category="recipes">
+        <div class="ch-header">
+          <div class="ch-badge-row">
+            <span class="ch-badge">CHAPTER 13</span>
+            <span class="ch-cat-tag">Accessibility, Security &amp; Recipes</span>
+          </div>
+          <h2>Accessible Data Tables &amp; Complex Grids</h2>
+        </div>
+        <p>Tables must strictly be used for tabular data &mdash; never for visual layout. Screen readers rely on table headers (<code>&lt;th&gt;</code>) with explicit <code>scope</code> attributes to announce context to vision-impaired users as they navigate cells.</p>
+
+        <div class="code-block">
+          <div class="code-header"><span class="lang">html</span><button class="copy-btn">Copy</button></div>
+          <pre><code>&lt;table&gt;
+  &lt;caption&gt;Production Cluster Node Performance Metrics (Q4)&lt;/caption&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th scope="col"&gt;Node ID&lt;/th&gt;
+      &lt;th scope="col"&gt;CPU Cores&lt;/th&gt;
+      &lt;th scope="col"&gt;RAM (GB)&lt;/th&gt;
+      &lt;th scope="col"&gt;Status&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;node-us-east-01&lt;/th&gt;
+      &lt;td&gt;64&lt;/td&gt;
+      &lt;td&gt;256&lt;/td&gt;
+      &lt;td&gt;Healthy&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;node-us-west-02&lt;/th&gt;
+      &lt;td&gt;32&lt;/td&gt;
+      &lt;td&gt;128&lt;/td&gt;
+      &lt;td&gt;Healthy&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+  &lt;tfoot&gt;
+    &lt;tr&gt;
+      &lt;th scope="row"&gt;Total Cluster Capacity&lt;/th&gt;
+      &lt;td&gt;96 Cores&lt;/td&gt;
+      &lt;td&gt;384 GB&lt;/td&gt;
+      &lt;td&gt;Operational&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tfoot&gt;
+&lt;/table&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- CHAPTER 14 -->
+      <section class="chapter" id="ch14" data-category="recipes">
+        <div class="ch-header">
+          <div class="ch-badge-row">
+            <span class="ch-badge">CHAPTER 14</span>
+            <span class="ch-cat-tag">Accessibility, Security &amp; Recipes</span>
+          </div>
+          <h2>Accessibility Standards (WCAG 2.2 AA) &amp; ARIA</h2>
+        </div>
+        <p>The first rule of ARIA (Accessible Rich Internet Applications) states: <strong>"If you can use a native HTML element or attribute with the semantics and behavior already built in, then do so instead of re-purposing an element and adding ARIA."</strong></p>
+
+        <h3>14.1 When to Use ARIA</h3>
+        <ul>
+          <li><code>aria-label</code>: Provides an invisible accessible text label when no visible text exists (e.g. an icon button with only an SVG).</li>
+          <li><code>aria-labelledby</code>: Points to the ID of another element that serves as this element's label.</li>
+          <li><code>aria-describedby</code>: Points to supplementary help text or error messages.</li>
+          <li><code>aria-live="polite"</code>: Informs screen readers of dynamic content updates without interrupting current announcements.</li>
+        </ul>
+
+        <div class="code-block">
+          <div class="code-header"><span class="lang">html</span><button class="copy-btn">Copy</button></div>
+          <pre><code>&lt;!-- Accessible Icon-Only Button --&gt;
+&lt;button type="button" aria-label="Close dialog window"&gt;
+  &lt;svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24"&gt;
+    &lt;path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2"/&gt;
+  &lt;/svg&gt;
+&lt;/button&gt;
+
+&lt;!-- Dynamic Live Announcement Region --&gt;
+&lt;div aria-live="polite" aria-atomic="true" class="sr-only" id="status-feed"&gt;
+  Build #492 deployment completed successfully.
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- CHAPTER 15 -->
+      <section class="chapter" id="ch15" data-category="recipes">
+        <div class="ch-header">
+          <div class="ch-badge-row">
+            <span class="ch-badge">CHAPTER 15</span>
+            <span class="ch-cat-tag">Accessibility, Security &amp; Recipes</span>
+          </div>
+          <h2>Production Boilerplate &amp; Live HTML Sandbox</h2>
+        </div>
+        <p>This chapter provides the complete production-grade HTML5 boilerplate including security headers (Content Security Policy), subresource integrity, and an interactive live sandbox.</p>
+
+        <h3>15.1 Production-Ready HTML5 Template</h3>
+        <div class="code-block">
+          <div class="code-header"><span class="lang">html</span><button class="copy-btn">Copy</button></div>
+          <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en" dir="ltr"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;meta http-equiv="X-Content-Type-Options" content="nosniff"&gt;
+  
+  &lt;!-- Content Security Policy (CSP) --&gt;
+  &lt;meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;"&gt;
+  
+  &lt;title&gt;Production Application Shell&lt;/title&gt;
+  &lt;meta name="description" content="Secure, high-availability web client application."&gt;
+  
+  &lt;!-- Subresource Integrity (SRI) ensures external scripts have not been tampered with --&gt;
+  &lt;link rel="stylesheet" href="/assets/style.css"&gt;
+  &lt;script type="module" src="/assets/main.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;a href="#main" class="skip-link"&gt;Skip to main content&lt;/a&gt;
+  
+  &lt;header role="banner"&gt;
+    &lt;h1&gt;Production App&lt;/h1&gt;
+  &lt;/header&gt;
+  
+  &lt;main id="main" tabindex="-1"&gt;
+    &lt;p&gt;Operational interface loaded.&lt;/p&gt;
+  &lt;/main&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+
+        <h3>15.2 Interactive Live HTML Sandbox</h3>
+        <p>Edit the HTML and CSS in the editor below to preview real-time rendering inside an isolated sandbox:</p>
+
+        <div class="sandbox-container">
+          <div class="sandbox-header">
+            <span class="sandbox-title">&#9881; Live HTML5 Real-Time Sandbox</span>
+            <button class="copy-btn" id="reset-sandbox-btn">Reset Code</button>
+          </div>
+          <div class="sandbox-grid">
+            <div class="sandbox-editor">
+              <div class="sandbox-editor-label">HTML / CSS Source Editor</div>
+              <textarea id="sandbox-code" class="sandbox-textarea" spellcheck="false">&lt;div class="card"&gt;
+  &lt;span class="badge"&gt;HTML5 LIVE&lt;/span&gt;
+  &lt;h3&gt;Interactive Component&lt;/h3&gt;
+  &lt;p&gt;Edit this HTML markup or CSS directly in the editor!&lt;/p&gt;
+  &lt;button onclick="alert('HTML5 Native Interaction!')"&gt;Click Action&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    padding: 1.5rem;
+    margin: 0;
+    background: #f8fafc;
+    color: #0f172a;
+  }
+  .card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+  .badge {
+    background: #ea580c;
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  h3 { margin: 0.5rem 0; color: #0f172a; }
+  p { color: #64748b; font-size: 0.9rem; line-height: 1.5; }
+  button {
+    background: #0284c7;
+    color: #ffffff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  button:hover { background: #0369a1; }
+&lt;/style&gt;</textarea>
+            </div>
+            <div class="sandbox-preview">
+              <div class="sandbox-preview-label">Live Sandbox Output</div>
+              <iframe id="sandbox-iframe" class="sandbox-iframe" title="Sandbox Output"></iframe>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <button id="back-to-top" aria-label="Back to top">&#8593;</button>
+
+  <script>
+    // Theme Management
+    const themeBtn = document.getElementById('theme-btn');
+    const themeIcon = document.getElementById('theme-icon');
+    
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      themeIcon.textContent = theme === 'dark' ? '\u2600' : '\u263E';
+      localStorage.setItem('html5_theme', theme);
+    }
+    
+    const savedTheme = localStorage.getItem('html5_theme') || 
+      (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    applyTheme(savedTheme);
+
+    themeBtn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      applyTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    // Domain Category Filtering
+    const categoryCards = document.querySelectorAll('.category-card');
+    const chapters = document.querySelectorAll('.chapter');
+    const resetBtn = document.getElementById('category-reset');
+
+    function setActiveCategory(cat) {
+      categoryCards.forEach(c => c.classList.toggle('active', c.getAttribute('data-cat') === cat));
+      chapters.forEach(ch => {
+        if (cat === 'all' || !cat) {
+          ch.classList.remove('filtered-out');
+        } else {
+          ch.classList.toggle('filtered-out', ch.getAttribute('data-category') !== cat);
+        }
+      });
+      if (cat !== 'all') {
+        const first = document.querySelector(`.chapter[data-category="${cat}"]`);
+        if (first && window.scrollY > 300) {
+          first.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    }
+
+    categoryCards.forEach(card => {
+      card.addEventListener('click', () => setActiveCategory(card.getAttribute('data-cat')));
+    });
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => setActiveCategory('all'));
+    }
+
+    // Copy Button Functionality
+    document.addEventListener('click', async (e) => {
+      const btn = e.target.closest('.copy-btn');
+      if (!btn || btn.id === 'reset-sandbox-btn') return;
+      const code = btn.closest('.code-block').querySelector('code');
+      if (!code) return;
+      try {
+        await navigator.clipboard.writeText(code.innerText);
+        const original = btn.innerText;
+        btn.innerText = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.innerText = original;
+          btn.classList.remove('copied');
+        }, 1600);
+      } catch (err) {
+        btn.innerText = 'Error';
+      }
+    });
+
+    // IntersectionObserver for Sidebar Active Links
+    const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          sidebarLinks.forEach(link => {
+            const isMatch = link.getAttribute('href') === '#' + id;
+            link.classList.toggle('active', isMatch);
+          });
+        }
+      });
+    }, { rootMargin: '-15% 0px -70% 0px' });
+
+    chapters.forEach(c => observer.observe(c));
+
+    // Reading Progress & Back to Top
+    const backToTop = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const current = window.scrollY;
+      const progress = max > 0 ? (current / max) * 100 : 0;
+      document.documentElement.style.setProperty('--progress', progress + '%');
+
+      if (current > 350) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    }, { passive: true });
+
+    backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // Live HTML Sandbox Runner
+    const sandboxTextarea = document.getElementById('sandbox-code');
+    const sandboxIframe = document.getElementById('sandbox-iframe');
+    const resetSandboxBtn = document.getElementById('reset-sandbox-btn');
+    const initialSandboxCode = sandboxTextarea.value;
+
+    function renderSandbox() {
+      const iframeDoc = sandboxIframe.contentDocument || sandboxIframe.contentWindow.document;
+      iframeDoc.open();
+      iframeDoc.write(sandboxTextarea.value);
+      iframeDoc.close();
+    }
+
+    sandboxTextarea.addEventListener('input', renderSandbox);
+    resetSandboxBtn.addEventListener('click', () => {
+      sandboxTextarea.value = initialSandboxCode;
+      renderSandbox();
+    });
+
+    // Initial sandbox render
+    setTimeout(renderSandbox, 200);
+  </script>
+</body>
+</html>

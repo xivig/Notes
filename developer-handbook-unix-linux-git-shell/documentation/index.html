@@ -1,0 +1,892 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Essential macOS, Unix, Linux & Git documentation: production-grade tutorials, terminal mastery, shell scripting, and disaster recovery.">
+  <meta name="theme-color" content="#090d18">
+  <title>Essential macOS · Unix · Linux · Git — Elite Documentation</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Essential DevOps documentation home">
+      <span class="brand-mark">⌘</span>
+      <span>TERMINAL ELITE <small>MACOS · UNIX · GIT</small></span>
+    </a>
+        <div class="top-actions">
+      <a class="nav-handbook-btn" href="../Linux_Unix_Shell_Developer_Handbook.html" title="Open Linux & Unix Shell Developer Handbook (39 Ch)">Shell Handbook (39 Ch)</a>
+      <a class="nav-handbook-btn" href="../Git_GitHub_Complete_Tutorial.html" title="Open Git & GitHub Complete Tutorial (22 Ch)">Git Guide (22 Ch)</a>
+      <a class="nav-handbook-btn" href="../HTML5_Web_Developer_Handbook.html" title="Open HTML5 & Modern Web Architecture Handbook (15 Ch)">HTML5 Guide (15 Ch)</a>
+      <a class="nav-handbook-btn" href="../shell-scripts-repo/README.md" title="Browse 25 Production Shell Scripts">Scripts (25)</a>
+      <a class="github-link" href="https://github.com/xivig/developer-handbook-unix-linux-git-shell" target="_blank" rel="noopener noreferrer">GitHub Repo ↗</a>
+    </div>
+    <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+  </header>
+
+  <div id="search-results" class="search-results" hidden></div>
+
+  <div class="shell" id="top">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" aria-label="Documentation navigation">
+      <label class="search-label" for="doc-search">SEARCH DOCUMENTATION</label>
+      <div class="search-wrap">
+        <span aria-hidden="true">⌕</span>
+        <input id="doc-search" type="search" placeholder="Search commands, tips, vim..." autocomplete="off">
+        <kbd>/</kbd>
+      </div>
+
+      <nav id="side-nav">
+                <p class="nav-heading">INTERACTIVE HANDBOOKS</p>
+        <a class="nav-link external-link" href="../Linux_Unix_Shell_Developer_Handbook.html">⚡ Linux &amp; Unix Handbook (39 Ch) ↗</a>
+        <a class="nav-link external-link" href="../Git_GitHub_Complete_Tutorial.html">🌿 Git &amp; GitHub Guide (22 Ch) ↗</a>
+        <a class="nav-link external-link" href="../shell-scripts-repo/README.md">📦 24 Production Scripts Suite ↗</a>
+        <a class="nav-link external-link" href="../docs/README.md">📚 Modular Markdown Docs (18) ↗</a>
+
+        <p class="nav-heading">GET STARTED</p>
+        <a class="nav-link active" href="#overview">Overview & Architecture</a>
+        <a class="nav-link" href="#quick-start">Quick Reference Cards</a>
+
+        <p class="nav-heading">MACOS TERMINAL</p>
+        <a class="nav-link" href="#macos-setup">Setup & Homebrew</a>
+        <a class="nav-link" href="#macos-tricks">macOS vs Linux Nuances</a>
+
+        <p class="nav-heading">GIT MASTERY</p>
+        <a class="nav-link" href="#git-fundamentals">Fundamentals & Setup</a>
+        <a class="nav-link" href="#git-workflow">Everyday Workflow</a>
+        <a class="nav-link" href="#git-branching">Branching, Remotes & Stash</a>
+        <a class="nav-link" href="#git-troubleshooting">Disaster Recovery & Reflog</a>
+        <a class="nav-link" href="#git-cheatsheet">Git Power Aliases</a>
+
+        <p class="nav-heading">UNIX & LINUX</p>
+        <a class="nav-link" href="#unix-basics">Filesystem & Permissions</a>
+        <a class="nav-link" href="#env-vars">Environment Variables & $PATH</a>
+        <a class="nav-link" href="#prompt-history">Custom Prompt & History</a>
+        <a class="nav-link" href="#shell-scripting">Bash Scripting Mastery</a>
+        <a class="nav-link" href="#text-processing">Awk, Sed, Xargs & Vim</a>
+        <a class="nav-link" href="#unix-cheatsheet">CLI Power One-Liners</a>
+
+        <p class="nav-heading">SHELL SCRIPTING MASTERCLASS</p>
+        <a class="nav-link" href="#shell-mastery">All-in-One Developer Guide</a>
+
+        <p class="nav-heading">HTML5 STANDARDS</p>
+        <a class="nav-link" href="#html-foundations">Foundations & Head Meta</a>
+        <a class="nav-link" href="#html-semantics">Semantic Landmarks</a>
+        <a class="nav-link" href="#html-forms">Modern Forms & Validation</a>
+        <a class="nav-link" href="#html-media">Responsive Media & Dialogs</a>
+
+        <p class="nav-heading">UTILITY SCRIPTS</p>
+        <a class="nav-link" href="#scripts-reference">Scaffolding & Loops</a>
+      </nav>
+
+      <div class="sidebar-foot">
+        Essential macOS · Unix · Git<br>
+        <span>Production Reference Portal</span>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main id="content" class="content">
+      <div class="breadcrumbs">Documentation <span>/</span> Developer Reference Hub</div>
+
+      <!-- Hero Section -->
+      <section class="hero" id="overview" data-title="Overview & Architecture">
+        <div class="eyebrow"><span class="pulse"></span> PRODUCTION-GRADE TERMINAL GUIDE</div>
+        <h1>Master the Terminal. <span>macOS, Unix & Git.</span></h1>
+        <p class="hero-copy">From foundational filesystem mechanics and bulletproof Git disaster recovery to advanced Awk pipelines, Vim mastery, and cross-platform automation.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#quick-start">Jump to Quick Start <span>→</span></a>
+          <a class="button secondary" href="https://github.com/xivig/developer-handbook-unix-linux-git-shell" target="_blank" rel="noopener noreferrer">View on GitHub ↗</a>
+        </div>
+        <div class="hero-meta">
+          <span>Git 2.50+</span><i></i>
+          <span>macOS Zsh</span><i></i>
+          <span>Linux Bash</span><i></i>
+          <span>Awk & Sed</span><i></i>
+          <span>Vim 9.0</span>
+        </div>
+      </section>
+
+      <div class="notice">
+        <span class="notice-icon">✦</span>
+        <div>
+          <strong>Cross-Platform Compatibility Built In</strong>
+          <p>Every tutorial highlights key behavioral differences between macOS (Darwin/BSD utilities, Zsh, Apple Silicon paths) and Linux (GNU coreutils, Bash, systemd).</p>
+        </div>
+      
+      <!-- Standalone Handbooks Launcher Cards -->
+      <div class="portal-launcher-grid">
+        <a class="launcher-card" href="../Linux_Unix_Shell_Developer_Handbook.html">
+          <div class="launcher-card-top">
+            <span class="launcher-badge" style="background: rgba(99, 102, 241, 0.2); color: #a5b4fc;">39 Chapters</span>
+            <span class="launcher-arrow">→</span>
+          </div>
+          <h3>Linux &amp; Unix Shell Developer Handbook</h3>
+          <p>Comprehensive, interactive single-file manual with Dark/Light themes, 6 domain tracks, and Bourne shell Deep Dive Tutorial.</p>
+        </a>
+
+        <a class="launcher-card" href="../Git_GitHub_Complete_Tutorial.html">
+          <div class="launcher-card-top">
+            <span class="launcher-badge" style="background: rgba(59, 130, 246, 0.2); color: #93c5fd;">22 Chapters</span>
+            <span class="launcher-arrow">→</span>
+          </div>
+          <h3>Git &amp; GitHub Practical Developer's Guide</h3>
+          <p>Interactive guide covering object plumbing, branching models, PR collaboration, merge conflicts, and reflog disaster recovery.</p>
+        </a>
+
+        <a class="launcher-card" href="../HTML5_Web_Developer_Handbook.html">
+          <div class="launcher-card-top">
+            <span class="launcher-badge" style="background: rgba(249, 115, 22, 0.2); color: #fdba74;">15 Chapters</span>
+            <span class="launcher-arrow">→</span>
+          </div>
+          <h3>HTML5 &amp; Modern Web Architecture Handbook</h3>
+          <p>Interactive guide to semantic landmarks, native validation, responsive media, Web Components, and live sandbox playground.</p>
+        </a>
+
+        <a class="launcher-card" href="../shell-scripts-repo/README.md">
+          <div class="launcher-card-top">
+            <span class="launcher-badge" style="background: rgba(16, 185, 129, 0.2); color: #6ee7b7;">25 Scripts</span>
+            <span class="launcher-arrow">→</span>
+          </div>
+          <h3>Production Shell Scripts Suite</h3>
+          <p>Curated repository of 25 defensive automation scripts and testing harnesses featuring strict mode (set -euo pipefail), dry-run modes, and error traps.</p>
+        </a>
+
+        <a class="launcher-card" href="../docs/README.md">
+          <div class="launcher-card-top">
+            <span class="launcher-badge" style="background: rgba(245, 158, 11, 0.2); color: #fde68a;">18 Modules</span>
+            <span class="launcher-arrow">→</span>
+          </div>
+          <h3>Modular Markdown Documentation</h3>
+          <p>Structured documentation tracks covering Git, Unix-Linux, HTML5 standards, macOS setup, and Bash programming.</p>
+        </a>
+      </div>
+</div>
+
+      <!-- Section 1: Quick Reference -->
+      <section class="doc-section" id="quick-start" data-title="Quick Reference Cards">
+        <div class="section-kicker">01 — ESSENTIAL CARDS</div>
+        <h2>High-Frequency Command Cards</h2>
+        <p>Immediate cheat-sheet solutions for everyday operations:</p>
+
+        <div class="info-grid">
+          <article>
+            <span class="tile-icon">⚡</span>
+            <h3>Git Fast Sync</h3>
+            <p>Stash local changes, pull incoming updates with rebase, and pop stashed work cleanly.</p>
+          </article>
+          <article>
+            <span class="tile-icon">⌘</span>
+            <h3>macOS Port Kill</h3>
+            <p>Find and terminate hung development servers running on specific local ports.</p>
+          </article>
+          <article>
+            <span class="tile-icon">🔒</span>
+            <h3>History Privacy</h3>
+            <p>Execute sensitive commands without recording tokens or keys to your bash history.</p>
+          </article>
+        </div>
+
+        <div class="code-head">
+          <span>GIT CLEAN SYNC WORKFLOW</span>
+          <button class="copy" data-copy="git stash push -m 'wip'\ngit pull --rebase origin main\ngit stash pop">Copy</button>
+        </div>
+        <pre><code># Stash, rebase incoming changes, and restore your work
+git stash push -m "wip"
+git pull --rebase origin main
+git stash pop</code></pre>
+
+        <div class="code-head">
+          <span>KILL PROCESS ON PORT (3000)</span>
+          <button class="copy" data-copy="kill -9 $(lsof -t -i :3000)">Copy</button>
+        </div>
+        <pre><code># Works on macOS and Linux alike
+kill -9 $(lsof -t -i :3000)</code></pre>
+
+        <div class="steps">
+          <div><b>1</b><span><strong>Inspect</strong><small>Check repository status.</small></span></div>
+          <div><b>2</b><span><strong>Stage</strong><small>Add granular changes.</small></span></div>
+          <div><b>3</b><span><strong>Deploy</strong><small>Push with lease.</small></span></div>
+        </div>
+      </section>
+
+      <!-- Section 2: macOS Setup & Homebrew -->
+      <section class="doc-section" id="macos-setup" data-title="macOS Terminal Setup">
+        <div class="section-kicker">02 — MACOS SYSTEM</div>
+        <h2>macOS Developer Setup & Homebrew</h2>
+        <p>macOS comes with Apple Command Line Tools and default BSD utilities. Setting up modern GNU coreutils and Homebrew transforms macOS into an elite workstation.</p>
+
+        <div class="code-head">
+          <span>INSTALL HOMEBREW & ESSENTIAL TOOLS</span>
+          <button class="copy" data-copy="/bin/bash -c &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&quot;\nbrew install git coreutils zsh jq ripgrep">Copy</button>
+        </div>
+        <pre><code># Install Homebrew Package Manager
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Install modern CLI essentials
+brew install git coreutils zsh jq ripgrep</code></pre>
+
+        <h3>Apple Silicon (M1/M2/M3/M4) Architecture Paths</h3>
+        <p>On Apple Silicon, Homebrew installs under <code>/opt/homebrew</code> instead of Intel's <code>/usr/local</code>. Ensure your <code>~/.zprofile</code> initializes Homebrew:</p>
+
+        <div class="code-head">
+          <span>ZSH SHELL PROFILE CONFIGURATION</span>
+          <button class="copy" data-copy="eval &quot;$(/opt/homebrew/bin/brew shellenv)&quot;">Copy</button>
+        </div>
+        <pre><code># Add to ~/.zprofile (or ~/.zshrc)
+eval "$(/opt/homebrew/bin/brew shellenv)"</code></pre>
+      </section>
+
+      <!-- Section 3: macOS vs Linux Nuances -->
+      <section class="doc-section" id="macos-tricks" data-title="macOS vs Linux Nuances">
+        <div class="section-kicker">03 — CROSS-PLATFORM</div>
+        <h2>macOS (BSD) vs. Linux (GNU) Quirks</h2>
+        <p>Key differences that trip up developers switching between Mac laptops and Linux servers:</p>
+
+        <div class="command-list">
+          <div><span>In-place Sed editing</span><code>macOS: sed -i '' 's/a/b/g' file | Linux: sed -i 's/a/b/g' file</code></div>
+          <div><span>Copy to system clipboard</span><code>macOS: pbcopy &lt; file.txt | Linux: xclip -sel clip &lt; file.txt</code></div>
+          <div><span>Paste from clipboard</span><code>macOS: pbpaste &gt; file.txt | Linux: xclip -out -sel clip &gt; file.txt</code></div>
+          <div><span>Open file/URL in default app</span><code>macOS: open index.html | Linux: xdg-open index.html</code></div>
+          <div><span>Get file size in bytes</span><code>macOS: stat -f%z file.txt | Linux: stat -c%s file.txt</code></div>
+        </div>
+
+        <div class="tip">
+          <strong>Global .DS_Store Immunity</strong>
+          <p>Prevent macOS Finder indexing files from cluttering any Git repository on your machine:
+          <code>echo ".DS_Store" &gt;&gt; ~/.gitignore_global &amp;&amp; git config --global core.excludesfile ~/.gitignore_global</code></p>
+        </div>
+      </section>
+
+      <!-- Section 4: Git Fundamentals -->
+      <section class="doc-section" id="git-fundamentals" data-title="Git Fundamentals & Setup">
+        <div class="section-kicker">04 — VERSION CONTROL</div>
+        <h2>Git Fundamentals & Global Setup</h2>
+        <p>A pristine Git configuration ensures correct commit authorship, standard branch nomenclature, and normalized cross-platform line endings.</p>
+
+        <div class="code-head">
+          <span>RECOMMENDED GLOBAL CONFIGURATION</span>
+          <button class="copy" data-copy="git config --global user.name &quot;Your Name&quot;\ngit config --global user.email &quot;your.email@example.com&quot;\ngit config --global init.defaultBranch main\ngit config --global core.editor &quot;vim&quot;">Copy</button>
+        </div>
+        <pre><code># Configure identity
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+
+# Set modern default branch name
+git config --global init.defaultBranch main
+
+# Set terminal editor
+git config --global core.editor "vim"</code></pre>
+
+        <h3>Line Ending Normalization (`core.autocrlf`)</h3>
+        <p>Prevent Git from registering entire files as modified due to Windows CRLF vs macOS/Linux LF:</p>
+        <pre><code># On Windows:
+git config --global core.autocrlf true
+
+# On macOS and Linux:
+git config --global core.autocrlf input</code></pre>
+
+        <h3>Authentication: Ed25519 SSH Keys</h3>
+        <p>Generate a high-security, compact cryptographic key for password-less GitHub communication:</p>
+        <pre><code>ssh-keygen -t ed25519 -C "your.email@example.com"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+ssh -T git@github.com</code></pre>
+      </section>
+
+      <!-- Section 5: Git Everyday Workflow -->
+      <section class="doc-section" id="git-workflow" data-title="Git Everyday Workflow">
+        <div class="section-kicker">05 — DAY-TO-DAY GIT</div>
+        <h2>Everyday Workflow & File Tracking</h2>
+        <p>Understanding the three architectural states of Git: <strong>Working Directory</strong>, <strong>Staging Area (Index)</strong>, and <strong>Permanent Repository (HEAD)</strong>.</p>
+
+        <div class="code-head">
+          <span>GRANULAR HUNK STAGING</span>
+          <button class="copy" data-copy="git add -p">Copy</button>
+        </div>
+        <pre><code># Interactively stage selective code changes within a file
+git add -p app.js
+# Prompts: y (stage), n (skip), s (split hunk), q (quit)</code></pre>
+
+        <h3>Fixing the "Already Tracked" .gitignore Problem</h3>
+        <p>If files like <code>node_modules/</code>, <code>.env</code>, or build logs were committed before being added to <code>.gitignore</code>, Git keeps tracking them. Untrack them safely without deleting local files:</p>
+
+        <div class="code-head">
+          <span>UNTRACK CACHED FILES</span>
+          <button class="copy" data-copy="git rm -r --cached node_modules/\ngit commit -m &quot;chore: untrack node_modules from git cache&quot;">Copy</button>
+        </div>
+        <pre><code># Remove a directory from Git index while keeping local files on disk
+git rm -r --cached node_modules/
+git rm --cached .env
+
+# Re-index entire project based on .gitignore
+git rm -r --cached .
+git add .
+git commit -m "chore: stop tracking files specified in .gitignore"</code></pre>
+      </section>
+
+      <!-- Section 6: Branching, Remotes & Stash -->
+      <section class="doc-section" id="git-branching" data-title="Branching, Remotes & Stash">
+        <div class="section-kicker">06 — COLLABORATION</div>
+        <h2>Branching, Remotes & Stashing</h2>
+        <p>Branches are lightweight 41-byte pointers to commit SHAs. Use modern <code>git switch</code> to eliminate ambiguities.</p>
+
+        <div class="command-list">
+          <div><span>Create and switch to branch</span><code>git switch -c feature/payment-gateway</code></div>
+          <div><span>Switch back to main</span><code>git switch main</code></div>
+          <div><span>Safe delete merged branch</span><code>git branch -d feature/payment-gateway</code></div>
+          <div><span>Add remote upstream repository</span><code>git remote add origin https://github.com/user/repo.git</code></div>
+          <div><span>Inspect remote URLs</span><code>git remote -v</code></div>
+          <div><span>Fetch remote refs without merging</span><code>git fetch origin</code></div>
+        </div>
+
+        <h3>Saving In-Flight Work with `git stash`</h3>
+        <pre><code># Stash working directory and untracked files
+git stash push -u -m "WIP: checkout integration"
+
+# List all stored snapshots
+git stash list
+
+# Re-apply most recent stash and remove it from stack
+git stash pop</code></pre>
+      </section>
+
+      <!-- Section 7: Git Troubleshooting & Disaster Recovery -->
+      <section class="doc-section" id="git-troubleshooting" data-title="Disaster Recovery & Reflog">
+        <div class="section-kicker">07 — EMERGENCY FIXES</div>
+        <h2>Git Troubleshooting & Disaster Recovery</h2>
+
+        <h3>1. The Rejected Push Error</h3>
+        <p>Occurs when remote <code>origin/main</code> contains commits you lack locally:</p>
+        <pre><code># Safe resolution sequence:
+git stash push -m "temp before pull"
+git pull --rebase origin main
+git stash pop
+git push origin main</code></pre>
+
+        <h3>2. Time Travel & Recovery with `git reflog`</h3>
+        <p>If you ran <code>git reset --hard</code> by mistake or deleted a branch: <strong>Git does not delete commits immediately</strong>. `reflog` tracks every pointer movement for 90 days:</p>
+
+        <div class="code-head">
+          <span>RECOVER DELETED COMMITS</span>
+          <button class="copy" data-copy="git reflog\ngit reset --hard HEAD@{1}">Copy</button>
+        </div>
+        <pre><code># View complete movement of HEAD
+git reflog
+# Output:
+# 8f9e0d1 HEAD@{0}: reset: moving to HEAD~1
+# 3c2b1a0 HEAD@{1}: commit: valuable feature implementation
+
+# Recover back to HEAD@{1}:
+git reset --hard 3c2b1a0
+# Or branch from it:
+git switch -c recovered-work 3c2b1a0</code></pre>
+
+        <div class="warning">
+          <strong>Avoid Naked Force Pushing</strong>
+          <p>Never run <code>git push -f</code> on shared branches. Always use <code>git push --force-with-lease</code> so the push will fail if a teammate pushed commits you haven't fetched yet.</p>
+        </div>
+      </section>
+
+      <!-- Section 8: Git Power Aliases -->
+      <section class="doc-section" id="git-cheatsheet" data-title="Git Power Aliases">
+        <div class="section-kicker">08 — PRODUCTIVITY BOOST</div>
+        <h2>Git Power Aliases</h2>
+        <p>Accelerate your daily workflow with these high-performance global aliases:</p>
+
+        <div class="code-head">
+          <span>INSTALL RECOMMENDED ALIASES</span>
+          <button class="copy" data-copy="git config --global alias.st &quot;status -s&quot;\ngit config --global alias.sw &quot;switch&quot;\ngit config --global alias.co &quot;checkout&quot;\ngit config --global alias.br &quot;branch&quot;\ngit config --global alias.cm &quot;commit -m&quot;\ngit config --global alias.ca &quot;commit --amend --no-edit&quot;\ngit config --global alias.up &quot;pull --rebase --autostash&quot;\ngit config --global alias.lg &quot;log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit&quot;">Copy</button>
+        </div>
+        <pre><code>git config --global alias.st "status -s"
+git config --global alias.sw "switch"
+git config --global alias.cm "commit -m"
+git config --global alias.ca "commit --amend --no-edit"
+git config --global alias.up "pull --rebase --autostash"
+git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset' --abbrev-commit"</code></pre>
+      </section>
+
+      <!-- Section 9: Unix & Linux Filesystem -->
+      <section class="doc-section" id="unix-basics" data-title="Filesystem & Permissions">
+        <div class="section-kicker">09 — CORE UNIX</div>
+        <h2>Unix & Linux Filesystem & Permissions</h2>
+        <p>In Unix, everything is a file. Filesystem permissions are divided into User (u), Group (g), and Others (o).</p>
+
+        <div class="command-list">
+          <div><span>Standard script executable permission</span><code>chmod 755 script.sh  # rwxr-xr-x</code></div>
+          <div><span>Standard web document permission</span><code>chmod 644 index.html # rw-r--r--</code></div>
+          <div><span>Strict private key permission</span><code>chmod 600 ~/.ssh/id_ed25519</code></div>
+          <div><span>Secure SSH folder</span><code>chmod 700 ~/.ssh</code></div>
+          <div><span>Recursive ownership update</span><code>sudo chown -R www-data:www-data /var/www</code></div>
+        </div>
+
+        <h3>Power File Searching with `find`</h3>
+        <pre><code># Find files by name ignoring case
+find /var/www -iname "*.php"
+
+# Find files larger than 50 Megabytes
+find /var/log -type f -size +50M
+
+# Find and execute command on matches safely in batches:
+find . -type f -name "*.tmp" -delete
+find . -type d -exec chmod 755 {} +
+find . -type f -exec chmod 644 {} +</code></pre>
+      </section>
+
+      <!-- Section 10: Environment Variables & $PATH -->
+      <section class="doc-section" id="env-vars" data-title="Environment Variables & $PATH">
+        <div class="section-kicker">10 — SHELL INTERNALS</div>
+        <h2>Environment Variables & $PATH Mechanics</h2>
+        <p>Understanding shell variables vs exported environment variables and process inheritance.</p>
+
+        <div class="pipeline">
+          <div><b>01</b><span>Local variable (current shell only)</span></div>
+          <div><b>02</b><span>Exported variable (inherited by child processes)</span></div>
+          <div><b>03</b><span>One-time assignment (single command scope)</span></div>
+          <div><b>04</b><span>Persistent config (~/.bashrc or ~/.zshrc)</span></div>
+        </div>
+
+        <div class="code-head">
+          <span>ADDING DIRECTORY TO $PATH SAFELY</span>
+          <button class="copy" data-copy="export PATH=&quot;$HOME/.local/bin:$PATH&quot;">Copy</button>
+        </div>
+        <pre><code># Prepend custom directory to search path
+export PATH="$HOME/.local/bin:$PATH"
+
+# Format and view $PATH directories one per line:
+tr ':' '\n' &lt;&lt;&lt; "$PATH"</code></pre>
+      </section>
+
+      <!-- Section 11: Prompt & History -->
+      <section class="doc-section" id="prompt-history" data-title="Custom Prompt & History">
+        <div class="section-kicker">11 — CUSTOMIZATION & PRIVACY</div>
+        <h2>Custom Prompt (PS1) & History Security</h2>
+
+        <h3>Dynamic Git Branch in PS1</h3>
+        <p>Wrap non-printing ANSI colors inside <code>\[ ... \]</code> to prevent terminal wrapping glitches:</p>
+        <pre><code>parse_git_branch() {
+  git branch 2&gt; /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+export PS1="\[\033[1;32m\]\u@\h\[\033[0m\]:\[\033[1;34m\]\w\[\033[1;35m\]\$(parse_git_branch)\[\033[0m\]\$ "</code></pre>
+
+        <h3>Hardening History Privacy</h3>
+        <div class="command-list">
+          <div><span>Ignore commands starting with space</span><code>HISTCONTROL=ignoreboth</code></div>
+          <div><span>Leading space technique</span><code> export API_KEY="secret"  # not saved to history</code></div>
+          <div><span>Disable history for session</span><code>set +o history</code></div>
+          <div><span>Clear current memory and file</span><code>history -c &amp;&amp; history -w</code></div>
+        </div>
+      </section>
+
+      <!-- Section 12: Bash Scripting Mastery -->
+      <section class="doc-section" id="shell-scripting" data-title="Bash Scripting Mastery">
+        <div class="section-kicker">12 — AUTOMATION</div>
+        <h2>Bash Shell Scripting from Scratch</h2>
+        <p>Write robust, maintainable shell scripts that exit on errors and handle edge cases.</p>
+
+        <div class="code-head">
+          <span>PRODUCTION SCRIPT BOILERPLATE</span>
+          <button class="copy" data-copy="#!/usr/bin/env bash\nset -euo pipefail\n\nlog() {\n  echo &quot;[$(date +'%Y-%m-%d %H:%M:%S')] $*&quot;\n}\n\nlog &quot;Script started.&quot;">Copy</button>
+        </div>
+        <pre><code>#!/usr/bin/env bash
+# Strict Mode: exit on error, undefined variable, or pipeline failure
+set -euo pipefail
+
+log() {
+  echo "[$(date +'%Y-%m-%d %H:%M:%S')] $*"
+}
+
+log "Executing automation..."</code></pre>
+
+        <h3>Conditionals & Comparisons Table</h3>
+        <div class="command-list">
+          <div><span>Integer equality / inequality</span><code>[ "$a" -eq "$b" ] | [ "$a" -ne "$b" ]</code></div>
+          <div><span>Integer greater / less than</span><code>[ "$a" -gt "$b" ] | [ "$a" -lt "$b" ]</code></div>
+          <div><span>String empty / not empty</span><code>[ -z "$str" ] | [ -n "$str" ]</code></div>
+          <div><span>File exists &amp; is regular file</span><code>[ -f "config.json" ]</code></div>
+          <div><span>Directory exists</span><code>[ -d "/var/www" ]</code></div>
+          <div><span>File exists &amp; is non-empty</span><code>[ -s "data.txt" ]</code></div>
+        </div>
+      </section>
+
+      <!-- Section 13: Awk, Sed, Xargs & Vim -->
+      <section class="doc-section" id="text-processing" data-title="Awk, Sed, Xargs & Vim">
+        <div class="section-kicker">13 — CLI POWER TOOLS</div>
+        <h2>Text Processing & Vim Survival Guide</h2>
+
+        <h3>Awk Field Processing & Filename Printing</h3>
+        <pre><code># Print current input filename once per file:
+awk 'FNR == 1 { print "Processing:", FILENAME }' /etc/hosts /etc/passwd
+
+# Sum column 1 and display total:
+awk '{ sum += $1 } END { print "Sum Total =", sum }' numbers.txt</code></pre>
+
+        <h3>The Vim Survival Matrix</h3>
+        <p>Press <code>Esc</code> to ensure you are in Normal mode, then type:</p>
+        <div class="command-list">
+          <div><span>Save and exit</span><code>:wq  or  :x  or  ZZ</code></div>
+          <div><span>Quit without saving changes</span><code>:q!  or  ZQ</code></div>
+          <div><span>Force save read-only file (if owner)</span><code>:wq!</code></div>
+          <div><span>Close all windows/tabs without saving</span><code>:qa!</code></div>
+          <div><span>Search forward / backward</span><code>/pattern  |  ?pattern</code></div>
+          <div><span>Global search and replace</span><code>:%s/old/new/g</code></div>
+        </div>
+      </section>
+
+      <!-- Section 14: Rigorous Shell Scripting Masterclass -->
+      <section class="doc-section" id="shell-mastery" data-title="All-in-One Shell Scripting Masterclass">
+        <div class="section-kicker">14 — PRODUCTION ENGINEERING</div>
+        <h2>All-in-One Rigorous Shell Scripting Masterclass</h2>
+        <p>The definitive 12-step architecture required for bulletproof, enterprise-ready automation software.</p>
+
+        <div class="info-grid">
+          <article>
+            <span class="tile-icon">🛡️</span>
+            <h3>Strict Mode</h3>
+            <p><code>set -euo pipefail</code> and <code>IFS=$'\n\t'</code> prevents silent failures, undefined variable crashes, and word-splitting bugs.</p>
+          </article>
+          <article>
+            <span class="tile-icon">🧹</span>
+            <h3>Atomic Traps</h3>
+            <p><code>trap cleanup EXIT INT TERM</code> guarantees temporary files, sockets, and lockfiles are purged even on abort.</p>
+          </article>
+          <article>
+            <span class="tile-icon">⚡</span>
+            <h3>Parameter Expansion</h3>
+            <p>Execute substring slicing, default assignments, and pattern stripping directly in C without slow subshells.</p>
+          </article>
+        </div>
+
+        <div class="code-head">
+          <span>PRODUCTION-READY CLI AUTOMATION TEMPLATE</span>
+          <button class="copy" data-copy="#!/usr/bin/env bash\nset -euo pipefail\nIFS=$'\n\t'\n\nreadonly SCRIPT_NAME=&quot;$(basename &quot;$0&quot;)&quot;\nTEMP_DIR=&quot;$(mktemp -d)&quot;\n\ncleanup() {\n  rm -rf &quot;$TEMP_DIR&quot;\n}\ntrap cleanup EXIT INT TERM\n\nlog() { echo &quot;[$(date +'%Y-%m-%d %H:%M:%S')] $*&quot;; }\n\nwhile getopts &quot;:e:h&quot; opt; do\n  case &quot;$opt&quot; in\n    e) ENV=&quot;$OPTARG&quot; ;;\n    h) echo &quot;Usage: $SCRIPT_NAME -e &lt;env&gt;&quot;; exit 0 ;;\n    *) echo &quot;Invalid option&quot;; exit 1 ;;\n  esac\ndone\n\nlog &quot;Executing task in temporary workspace: $TEMP_DIR&quot;">Copy</button>
+        </div>
+        <pre><code>#!/usr/bin/env bash
+# Unofficial Bash Strict Mode
+set -euo pipefail
+IFS=$'\n\t'
+
+readonly SCRIPT_NAME="$(basename "$0")"
+TEMP_DIR="$(mktemp -d)"
+
+# Guaranteed atomic cleanup on ANY exit or termination signal
+cleanup() {
+  local exit_code=$?
+  rm -rf "$TEMP_DIR"
+  exit "$exit_code"
+}
+trap cleanup EXIT INT TERM
+
+log() {
+  echo "[$(date +'%Y-%m-%d %H:%M:%S')] $*"
+}
+
+# Parse CLI options cleanly with getopts
+while getopts ":e:h" opt; do
+  case "$opt" in
+    e) ENV="$OPTARG" ;;
+    h) echo "Usage: $SCRIPT_NAME -e &lt;env&gt;"; exit 0 ;;
+    *) echo "Invalid option"; exit 1 ;;
+  esac
+done
+
+log "Executing automation in atomic workspace: $TEMP_DIR"</code></pre>
+
+        <h3>Parameter Expansion Reference Table</h3>
+        <div class="command-list">
+          <div><span>Default fallback if unset</span><code>${PORT:-8080}</code></div>
+          <div><span>Assign default if unset</span><code>${DB_NAME:=production}</code></div>
+          <div><span>Error out if unset</span><code>${API_KEY:?Error: API_KEY must be defined}</code></div>
+          <div><span>Strip file extension (.tar.gz)</span><code>${filename%.*}  # production_app.tar</code></div>
+          <div><span>Extract extension only</span><code>${filename##*.} # gz</code></div>
+          <div><span>Search &amp; replace all occurrences</span><code>${text//old/new}</code></div>
+        </div>
+
+        <div class="tip">
+          <strong>Full 12-Step Masterclass Guide</strong>
+          <p>Read the comprehensive, step-by-step master handbook including associative arrays, mutex locks, and the 15 classic anti-patterns in <code>docs/shell-scripting/README.md</code>.</p>
+        </div>
+      </section>
+
+      <!-- Section 15: CLI Power One-Liners -->
+      <section class="doc-section" id="unix-cheatsheet" data-title="CLI Power One-Liners">
+        <div class="section-kicker">15 — CHEAT SHEET</div>
+        <h2>Unix & Linux Power One-Liners</h2>
+
+        <div class="code-head">
+          <span>FIND TOP 10 LARGEST FILES</span>
+          <button class="copy" data-copy="find . -type f -exec du -h {} + | sort -rh | head -n 10">Copy</button>
+        </div>
+        <pre><code>find . -type f -exec du -h {} + | sort -rh | head -n 10</code></pre>
+
+        <div class="code-head">
+          <span>GENERATE SECURE 32-CHAR PASSWORD</span>
+          <button class="copy" data-copy="LC_ALL=C tr -dc 'A-Za-z0-9!@#$%^&amp;*()' &lt; /dev/urandom | head -c 32; echo">Copy</button>
+        </div>
+        <pre><code>LC_ALL=C tr -dc 'A-Za-z0-9!@#$%^&*()' &lt; /dev/urandom | head -c 32; echo</code></pre>
+      </section>
+
+      <!-- Section 15: HTML5 Foundations -->
+      <section class="doc-section" id="html-foundations" data-title="HTML5 Foundations & Head Meta">
+        <div class="section-kicker">15 — WEB STANDARDS</div>
+        <h2>HTML5 Foundations & Document Architecture</h2>
+        <p>A modern HTML5 document pairs semantic markup with critical `<head>` metadata, responsive viewport scaling, and non-blocking script loading.</p>
+
+        <div class="code-head">
+          <span>MODERN HTML5 BOILERPLATE</span>
+          <button class="copy" data-copy="&lt;!DOCTYPE html&gt;\n&lt;html lang=&quot;en&quot;&gt;\n&lt;head&gt;\n  &lt;meta charset=&quot;UTF-8&quot;&gt;\n  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;\n  &lt;title&gt;Page Title&lt;/title&gt;\n  &lt;link rel=&quot;stylesheet&quot; href=&quot;css/style.css&quot;&gt;\n  &lt;script defer src=&quot;js/main.js&quot;&gt;&lt;/script&gt;\n&lt;/head&gt;\n&lt;body&gt;\n  &lt;header&gt;&lt;h1&gt;Hello World&lt;/h1&gt;&lt;/header&gt;\n&lt;/body&gt;\n&lt;/html&gt;">Copy</button>
+        </div>
+        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;meta name="description" content="Production-ready web platform."&gt;
+  &lt;title&gt;Professional Web Application&lt;/title&gt;
+  &lt;link rel="stylesheet" href="css/style.css"&gt;
+  &lt;script defer src="js/main.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header&gt;&lt;h1&gt;Hello World&lt;/h1&gt;&lt;/header&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+        <div class="info-grid">
+          <article>
+            <span class="tile-icon">🏷️</span>
+            <h3>UTF-8 Charset</h3>
+            <p>Must be inside the first 1024 bytes of the document to properly decode international characters.</p>
+          </article>
+          <article>
+            <span class="tile-icon">📱</span>
+            <h3>Responsive Viewport</h3>
+            <p><code>width=device-width, initial-scale=1.0</code> prevents mobile browsers from downscaling to desktop widths.</p>
+          </article>
+          <article>
+            <span class="tile-icon">⚡</span>
+            <h3>Script Defer</h3>
+            <p>Downloads JavaScript in the background without blocking the HTML parser; executes after DOM is ready.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Section 16: Semantic HTML5 Layout -->
+      <section class="doc-section" id="html-semantics" data-title="Semantic HTML5 Landmarks">
+        <div class="section-kicker">16 — ACCESSIBLE ARCHITECTURE</div>
+        <h2>Semantic HTML5 Layout & Landmarks</h2>
+        <p>Eliminate non-semantic "div soup" in favor of native landmark elements recognized by assistive technology and search crawlers.</p>
+
+        <div class="command-list">
+          <div><span>Site or Section Header</span><code>&lt;header&gt; ... &lt;/header&gt;</code></div>
+          <div><span>Primary Navigation Menu</span><code>&lt;nav aria-label="Main"&gt; ... &lt;/nav&gt;</code></div>
+          <div><span>Unique Document Body</span><code>&lt;main&gt; ... &lt;/main&gt;  # only one per page</code></div>
+          <div><span>Standalone Content Item</span><code>&lt;article&gt; ... &lt;/article&gt;</code></div>
+          <div><span>Thematic Section with Heading</span><code>&lt;section&gt; ... &lt;/section&gt;</code></div>
+          <div><span>Tangential Content / Sidebar</span><code>&lt;aside&gt; ... &lt;/aside&gt;</code></div>
+          <div><span>Footer &amp; Legal Info</span><code>&lt;footer&gt; ... &lt;/footer&gt;</code></div>
+        </div>
+
+        <div class="tip">
+          <strong>Heading Hierarchy Rule</strong>
+          <p>Never skip heading levels (e.g., jumping from <code>&lt;h2&gt;</code> directly to <code>&lt;h4&gt;</code>). Screen readers rely on sequential headings to build a navigable table of contents.</p>
+        </div>
+      </section>
+
+      <!-- Section 17: Modern Forms & Validation -->
+      <section class="doc-section" id="html-forms" data-title="Modern Forms & Validation">
+        <div class="section-kicker">17 — INTERACTIVE CONTROLS</div>
+        <h2>HTML5 Forms, Mobile Inputs & Native Validation</h2>
+        <p>Build accessible, mobile-optimized forms with native constraint validation without writing complex JavaScript.</p>
+
+        <div class="code-head">
+          <span>ACCESSIBLE REGISTRATION FORM</span>
+          <button class="copy" data-copy="&lt;form action=&quot;/api/register&quot; method=&quot;POST&quot;&gt;\n  &lt;label for=&quot;email&quot;&gt;Email:&lt;/label&gt;\n  &lt;input type=&quot;email&quot; id=&quot;email&quot; name=&quot;email&quot; required autocomplete=&quot;email&quot;&gt;\n  &lt;label for=&quot;pass&quot;&gt;Password:&lt;/label&gt;\n  &lt;input type=&quot;password&quot; id=&quot;pass&quot; name=&quot;password&quot; required minlength=&quot;8&quot; autocomplete=&quot;new-password&quot;&gt;\n  &lt;button type=&quot;submit&quot;&gt;Register&lt;/button&gt;\n&lt;/form&gt;">Copy</button>
+        </div>
+        <pre><code>&lt;form action="/api/register" method="POST"&gt;
+  &lt;div class="form-group"&gt;
+    &lt;label for="user-email"&gt;Email Address (required):&lt;/label&gt;
+    &lt;input type="email" id="user-email" name="email" required autocomplete="email"&gt;
+  &lt;/div&gt;
+
+  &lt;div class="form-group"&gt;
+    &lt;label for="user-pass"&gt;Password (min 8 characters):&lt;/label&gt;
+    &lt;input type="password" id="user-pass" name="password" required minlength="8" autocomplete="new-password"&gt;
+  &lt;/div&gt;
+
+  &lt;button type="submit"&gt;Register Account&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+        <div class="command-list">
+          <div><span>Phone dialpad on mobile</span><code>&lt;input type="tel" pattern="[0-9]{10}"&gt;</code></div>
+          <div><span>Numeric keyboard with steppers</span><code>&lt;input type="number" min="1" max="100"&gt;</code></div>
+          <div><span>Native OS date picker</span><code>&lt;input type="date" name="birthdate"&gt;</code></div>
+          <div><span>SMS OTP 2FA autofill</span><code>&lt;input type="text" autocomplete="one-time-code"&gt;</code></div>
+          <div><span>Multi-file upload</span><code>&lt;input type="file" accept="image/*" multiple&gt;</code></div>
+        </div>
+      </section>
+
+      <!-- Section 18: Responsive Media & Dialogs -->
+      <section class="doc-section" id="html-media" data-title="Responsive Media & Dialogs">
+        <div class="section-kicker">18 — NEXT-GEN HTML5</div>
+        <h2>Responsive Media, Modals & Accordions</h2>
+
+        <h3>Next-Gen Image Formats with `<picture>`</h3>
+        <p>Serve modern AVIF and WebP images with automatic fallback to JPEG:</p>
+        <pre><code>&lt;picture&gt;
+  &lt;source type="image/avif" srcset="images/banner.avif"&gt;
+  &lt;source type="image/webp" srcset="images/banner.webp"&gt;
+  &lt;img src="images/banner.jpg" alt="Cloud infrastructure servers" width="800" height="450" loading="lazy"&gt;
+&lt;/picture&gt;</code></pre>
+
+        <h3>Native Accessible Modals with `<dialog>`</h3>
+        <p>Native focus trapping, backdrop styling, and Esc key dismissal:</p>
+        <div class="code-head">
+          <span>NATIVE MODAL IMPLEMENTATION</span>
+          <button class="copy" data-copy="&lt;dialog id=&quot;my-dialog&quot;&gt;\n  &lt;form method=&quot;dialog&quot;&gt;\n    &lt;p&gt;Settings updated.&lt;/p&gt;\n    &lt;button&gt;Close&lt;/button&gt;\n  &lt;/form&gt;\n&lt;/dialog&gt;">Copy</button>
+        </div>
+        <pre><code>&lt;dialog id="my-modal"&gt;
+  &lt;form method="dialog"&gt;
+    &lt;h3&gt;Account Settings&lt;/h3&gt;
+    &lt;p&gt;Configure notification preferences below.&lt;/p&gt;
+    &lt;button type="submit"&gt;Close Modal&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/dialog&gt;
+
+&lt;script&gt;
+  // Open modal programmatically:
+  document.querySelector('#my-modal').showModal();
+&lt;/script&gt;</code></pre>
+
+        <h3>Zero-JS Accordions with `<details>`</h3>
+        <pre><code>&lt;details&gt;
+  &lt;summary&gt;How do I reset my Git commit history?&lt;/summary&gt;
+  &lt;p&gt;Use git reset --soft HEAD~1 to undo the commit while keeping all edits in staging.&lt;/p&gt;
+&lt;/details&gt;</code></pre>
+      </section>
+
+      <!-- Section 19: Utility Scripts Reference -->
+      <section class="doc-section" id="scripts-reference" data-title="Utility Scripts Reference">
+        <div class="section-kicker">19 — REPOSITORY SCRIPTS (24 UTILITIES)</div>
+        <h2>Production Shell Scripts Library</h2>
+        <p>The repository features 24 battle-tested, defensive automation scripts located in <a href="../shell-scripts-repo/README.md" style="color:var(--accent,#38bdf8);text-decoration:underline;"><code>shell-scripts-repo/</code></a> adhering to strict engineering standards (<code>set -euo pipefail</code>, quoting rigor, dry-run flags):</p>
+
+        <div class="info-grid">
+          <article>
+            <span class="tile-icon">🩺</span>
+            <h3>capstone1_system_health.sh</h3>
+            <p>Production host health diagnostic utility: checks root disk usage (&lt;85%), free RAM, required binaries, external connectivity, and returns aggregated exit codes.</p>
+            <p><a href="../shell-scripts-repo/capstone1_system_health.sh" style="color:#38bdf8;">View Script →</a></p>
+          </article>
+
+          <article>
+            <span class="tile-icon">📊</span>
+            <h3>capstone2_log_analyzer.sh</h3>
+            <p>High-performance Nginx/Apache access log parser via AWK: calculates 2xx/3xx/4xx/5xx status ratios, bandwidth served in MB, and top client IP hits.</p>
+            <p><a href="../shell-scripts-repo/capstone2_log_analyzer.sh" style="color:#38bdf8;">View Script →</a></p>
+          </article>
+
+          <article>
+            <span class="tile-icon">🗂️</span>
+            <h3>capstone3_batch_organizer.sh</h3>
+            <p>File categorizer by extension (<code>docs/</code>, <code>images/</code>, <code>archives/</code>, <code>data/</code>) with <code>--dry-run</code> preview and timestamped rollback TSV manifest generation.</p>
+            <p><a href="../shell-scripts-repo/capstone3_batch_organizer.sh" style="color:#38bdf8;">View Script →</a></p>
+          </article>
+
+          <article>
+            <span class="tile-icon">🚀</span>
+            <h3>deploy_service.sh</h3>
+            <p>Production deployment template featuring strict error modes, pre-flight dependency audits, execution directory resolution, and cleanup signal traps.</p>
+            <p><a href="../shell-scripts-repo/deploy_service.sh" style="color:#38bdf8;">View Script →</a></p>
+          </article>
+
+          <article>
+            <span class="tile-icon">⚙️</span>
+            <h3>parse_arguments.sh</h3>
+            <p>Production CLI option parser supporting short and long options (<code>-e</code>, <code>--env</code>, <code>-p</code>, <code>--port</code>, <code>-n</code>, <code>--dry-run</code>) with numeric integer validation.</p>
+            <p><a href="../shell-scripts-repo/parse_arguments.sh" style="color:#38bdf8;">View Script →</a></p>
+          </article>
+
+          <article>
+            <span class="tile-icon">🔒</span>
+            <h3>safe_file_batch.sh</h3>
+            <p>NUL-delimited file processor (<code>find -print0</code> and <code>read -d ''</code>) immune to spaces, tabs, and newlines in filenames with SHA256 hashing.</p>
+            <p><a href="../shell-scripts-repo/safe_file_batch.sh" style="color:#38bdf8;">View Script →</a></p>
+          </article>
+
+          <article>
+            <span class="tile-icon">🌐</span>
+            <h3>scaffold_website.sh</h3>
+            <p>Scaffolds responsive HTML5/CSS/JS boilerplates, sitemap.xml, robots.txt, .gitignore, and initializes a Git repository automatically.</p>
+            <p><a href="../shell-scripts-repo/scaffold_website.sh" style="color:#38bdf8;">View Script →</a></p>
+          </article>
+
+          <article>
+            <span class="tile-icon">📋</span>
+            <h3>directory_inventory.sh</h3>
+            <p>Generates a structured TSV filesystem inventory capturing paths, types, file sizes, permissions, and modification timestamps.</p>
+            <p><a href="../shell-scripts-repo/directory_inventory.sh" style="color:#38bdf8;">View Script →</a></p>
+          </article>
+
+          <article>
+            <span class="tile-icon">🌿</span>
+            <h3>git_setup_env.sh &amp; git_ssh_keygen.sh</h3>
+            <p>Automated global Git identity setup, default branch <code>main</code>, cross-platform line-endings, and modern ED25519 SSH key generation.</p>
+            <p><a href="../shell-scripts-repo/git_setup_env.sh" style="color:#38bdf8;">View Scripts →</a></p>
+          </article>
+
+          <article>
+            <span class="tile-icon">🧪</span>
+            <h3>git_sandbox_lab.sh &amp; git_daily_sync.sh</h3>
+            <p>10-step isolated Git practice repository builder with merge conflicts, paired with automated morning remote fetch and prune sync.</p>
+            <p><a href="../shell-scripts-repo/git_sandbox_lab.sh" style="color:#38bdf8;">View Scripts →</a></p>
+          </article>
+        </div>
+      </section>
+
+      <!-- End Card -->
+      <div class="end-card">
+        <div>
+          <span class="version">COMMUNITY & REPOSITORY</span>
+          <h3>Explore the Full Markdown Curriculum</h3>
+          <p>Read all 18 modular Markdown chapters inside the <code>docs/</code> directory.</p>
+        </div>
+        <a class="button primary" href="https://github.com/xivig/developer-handbook-unix-linux-git-shell" target="_blank" rel="noopener noreferrer">Star on GitHub ↗</a>
+      </div>
+
+      <footer class="footer">
+        <div>© XIVIG · Developer Handbook: Unix, Linux, Git & Shell Scripting. MIT Licensed.</div>
+        <div>Designed for Elite Terminal Engineering.</div>
+      </footer>
+    </main>
+
+    <!-- Table of Contents Right Rail -->
+    <aside class="toc" aria-label="On this page">
+      <span>ON THIS PAGE</span>
+      <a href="#overview">Overview</a>
+      <a href="#quick-start">Quick Reference</a>
+      <a href="#macos-setup">macOS Setup</a>
+      <a href="#macos-tricks">macOS vs Linux</a>
+      <a href="#git-fundamentals">Git Fundamentals</a>
+      <a href="#git-workflow">Everyday Workflow</a>
+      <a href="#git-branching">Branching & Stash</a>
+      <a href="#git-troubleshooting">Disaster Recovery</a>
+      <a href="#git-cheatsheet">Power Aliases</a>
+      <a href="#unix-basics">Filesystem & Chmod</a>
+      <a href="#env-vars">Environment & $PATH</a>
+      <a href="#prompt-history">Prompt & Privacy</a>
+      <a href="#shell-scripting">Bash Scripting</a>
+      <a href="#text-processing">Awk, Sed & Vim</a>
+      <a href="#unix-cheatsheet">One-Liners</a>
+      <a href="#shell-mastery">Shell Masterclass</a>
+      <a href="#html-foundations">HTML5 Foundations</a>
+      <a href="#html-semantics">Semantic Landmarks</a>
+      <a href="#html-forms">Forms & Validation</a>
+      <a href="#html-media">Media & Dialogs</a>
+      <a href="#scripts-reference">Utility Scripts</a>
+    </aside>
+  </div>
+</body>
+</html>

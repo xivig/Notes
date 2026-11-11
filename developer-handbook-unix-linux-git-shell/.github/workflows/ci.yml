@@ -1,0 +1,36 @@
+name: CI & Documentation Validation
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate Shell Scripts Syntax
+        run: |
+          for script in *.sh; do
+            if [ -f "$script" ]; then
+              bash -n "$script"
+              echo "Valid syntax: $script"
+            fi
+          done
+
+      - name: Check Documentation Files
+        run: |
+          test -f documentation/index.html
+          test -f documentation/styles.css
+          test -f documentation/app.js
+          test -d docs/git
+          test -d docs/unix-linux
+          test -d docs/shell-scripting
+          test -d docs/html
+          test -d docs/macos
+          test -d docs/scripts
+          echo "All documentation directories and portal files verified."

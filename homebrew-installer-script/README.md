@@ -32,8 +32,8 @@ Replaces deprecated legacy scripts (such as old Ruby installers and defunct `bre
 Clone the repository and run the setup script:
 
 ```bash
-git clone https://github.com/xivig/homebrew-installer-git-script.git
-cd homebrew-installer-git-script
+git clone https://github.com/xivig/xivig-all-in-one-notes.git
+cd xivig-all-in-one-notes/homebrew-installer-script
 chmod +x homebrew.sh
 ./homebrew.sh
 ```
@@ -45,7 +45,7 @@ The script will guide you through interactive prompts for optional language runt
 Run directly via `curl` in your macOS Terminal:
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/xivig/homebrew-installer-git-script/master/homebrew.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/xivig/xivig-all-in-one-notes/master/homebrew-installer-script/homebrew.sh)"
 ```
 
 ---

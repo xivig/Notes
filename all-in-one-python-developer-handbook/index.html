@@ -1165,6 +1165,17 @@ class Task:
     if (entry.isIntersecting) navLinks.forEach(link => link.classList.toggle("active", link.getAttribute("href") === "#" + entry.target.id));
   }), {rootMargin:"-20% 0px -70% 0px"});
   document.querySelectorAll(".section").forEach(section => observer.observe(section));
+  if (window.location.hostname === "htmlpreview.github.io") {
+    const ghBase = "https://github.com/xivig/xivig-all-in-one-notes/blob/master/all-in-one-python-developer-handbook/index.html";
+    document.querySelectorAll("a[href]").forEach(a => {
+      const rawHref = a.getAttribute("href") || "";
+      if (!rawHref.startsWith("#") && !/^https?:\/\//i.test(rawHref) && /\.(md|py|sh)$/i.test(rawHref)) {
+        a.setAttribute("href", new URL(rawHref, ghBase).href);
+        a.setAttribute("target", "_blank");
+        a.setAttribute("rel", "noopener noreferrer");
+      }
+    });
+  }
 })();
 </script>
 </body></html>

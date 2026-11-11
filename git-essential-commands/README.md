@@ -19,8 +19,8 @@
 - 🛠️ **[Untrack & Cache Cleanup Utility (RemoveFileFromRepository.sh)](RemoveFileFromRepository.sh)** — Safely untrack files (.env, node_modules, .DS_Store, Thumbs.db) without deleting local copies.
 - 🤖 **[Interactive Commit & Push Workflow (git-script.sh)](git-script.sh)** — Robust script for atomic staging, branch verification, commit confirmation, and upstream pushing.
 - ⚡ **[Automated Batch Commit Script (gitBatchScript.sh)](gitBatchScript.sh)** — Fast single-command staging, diff checking, dynamic branch resolution, and upstream push.
-- 📖 **[Read Online Guide on GitHub (Markdown)](https://github.com/xivig/developer-handbook-unix-linux-git-shell/tree/master/docs/git)** — 22-chapter comprehensive curriculum rendered natively on GitHub.
-- 🌐 **[Launch Interactive App (Live in Browser) ↗](https://htmlpreview.github.io/?https://github.com/xivig/developer-handbook-unix-linux-git-shell/blob/master/Git_GitHub_Complete_Tutorial.html)** — Live interactive handbook with instant search, dark/light themes, and track filters.
+- 📖 **[Read Online Guide on GitHub (Markdown)](https://github.com/xivig/xivig-all-in-one-notes/tree/master/developer-handbook-unix-linux-git-shell/docs/git)** — 22-chapter comprehensive curriculum rendered natively on GitHub.
+- 🌐 **[Launch Interactive App (Live in Browser) ↗](https://htmlpreview.github.io/?https://github.com/xivig/xivig-all-in-one-notes/blob/master/developer-handbook-unix-linux-git-shell/Git_GitHub_Complete_Tutorial.html)** — Live interactive handbook with instant search, dark/light themes, and track filters.
 
 ---
 
@@ -413,7 +413,7 @@ git init --bare /srv/git/project.git
 
 ```bash
 # Standard clone (fetches full history, all branches, all tags)
-git clone https://github.com/xivig/git-essential-commands.git
+git clone https://github.com/xivig/xivig-all-in-one-notes.git
 
 # Shallow clone (fetch only the single most recent commit, saving 90%+ bandwidth)
 git clone --depth 1 https://github.com/torvalds/linux.git
@@ -1037,10 +1037,10 @@ git worktree remove ../hotfix-urgent
 git remote -v
 
 # Add a remote named 'origin'
-git remote add origin https://github.com/xivig/git-essential-commands.git
+git remote add origin https://github.com/xivig/xivig-all-in-one-notes.git
 
 # Change the URL of an existing remote (e.g. switch from HTTPS to SSH)
-git remote set-url origin git@github.com:xivig/git-essential-commands.git
+git remote set-url origin git@github.com:xivig/xivig-all-in-one-notes.git
 
 # Delete stale local tracking branches that were deleted on the remote server
 git remote prune origin
@@ -1403,13 +1403,13 @@ This repository is maintained as part of the **xivig Developer Handbook Series**
 
 | Companion Resource | Read Online on GitHub (Markdown) | Interactive Web App (Live in Browser) |
 | :--- | :--- | :--- |
-| **Git & GitHub Practical Developer's Guide (22 Ch)** | [**`docs/git/` Curriculum ↗**](https://github.com/xivig/developer-handbook-unix-linux-git-shell/tree/master/docs/git) | [**Launch Interactive Guide ↗**](https://htmlpreview.github.io/?https://github.com/xivig/developer-handbook-unix-linux-git-shell/blob/master/Git_GitHub_Complete_Tutorial.html) |
-| **Linux & Unix Systems Handbook (39 Ch)** | [**`docs/unix-linux/` Guide ↗**](https://github.com/xivig/developer-handbook-unix-linux-git-shell/tree/master/docs/unix-linux) | [**Launch Interactive Guide ↗**](https://htmlpreview.github.io/?https://github.com/xivig/developer-handbook-unix-linux-git-shell/blob/master/Linux_Unix_Shell_Developer_Handbook.html) |
-| **HTML5 & Modern Web Architecture (15 Ch)** | [**`docs/html/` Guide ↗**](https://github.com/xivig/developer-handbook-unix-linux-git-shell/tree/master/docs/html) | [**Launch Interactive Sandbox ↗**](https://htmlpreview.github.io/?https://github.com/xivig/developer-handbook-unix-linux-git-shell/blob/master/HTML5_Web_Developer_Handbook.html) |
-| **Rigorous Shell Scripting Masterclass** | [**`docs/shell-scripting/` Guide ↗**](https://github.com/xivig/developer-handbook-unix-linux-git-shell/tree/master/docs/shell-scripting) | [**Interactive Ch 17–23 ↗**](https://htmlpreview.github.io/?https://github.com/xivig/developer-handbook-unix-linux-git-shell/blob/master/Linux_Unix_Shell_Developer_Handbook.html#ch17) |
-| **Production Automation Scripts Suite (25 Scripts)** | [**`shell-scripts-repo/` Suite ↗**](https://github.com/xivig/developer-handbook-unix-linux-git-shell/tree/master/shell-scripts-repo) | [**Architecture Guide ↗**](https://github.com/xivig/developer-handbook-unix-linux-git-shell/tree/master/docs/scripts) |
-| **macOS Darwin Terminal Setup (6 Ch)** | [**`docs/macos/` Guide ↗**](https://github.com/xivig/developer-handbook-unix-linux-git-shell/tree/master/docs/macos) | [**Architecture & Setup ↗**](https://github.com/xivig/developer-handbook-unix-linux-git-shell/blob/master/docs/macos/01-macos-terminal-setup.md) |
-| **Central Documentation Portal** | [**`docs/` Hub ↗**](https://github.com/xivig/developer-handbook-unix-linux-git-shell/tree/master/docs) | [**Launch Portal App ↗**](https://htmlpreview.github.io/?https://github.com/xivig/developer-handbook-unix-linux-git-shell/blob/master/documentation/index.html) |
+| **Git & GitHub Practical Developer's Guide (22 Ch)** | [**`docs/git/` Curriculum ↗**](https://github.com/xivig/xivig-all-in-one-notes/tree/master/developer-handbook-unix-linux-git-shell/docs/git) | [**Launch Interactive Guide ↗**](https://htmlpreview.github.io/?https://github.com/xivig/xivig-all-in-one-notes/blob/master/developer-handbook-unix-linux-git-shell/Git_GitHub_Complete_Tutorial.html) |
+| **Linux & Unix Systems Handbook (39 Ch)** | [**`docs/unix-linux/` Guide ↗**](https://github.com/xivig/xivig-all-in-one-notes/tree/master/developer-handbook-unix-linux-git-shell/docs/unix-linux) | [**Launch Interactive Guide ↗**](https://htmlpreview.github.io/?https://github.com/xivig/xivig-all-in-one-notes/blob/master/developer-handbook-unix-linux-git-shell/Linux_Unix_Shell_Developer_Handbook.html) |
+| **HTML5 & Modern Web Architecture (15 Ch)** | [**`docs/html/` Guide ↗**](https://github.com/xivig/xivig-all-in-one-notes/tree/master/developer-handbook-unix-linux-git-shell/docs/html) | [**Launch Interactive Sandbox ↗**](https://htmlpreview.github.io/?https://github.com/xivig/xivig-all-in-one-notes/blob/master/developer-handbook-unix-linux-git-shell/HTML5_Web_Developer_Handbook.html) |
+| **Rigorous Shell Scripting Masterclass** | [**`docs/shell-scripting/` Guide ↗**](https://github.com/xivig/xivig-all-in-one-notes/tree/master/developer-handbook-unix-linux-git-shell/docs/shell-scripting) | [**Interactive Ch 17–23 ↗**](https://htmlpreview.github.io/?https://github.com/xivig/xivig-all-in-one-notes/blob/master/developer-handbook-unix-linux-git-shell/Linux_Unix_Shell_Developer_Handbook.html#ch17) |
+| **Production Automation Scripts Suite (25 Scripts)** | [**`shell-scripts-repo/` Suite ↗**](https://github.com/xivig/xivig-all-in-one-notes/tree/master/developer-handbook-unix-linux-git-shell/shell-scripts-repo) | [**Architecture Guide ↗**](https://github.com/xivig/xivig-all-in-one-notes/tree/master/developer-handbook-unix-linux-git-shell/docs/scripts) |
+| **macOS Darwin Terminal Setup (6 Ch)** | [**`docs/macos/` Guide ↗**](https://github.com/xivig/xivig-all-in-one-notes/tree/master/developer-handbook-unix-linux-git-shell/docs/macos) | [**Architecture & Setup ↗**](https://github.com/xivig/xivig-all-in-one-notes/blob/master/developer-handbook-unix-linux-git-shell/docs/macos/01-macos-terminal-setup.md) |
+| **Central Documentation Portal** | [**`docs/` Hub ↗**](https://github.com/xivig/xivig-all-in-one-notes/tree/master/developer-handbook-unix-linux-git-shell/docs) | [**Launch Portal App ↗**](https://htmlpreview.github.io/?https://github.com/xivig/xivig-all-in-one-notes/blob/master/developer-handbook-unix-linux-git-shell/documentation/index.html) |
 
 ---
 

@@ -219,13 +219,13 @@ git switch -c recovered-branch HEAD@{3}
 
 ```bash
 # Add new remote repository
-git remote add origin https://github.com/xivig/git-essential-commands.git
+git remote add origin https://github.com/xivig/xivig-all-in-one-notes.git
 
 # Verify remotes
 git remote -v
 
 # Change remote URL (e.g. switch to SSH)
-git remote set-url origin git@github.com:xivig/git-essential-commands.git
+git remote set-url origin git@github.com:xivig/xivig-all-in-one-notes.git
 
 # Clean up stale remote tracking branches deleted on GitHub
 git remote prune origin

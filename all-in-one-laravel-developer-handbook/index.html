@@ -3174,6 +3174,18 @@ final class Post extends Model
     applyTheme(localStorage.getItem(themeKey) || 'dark');
     syncProgress();
     renderQuizzes();
+
+    if (window.location.hostname === 'htmlpreview.github.io') {
+      const ghBase = 'https://github.com/xivig/xivig-all-in-one-notes/blob/master/all-in-one-laravel-developer-handbook/index.html';
+      document.querySelectorAll('a[href]').forEach((a) => {
+        const rawHref = a.getAttribute('href') || '';
+        if (!rawHref.startsWith('#') && !/^https?:\/\//i.test(rawHref) && /\.(md|php|sh)$/i.test(rawHref)) {
+          a.setAttribute('href', new URL(rawHref, ghBase).href);
+          a.setAttribute('target', '_blank');
+          a.setAttribute('rel', 'noopener noreferrer');
+        }
+      });
+    }
   </script>
 </body>
 </html>

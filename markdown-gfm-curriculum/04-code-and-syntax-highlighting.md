@@ -83,7 +83,7 @@ Omit the leading `$` or `#` prompt so developers can click "Copy" and paste dire
 
 ````markdown
 ```bash
-git clone https://github.com/xivig/Notes.git
+git clone https://github.com/xivig/xivig-all-in-one-notes.git
 cd Notes
 npm install
 npm run dev

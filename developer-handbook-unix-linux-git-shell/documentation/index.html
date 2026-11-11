@@ -6,8 +6,98 @@
   <meta name="description" content="Essential macOS, Unix, Linux & Git documentation: production-grade tutorials, terminal mastery, shell scripting, and disaster recovery.">
   <meta name="theme-color" content="#090d18">
   <title>Essential macOS · Unix · Linux · Git — Elite Documentation</title>
-  <link rel="stylesheet" href="./styles.css">
-  <script defer src="./app.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+:root{color-scheme:dark;--bg:#090d18;--panel:#0e1424;--panel2:#121b2e;--line:#202b40;--text:#e8edf7;--muted:#9aa8bf;--dim:#64738c;--blue:#7890ff;--cyan:#72d6e7;--green:#8ce0bd;--content:820px}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.75 'DM Sans',sans-serif}a{color:var(--blue);text-decoration:none}a:hover{color:#a9b7ff}.skip-link{position:absolute;left:-9999px;top:8px}.skip-link:focus{left:12px;z-index:20;background:white;color:#111;padding:8px 12px}.topbar{height:68px;position:sticky;top:0;z-index:10;background:rgba(9,13,24,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 34px}.brand{display:flex;align-items:center;gap:11px;color:var(--text);font:800 15px Manrope,sans-serif;letter-spacing:.06em}.brand small{display:block;color:var(--dim);font:500 9px 'DM Mono',monospace;letter-spacing:.17em}.brand-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:linear-gradient(145deg,#7b91ff,#5266df);color:white;font:800 19px Manrope;box-shadow:0 5px 22px #5266df44}.top-actions{display:flex;align-items:center;gap:24px}.version,.search-label,.nav-heading,.toc>span,.section-kicker,.eyebrow{font:500 10px 'DM Mono',monospace;letter-spacing:.13em;color:var(--dim)}.github-link{color:#c5d0e2;font-size:13px}.menu-toggle{display:none;background:none;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:18px}.shell{display:grid;grid-template-columns:250px minmax(0,var(--content)) 150px;gap:44px;max-width:1450px;margin:0 auto;padding:0 34px}.sidebar{height:calc(100vh - 68px);position:sticky;top:68px;overflow:auto;padding:28px 15px 20px 0;border-right:1px solid var(--line)}.search-label{display:block;margin:0 0 9px 5px}.search-wrap{height:40px;display:flex;align-items:center;gap:8px;padding:0 10px;border:1px solid #27344c;background:#10182a;border-radius:8px;color:var(--dim);margin-bottom:27px}.search-wrap input{min-width:0;width:100%;border:0;outline:0;background:transparent;color:var(--text);font:13px 'DM Sans'}.search-wrap kbd{font:10px 'DM Mono';border:1px solid #34415a;border-radius:4px;padding:1px 5px}.nav-heading{margin:24px 0 7px 8px;font-size:9px}.nav-link{display:block;color:#9eacc1;padding:6px 10px;margin:2px 0;border-radius:6px;font-size:13px;line-height:1.5}.nav-link:hover,.nav-link.active{background:#18233a;color:#c4ceff}.nav-link.active{box-shadow:inset 2px 0 var(--blue)}.sidebar-foot{border-top:1px solid var(--line);margin-top:30px;padding:18px 5px;color:#7d8ca4;font-size:11px;line-height:1.8}.sidebar-foot span{color:#52627d}.content{min-width:0;padding:38px 0 60px}.breadcrumbs{color:var(--dim);font-size:12px;margin-bottom:38px}.breadcrumbs span{padding:0 8px;color:#42506a}.hero{padding:10px 0 32px;border-bottom:1px solid var(--line)}.eyebrow{color:#91a4ff}.pulse{display:inline-block;width:6px;height:6px;border-radius:50%;background:#8ce0bd;box-shadow:0 0 12px #8ce0bd;margin:0 8px 1px 0}.hero h1{font:800 clamp(38px,5vw,56px)/1.13 Manrope,sans-serif;letter-spacing:-.055em;margin:17px 0}.hero h1 span{background:linear-gradient(90deg,#8ba0ff,#73d9e8);-webkit-background-clip:text;background-clip:text;color:transparent}.hero-copy{max-width:610px;color:#a6b3c8;font-size:17px;line-height:1.65}.hero-actions{display:flex;gap:11px;margin:25px 0}.button{display:inline-flex;align-items:center;gap:12px;padding:9px 15px;border-radius:7px;font-size:13px;font-weight:700}.button.primary{background:#7188fa;color:#091020;box-shadow:0 7px 22px #7188fa25}.button.primary:hover{background:#9baaff}.button.secondary{border:1px solid #34415b;color:#cbd5e6}.hero-meta{display:flex;align-items:center;gap:12px;color:#75849d;font:10px 'DM Mono',monospace}.hero-meta i{width:3px;height:3px;border-radius:50%;background:#53617a}.notice,.tip,.warning{display:flex;gap:14px;padding:15px 17px;border:1px solid #2b3a5c;background:#101a2d;border-radius:9px;margin:25px 0 40px}.notice-icon{color:#9cafff;font-size:20px}.notice strong,.tip strong,.warning strong{font-size:13px}.notice p,.tip p,.warning p{margin:4px 0 0;color:#9eacc1;font-size:13px;line-height:1.65}.doc-section{padding:37px 0 42px;border-bottom:1px solid var(--line);scroll-margin-top:88px}.section-kicker{color:#7589d7;font-size:9px}.doc-section h2{font:700 28px/1.3 Manrope,sans-serif;letter-spacing:-.03em;margin:8px 0 12px}.doc-section h3{font:700 16px Manrope,sans-serif;margin:22px 0 8px}.doc-section p,.doc-section li{color:#aab6c9}.doc-section p{margin:12px 0}.doc-section ul,.doc-section ol{padding-left:22px}.doc-section li{padding:3px 0}.doc-section code{font:12px 'DM Mono',monospace;color:#aabaff;background:#151f34;padding:2px 5px;border-radius:4px}.code-head{display:flex;justify-content:space-between;align-items:center;background:#141d30;border:1px solid #26334a;border-bottom:0;border-radius:8px 8px 0 0;padding:9px 13px;color:#7e8eaa;font:9px 'DM Mono';letter-spacing:.12em;margin-top:22px}.copy{background:#202c43;color:#bac7dc;border:1px solid #35445f;border-radius:5px;padding:4px 9px;font:11px 'DM Sans';cursor:pointer}pre{overflow:auto;background:#0c1220;border:1px solid #26334a;border-radius:0 0 8px 8px;padding:17px 19px;margin:0 0 18px;color:#c4d2e8;font:12px/1.8 'DM Mono',monospace}pre code{background:none!important;padding:0!important;color:inherit!important}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:25px 0}.steps>div{display:flex;gap:11px;align-items:center;padding:13px;border:1px solid var(--line);background:#0e1525;border-radius:8px}.steps b{display:grid;place-items:center;width:26px;height:26px;border-radius:7px;background:#1d2b49;color:#9eb0ff;font:12px 'DM Mono'}.steps strong,.steps small{display:block}.steps strong{font-size:12px}.steps small{color:var(--dim);font-size:10px}.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin:20px 0}.info-grid article{padding:16px;border:1px solid var(--line);border-radius:8px;background:#0e1525}.info-grid h3{font-size:13px;margin:9px 0 4px}.info-grid p{font-size:12px;margin:0;color:#8999b2}.tile-icon{color:#9aabff;font-size:19px}.command-list{border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:20px 0}.command-list>div{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 13px;border-bottom:1px solid var(--line);font-size:12px;color:#aebbd0}.command-list>div:last-child{border:0}.pipeline{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:20px 0}.pipeline div{display:flex;align-items:center;gap:12px;padding:10px 12px;background:#10182a;border:1px solid var(--line);border-radius:7px;color:#b6c2d6;font-size:12px}.pipeline b{color:#8da0ff;font:11px 'DM Mono'}.tip{display:block;border-color:#29483f;background:#10201e}.tip strong{color:#a4e6ca}.warning{display:block;border-color:#5b4431;background:#241b16}.warning strong{color:#f0bd88}details{border-bottom:1px solid var(--line);padding:13px 2px}summary{cursor:pointer;color:#d0d9e8;font-size:13px;font-weight:600}details p{font-size:12px}.end-card{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:20px;border:1px solid #2a3856;background:linear-gradient(120deg,#121d34,#11192a);border-radius:10px;margin-top:25px}.end-card h3{margin:7px 0 3px}.end-card p{font-size:12px;margin:0}.footer{display:flex;justify-content:space-between;padding:24px 0;color:#65738a;font-size:11px}.toc{position:sticky;top:100px;align-self:start;padding-top:115px}.toc>span{display:block;margin-bottom:12px}.toc a{display:block;color:#74839c;font-size:11px;padding:5px 0}.toc a:hover{color:#c2ccff}.search-results{position:fixed;z-index:30;top:61px;left:50%;transform:translateX(-50%);width:min(560px,calc(100vw - 28px));padding:10px;background:#121b2d;border:1px solid #354361;border-radius:10px;box-shadow:0 20px 70px #000b}.search-results a{display:block;padding:10px;color:#d7e0ef;border-radius:6px;font-size:13px}.search-results a:hover{background:#202d48}.search-results small{display:block;color:#8796af;font-size:11px}.search-empty{padding:14px;color:#8e9cb2;font-size:12px}.no-results{display:none}
+@media(max-width:1150px){.shell{grid-template-columns:225px minmax(0,1fr);gap:32px}.toc{display:none}}@media(max-width:760px){.topbar{padding:0 17px}.top-actions{margin-left:auto;margin-right:12px}.version{display:none}.menu-toggle{display:block}.shell{display:block;padding:0 20px}.sidebar{display:none;position:fixed;z-index:9;top:68px;left:0;right:0;height:calc(100vh - 68px);background:#0c1220;padding:20px;border-right:0;border-bottom:1px solid var(--line)}.sidebar.open{display:block}.content{padding-top:25px}.breadcrumbs{margin-bottom:25px}.hero h1{font-size:40px}.hero-copy{font-size:15px}.info-grid{grid-template-columns:1fr}.steps{grid-template-columns:1fr}.pipeline{grid-template-columns:1fr}.end-card{align-items:flex-start;flex-direction:column}.hero-meta{flex-wrap:wrap}.command-list>div{align-items:flex-start;flex-direction:column}.footer{gap:12px}.doc-section{padding:30px 0}.notice{margin-bottom:28px}}
+
+/* Launcher Cards & Handbook Links */
+.nav-handbook-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #e2e8f0;
+  transition: all 0.2s ease;
+}
+.nav-handbook-btn:hover {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: #38bdf8;
+  color: #fff;
+  text-decoration: none;
+}
+.portal-launcher-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  margin: 24px 0 28px;
+}
+.launcher-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 18px 20px;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+.launcher-card:hover {
+  transform: translateY(-3px);
+  border-color: #38bdf8;
+  background: rgba(56, 189, 248, 0.06);
+  box-shadow: 0 10px 28px rgba(56, 189, 248, 0.15);
+  text-decoration: none;
+}
+.launcher-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.launcher-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: -0.01em;
+}
+.launcher-arrow {
+  color: #38bdf8;
+  font-size: 16px;
+  transition: transform 0.2s ease;
+}
+.launcher-card:hover .launcher-arrow {
+  transform: translateX(4px);
+}
+.launcher-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0 0 6px;
+  line-height: 1.35;
+}
+.launcher-card p {
+  font-size: 13px;
+  line-height: 1.55;
+  color: #94a3b8;
+  margin: 0;
+}
+.external-link {
+  color: #38bdf8 !important;
+  font-weight: 600;
+}
+  </style>
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
@@ -22,7 +112,7 @@
       <a class="nav-handbook-btn" href="../Git_GitHub_Complete_Tutorial.html" title="Open Git & GitHub Complete Tutorial (22 Ch)">Git Guide (22 Ch)</a>
       <a class="nav-handbook-btn" href="../HTML5_Web_Developer_Handbook.html" title="Open HTML5 & Modern Web Architecture Handbook (15 Ch)">HTML5 Guide (15 Ch)</a>
       <a class="nav-handbook-btn" href="../shell-scripts-repo/README.md" title="Browse 25 Production Shell Scripts">Scripts (25)</a>
-      <a class="github-link" href="https://github.com/xivig/developer-handbook-unix-linux-git-shell" target="_blank" rel="noopener noreferrer">GitHub Repo ↗</a>
+      <a class="github-link" href="https://github.com/xivig/xivig-all-in-one-notes/tree/master/developer-handbook-unix-linux-git-shell" target="_blank" rel="noopener noreferrer">GitHub Repo ↗</a>
     </div>
     <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
   </header>
@@ -99,7 +189,7 @@
         <p class="hero-copy">From foundational filesystem mechanics and bulletproof Git disaster recovery to advanced Awk pipelines, Vim mastery, and cross-platform automation.</p>
         <div class="hero-actions">
           <a class="button primary" href="#quick-start">Jump to Quick Start <span>→</span></a>
-          <a class="button secondary" href="https://github.com/xivig/developer-handbook-unix-linux-git-shell" target="_blank" rel="noopener noreferrer">View on GitHub ↗</a>
+          <a class="button secondary" href="https://github.com/xivig/xivig-all-in-one-notes/tree/master/developer-handbook-unix-linux-git-shell" target="_blank" rel="noopener noreferrer">View on GitHub ↗</a>
         </div>
         <div class="hero-meta">
           <span>Git 2.50+</span><i></i>
@@ -853,7 +943,7 @@ log "Executing automation in atomic workspace: $TEMP_DIR"</code></pre>
           <h3>Explore the Full Markdown Curriculum</h3>
           <p>Read all 18 modular Markdown chapters inside the <code>docs/</code> directory.</p>
         </div>
-        <a class="button primary" href="https://github.com/xivig/developer-handbook-unix-linux-git-shell" target="_blank" rel="noopener noreferrer">Star on GitHub ↗</a>
+        <a class="button primary" href="https://github.com/xivig/xivig-all-in-one-notes/tree/master/developer-handbook-unix-linux-git-shell" target="_blank" rel="noopener noreferrer">Star on GitHub ↗</a>
       </div>
 
       <footer class="footer">
@@ -888,5 +978,90 @@ log "Executing automation in atomic workspace: $TEMP_DIR"</code></pre>
       <a href="#scripts-reference">Utility Scripts</a>
     </aside>
   </div>
+  <script>
+(() => {
+  const input = document.querySelector('#doc-search');
+  const results = document.querySelector('#search-results');
+  const sections = [...document.querySelectorAll('.doc-section, .hero')];
+  const nav = [...document.querySelectorAll('.nav-link')];
+  const menu = document.querySelector('.menu-toggle');
+  const sidebar = document.querySelector('.sidebar');
+
+  const closeResults = () => { results.hidden = true; results.innerHTML = ''; };
+  const search = (value) => {
+    const query = value.trim().toLowerCase();
+    if (!query) return closeResults();
+    const matches = sections.map(section => {
+      const title = section.dataset.title || section.querySelector('h1')?.innerText || '';
+      const text = section.innerText.toLowerCase();
+      return { id: section.id, title, text, excerpt: section.innerText.replace(/\s+/g, ' ').slice(0, 145) };
+    }).filter(item => item.title.toLowerCase().includes(query) || item.text.includes(query)).slice(0, 8);
+    results.replaceChildren();
+    if (matches.length) {
+      matches.forEach(item => {
+        const link = document.createElement('a');
+        link.href = `#${item.id}`;
+        link.append(document.createTextNode(item.title));
+        const excerpt = document.createElement('small');
+        excerpt.textContent = item.excerpt;
+        link.append(excerpt);
+        results.append(link);
+      });
+    } else {
+      const empty = document.createElement('div');
+      empty.className = 'search-empty';
+      empty.textContent = 'No matching guides. Try another keyword.';
+      results.append(empty);
+    }
+    results.hidden = false;
+  };
+
+  input.addEventListener('input', () => search(input.value));
+  input.addEventListener('keydown', event => {
+    if (event.key === 'Escape') { input.value = ''; closeResults(); input.blur(); }
+    if (event.key === 'Enter') results.querySelector('a')?.click();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === '/' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) { event.preventDefault(); input.focus(); }
+    if (event.key === 'Escape') closeResults();
+  });
+  document.addEventListener('click', event => { if (!results.contains(event.target) && event.target !== input) closeResults(); });
+  results.addEventListener('click', () => { closeResults(); sidebar.classList.remove('open'); menu.setAttribute('aria-expanded', 'false'); });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      nav.forEach(link => link.classList.toggle('active', link.hash === `#${entry.target.id}`));
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(section => observer.observe(section));
+
+  menu.addEventListener('click', () => {
+    const open = sidebar.classList.toggle('open');
+    menu.setAttribute('aria-expanded', String(open));
+  });
+  document.querySelectorAll('[data-copy]').forEach(button => button.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(button.dataset.copy.replace(/\n/g, '\n'));
+      button.textContent = 'Copied';
+      setTimeout(() => { button.textContent = 'Copy'; }, 1400);
+    } catch { button.textContent = 'Select code'; }
+  }));
+})();
+
+(() => {
+  if (window.location.hostname === 'htmlpreview.github.io') {
+    const ghBase = 'https://github.com/xivig/xivig-all-in-one-notes/blob/master/developer-handbook-unix-linux-git-shell/documentation/index.html';
+    document.querySelectorAll('a[href]').forEach((a) => {
+      const rawHref = a.getAttribute('href') || '';
+      if (!rawHref.startsWith('#') && !/^https?:\/\//i.test(rawHref) && /\.(md|sh)$/i.test(rawHref)) {
+        a.setAttribute('href', new URL(rawHref, ghBase).href);
+        a.setAttribute('target', '_blank');
+        a.setAttribute('rel', 'noopener noreferrer');
+      }
+    });
+  }
+})();
+  </script>
 </body>
 </html>

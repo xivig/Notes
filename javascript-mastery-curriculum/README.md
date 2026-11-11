@@ -107,10 +107,10 @@ Every JavaScript file in this curriculum is runnable with Node.js:
 
 ```bash
 # Run any individual module:
-node JavaScript/20.array-methods-modern.js
-node JavaScript/27.generators-and-iterators.js
-node JavaScript/29.modern-es-features.js
+node javascript-mastery-curriculum/20.array-methods-modern.js
+node javascript-mastery-curriculum/27.generators-and-iterators.js
+node javascript-mastery-curriculum/29.modern-es-features.js
 
 # Compile-check all 34 modules simultaneously:
-node -c JavaScript/*.js
+node -c javascript-mastery-curriculum/*.js
 ```

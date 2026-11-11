@@ -1,19 +1,19 @@
 # 📚 Xivig Developer Notes & Knowledge Base
 
 [![Topics](https://img.shields.io/badge/Knowledge%20Base-17%20Disciplines-6366f1?style=flat-square)](.)
-[![JavaScript](https://img.shields.io/badge/JavaScript-ES2024%2B-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](JavaScript/)
-[![DOM](https://img.shields.io/badge/DOM-W3C%20%2F%20WHATWG-E34F26?style=flat-square&logo=html5&logoColor=white)](DOM/dom-facts.md)
-[![jQuery](https://img.shields.io/badge/jQuery-4.0.0-0769AD?style=flat-square&logo=jquery&logoColor=white)](jQuery/README.md)
-[![Jasmine](https://img.shields.io/badge/Testing-Jasmine%20BDD-8A4182?style=flat-square&logo=jasmine&logoColor=white)](Jasmine/unitTest-Jasmine-config.md)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES2024%2B-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](javascript-mastery-curriculum/)
+[![DOM](https://img.shields.io/badge/DOM-W3C%20%2F%20WHATWG-E34F26?style=flat-square&logo=html5&logoColor=white)](dom-manipulation-guide/dom-facts.md)
+[![jQuery](https://img.shields.io/badge/jQuery-4.0.0-0769AD?style=flat-square&logo=jquery&logoColor=white)](jquery-4-master-curriculum/README.md)
+[![Jasmine](https://img.shields.io/badge/Testing-Jasmine%20BDD-8A4182?style=flat-square&logo=jasmine&logoColor=white)](jasmine-unit-testing-guide/unitTest-Jasmine-config.md)
 [![PHP](https://img.shields.io/badge/PHP-8.0%20--%208.5-777BB4?style=flat-square&logo=php&logoColor=white)](all-in-one-php-tutorial/README.md)
 [![Unix/Shell](https://img.shields.io/badge/Unix%20%26%20Shell-Bash%20%7C%20Zsh%20%7C%20HTML5-4EAA25?style=flat-square&logo=gnu-bash&logoColor=white)](developer-handbook-unix-linux-git-shell/README.md)
 [![Git](https://img.shields.io/badge/Git-2.40%2B-F05032?style=flat-square&logo=git&logoColor=white)](git-essential-commands/README.md)
 [![MySQL](https://img.shields.io/badge/MySQL-8.4%20LTS-4479A1?style=flat-square&logo=mysql&logoColor=white)](mysql-cheatsheet-example/README.md)
-[![Markdown](https://img.shields.io/badge/Markdown-GFM%20%2F%20Mermaid-000000?style=flat-square&logo=markdown&logoColor=white)](Markdown/README.md)
+[![Markdown](https://img.shields.io/badge/Markdown-GFM%20%2F%20Mermaid-000000?style=flat-square&logo=markdown&logoColor=white)](markdown-gfm-curriculum/README.md)
 [![Homebrew](https://img.shields.io/badge/macOS-Homebrew%20Bootstrap-FBB040?style=flat-square&logo=homebrew&logoColor=black)](homebrew-installer-script/README.md)
 [![Sublime Text](https://img.shields.io/badge/Editor-Sublime%20Text-FF9800?style=flat-square&logo=sublimetext&logoColor=white)](sublime-text-editor-trick/README.md)
-[![Vagrant](https://img.shields.io/badge/Virtualization-Vagrant%20%26%20Docker-1563FF?style=flat-square&logo=vagrant&logoColor=white)](VagrantSetup/gettingStartedVagrant.md)
-[![Jekyll](https://img.shields.io/badge/Static%20Sites-Jekyll%204.x-CC0000?style=flat-square&logo=jekyll&logoColor=white)](Jekyll/Jekyll-config-windows-mac-linux.md)
+[![Vagrant](https://img.shields.io/badge/Virtualization-Vagrant%20%26%20Docker-1563FF?style=flat-square&logo=vagrant&logoColor=white)](vagrant-docker-vm-setup/gettingStartedVagrant.md)
+[![Jekyll](https://img.shields.io/badge/Static%20Sites-Jekyll%204.x-CC0000?style=flat-square&logo=jekyll&logoColor=white)](jekyll-static-site-guide/Jekyll-config-windows-mac-linux.md)
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg?style=flat-square)](LICENSE)
 
 An exhaustive, modular collection of developer notes, architectural cheat sheets, code-first tutorials, automation scripts, and systems operations recipes curated across web, database, and systems engineering disciplines.
@@ -24,19 +24,19 @@ An exhaustive, modular collection of developer notes, architectural cheat sheets
 
 ```text
 xivig-all-in-one-notes/
-├── JavaScript/                  # Complete 34-module JavaScript curriculum, tutorial & cheat sheet
-├── DOM/                         # Modern Document Object Model (DOM) manual & cheat sheet
-├── jQuery/                      # Modern jQuery 4.0.0 16-module curriculum, 7 projects & glossary
-├── Jasmine/                     # Jasmine BDD unit testing setup, matchers, and async specs
-├── CreateGithubPages/           # GitHub Pages deployment (Actions, branch deploys, custom domains)
-├── Jekyll/                      # Jekyll 4.x configuration for Windows (WSL2), macOS, and Linux
-├── Sizzle/                      # Sizzle selector engine history, jQuery 4 removal & modern CSS
-├── VagrantSetup/                # Portable dev VMs (Ubuntu 22.04 LTS, Docker CE, synced folders)
-├── Markdown/                    # Complete GitHub Flavored Markdown (GFM) 10-module curriculum & specs
-├── Yaml/                        # YAML data types, multiline block scalars, anchors & aliases
-├── git-essential-commands/      # Rigorous Git manual, desk cheatsheet, aliases & automation scripts
-├── mysql-cheatsheet-example/    # MySQL 8.4 LTS handbook (Stages 0–18), cheatsheet & practice lab
-├── homebrew-installer-script/   # Idempotent macOS workstation bootstrap script (homebrew.sh)
+├── javascript-mastery-curriculum/            # Complete 34-module JavaScript curriculum, tutorial & cheat sheet
+├── dom-manipulation-guide/                   # Modern Document Object Model (DOM) manual & cheat sheet
+├── jquery-4-master-curriculum/               # Modern jQuery 4.0.0 16-module curriculum, 7 projects & glossary
+├── jasmine-unit-testing-guide/               # Jasmine BDD unit testing setup, matchers, and async specs
+├── CreateGithubPages/                        # GitHub Pages deployment (Actions, branch deploys, custom domains)
+├── jekyll-static-site-guide/                 # Jekyll 4.x configuration for Windows (WSL2), macOS, and Linux
+├── sizzle-and-native-css-selectors/          # Sizzle selector engine history, jQuery 4 removal & modern CSS
+├── vagrant-docker-vm-setup/                  # Portable dev VMs (Ubuntu 22.04 LTS, Docker CE, synced folders)
+├── markdown-gfm-curriculum/                  # Complete GitHub Flavored Markdown (GFM) 10-module curriculum & specs
+├── yaml-syntax-cheatsheet/                   # YAML data types, multiline block scalars, anchors & aliases
+├── git-essential-commands/                   # Rigorous Git manual, desk cheatsheet, aliases & automation scripts
+├── mysql-cheatsheet-example/                 # MySQL 8.4 LTS handbook (Stages 0–18), cheatsheet & practice lab
+├── homebrew-installer-script/                # Idempotent macOS workstation bootstrap script (homebrew.sh)
 ├── sublime-text-editor-trick/                # Sublime Text shortcuts, multi-cursor, Emmet, snippets & builds
 ├── all-in-one-php-tutorial/                  # Modern PHP 8.0–8.5 18-chapter handbook, runnable labs & portal
 ├── developer-handbook-unix-linux-git-shell/  # Unix/Linux, Git, Shell, macOS, HTML5 handbooks & 25 scripts
@@ -47,16 +47,16 @@ xivig-all-in-one-notes/
 
 ## 📑 Core Topics Overview
 
-### 1. ⚡ [JavaScript Curriculum & Architecture](JavaScript/README.md)
-* **Core Documentation**: 📘 **[Comprehensive JavaScript Tutorial](JavaScript/TUTORIAL.md)** (All-in-one 34-module master tutorial), 🚀 **[Developer Cheat Sheet](JavaScript/DEVELOPER-CHEATSHEET.md)** (Array Decision Matrix, Equality Table, Type-Checking Helpers, Top 10 Gotchas).
-* **Phase 1: Foundations**: [01. Introduction & IIFE](JavaScript/01.introduction.js), [02. Data Types & Coercion](JavaScript/02.data-types-and-coercion.js), [03. Variables & TDZ](JavaScript/03.variables-and-tdz.js), [04. Loops & Iteration](JavaScript/04.loops-and-iteration.js), [05. Hoisting](JavaScript/05.hoisting.js).
-* **Phase 2: Functions & Scopes**: [06. Functions & Parameters](JavaScript/06.functions-and-parameters.js), [07. Scopes & Scope Chain](JavaScript/07.scope-and-scope-chain.js), [08. Closures](JavaScript/08.closures.js), [09. Callbacks](JavaScript/09.callbacks.js), [10. Higher-Order Functions](JavaScript/10.higher-order-functions.js), [11. Call, Apply & Bind](JavaScript/11.call-apply-bind.js).
-* **Phase 3: Objects, Prototypes & OOP**: [12. Object Creation](JavaScript/12.object-creation.js), [13. Object Methods & Descriptors](JavaScript/13.object-methods-and-descriptors.js), [14. Constructor Functions](JavaScript/14.constructor-functions.js), [15. Prototypes & Prototype Chain](JavaScript/15.prototypes-and-prototype-chain.js), [16. OOP & Classes](JavaScript/16.oop-and-classes.js), [17. Object Protection (`freeze`, `seal`)](JavaScript/17.object-protection-freeze-seal.js), [18. Generic Object Methods](JavaScript/18.generic-object-methods.md).
-* **Phase 4: Arrays & Keyed Collections**: [19. Array Fundamentals](JavaScript/19.arrays-fundamentals.js), [20. Modern Array Methods (ES2023+)](JavaScript/20.array-methods-modern.js), [21. Array-Like Objects](JavaScript/21.array-like-objects.js), [22. Map & Set Collections (ES2024)](JavaScript/22.collections-map-set.js).
-* **Phase 5: Asynchronous Architecture**: [23. Event Loop & Microtasks](JavaScript/23.event-loop-and-asynchronous.js), [24. Timers, Debounce & Throttle](JavaScript/24.timers-settimeout-setinterval.js), [25. Promises & Async/Await](JavaScript/25.promises-and-async-await.js), [26. Modern Fetch & Networking](JavaScript/26.fetch-api-and-networking.js), [27. Generators & Iterators](JavaScript/27.generators-and-iterators.js).
-* **Phase 6: Modern ES2024+, Web APIs & Architecture**: [28. ES Modules vs CommonJS](JavaScript/28.modules-esm-and-cjs.js), [29. Modern ES Features (ES2020–ES2024)](JavaScript/29.modern-es-features.js), [30. Defensive Error Handling & Causes](JavaScript/30.error-handling-and-causes.js), [31. Regular Expressions Mastery](JavaScript/31.regular-expressions-mastery.js), [32. Browser Storage & Web APIs](JavaScript/32.browser-storage-and-web-apis.js), [33. JSDoc & Zero-Build Type-Checking](JavaScript/33.jsdoc-and-type-checking.js), [34. Design Patterns](JavaScript/34.design-patterns.js).
+### 1. ⚡ [JavaScript Curriculum & Architecture](javascript-mastery-curriculum/README.md)
+* **Core Documentation**: 📘 **[Comprehensive JavaScript Tutorial](javascript-mastery-curriculum/TUTORIAL.md)** (All-in-one 34-module master tutorial), 🚀 **[Developer Cheat Sheet](javascript-mastery-curriculum/DEVELOPER-CHEATSHEET.md)** (Array Decision Matrix, Equality Table, Type-Checking Helpers, Top 10 Gotchas).
+* **Phase 1: Foundations**: [01. Introduction & IIFE](javascript-mastery-curriculum/01.introduction.js), [02. Data Types & Coercion](javascript-mastery-curriculum/02.data-types-and-coercion.js), [03. Variables & TDZ](javascript-mastery-curriculum/03.variables-and-tdz.js), [04. Loops & Iteration](javascript-mastery-curriculum/04.loops-and-iteration.js), [05. Hoisting](javascript-mastery-curriculum/05.hoisting.js).
+* **Phase 2: Functions & Scopes**: [06. Functions & Parameters](javascript-mastery-curriculum/06.functions-and-parameters.js), [07. Scopes & Scope Chain](javascript-mastery-curriculum/07.scope-and-scope-chain.js), [08. Closures](javascript-mastery-curriculum/08.closures.js), [09. Callbacks](javascript-mastery-curriculum/09.callbacks.js), [10. Higher-Order Functions](javascript-mastery-curriculum/10.higher-order-functions.js), [11. Call, Apply & Bind](javascript-mastery-curriculum/11.call-apply-bind.js).
+* **Phase 3: Objects, Prototypes & OOP**: [12. Object Creation](javascript-mastery-curriculum/12.object-creation.js), [13. Object Methods & Descriptors](javascript-mastery-curriculum/13.object-methods-and-descriptors.js), [14. Constructor Functions](javascript-mastery-curriculum/14.constructor-functions.js), [15. Prototypes & Prototype Chain](javascript-mastery-curriculum/15.prototypes-and-prototype-chain.js), [16. OOP & Classes](javascript-mastery-curriculum/16.oop-and-classes.js), [17. Object Protection (`freeze`, `seal`)](javascript-mastery-curriculum/17.object-protection-freeze-seal.js), [18. Generic Object Methods](javascript-mastery-curriculum/18.generic-object-methods.md).
+* **Phase 4: Arrays & Keyed Collections**: [19. Array Fundamentals](javascript-mastery-curriculum/19.arrays-fundamentals.js), [20. Modern Array Methods (ES2023+)](javascript-mastery-curriculum/20.array-methods-modern.js), [21. Array-Like Objects](javascript-mastery-curriculum/21.array-like-objects.js), [22. Map & Set Collections (ES2024)](javascript-mastery-curriculum/22.collections-map-set.js).
+* **Phase 5: Asynchronous Architecture**: [23. Event Loop & Microtasks](javascript-mastery-curriculum/23.event-loop-and-asynchronous.js), [24. Timers, Debounce & Throttle](javascript-mastery-curriculum/24.timers-settimeout-setinterval.js), [25. Promises & Async/Await](javascript-mastery-curriculum/25.promises-and-async-await.js), [26. Modern Fetch & Networking](javascript-mastery-curriculum/26.fetch-api-and-networking.js), [27. Generators & Iterators](javascript-mastery-curriculum/27.generators-and-iterators.js).
+* **Phase 6: Modern ES2024+, Web APIs & Architecture**: [28. ES Modules vs CommonJS](javascript-mastery-curriculum/28.modules-esm-and-cjs.js), [29. Modern ES Features (ES2020–ES2024)](javascript-mastery-curriculum/29.modern-es-features.js), [30. Defensive Error Handling & Causes](javascript-mastery-curriculum/30.error-handling-and-causes.js), [31. Regular Expressions Mastery](javascript-mastery-curriculum/31.regular-expressions-mastery.js), [32. Browser Storage & Web APIs](javascript-mastery-curriculum/32.browser-storage-and-web-apis.js), [33. JSDoc & Zero-Build Type-Checking](javascript-mastery-curriculum/33.jsdoc-and-type-checking.js), [34. Design Patterns](javascript-mastery-curriculum/34.design-patterns.js).
 
-### 2. 🌐 [Document Object Model (DOM)](DOM/dom-facts.md)
+### 2. 🌐 [Document Object Model (DOM)](dom-manipulation-guide/dom-facts.md)
 * Tree nodes vs Element nodes.
 * Modern queries (`querySelector`, `querySelectorAll`, `closest`, `matches`).
 * Fast element creation and insertion (`append`, `prepend`, `before`, `after`, `insertAdjacentHTML`).
@@ -64,19 +64,19 @@ xivig-all-in-one-notes/
 * Modern event handling (`addEventListener`, `AbortController` cancellation, Event Delegation).
 * High-performance DOM operations (`DocumentFragment`, `IntersectionObserver`, `MutationObserver`).
 
-### 3. 🧩 [jQuery 4.0 Mastery Curriculum & Developer Reference](jQuery/README.md)
-* **Master Curriculum Hub**: 📘 **[jQuery 4.0 Complete Curriculum & Guide](jQuery/README.md)** (Modular 16-chapter curriculum, 7 production projects, 12-section pedagogical template).
-* **Getting Started & Quickstart**: 🚀 **[Getting Started Guide](jQuery/GETTING-STARTED.md)** (5-minute CDN setup, npm / ES Modules, and Slim build).
-* **Learning Roadmap & Tracks**: 🗺️ **[Learning Roadmap](jQuery/LEARNING-ROADMAP.md)** (4 structured progression tracks from beginner to senior architect).
-* **Developer Desk Reference**: ⚡ **[jQuery 4.0 Developer Cheatsheet](jQuery/CHEATSHEET.md)** (One-page quick reference, breaking changes matrix, modern replacements).
-* **Technical Glossary**: 📖 **[A–Z Glossary](jQuery/GLOSSARY.md)** (Authoritative definitions from AJAX to XSS, Trusted Types, and Layout Thrashing).
+### 3. 🧩 [jQuery 4.0 Mastery Curriculum & Developer Reference](jquery-4-master-curriculum/README.md)
+* **Master Curriculum Hub**: 📘 **[jQuery 4.0 Complete Curriculum & Guide](jquery-4-master-curriculum/README.md)** (Modular 16-chapter curriculum, 7 production projects, 12-section pedagogical template).
+* **Getting Started & Quickstart**: 🚀 **[Getting Started Guide](jquery-4-master-curriculum/GETTING-STARTED.md)** (5-minute CDN setup, npm / ES Modules, and Slim build).
+* **Learning Roadmap & Tracks**: 🗺️ **[Learning Roadmap](jquery-4-master-curriculum/LEARNING-ROADMAP.md)** (4 structured progression tracks from beginner to senior architect).
+* **Developer Desk Reference**: ⚡ **[jQuery 4.0 Developer Cheatsheet](jquery-4-master-curriculum/CHEATSHEET.md)** (One-page quick reference, breaking changes matrix, modern replacements).
+* **Technical Glossary**: 📖 **[A–Z Glossary](jquery-4-master-curriculum/GLOSSARY.md)** (Authoritative definitions from AJAX to XSS, Trusted Types, and Layout Thrashing).
 * **Core Curriculum Modules**:
-  * [01. Fundamentals](jQuery/01-fundamentals/README.md) · [02. Installation](jQuery/02-installation/README.md) · [03. Syntax & Selectors](jQuery/03-syntax-and-selectors/README.md) · [04. DOM Traversal](jQuery/04-dom-traversal/README.md)
-  * [05. DOM Manipulation](jQuery/05-dom-manipulation/README.md) · [06. Events](jQuery/06-events/README.md) · [07. CSS & Styling](jQuery/07-css-and-styling/README.md) · [08. Effects & Animation](jQuery/08-effects-and-animation/README.md)
-  * [09. Forms & Validation](jQuery/09-forms-and-validation/README.md) · [10. AJAX & API](jQuery/10-ajax-and-api/README.md) · [11. Utilities](jQuery/11-utilities/README.md) · [12. Advanced Architecture](jQuery/12-advanced-jquery/README.md)
-  * [13. Plugin Development](jQuery/13-plugin-development/README.md) · [14. Performance & Security](jQuery/14-performance-and-security/README.md) · [15. Modern JS Integration](jQuery/15-modern-javascript-integration/README.md) · [16. jQuery 4 Migration](jQuery/16-jquery-4-migration/README.md)
-* **Hands-on Projects**: [01. Navigation](jQuery/projects/01-interactive-navigation/), [02. Data Table](jQuery/projects/02-data-table/), [03. Image Gallery](jQuery/projects/03-image-gallery/), [04. Shopping Cart](jQuery/projects/04-shopping-cart/), [05. Form Builder](jQuery/projects/05-form-builder/), [06. AJAX CRUD](jQuery/projects/06-ajax-crud/), [07. Admin Dashboard](jQuery/projects/07-admin-dashboard/).
-* **Mastery Resources**: 🏋️ **[Practice Exercises](jQuery/exercises/README.md)** · 🎯 **[Interview Questions & Answers](jQuery/interview-questions/README.md)** · 📚 **[Reference Archives](jQuery/reference/README.md)**.
+  * [01. Fundamentals](jquery-4-master-curriculum/01-fundamentals/README.md) · [02. Installation](jquery-4-master-curriculum/02-installation/README.md) · [03. Syntax & Selectors](jquery-4-master-curriculum/03-syntax-and-selectors/README.md) · [04. DOM Traversal](jquery-4-master-curriculum/04-dom-traversal/README.md)
+  * [05. DOM Manipulation](jquery-4-master-curriculum/05-dom-manipulation/README.md) · [06. Events](jquery-4-master-curriculum/06-events/README.md) · [07. CSS & Styling](jquery-4-master-curriculum/07-css-and-styling/README.md) · [08. Effects & Animation](jquery-4-master-curriculum/08-effects-and-animation/README.md)
+  * [09. Forms & Validation](jquery-4-master-curriculum/09-forms-and-validation/README.md) · [10. AJAX & API](jquery-4-master-curriculum/10-ajax-and-api/README.md) · [11. Utilities](jquery-4-master-curriculum/11-utilities/README.md) · [12. Advanced Architecture](jquery-4-master-curriculum/12-advanced-jquery/README.md)
+  * [13. Plugin Development](jquery-4-master-curriculum/13-plugin-development/README.md) · [14. Performance & Security](jquery-4-master-curriculum/14-performance-and-security/README.md) · [15. Modern JS Integration](jquery-4-master-curriculum/15-modern-javascript-integration/README.md) · [16. jQuery 4 Migration](jquery-4-master-curriculum/16-jquery-4-migration/README.md)
+* **Hands-on Projects**: [01. Navigation](jquery-4-master-curriculum/projects/01-interactive-navigation/), [02. Data Table](jquery-4-master-curriculum/projects/02-data-table/), [03. Image Gallery](jquery-4-master-curriculum/projects/03-image-gallery/), [04. Shopping Cart](jquery-4-master-curriculum/projects/04-shopping-cart/), [05. Form Builder](jquery-4-master-curriculum/projects/05-form-builder/), [06. AJAX CRUD](jquery-4-master-curriculum/projects/06-ajax-crud/), [07. Admin Dashboard](jquery-4-master-curriculum/projects/07-admin-dashboard/).
+* **Mastery Resources**: 🏋️ **[Practice Exercises](jquery-4-master-curriculum/exercises/README.md)** · 🎯 **[Interview Questions & Answers](jquery-4-master-curriculum/interview-questions/README.md)** · 📚 **[Reference Archives](jquery-4-master-curriculum/reference/README.md)**.
 
 ### 4. 📦 [GitHub Pages Deployment](CreateGithubPages/How-to-create-github-page.md)
 * Standard branch deployment from `main` or `/docs`.
@@ -84,7 +84,7 @@ xivig-all-in-one-notes/
 * Bypassing Jekyll build conflicts with the `.nojekyll` configuration file.
 * Setting up custom apex/sub-domains with automated HTTPS TLS enforcement.
 
-### 5. 🧪 [Jasmine Unit Testing](Jasmine/unitTest-Jasmine-config.md)
+### 5. 🧪 [Jasmine Unit Testing](jasmine-unit-testing-guide/unitTest-Jasmine-config.md)
 * Clean local project setup via `npm install --save-dev jasmine`.
 * ES Module (`"type": "module"`) test suite configuration.
 * BDD syntax (`describe`, `it`, `expect`).
@@ -92,44 +92,44 @@ xivig-all-in-one-notes/
 * Complete matchers cheatsheet (`toBe`, `toEqual`, `toContain`, `toThrowError`).
 * Method interception and assertions with Spies (`spyOn`).
 
-### 6. 💎 [Jekyll Static Site Generator](Jekyll/Jekyll-config-windows-mac-linux.md)
+### 6. 💎 [Jekyll Static Site Generator](jekyll-static-site-guide/Jekyll-config-windows-mac-linux.md)
 * **Windows**: Recommended WSL2 workflow and native RubyInstaller with MSYS2 DevKit.
 * **macOS**: Modern Homebrew Ruby configuration (avoiding system Ruby permissions).
 * **Linux**: Ubuntu/Debian package dependencies (`ruby-full build-essential zlib1g-dev`).
 * Bundler workflow (`bundle exec jekyll serve --livereload`).
 * Solutions for common issues (missing `webrick` on Ruby 3.x+, Windows encoding).
 
-### 7. 🔍 [Sizzle & Modern Native CSS Selectors](Sizzle/Sizzle.md)
+### 7. 🔍 [Sizzle & Modern Native CSS Selectors](sizzle-and-native-css-selectors/Sizzle.md)
 * Historical background: bridging browser differences in the IE6–8 era.
 * Evolution of W3C native selector APIs (`querySelector`, `querySelectorAll`).
 * Why jQuery 4.0 officially retired Sizzle.
 * Modern CSS Selector Level 4 superpowers (`:has()`, `:is()`, `:where()`, `:not()`).
 
-### 8. 🖥️ [Vagrant & Local Virtualization](VagrantSetup/gettingStartedVagrant.md)
-* **Guides & Templates**: [Getting Started Guide](VagrantSetup/gettingStartedVagrant.md) · [Up & Running Walkthrough](VagrantSetup/UpandRunningVagrant.md) · [Docker-Provisioned `Vagrantfile`](VagrantSetup/ubuntu-xenial-docker/Vagrantfile).
+### 8. 🖥️ [Vagrant & Local Virtualization](vagrant-docker-vm-setup/gettingStartedVagrant.md)
+* **Guides & Templates**: [Getting Started Guide](vagrant-docker-vm-setup/gettingStartedVagrant.md) · [Up & Running Walkthrough](vagrant-docker-vm-setup/UpandRunningVagrant.md) · [Docker-Provisioned `Vagrantfile`](vagrant-docker-vm-setup/ubuntu-xenial-docker/Vagrantfile).
 * Upgrading from legacy boxes (`precise64`, `xenial64`) to modern **Ubuntu 22.04 LTS (`ubuntu/jammy64`)** and **Ubuntu 24.04 LTS (`ubuntu/noble64`)**.
 * Automated provisioning with **Docker Engine CE** and Docker Compose.
 * Secure port forwarding (`host_ip: "127.0.0.1"`) and host-guest synced folders.
 * Complete CLI command reference (`vagrant up`, `vagrant ssh`, `vagrant reload --provision`).
 
-### 9. 📝 [Markdown & GFM Complete Master Curriculum](Markdown/README.md)
-* **Master Hub**: [Curriculum Index](Markdown/README.md) & [Cheatsheet Desk Reference](Markdown/CHEATSHEET.md).
-* **Specifications**: [GitHub Flavored Markdown (GFM) Spec](Markdown/GFM-SPECIFICATION.md) & [Extended Syntax](Markdown/EXTENDED-SYNTAX.md).
-* **Best Practices**: [markdownlint Rules, Prettier, & Style Guides](Markdown/BEST-PRACTICES-AND-LINTING.md).
+### 9. 📝 [Markdown & GFM Complete Master Curriculum](markdown-gfm-curriculum/README.md)
+* **Master Hub**: [Curriculum Index](markdown-gfm-curriculum/README.md) & [Cheatsheet Desk Reference](markdown-gfm-curriculum/CHEATSHEET.md).
+* **Specifications**: [GitHub Flavored Markdown (GFM) Spec](markdown-gfm-curriculum/GFM-SPECIFICATION.md) & [Extended Syntax](markdown-gfm-curriculum/EXTENDED-SYNTAX.md).
+* **Best Practices**: [markdownlint Rules, Prettier, & Style Guides](markdown-gfm-curriculum/BEST-PRACTICES-AND-LINTING.md).
 * **10 Deep-Dive Modules**:
-  * [01 - Basic Syntax](Markdown/01-basic-syntax.md) (Headings, paragraphs, line breaks, emphasis)
-  * [02 - Lists & Tasklists](Markdown/02-lists-and-tasklists.md) (Loose/tight lists, multi-level nesting, checklists)
-  * [03 - Links, Images & Badges](Markdown/03-links-images-badges.md) (Reference links, HTML image sizing, Shields.io badges)
-  * [04 - Code & Syntax Highlighting](Markdown/04-code-and-syntax-highlighting.md) (Fenced code blocks, language IDs, Git diffs)
-  * [05 - Tables & Alignment](Markdown/05-tables-and-alignment.md) (GFM tables, escaping pipes, cell line breaks, HTML tables)
-  * [06 - Callouts, Alerts & Details](Markdown/06-callouts-alerts-details.md) (GitHub Alerts [!NOTE]...[!CAUTION], <details> accordions)
-  * [07 - Diagrams with Mermaid.js](Markdown/07-diagrams-mermaid.md) (Flowcharts, Sequence, Class, ER, State, Git Graphs)
-  * [08 - Math & LaTeX Typesetting](Markdown/08-math-and-latex.md) (KaTeX inline $, display $$, calculus, matrices)
-  * [09 - Frontmatter & Metadata](Markdown/09-frontmatter-and-metadata.md) (YAML, TOML, JSON frontmatter, Zod schema validation)
-  * [10 - Security & Safe HTML](Markdown/10-security-and-html.md) (GFM disallowed tags, XSS prevention, DOMPurify & rehype)
-* **Single-Page Reference**: [Comprehensive Syntax Manual](Markdown/markdownSyntax.md).
+  * [01 - Basic Syntax](markdown-gfm-curriculum/01-basic-syntax.md) (Headings, paragraphs, line breaks, emphasis)
+  * [02 - Lists & Tasklists](markdown-gfm-curriculum/02-lists-and-tasklists.md) (Loose/tight lists, multi-level nesting, checklists)
+  * [03 - Links, Images & Badges](markdown-gfm-curriculum/03-links-images-badges.md) (Reference links, HTML image sizing, Shields.io badges)
+  * [04 - Code & Syntax Highlighting](markdown-gfm-curriculum/04-code-and-syntax-highlighting.md) (Fenced code blocks, language IDs, Git diffs)
+  * [05 - Tables & Alignment](markdown-gfm-curriculum/05-tables-and-alignment.md) (GFM tables, escaping pipes, cell line breaks, HTML tables)
+  * [06 - Callouts, Alerts & Details](markdown-gfm-curriculum/06-callouts-alerts-details.md) (GitHub Alerts [!NOTE]...[!CAUTION], <details> accordions)
+  * [07 - Diagrams with Mermaid.js](markdown-gfm-curriculum/07-diagrams-mermaid.md) (Flowcharts, Sequence, Class, ER, State, Git Graphs)
+  * [08 - Math & LaTeX Typesetting](markdown-gfm-curriculum/08-math-and-latex.md) (KaTeX inline $, display $$, calculus, matrices)
+  * [09 - Frontmatter & Metadata](markdown-gfm-curriculum/09-frontmatter-and-metadata.md) (YAML, TOML, JSON frontmatter, Zod schema validation)
+  * [10 - Security & Safe HTML](markdown-gfm-curriculum/10-security-and-html.md) (GFM disallowed tags, XSS prevention, DOMPurify & rehype)
+* **Single-Page Reference**: [Comprehensive Syntax Manual](markdown-gfm-curriculum/markdownSyntax.md).
 
-### 10. 📄 [YAML Syntax](Yaml/YAML-syntax.yml)
+### 10. 📄 [YAML Syntax](yaml-syntax-cheatsheet/YAML-syntax.yml)
 * Key-value mapping, lists, scalar types (strings, floats, booleans, dates).
 * Multiline strings: literal block scalar (`|`) vs folded block scalar (`>`).
 * DRY document references with Anchors (`&`) and Aliases (`*`).

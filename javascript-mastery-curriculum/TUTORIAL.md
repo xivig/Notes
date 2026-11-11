@@ -1,6 +1,6 @@
 # 📘 The Complete Modern JavaScript Mastery Tutorial (ES6 – ES2024+)
 
-A code-first, deep-dive tutorial synthesized from the 34 core curriculum modules in [`Notes/JavaScript/`](README.md). This comprehensive guide covers engine fundamentals, execution contexts, prototypal mechanics, asynchronous architecture, design patterns, and zero-build static type checking.
+A code-first, deep-dive tutorial synthesized from the 34 core curriculum modules in [`javascript-mastery-curriculum/`](README.md). This comprehensive guide covers engine fundamentals, execution contexts, prototypal mechanics, asynchronous architecture, design patterns, and zero-build static type checking.
 
 ---
 
@@ -793,4 +793,4 @@ async function publishArticle(article) {
 
 ## 🎯 Summary
 
-This tutorial synthesizes all **34 standalone modules** in [`Notes/JavaScript/`](README.md). For immediate day-to-day coding lookups, consult the **[`DEVELOPER-CHEATSHEET.md`](DEVELOPER-CHEATSHEET.md)**.
+This tutorial synthesizes all **34 standalone modules** in [`javascript-mastery-curriculum/`](README.md). For immediate day-to-day coding lookups, consult the **[`DEVELOPER-CHEATSHEET.md`](DEVELOPER-CHEATSHEET.md)**.

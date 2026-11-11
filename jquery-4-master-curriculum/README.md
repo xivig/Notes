@@ -12,7 +12,7 @@ A production-grade, comprehensive master curriculum and developer reference for 
 ## 🗂️ Curriculum Architecture & Directory Structure
 
 ```text
-jQuery/
+jquery-4-master-curriculum/
 │
 ├── README.md                           # Master curriculum portal & directory index
 ├── GETTING-STARTED.md                  # 5-minute quickstart & setup guidelines

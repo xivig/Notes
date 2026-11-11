@@ -1,6 +1,7 @@
 # 📚 Xivig Developer Notes & Knowledge Base
 
-[![Topics](https://img.shields.io/badge/Knowledge%20Base-17%20Disciplines-6366f1?style=flat-square)](.)
+[![Topics](https://img.shields.io/badge/Knowledge%20Base-18%20Disciplines-6366f1?style=flat-square)](.)
+[![Laravel](https://img.shields.io/badge/Laravel-12%20%7C%2013-FF2D20?style=flat-square&logo=laravel&logoColor=white)](all-in-one-laravel-developer-handbook/README.md)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES2024%2B-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](javascript-mastery-curriculum/)
 [![DOM](https://img.shields.io/badge/DOM-W3C%20%2F%20WHATWG-E34F26?style=flat-square&logo=html5&logoColor=white)](dom-manipulation-guide/dom-facts.md)
 [![jQuery](https://img.shields.io/badge/jQuery-4.0.0-0769AD?style=flat-square&logo=jquery&logoColor=white)](jquery-4-master-curriculum/README.md)
@@ -39,6 +40,7 @@ xivig-all-in-one-notes/
 ├── homebrew-installer-script/                # Idempotent macOS workstation bootstrap script (homebrew.sh)
 ├── sublime-text-editor-trick/                # Sublime Text shortcuts, multi-cursor, Emmet, snippets & builds
 ├── all-in-one-php-tutorial/                  # Modern PHP 8.0–8.5 18-chapter handbook, runnable labs & portal
+├── all-in-one-laravel-developer-handbook/    # Modern Laravel 12/13 & PHP 8.3–8.5 16-chapter handbook, 3 demo projects & portal
 ├── developer-handbook-unix-linux-git-shell/  # Unix/Linux, Git, Shell, macOS, HTML5 handbooks & 25 scripts
 └── rc-meaning.md                             # The historical meaning and origin of Unix 'rc' files
 ```
@@ -185,6 +187,12 @@ xivig-all-in-one-notes/
   * [Track 4: HTML5 & WCAG 2.2 Standards (7 Ch)](developer-handbook-unix-linux-git-shell/docs/html/README.md) · [Track 5: macOS Darwin Setup (6 Ch)](developer-handbook-unix-linux-git-shell/docs/macos/README.md) · [Track 6: Utility Scripts Architecture](developer-handbook-unix-linux-git-shell/docs/scripts/README.md)
 * **Production Shell Automation Suite**: 🛠️ **[25 Production Shell Scripts (`shell-scripts-repo/`)](developer-handbook-unix-linux-git-shell/shell-scripts-repo/README.md)** · 🧪 **[Automated QA Test Runner (`test_all_scripts.sh`)](developer-handbook-unix-linux-git-shell/shell-scripts-repo/test_all_scripts.sh)**.
 
+### 18. 🔥 [All-in-One Laravel 12/13 Developer Handbook & Tutorials](all-in-one-laravel-developer-handbook/README.md)
+* **Master Hub & Resources**: 📘 **[16-Chapter Laravel Handbook](all-in-one-laravel-developer-handbook/README.md)** · 🌐 **Interactive Handbook Portal ([Launch Live ↗](https://htmlpreview.github.io/?https://github.com/xivig/xivig-all-in-one-notes/blob/master/all-in-one-laravel-developer-handbook/index.html) · [Local](all-in-one-laravel-developer-handbook/index.html))** · ⚡ **[Developer Cheatsheet](all-in-one-laravel-developer-handbook/CHEATSHEET.md)** · 📖 **[A–Z Glossary](all-in-one-laravel-developer-handbook/GLOSSARY.md)** · 🧪 **[Lab Verification Runner](all-in-one-laravel-developer-handbook/run-all-examples.php)**.
+* **Track 1 — PHP 8.3–8.5 & OOP Architecture for Laravel**: [01. Syntax & Strict Mode](all-in-one-laravel-developer-handbook/chapters/01-php-8-syntax-types-and-strict-mode/README.md) · [02. OOP, Inheritance & Magic Methods](all-in-one-laravel-developer-handbook/chapters/02-oop-inheritance-magic-methods-and-lifecycle/README.md) · [03. Interfaces, Traits & Contracts](all-in-one-laravel-developer-handbook/chapters/03-interfaces-traits-visibility-and-contracts/README.md) · [04. Enums, Attributes (L13), Hooks (8.4) & Pipe (8.5)](all-in-one-laravel-developer-handbook/chapters/04-modern-php-83-to-85-enums-attributes-hooks-and-pipe/README.md) · [05. Closures, Exceptions, Arr & Str](all-in-one-laravel-developer-handbook/chapters/05-closures-exceptions-arrays-and-strings-for-laravel/README.md) · [06. PSR-4, Container Auto-Wiring & Facades](all-in-one-laravel-developer-handbook/chapters/06-composer-psr4-container-autowiring-and-facades/README.md).
+* **Track 2 — Laravel 12/13 Core Foundations & Demo Projects**: [07. Installation & Starter Kits](all-in-one-laravel-developer-handbook/chapters/07-laravel-installation-structure-and-starter-kits/README.md) · [08. Routing, Middleware & Agency Site (Demo 1)](all-in-one-laravel-developer-handbook/chapters/08-routing-controllers-middleware-and-responses/README.md) · [09. Blade Components & Vite](all-in-one-laravel-developer-handbook/chapters/09-blade-templates-components-and-vite/README.md) · [10. Migrations, Eloquent & DevBlog (Demo 2)](all-in-one-laravel-developer-handbook/chapters/10-migrations-eloquent-models-and-relationships/README.md) · [11. Forms, Policies & Auth Task Manager (Demo 3)](all-in-one-laravel-developer-handbook/chapters/11-forms-validation-policies-and-auth-crud/README.md) · [12. Overriding Packages & Service Providers](all-in-one-laravel-developer-handbook/chapters/12-overriding-packages-service-providers-and-configuration/README.md).
+* **Track 3 — Production Laravel Engineering**: [13. REST APIs, Sanctum & HTTP Client](all-in-one-laravel-developer-handbook/chapters/13-rest-apis-resources-sanctum-and-http-client/README.md) · [14. Queues, Events, Caching & `defer()`](all-in-one-laravel-developer-handbook/chapters/14-queues-jobs-events-caching-and-defer/README.md) · [15. Testing with Pest & PHPUnit](all-in-one-laravel-developer-handbook/chapters/15-testing-with-pest-and-phpunit/README.md) · [16. Security, Performance, AI SDK & Deploy](all-in-one-laravel-developer-handbook/chapters/16-security-performance-and-production-deployment/README.md).
+
 ---
 
 ## 🚀 Quick Reference Snippets
@@ -224,6 +232,9 @@ INSTALL_CASKS=yes INSTALL_LANGUAGES=yes ./homebrew-installer-script/homebrew.sh
 
 # Run and verify all compatible Modern PHP 8.x handbook labs
 php all-in-one-php-tutorial/run-all-examples.php
+
+# Run and verify all Laravel Handbook standalone PHP labs
+php all-in-one-laravel-developer-handbook/run-all-examples.php
 
 # Run the shell scripts QA suite (Unix/Linux/macOS/Git Bash)
 bash developer-handbook-unix-linux-git-shell/shell-scripts-repo/test_all_scripts.sh

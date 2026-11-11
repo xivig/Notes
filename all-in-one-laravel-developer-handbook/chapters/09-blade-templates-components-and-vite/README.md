@@ -1,118 +1,257 @@
-# Chapter 09 — Blade Templates, Reusable Components & Vite
+# Chapter 09 — Blade Templates, Partials, Deep-Dive Components, Directives & Vite
 
-Blade is Laravel's compiled PHP templating engine. It compiles views down to cached vanilla PHP with zero runtime overhead, enforces **automatic XSS escaping**, and offers both **Layout Inheritance (`@extends`)** and modern **Tag-Based Components (`<x-layout>`)**.
-
----
-
-## 1. XSS Escaping: `{{ }}` vs `{!! !!}`
-
-| Syntax | Behavior | Use Case |
-| :--- | :--- | :--- |
-| `{{ $user->bio }}` | Runs `htmlspecialchars(..., ENT_QUOTES, 'UTF-8')` | **Default for ALL user input!** Prevents `<script>` injection |
-| `{!! $trustedHtml !!}` | Outputs raw unescaped HTML | ONLY after strict HTML sanitization (never raw user input!) |
-| `@{{ variable }}` | Tells Blade to ignore braces | Passing mustache braces cleanly to Vue / Alpine.js |
+Complete modern UI guide uniting Blade escaping (`{{ }}`), layouts (`<x-layout>` vs `@extends`), full copy-pasteable **Responsive Admin Shell & Blog Card Grid Partials**, **Class-Based**, **Anonymous (`--view`)**, and **Inline (`--inline`)** components, **`@aware`**, **`<x-slot:header>`**, **`$attributes->class()`**, **`: $shortAttr`**, custom `Blade::directive` in `AppServiceProvider`, and Tailwind v4 + Vite.
 
 ---
 
-## 2. Modern Component Layouts (`<x-layouts.app>`) vs `@extends`
+## 1. XSS Escaping, Loops, Stacks & Layout Choice
 
-Modern Laravel starter kits favor **Blade Components** (`resources/views/components/layouts/app.blade.php`) because props, attributes (`$attributes->merge([...])`), and slots are explicit and composable:
+| Syntax | Purpose |
+| :--- | :--- |
+| `{{ $post->title }}` | Automatic `htmlspecialchars` XSS escaping (**default for all user output**) |
+| `{!! $trustedHtml !!}` | Unescaped output — ONLY after HTML-Purifier allowlisting |
+| `@forelse ($items as $x) ... @empty ... @endforelse` | Clean empty-state iteration (always close with `@endforelse`) |
+| `@csrf` / `@method('PATCH')` | CSRF token + HTML form verb spoofing |
+| `@error('field')` / `@can('update', $item)` | Validation feedback & policy UI toggles |
+| `@push('scripts')` / `@stack('scripts')` / `@once` | Page/component script injection without duplication |
 
-### Component Layout (`resources/views/components/layouts/app.blade.php`)
+---
+
+## 2. Full Responsive Admin Dashboard Layout & Partials Kit
+
+```bash
+php artisan make:component AdminLayout
+mv resources/views/components/admin-layout.blade.php resources/views/layouts/admin.blade.php
+php artisan make:view admin.partials.head
+php artisan make:view admin.partials.sidebar
+php artisan make:view admin.partials.header
+php artisan make:view admin.partials.footer
+```
+
+`app/View/Components/AdminLayout.php`:
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\View\Components;
+
+use Illuminate\Contracts\View\View;
+use Illuminate\View\Component;
+
+class AdminLayout extends Component
+{
+    public function __construct(public readonly string $title = 'Control Center | Admin') {}
+
+    public function render(): View
+    {
+        return view('layouts.admin');
+    }
+}
+```
+
+`resources/views/layouts/admin.blade.php`:
 ```blade
-@props(['title' => 'Apex Studio'])
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title }} — Creative Agency</title>
+    <title>{{ $title }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @include('admin.partials.head')
+    @stack('styles')
 </head>
-<body class="min-h-screen bg-slate-950 text-slate-100 antialiased flex flex-col">
-    <header class="border-b border-slate-800 px-6 py-4 flex items-center justify-between">
-        <a href="{{ route('home') }}" class="font-bold text-indigo-400">Apex Studio</a>
-        <nav class="flex gap-6 text-sm">
-            <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-white font-semibold' : 'text-slate-400' }}">Home</a>
-            <a href="{{ route('services') }}" class="{{ request()->routeIs('services') ? 'text-white font-semibold' : 'text-slate-400' }}">Services</a>
-            <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'text-white font-semibold' : 'text-slate-400' }}">Contact</a>
-        </nav>
-    </header>
+<body class="bg-slate-950 text-slate-100 antialiased">
+<div class="admin-layout-wrapper" id="layoutWrapper">
+    @include('admin.partials.sidebar')
 
-    <main class="flex-1 max-w-5xl w-full mx-auto px-6 py-10">
-        {{ $slot }}
-    </main>
+    <div class="main-content-area">
+        @include('admin.partials.header')
 
-    <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
-        &copy; {{ date('Y') }} Apex Studio
-    </footer>
+        <main class="scrollable-body">
+            @if (session('success'))
+                <x-alert type="success" :message="session('success')" />
+            @endif
+            @if (session('error'))
+                <x-alert type="error" :message="session('error')" />
+            @endif
+
+            {{ $slot }}
+        </main>
+
+        @include('admin.partials.footer')
+    </div>
+</div>
+@stack('scripts')
 </body>
 </html>
 ```
 
-### Consuming the Layout Component (`resources/views/pages/services.blade.php`)
+### Partials (`head.blade.php`, `sidebar.blade.php`, `header.blade.php`, `footer.blade.php`)
 ```blade
-<x-layouts.app title="Our Services">
-    <h1 class="text-3xl font-bold mb-6">Engineering Services</h1>
+{{-- resources/views/admin/partials/head.blade.php --}}
+<style>
+    :root { --sidebar-width: 260px; --header-height: 64px; --surface: #111827; --border: #1f2937; }
+    .admin-layout-wrapper { display: grid; grid-template-columns: var(--sidebar-width) 1fr; min-height: 100vh; transition: grid-template-columns 0.25s ease; }
+    .admin-layout-wrapper.collapsed { --sidebar-width: 76px; }
+    .sidebar-wrapper { background: var(--surface); border-right: 1px solid var(--border); padding: 1.25rem 0.9rem; display: flex; flex-direction: column; justify-content: space-between; }
+    .main-content-area { display: flex; flex-direction: column; min-width: 0; }
+    .header-wrapper { height: var(--header-height); background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; }
+    .scrollable-body { flex: 1; padding: 1.75rem; }
+    @media (max-width: 768px) {
+        .admin-layout-wrapper { grid-template-columns: 1fr; }
+        .sidebar-wrapper { position: fixed; inset: 0 auto 0 -100%; width: 250px; z-index: 50; transition: left 0.25s ease; }
+        .sidebar-wrapper.mobile-active { left: 0; }
+    }
+</style>
 
-    <div class="grid md:grid-cols-3 gap-6">
-        @forelse($services as $service)
-            <article class="rounded-xl border border-slate-800 bg-slate-900 p-6">
-                <h2 class="text-lg font-semibold text-indigo-300">{{ $service['title'] }}</h2>
-                <p class="mt-2 text-sm text-slate-400">{{ $service['desc'] }}</p>
-            </article>
-        @empty
-            <p class="text-slate-400">No services listed yet.</p>
-        @endforelse
+{{-- resources/views/admin/partials/sidebar.blade.php --}}
+<aside class="sidebar-wrapper" id="sidebar">
+    <div>
+        <div class="font-bold text-lg text-rose-500 mb-6 px-2">Admin Portal</div>
+        <nav class="flex flex-col gap-1 text-sm">
+            <a href="{{ route('admin.dashboard') }}" @class(['px-3 py-2 rounded-lg', 'bg-rose-500/15 text-white' => request()->routeIs('admin.dashboard')])>Dashboard</a>
+            <a href="{{ route('posts.index') }}" @class(['px-3 py-2 rounded-lg', 'bg-rose-500/15 text-white' => request()->routeIs('posts.*')])>Posts</a>
+        </nav>
     </div>
-</x-layouts.app>
+    <form action="{{ route('admin.logout') }}" method="POST">
+        @csrf
+        <button type="submit" class="w-full text-left px-3 py-2 text-sm text-rose-400 hover:bg-rose-500/10 rounded-lg">
+            Sign Out
+        </button>
+    </form>
+</aside>
+
+{{-- resources/views/admin/partials/header.blade.php --}}
+<header class="header-wrapper">
+    <button type="button" class="toggle-btn text-xl px-2 py-1 rounded border border-slate-700" onclick="toggleSidebar()">&#9776;</button>
+    <span class="text-sm font-medium">{{ auth('admin')->user()?->name ?? 'Administrator' }}</span>
+</header>
+
+{{-- resources/views/admin/partials/footer.blade.php --}}
+<footer class="border-t border-slate-800 px-6 py-4 text-xs text-slate-400 text-center">
+    &copy; {{ date('Y') }} Powered by Laravel
+</footer>
 ```
 
-> [!NOTE]
-> Notice `@forelse ... @empty ... @endforelse`! Always close with `@endforelse` (never a duplicate `@forelse`), otherwise Blade throws a syntax error when compiling the view.
-
-### Classic `@extends` / `@section` Inheritance
-You will also frequently encounter traditional layout inheritance in existing projects:
+### Public Blog Grid Layout (`resources/views/layouts/blog.blade.php`)
 ```blade
-{{-- resources/views/layouts/master.blade.php --}}
-<main>@yield('content')</main>
+@props(['title' => 'DevBlog'])
 
-{{-- resources/views/child.blade.php --}}
-@extends('layouts.master')
-@section('content')
-    <h1>Hello!</h1>
-@endsection
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ $title }}</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
+    <main class="max-w-6xl w-full mx-auto px-6 py-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6 flex-1">
+        {{ $slot }}
+    </main>
+</body>
+</html>
 ```
 
 ---
 
-## 3. Essential Blade Directives Cheat Table
+## 3. Blade Components: Class-Based, Anonymous (`--view`) & Inline (`--inline`)
 
-| Directive | Purpose |
-| :--- | :--- |
-| `@csrf` | Injects hidden CSRF token field inside every `<form method="POST">` |
-| `@method('PATCH')` / `@method('DELETE')` | Spoofs HTTP verbs for HTML forms (which natively only support GET/POST) |
-| `@error('title') ... @enderror` | Renders validation error message for field `'title'` |
-| `@class(['p-4', 'bg-emerald-50' => $isPaid])` | Conditional CSS classes cleanly |
-| `@auth` / `@guest` | Toggle UI based on authenticated session |
-| `@can('update', $task)` | Check Policy permission before showing Edit/Delete buttons |
+| Style | Artisan Command | When to Use |
+| :--- | :--- | :--- |
+| **Class-Based** | `php artisan make:component Alert` | Computed helper logic, constructor dependencies, backend state |
+| **Anonymous (`--view`)** | `php artisan make:component forms.input --view` | Markup-only form controls, cards, badges (`@props`, `$attributes`) |
+| **Inline (`--inline`)** | `php artisan make:component AlertBox --inline` | Compact single-file PHP component returning inline markup |
+
+### Class-Based Alert (`app/View/Components/Alert.php` + `resources/views/components/alert.blade.php`)
+```php
+final class Alert extends Component
+{
+    public function __construct(
+        public readonly string $type = 'info',
+        public readonly string $message = '',
+    ) {}
+
+    public function paletteClass(): string
+    {
+        return match ($this->type) {
+            'success' => 'border-emerald-600 bg-emerald-950/60 text-emerald-200',
+            'error' => 'border-rose-600 bg-rose-950/60 text-rose-200',
+            default => 'border-indigo-600 bg-indigo-950/60 text-indigo-200',
+        };
+    }
+
+    public function render(): View
+    {
+        return view('components.alert');
+    }
+}
+```
+```blade
+<div {{ $attributes->merge(['class' => 'rounded-lg border px-4 py-3 mb-4 text-sm ' . $paletteClass()]) }}>
+    {{ $message ?: $slot }}
+</div>
+```
+
+### Anonymous Input (`resources/views/components/forms/input.blade.php`) + `@aware` & Short Syntax
+```blade
+@props(['name', 'label' => null, 'type' => 'text', 'value' => ''])
+
+<div class="space-y-1">
+    <label for="{{ $name }}" class="block text-sm font-medium">
+        {{ $label ?? ucfirst(str_replace('_', ' ', $name)) }}
+    </label>
+    <input
+        id="{{ $name }}"
+        name="{{ $name }}"
+        type="{{ $type }}"
+        value="{{ old($name, $value) }}"
+        {{ $attributes->class(['w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2', 'border-rose-500' => $errors->has($name)]) }}
+    >
+    @error($name)
+        <p class="text-xs text-rose-400">{{ $message }}</p>
+    @enderror
+</div>
+```
+
+- **Short Attribute Syntax**: `<x-profile :$userId />` instead of `<x-profile :user-id="$userId" />`.
+- **Named Slots**: `<x-slot:header><h1>Title</h1></x-slot:header>`.
+- **`@aware(['density' => 'compact'])`**: Child components inherit parent props without manual prop forwarding.
+- **Custom Directives in `AppServiceProvider::boot()`**:
+  ```php
+  Blade::directive('truncate', function (string $expression): string {
+      return "<?php echo e(\\Illuminate\\Support\\Str::limit({$expression})); ?>";
+  });
+  ```
+  Run `php artisan view:clear` after modifying directives.
 
 ---
 
-## 4. Asset Bundling with Vite (`vite.config.js`)
-
-Laravel ships with Vite + Tailwind CSS out of the box. Inside `resources/css/app.css` (Tailwind v4 syntax in Laravel 12/13):
+## 4. Tailwind v4, Vite Asset Pipeline & Responsive Drawer JS
 
 ```css
+/* resources/css/app.css (Tailwind v4) */
 @import "tailwindcss";
 ```
+```javascript
+// resources/js/app.js
+const wrapper = document.getElementById('layoutWrapper');
+const sidebar = document.getElementById('sidebar');
 
-In development run `npm run dev` (instant Hot Module Replacement). Before deploying to production, run `npm run build` to compile fingerprinted CSS/JS bundles into `public/build/manifest.json` — `@vite([...])` automatically switches between the dev server and production manifest!
+window.toggleSidebar = () => {
+    if (window.innerWidth <= 768) {
+        sidebar?.classList.toggle('mobile-active');
+    } else {
+        wrapper?.classList.toggle('collapsed');
+    }
+};
 
----
-
-## Key Takeaways
-- Always render untrusted strings with `{{ ... }}`, reserving `{!! ... !!}` solely for sanitized HTML.
-- Use `<x-component>` anonymous Blade components (`resources/views/components/`) for buttons, alerts, cards, and layouts.
-- Never forget `@csrf` and `@method('PUT'|'DELETE')` in Blade mutation forms.
+document.addEventListener('click', (e) => {
+    if (window.innerWidth <= 768 && sidebar?.classList.contains('mobile-active') && !sidebar.contains(e.target) && !e.target.closest('.toggle-btn')) {
+        sidebar.classList.remove('mobile-active');
+    }
+});
+```
+Run `npm run dev` during local coding and `npm run build` ahead of production deployment (`public/build/manifest.json`).

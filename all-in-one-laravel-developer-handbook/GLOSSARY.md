@@ -1,77 +1,89 @@
 # Laravel & Modern PHP Developer Glossary
 
-Concise definitions of core Laravel 12/13 and PHP 8.3–8.5 engineering terms used throughout this handbook.
+Concise definitions of core Laravel 12/13, Blade, Eloquent, Security, and PHP 8.3–8.5 engineering terms used throughout this handbook.
 
 ---
 
-### **Artisan**
-Laravel's built-in command-line interface (`php artisan ...`) powered by Symfony Console for code generation, migrations, queue workers, route inspection, caching, and REPL debugging (`tinker`).
+### **Artisan (`php artisan`)**
+Laravel's built-in command-line interface powered by Symfony Console for code generation (`make:*`), database migrations, queue workers, route inspection (`route:list`), log streaming (`pail`), diagnostics (`about`), and REPL debugging (`tinker`).
 
 ### **Attribute (`#[...]`)**
-Structured native PHP metadata (PHP 8.0+) attached to classes, properties, or methods and inspectable via Reflection. Laravel 13 embraces attributes across Models (`#[Fillable]`, `#[Table]`) and Jobs (`#[Tries]`, `#[Timeout]`).
+Structured native PHP metadata (PHP 8.0+) attached to classes, properties, or methods and inspectable via Reflection. Laravel 13 uses attributes cleanly across Models (`#[Fillable]`, `#[Table]`) and Jobs (`#[Tries]`, `#[Timeout]`).
 
 ### **Backed Enum**
 A PHP `enum` backed by `string` or `int` scalar values (e.g., `enum Status: string`), serialized cleanly by Eloquent `casts(): array` and matched exhaustively with `match`.
 
-### **Blade**
-Laravel's compiled PHP templating engine supporting automatic XSS HTML escaping (`{{ }}`), layouts (`@extends`), tag-based UI components (`<x-card>`), and control directives (`@forelse`...`@endforelse`, `@can`, `@csrf`).
+### **Blade & Blade Components (`<x-*>`)**
+Laravel's compiled templating engine offering automatic XSS escaping (`{{ }}`), layouts (`<x-layouts.app>` or `@extends`), class-based components (`make:component`), anonymous Blade-only components (`--view`), inline components (`--inline`), short attributes (`:$var`), and `@aware` inheritance.
+
+### **`bootstrap/app.php`**
+The streamlined central application entry point introduced in Laravel 11+ where routing paths, custom middleware aliases (`->withMiddleware()`), and exception rendering/reporting (`->withExceptions()`) live cleanly.
+
+### **Carbon**
+Datetime library bundled with Laravel powering `$post->created_at?->diffForHumans()`, timezone conversions, and cache TTL helpers like `now()->addMinutes(10)`.
 
 ### **CSRF (Cross-Site Request Forgery)**
-An attack tricking authenticated users' browsers into submitting unauthorized state-changing requests. Defended by `@csrf` tokens checked automatically on `web` routes.
+An attack tricking authenticated users' browsers into submitting unauthorized state-changing requests. Defended by `@csrf` tokens checked automatically on `web` routes; missing tokens return HTTP `419 Page Expired`.
 
 ### **defer()**
-A Laravel helper scheduling lightweight closures to execute immediately *after* the HTTP response finishes sending to the user, without needing a separate queue worker.
+A Laravel helper scheduling lightweight closures to run immediately *after* the HTTP response finishes sending to the user, without needing a separate queue worker.
 
 ### **Dependency Injection (DI)**
 Supplying class dependencies via constructor/method type-hints rather than instantiating them with `new` inside methods. Laravel's Service Container auto-wires constructors automatically using PHP `ReflectionClass`.
 
 ### **DTO (Data Transfer Object)**
-A small immutable object (commonly `final readonly class` with promoted constructor properties in PHP 8.2+) carrying structured validated input cleanly between FormRequests, Controllers, and Action/Service classes.
+A small immutable object (commonly `final readonly class` with promoted constructor properties in PHP 8.2+) carrying validated input cleanly between FormRequests, Controllers, and Action/Service classes.
 
-### **Eloquent ORM**
-Laravel's Active Record ORM mapping tables to `Model` classes with schema-free query scopes, relationship helpers (`hasMany`, `belongsTo`, `belongsToMany`), mass-assignment protection (`$fillable`), and type casting (`casts(): array`).
+### **Eloquent ORM & Query Builder (`DB::table`)**
+Eloquent maps tables to Object-Relational Models (`$fillable`, `casts()`, relationships, query scopes), while `DB::table(...)` runs lightweight parameterized SQL queries without hydrating full models.
 
 ### **Facade**
-A thin static proxy class (`Route::`, `Cache::`, `Http::`) resolving an underlying Service Container object via `__callStatic`, delivering expressive static ergonomics while remaining swappable/fakeable in tests (`Http::fake()`, `Queue::fake()`).
+A thin static proxy class (`Route::`, `Cache::`, `Http::`, `Storage::`) resolving an underlying Service Container object via `__callStatic`, delivering expressive static ergonomics while remaining fakeable in tests (`Http::fake()`, `Queue::fake()`).
+
+### **Faker (`fake()`) & Model Factory**
+**Model Factories** define realistic synthetic record templates via Faker (`fake()->unique()->safeEmail()`, `Sequence`, `->recycle()`) for seeders and isolated tests. Keep `fakerphp/faker` in `require-dev` only if `composer install --no-dev` runs in production.
 
 ### **FormRequest**
-A dedicated request validation & authorization class (`App\Http\Requests\*`) separating HTTP validation rules (`rules()`) and initial permission gates (`authorize()`) from controllers.
+A dedicated request validation & authorization class (`App\Http\Requests\*`) separating HTTP validation rules (`rules()`) and permission gates (`authorize()`) from controllers so controllers receive sanitized `$request->validated()`.
+
+### **Guard & Provider (Multi-Auth)**
+In `config/auth.php`, a **Guard** defines *how* users stay authenticated (`session` vs `sanctum`), while a **Provider** defines *where* records come from (`users` -> `App\Models\User` vs `admins` -> `App\Models\Admin`). Bind `'model'` directly rather than wrapping it in `AUTH_MODEL`.
+
+### **IDOR (Insecure Direct Object Reference)**
+Vulnerability where an endpoint accepts `/posts/{id}` or `/tasks/{id}` without verifying the authenticated user owns or is authorized for that record. Defended by **Policies** + `Gate::authorize(...)`.
 
 ### **Inertia**
-A glue library letting Laravel controllers return server-routed React, Vue, or Svelte components cleanly with session auth and zero separate REST/GraphQL client state duplication.
+Glue layer letting Laravel controllers render server-routed React, Vue, or Svelte components cleanly with standard session auth and zero duplicated API plumbing.
 
 ### **Livewire**
-A full-stack framework for Laravel letting developers build reactive dynamic UIs (modals, live search, forms) directly in PHP + Blade components without writing a separate JS SPA.
+Full-stack Laravel framework enabling reactive dynamic UIs (modals, live search, forms) directly in PHP + Blade components without authoring a separate JavaScript SPA.
 
 ### **Mass Assignment**
-Populating multiple model attributes from an input array at once (`Post::create($data)`). Protect against malicious extra keys (`role=admin`) by declaring `$fillable` AND passing only `$request->validated()`.
+Populating multiple model attributes from an input array at once (`Post::create($data)`). Defend against injected fields (`role=admin`) by declaring `$fillable` AND passing only `$request->validated()`.
 
 ### **Middleware**
-Sequential HTTP pipeline layers inspecting or transforming requests/responses around your controller (authentication, CSRF, rate limiting, CORS, role checks), registered in `bootstrap/app.php`.
+Sequential HTTP pipeline layers inspecting or transforming requests/responses around controllers (authentication, CSRF, rate limiting, CORS, admin role checks), aliased in `bootstrap/app.php`.
 
 ### **N+1 Query Problem**
-Fetching $N$ parent models in 1 query and lazily querying a relation inside a loop $N$ times (`$post->author->name`). Fix with eager loading (`Post::with('author')`) and enforce locally using `Model::preventLazyLoading()`.
+Fetching $N$ parent models in 1 query and lazily querying a relation inside a loop $N$ times (`$post->author->name`). Fix with eager loading (`Post::with('author')`) and catch locally via `Model::preventLazyLoading()`.
 
 ### **Policy**
-A class dedicated to authorizing user actions on a specific Model (`view`, `update`, `delete`), invoked via `Gate::authorize('update', $task)` or Blade `@can`.
+Dedicated class mapping model permissions (`view`, `create`, `update`, `delete`) to user/record checks (`PostPolicy`), enforced server-side with `Gate::authorize('update', $post)` and in Blade via `@can`.
 
 ### **PSR-4 Autoloading**
-The PHP/Composer standard mapping namespace prefixes directly to folder paths (e.g., `App\Models\Task` -> `app/Models/Task.php`), eliminating manual `require` statements.
+PHP/Composer standard mapping namespace prefixes directly to folder paths (e.g., `App\Models\Post` -> `app/Models/Post.php`), eliminating manual `require` statements.
 
 ### **Sanctum**
-Laravel's lightweight API authentication system issuing scoped Bearer Personal Access Tokens (`personal_access_tokens`) and SPA session cookie auth.
+Laravel's lightweight API authentication system issuing scoped Bearer Personal Access Tokens (`personal_access_tokens`) and cookie-based SPA auth.
 
-### **Service Container**
-Laravel's IoC dependency resolution engine managing object creation, interface-to-concrete bindings (`bind`, `singleton`, `scoped`), and automatic constructor dependency injection.
-
-### **Service Provider**
-Bootstrapping class (`AppServiceProvider`) with `register()` (container bindings) and `boot()` (runtime setup like `Model::shouldBeStrict()`, Gates, View rules).
+### **Service Container & Service Provider**
+The Service Container resolves constructor dependencies using Reflection; Service Providers (`AppServiceProvider`) bind interfaces in `register()` and bootstrap runtime rules (`Model::preventLazyLoading()`, `Blade::directive`) in `boot()`.
 
 ### **ShouldQueue**
-Marker contract interface telling Laravel to dispatch a Job or Event Listener asynchronously to a queue driver (`database`, `redis`, SQS) rather than running synchronously during the web request.
+Marker contract interface telling Laravel to dispatch a Job or Event Listener asynchronously to a queue driver (`database`, `redis`, SQS) rather than running synchronously during the request.
 
 ### **Starter Kit**
-Official Laravel scaffolding installed via `laravel new` bundling login/registration, verification, settings, Tailwind v4, and UI stacks (Livewire + Flux UI, React + shadcn/ui, Vue, or WorkOS AuthKit).
+Official Laravel scaffolding installed via `laravel new` bundling login/registration, email verification, settings, Tailwind v4, and UI stacks (Livewire + Flux UI, React + shadcn/ui, Vue, or WorkOS AuthKit).
 
-### **Vite**
-Fast frontend build tool bundled with Laravel compiling Tailwind CSS and JS modules with live HMR (`npm run dev`) and hashed production bundles (`npm run build`).
+### **Vite (`@vite`)**
+Modern frontend asset bundler compiling Tailwind CSS v4 and JS modules with live HMR (`npm run dev`) and hashed production bundles (`public/build/manifest.json` via `npm run build`).

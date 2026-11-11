@@ -1,10 +1,10 @@
-# Chapter 08 — Routing, Controllers, Middleware & Demo Project 1
+# Chapter 08 — Routing, Controllers, Middleware & Demo Project 1 (Agency Site)
 
-Routing maps incoming HTTP verbs and URIs (`GET /services`, `POST /tasks`) to closures or controller methods, passing them cleanly through HTTP middleware defined in `bootstrap/app.php`.
+Routing maps HTTP verbs and URIs cleanly to controller actions via named routes, Route Model Binding, and central middleware configuration in `bootstrap/app.php`.
 
 ---
 
-## 1. Essential Route Definitions (`routes/web.php`)
+## 1. Web Routing, Named URLs & Route Model Binding (`routes/web.php`)
 
 ```php
 <?php
@@ -15,77 +15,96 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
-// Single-method controller actions
-Route::get('/', [PageController::class, 'home'])->name('home');
-Route::get('/about', [PageController::class, 'about'])->name('about');
+// View shortcut for static pages
+Route::view('/welcome-info', 'welcome')->name('welcome.info');
 
-// Route Model Binding: Laravel automatically fetches the Post matching {post:slug} or throws 404
-Route::get('/blog/{post:slug}', [PostController::class, 'show'])->name('blog.show');
-
-// Group routes sharing middleware or URL prefixes
-Route::middleware('auth')->prefix('dashboard')->name('dashboard.')->group(function () {
-    Route::get('/', fn () => view('dashboard'))->name('index');
+// Group routes sharing a controller
+Route::controller(PageController::class)->group(function () {
+    Route::get('/', 'home')->name('home');
+    Route::get('/services', 'services')->name('services');
+    Route::get('/contact', 'contact')->name('contact');
 });
+
+// Route Model Binding (automatically throws 404 when slug doesn't exist)
+Route::get('/posts/{post:slug}', [PostController::class, 'show'])->name('posts.show');
+
+// Full 7-method Resource Controller CRUD mapping
+Route::resource('posts', PostController::class);
 ```
 
-### Route Caching Rule in Production
-Avoid putting complex logic inside route closures if you run `php artisan route:cache`: Laravel serializes route tables for blazing speed, and **controller routes (`[Controller::class, 'method']`) serialize cleanly**, whereas unserializable dependencies fail.
+### URL Generation Helpers in Blade
+| Helper | Example | When to Use |
+| :--- | :--- | :--- |
+| `url('/about')` | `<a href="{{ url('/about') }}">` | Only for fixed un-named URLs |
+| `URL::to('/about')` | `<a href="{{ URL::to('/about') }}">` | Verbose facade equivalent |
+| `route('posts.show', $post)` | `<a href="{{ route('posts.show', $post) }}">` | **Recommended default** — survives URI refactors safely |
 
 ---
 
-## 2. Resource Controllers & Clean Method Visibility
+## 2. Resource Controller Verb Map & Method Spoofing
 
-A **Resource Controller** wires all 7 standard CRUD endpoints in one line:
+| HTTP Method | URI | Action | Route Name | HTML Form Spoofing |
+| :--- | :--- | :--- | :--- | :--- |
+| `GET` | `/posts` | `index` | `posts.index` | Native `GET` |
+| `GET` | `/posts/create` | `create` | `posts.create` | Native `GET` |
+| `POST` | `/posts` | `store` | `posts.store` | `<form method="POST">@csrf` |
+| `GET` | `/posts/{post}` | `show` | `posts.show` | Native `GET` |
+| `GET` | `/posts/{post}/edit` | `edit` | `posts.edit` | Native `GET` |
+| `PUT/PATCH` | `/posts/{post}` | `update` | `posts.update` | `@csrf @method('PATCH')` |
+| `DELETE` | `/posts/{post}` | `destroy` | `posts.destroy` | `@csrf @method('DELETE')` |
+
+Inspect all registered routes anytime via:
+```bash
+php artisan route:list --except-vendor
+```
+
+*(Production caching rule: keep controller actions mapped as `[Controller::class, 'method']` rather than complex closures so `php artisan route:cache` serializes cleanly!)*
+
+---
+
+## 3. Custom Middleware, Sessions, CSRF & CORS (`bootstrap/app.php`)
 
 ```bash
-php artisan make:controller TaskController --resource
+php artisan make:middleware EnsureAccountActive
 ```
 
 ```php
-Route::resource('tasks', TaskController::class);
+public function handle(Request $request, Closure $next): Response
+{
+    if ($request->user() && ! $request->user()->is_active) {
+        abort(403, 'Account disabled.');
+    }
+
+    return $next($request);
+}
 ```
 
-| HTTP Method | URI | Action | Route Name |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/tasks` | `index` | `tasks.index` |
-| `GET` | `/tasks/create` | `create` | `tasks.create` |
-| `POST` | `/tasks` | `store` | `tasks.store` |
-| `GET` | `/tasks/{task}` | `show` | `tasks.show` |
-| `GET` | `/tasks/{task}/edit` | `edit` | `tasks.edit` |
-| `PUT/PATCH` | `/tasks/{task}` | `update` | `tasks.update` |
-| `DELETE` | `/tasks/{task}` | `destroy` | `tasks.destroy` |
-
-Remember from **Chapter 03**: route action methods (`index`, `store`, `destroy`) MUST remain `public`, while internal formatting helpers inside the controller should stay `protected` or `private` (or move into a Trait / Action class).
-
----
-
-## 3. Registering Middleware in `bootstrap/app.php`
-
-Instead of editing legacy `Kernel.php`, configure aliases and global/group middleware inside `bootstrap/app.php`:
-
+Register middleware aliases inside `bootstrap/app.php`:
 ```php
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
+        api: __DIR__.'/../routes/api.php',
         commands: __DIR__.'/../routes/console.php',
-        health: '/up', // Built-in health endpoint since Laravel 11+
+        health: '/up',
     )
-    ->withMiddleware(function (Middleware $middleware) {
+    ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            'verified.team' => \App\Http\Middleware\EnsureTeamVerified::class,
+            'active' => \App\Http\Middleware\EnsureAccountActive::class,
+            'admin' => \App\Http\Middleware\AdminMiddleware::class,
         ]);
     })
     ->create();
 ```
 
+### Session, CSRF & CORS Rules
+- Keep `VerifyCsrfToken` active on `web` routes; send `@csrf` in forms and `X-CSRF-TOKEN` header on same-origin JS `fetch()` requests.
+- Set `SESSION_SECURE_COOKIE=true`, `httpOnly=true`, `same_site=lax` in HTTPS production.
+- Configure explicit frontend origins in `config/cors.php` instead of `*` when sending cookies/credentials across domains — and remember CORS is **not** authentication.
+
 ---
 
-## 4. Demo Project 1 — Creative Agency Multi-Page Site
-
-Let's build a clean **Agency Landing & Portfolio Application** using MVC separation without database boilerplate yet.
-
-### Step 1: Controller (`app/Http/Controllers/PageController.php`)
-Run: `php artisan make:controller PageController`
+## 4. Demo Project 1 — Creative Agency Controller (`PageController.php`)
 
 ```php
 <?php
@@ -113,9 +132,9 @@ final class PageController extends Controller
     public function services(): View
     {
         $services = [
-            ['title' => 'Laravel SaaS Engineering', 'desc' => 'Multi-tenant backends with billing, queues, and APIs.'],
+            ['title' => 'Laravel SaaS Engineering', 'desc' => 'Multi-tenant backends with billing, queues & APIs.'],
             ['title' => 'Livewire & Inertia UI', 'desc' => 'Reactive interfaces powered by Tailwind CSS and Vite.'],
-            ['title' => 'Performance & Audits', 'desc' => 'N+1 elimination, caching strategies, and zero-downtime CI/CD.'],
+            ['title' => 'Performance Audits', 'desc' => 'N+1 elimination, caching strategies & zero-downtime deploys.'],
         ];
 
         return view('pages.services', compact('services'));
@@ -127,40 +146,3 @@ final class PageController extends Controller
     }
 }
 ```
-
-### Step 2: Routes (`routes/web.php`)
-> Note: Always verify the facade import path is `Illuminate\Support\Facades\Route`.
-
-```php
-<?php
-
-declare(strict_types=1);
-
-use App\Http\Controllers\PageController;
-use Illuminate\Support\Facades\Route;
-
-Route::controller(PageController::class)->group(function () {
-    Route::get('/', 'home')->name('home');
-    Route::get('/services', 'services')->name('services');
-    Route::get('/contact', 'contact')->name('contact');
-});
-```
-
----
-
-## 5. Returning Consistent JSON & Download Responses
-
-Besides `view(...)` and `redirect()->route(...)`, controllers frequently return JSON or file downloads:
-
-```php
-return response()->json(['status' => 'ok', 'created_at' => now()], 201);
-return response()->download(storage_path('app/invoices/inv-01.pdf'));
-return redirect()->route('services')->with('status', 'Inquiry sent!');
-```
-
----
-
-## Key Takeaways
-- Use **named routes** (`->name('services')`) and `route('services')` in Blade/redirects so URL refactors never break templates.
-- Group shared controller routes with `Route::controller(PageController::class)` and model CRUD with `Route::resource(...)`.
-- Register custom middleware aliases inside `bootstrap/app.php`'s `->withMiddleware()` callback.

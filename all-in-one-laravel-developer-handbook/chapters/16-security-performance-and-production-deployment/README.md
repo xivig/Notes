@@ -1,63 +1,89 @@
-# Chapter 16 — Security, Performance, Laravel 13 AI SDK & Production Deployment
+# Chapter 16 — Security, Nginx / cPanel Server Configs, CI/CD, Reverb & Laravel 13 AI SDK
 
-Shipping a reliable Laravel application requires locking down OWASP vulnerabilities, caching framework manifests cleanly, optimizing PHP OPcache & database indexes, and automating CI/CD rollouts.
+Hardened production security checklist alongside copy-pasteable **Nginx virtual host block**, **shared hosting / cPanel `public_html` setup**, **GitHub Actions CI `.yml`**, **OPcache & `artisan optimize`**, **Laravel Reverb WebSockets**, and **Laravel 13 AI SDK**.
 
 ---
 
-## 1. Security Checklist (OWASP + Laravel Best Practices)
+## 1. Layered Security Engineering Checklist
 
-| Threat | Built-In Laravel Defense | Developer Responsibility |
+| Threat / Layer | Mandatory Safeguard | Verification |
 | :--- | :--- | :--- |
-| **SQL Injection** | PDO Prepared Statements across Query Builder & Eloquent | Never interpolate variables inside `DB::raw("... $input")` — always pass bound parameters `[$input]` |
-| **XSS (Script Injection)** | Blade `{{ $var }}` escapes HTML entities | Avoid `{!! $raw !!}` unless scrubbed with an HTML Purifier allowlist |
-| **CSRF** | `VerifyCsrfToken` (included in `web` middleware) | Include `@csrf` inside every `<form method="POST">` |
-| **Mass Assignment** | `Model::$fillable` whitelist (or Laravel 13 `#[Fillable]`) | Never call `Model::create($request->all())` — use `$request->validated()` |
-| **IDOR (Broken Object Auth)** | Policies & Gates | Always call `Gate::authorize('update', $model)` before mutating/viewing private rows |
-| **Brute Force / Abuse** | RateLimiter (`throttle:api` / `RateLimiter::for(...)`) | Rate-limit login, OTP, and password-reset endpoints |
-| **Secrets Leak** | `.env` gitignored & web root = `public/` | Set `APP_DEBUG=false` in production and NEVER expose files above `public/` |
+| **Web Root & Secrets** | Point DocumentRoot strictly to **`public/`**; set `APP_DEBUG=false`, `APP_ENV=production` | Request `https://yourdomain/.env` -> must return `404` |
+| **SQL & XSS** | Bind `?` parameters on raw SQL; use Blade `{{ $var }}` (never unescaped `{!! !!}`) | Audit `DB::raw`, `whereRaw`, `{!!` |
+| **CSRF & Sessions** | Keep `VerifyCsrfToken` enabled (`@csrf` + `POST` logouts); `SESSION_SECURE_COOKIE=true`, `httpOnly` | Confirm no GET logout routes exist |
+| **IDOR & Mass Assignment** | Call `Gate::authorize(...)` on every private read/edit/delete; keep `$fillable` + `$request->validated()` | Feature tests assert `403` for non-owners |
+| **Uploads & Packages** | Validate MIME/size, use generated filenames, store private files on `local` disk | Run `composer audit` & `npm audit` cleanly |
 
 ---
 
-## 2. Production Performance & Caching Commands
+## 2. Production Nginx Site Configuration (`/etc/nginx/sites-available/laravel.conf`)
 
-During zero-downtime deployment (Envoy, Forge, Cloud, Docker), run `php artisan optimize` — or its component commands:
+```nginx
+server {
+    listen 80;
+    server_name example.com www.example.com;
+    root /var/www/laravel_app/public;
+    index index.php;
+
+    charset utf-8;
+    client_max_body_size 10M;
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-Content-Type-Options "nosniff";
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    error_page 404 /index.php;
+
+    location ~ \.php$ {
+        fastcgi_pass unix:/var/run/php/php8.4-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+        fastcgi_hide_header X-Powered-By;
+    }
+
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+}
+```
+
+---
+
+## 3. Shared Hosting / cPanel Layout (`public_html`)
+
+1. Confirm cPanel PHP Selector >= `8.3` (`Laravel 13`) + extensions (`pdo_mysql`, `mbstring`, `openssl`, `ctype`, `xml`, `fileinfo`, `bcmath`, `curl`).
+2. Keep app source **above `public_html/`** at `/home/cpaneluser/laravel_app/`.
+3. Point domain DocumentRoot to `/home/cpaneluser/laravel_app/public` when supported — OR place `public/*` inside `public_html/` and update `/home/cpaneluser/public_html/index.php`:
+   ```php
+   require __DIR__.'/../laravel_app/vendor/autoload.php';
+   $app = require_once __DIR__.'/../laravel_app/bootstrap/app.php';
+   ```
+4. Never set `chmod 777`! Use `755` directories / `644` files (`storage` and `bootstrap/cache` writable by PHP runtime user).
+
+---
+
+## 4. Zero-Downtime Release Commands & GitHub Actions CI
 
 ```bash
+php artisan down --retry=60
+git pull --ff-only origin main
 composer install --no-dev --optimize-autoloader
 npm ci && npm run build
 php artisan migrate --force
-php artisan optimize          # Caches config, routes, events, and Blade views together
+php artisan storage:link
+php artisan optimize          # Caches config, routes, events & Blade views together
+php artisan about
+php artisan up
 ```
+> Run `php artisan optimize:clear` locally if changes appear cached. **Never** run `migrate:fresh` in production!
 
-> [!WARNING]
-> **Local Development Warning:** Run `php artisan optimize:clear` locally if config/route changes ever appear ignored! Cache artifacts are strictly for staging/production builds.
-
-### PHP & Runtime Tuning
-- Enable **PHP OPcache** in production (`opcache.enable=1`, `opcache.validate_timestamps=0` for immutable Docker releases).
-- Use **Redis** for sessions (`SESSION_DRIVER=redis`), cache (`CACHE_STORE=redis`), and queues (`QUEUE_CONNECTION=redis`).
-- Inspect slow SQL queries with **Laravel Pulse**, **Telescope** (dev), or **Debugbar** (dev), and add database indexes (`->index()`) on filtered/foreign-key columns.
-- For high-throughput workloads, deploy with **Laravel Octane** (FrankenPHP / Swoole / RoadRunner) so the framework stays booted in RAM between requests.
-
----
-
-## 3. Modern Additions: Laravel 13 AI SDK & Real-Time Reverb
-
-### Official Laravel AI SDK (Laravel 13)
-Laravel 13 introduced a first-party **Laravel AI SDK** (`laravel/ai`) for building agents, structured outputs, embeddings, vector stores, and streaming chat with the same expressive DX as `Mail` or `Storage` — testable with `Agent::fake()` inside Pest/PHPUnit!
-
-### Real-Time WebSockets with Laravel Reverb
-```bash
-php artisan install:broadcasting
-php artisan reverb:start
-```
-Broadcast model updates or notifications cleanly over first-party PHP WebSockets without third-party SaaS bills.
-
----
-
-## 4. CI/CD Quality Gate (`.github/workflows/ci.yml`)
-
-Automate formatting (**Laravel Pint**), static analysis (**Larastan / PHPStan**), and **Pest/PHPUnit** on every pull request:
-
+### CI Pipeline (`.github/workflows/ci.yml`)
 ```yaml
 name: Laravel CI
 on: [push, pull_request]
@@ -69,14 +95,17 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
+          extensions: pdo_sqlite, mbstring, openssl, xml, curl
       - run: composer install --no-interaction --prefer-dist
+      - run: cp .env.example .env && php artisan key:generate
       - run: ./vendor/bin/pint --test
+      - run: composer audit
       - run: php artisan test
 ```
 
 ---
 
-## Key Takeaways
-- Keep `APP_DEBUG=false` in production, validate inputs via FormRequests, authorize objects via Policies, and lock `public/` as your DocumentRoot.
-- Run `composer install --no-dev --optimize-autoloader`, `npm run build`, `php artisan migrate --force`, and `php artisan optimize` on every release.
-- Enforce automated style checks (`pint --test`) and Pest/PHPUnit suites on every commit.
+## 5. Laravel 13 AI SDK, Reverb WebSockets & Octane
+- **Laravel AI SDK (Laravel 13)**: First-party `laravel/ai` package supporting structured outputs, embeddings, vector stores, and `Agent::fake()` in automated tests.
+- **Laravel Reverb**: `php artisan install:broadcasting && php artisan reverb:start` for real-time WebSockets without external SaaS fees.
+- **Laravel Octane**: Keeps the framework booted in RAM across FrankenPHP/Swoole workers (use container `scoped()` bindings cleanly).

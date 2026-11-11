@@ -1,109 +1,94 @@
-# Chapter 15 — Automated Testing with Pest & PHPUnit
+# Chapter 15 — Automated Testing with Pest, PHPUnit & Fakes
 
-Modern Laravel treats tests as first-class engineering infrastructure. By default, `phpunit.xml` runs tests against an isolated in-memory **SQLite (`:memory:`)** database with the **`RefreshDatabase`** trait so tests execute in milliseconds with zero risk to development data.
+Test HTTP routes, FormRequests, Policies, uploads, Sanctum APIs, and queued jobs against an isolated **in-memory SQLite (`:memory:`)** database using `RefreshDatabase` and built-in Facade fakes.
 
 ---
 
-## 1. Feature Tests vs Unit Tests
+## 1. Complete Pest Feature Test Suite (`tests/Feature/PostManagementTest.php`)
 
-| Type | Directory | Boots Laravel? | Best Used For |
-| :--- | :--- | :--- | :--- |
-| **Feature Test** | `tests/Feature/` | Yes (`$this->get()`, DB, Auth) | Testing HTTP routes, Policies, Validation, Jobs, API JSON (~80% of tests) |
-| **Unit Test** | `tests/Unit/` | Minimal / Pure PHP | Pure math helpers, Value Objects, DTOs, string/currency formatters |
-
-Run the entire suite anytime:
 ```bash
-php artisan test
-# Or run filtered tests with parallel workers:
-php artisan test --filter=TaskPolicyTest --parallel
+php artisan make:test PostManagementTest
+php artisan test --parallel
 ```
-
----
-
-## 2. Expressive Feature Tests in Pest (Laravel 12 / 13 Default)
 
 ```php
 <?php
 
-use App\Models\Task;
+use App\Jobs\GenerateSitemapJob;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\Storage;
+use Laravel\Sanctum\Sanctum;
 
 uses(RefreshDatabase::class);
 
-it('allows an authenticated user to create a task', function () {
-    $user = User::factory()->create();
+it('stores a post with uploaded cover image and prevents unauthorized edits', function () {
+    Storage::fake('public');
+    $author = User::factory()->create();
+    $intruder = User::factory()->create();
 
-    $response = $this->actingAs($user)->post(route('tasks.store'), [
-        'title' => 'Ship Laravel 13 Handbook',
-    ]);
+    $this->actingAs($author)->post(route('posts.store'), [
+        'title' => 'Tested Laravel Guide',
+        'slug' => 'tested-laravel-guide',
+        'body' => 'Full end-to-end feature test coverage.',
+        'status' => 'published',
+        'cover' => UploadedFile::fake()->image('cover.jpg', 800, 600),
+    ])->assertRedirect(route('posts.index'));
 
-    $response->assertRedirect(route('tasks.index'));
+    $post = Post::firstOrFail();
+    Storage::disk('public')->assertExists($post->cover_path);
+    $this->assertDatabaseHas('posts', ['slug' => 'tested-laravel-guide', 'user_id' => $author->id]);
 
-    $this->assertDatabaseHas('tasks', [
-        'user_id' => $user->id,
-        'title' => 'Ship Laravel 13 Handbook',
-    ]);
-});
-
-it('forbids deleting another user’s task via TaskPolicy', function () {
-    $owner = User::factory()->create();
-    $stranger = User::factory()->create();
-    $task = Task::factory()->for($owner)->create();
-
-    $this->actingAs($stranger)
-        ->delete(route('tasks.destroy', $task))
+    $this->actingAs($intruder)
+        ->patch(route('posts.update', $post), ['title' => 'Tampered'])
         ->assertForbidden();
-
-    $this->assertModelExists($task);
 });
-```
 
----
-
-## 3. Faking Queues, Mail, Events & Outbound HTTP
-
-Never send real emails or real Stripe API charges from tests! Because Laravel's Facades are Container-backed proxies (see **Chapter 06**), you can swap them cleanly in one line:
-
-```php
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Queue;
-
-it('queues a welcome job and calls webhook cleanly', function () {
+it('creates posts via Sanctum API and fakes outbound queues/http/mail cleanly', function () {
     Queue::fake();
-    Http::fake([
-        'api.example.com/*' => Http::response(['ok' => true], 200),
-    ]);
+    Mail::fake();
+    Http::fake(['api.example.com/*' => Http::response(['ok' => true], 200)]);
 
-    // Act: trigger controller or service...
-    SendWelcomePackJob::dispatch($user);
+    $user = User::factory()->create();
+    Sanctum::actingAs($user, ['posts:write']);
 
-    // Assert:
-    Queue::assertPushed(SendWelcomePackJob::class);
+    $this->postJson('/api/v1/posts', [
+        'title' => 'API Created Post',
+        'slug' => 'api-created-post',
+        'body' => 'Delivered via Sanctum Bearer token.',
+        'status' => 'published',
+    ])->assertCreated()->assertJsonPath('data.slug', 'api-created-post');
+
+    GenerateSitemapJob::dispatch();
+    Queue::assertPushed(GenerateSitemapJob::class);
 });
 ```
 
 ---
 
-## 4. Essential Laravel Test Assertions Cheat Sheet
+## 2. Essential Assertions & Code Style Gates
 
-| Assertion | Checks |
+| Assertion | Verifies |
 | :--- | :--- |
 | `$response->assertOk()` / `assertCreated()` / `assertForbidden()` | HTTP status codes `200`, `201`, `403` |
-| `$response->assertRedirect(route('...'))` | Post-redirect-get flow |
-| `$response->assertSessionHasErrors(['title'])` | Validation error triggered for field |
-| `$response->assertJsonPath('data.slug', 'my-post')` | Nested JSON API payload assertion |
-| `$this->assertDatabaseHas('posts', [...])` | SQL row exists after persistence |
-| `Http::assertSentCount(1)` | Exact outbound API call count |
+| `$response->assertRedirect(route('...'))` | Post-Redirect-Get flow |
+| `$response->assertSessionHasErrors(['title'])` | Validation error key returned cleanly |
+| `$response->assertJsonPath('data.slug', 'my-post')` | Nested JSON API payload structure |
+| `$this->assertDatabaseHas('posts', [...])` | Persisted database row |
 
----
-
-## Key Takeaways
-- Write **Feature tests** for every route, Policy authorization rule (`assertForbidden()`), and validation rule (`assertSessionHasErrors()`).
-- Always isolate database tests with `RefreshDatabase` and external side effects with `Queue::fake()`, `Mail::fake()`, `Notification::fake()`, and `Http::fake()`.
+Run automated formatting & static checks alongside tests:
+```bash
+./vendor/bin/pint --test
+php artisan test
+```
 
 ## Try It Locally
-Run our standalone PHP Arrange-Act-Assert micro test suite (`lab.php`):
+Run our standalone PHP Arrange-Act-Assert micro test runner (`lab.php`):
 ```bash
 php chapters/15-testing-with-pest-and-phpunit/lab.php
 ```

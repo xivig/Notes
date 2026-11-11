@@ -1,37 +1,75 @@
 # Laravel Developer Cheatsheet (Laravel 12/13 & PHP 8.3–8.5)
 
-Fast daily reference covering Artisan CLI, Modern PHP syntax, Routing, Eloquent, Validation, Policies, Caching, Testing, and Deployment.
+Fast daily reference covering Artisan CLI, Modern PHP syntax, Blade components, Faker/Eloquent, Multi-Guard Auth, Composer/Vite, Caching, Testing, and Production Server Operations.
 
 ---
 
-## 1. Artisan CLI & Scaffolding
+## 1. Project Setup, Diagnostics & Artisan Generators
 
 ```bash
-# Project creation & dev loop
-laravel new my-app                   # Interactive installer (Livewire / React / Vue / WorkOS)
-composer run dev                     # Start HTTP server + Queue + Pail logs + Vite together
-php artisan install:api              # Install Sanctum & routes/api.php
-php artisan install:broadcasting     # Install Laravel Reverb WebSockets
+# Project creation, unified dev loop & diagnostics
+php -v && composer -V && node -v && npm -v
+laravel new my-app                                 # Livewire / React / Vue / WorkOS
+composer create-project laravel/laravel my-app     # Alternative Composer install
+composer run dev                                   # HTTP + Queue + Pail Logs + Vite
+php artisan install:api                            # Sanctum + routes/api.php
+php artisan install:broadcasting                   # Laravel Reverb WebSockets
+php artisan storage:link                           # public/storage -> storage/app/public
+php artisan about                                  # PHP, drivers, debug & cache status
+php artisan tinker                                 # Interactive app REPL
+php artisan pail                                   # Live colorized log stream
 
-# Generators
-php artisan make:model Post -mfsc    # Model + Migration + Factory + Seeder + Controller
+# Code generators
+php artisan make:model Post -mfsc                  # Model + Migration + Factory + Seeder + Controller
+php artisan make:controller Admin/PostController --resource --model=Post
 php artisan make:request StorePostRequest
 php artisan make:policy PostPolicy --model=Post
 php artisan make:resource PostResource
+php artisan make:middleware AdminMiddleware
+php artisan make:view admin.dashboard
+php artisan make:component Alert                   # Class + Blade view
+php artisan make:component forms.input --view      # Anonymous Blade-only component
+php artisan make:component AlertBox --inline       # Inline PHP class component
+php artisan make:mail WelcomeMail --markdown=mail.welcome
 php artisan make:job ProcessInvoiceJob
-php artisan make:test PostCrudTest   # Pest/PHPUnit feature test
-
-# Database & Inspection
-php artisan migrate                  # Run pending migrations
-php artisan migrate:fresh --seed     # Drop all tables, re-migrate & seed
-php artisan route:list --except-vendor
-php artisan tinker                   # Interactive app REPL
-php artisan vendor:publish --list    # List publishable package assets/configs
+php artisan make:test PostCrudTest
 ```
 
 ---
 
-## 2. Streamlined `bootstrap/app.php` Hooks (Laravel 11–13)
+## 2. Database, Migrations, Faker & Eloquent Performance
+
+```bash
+php artisan migrate:status                         # Inspect applied vs pending batches
+php artisan migrate                                # Run pending migrations
+php artisan migrate --pretend                      # Preview SQL without executing
+php artisan migrate:rollback                       # Roll back last migration batch
+php artisan db:seed --class=AdminSeeder            # Seed baseline admin/roles safely
+php artisan migrate:fresh --seed                   # DEV ONLY: drops ALL tables first!
+```
+
+```php
+// Model mass assignment, Laravel 13 casts, and Faker factory helpers
+protected $fillable = ['user_id', 'title', 'slug', 'status'];
+protected function casts(): array {
+    return ['status' => Status::class, 'published_at' => 'datetime'];
+}
+
+// Factory with Faker + deterministic Sequence + relation recycling
+Post::factory()
+    ->count(20)
+    ->recycle($users)
+    ->sequence(['is_published' => true], ['is_published' => false])
+    ->create();
+
+// Eager loading (prevents N+1) + dev guard in AppServiceProvider::boot()
+$posts = Post::with(['author:id,name', 'tags:id,name'])->latest()->paginate(15);
+Model::preventLazyLoading(! app()->isProduction());
+```
+
+---
+
+## 3. Streamlined `bootstrap/app.php` Hooks (Laravel 11–13)
 
 ```php
 return Application::configure(basePath: dirname(__DIR__))
@@ -42,7 +80,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->alias(['team' => \App\Http\Middleware\EnsureTeam::class]);
+        $middleware->alias(['admin' => \App\Http\Middleware\AdminMiddleware::class]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(fn (DomainException $e, Request $r) =>
@@ -54,20 +92,17 @@ return Application::configure(basePath: dirname(__DIR__))
 
 ---
 
-## 3. Modern PHP Primitives Used in Laravel
+## 4. Modern PHP 8.3–8.5 Primitives Used in Laravel
 
 ```php
 declare(strict_types=1);
 
-// Nullsafe + null coalescing
 $avatar = Auth::user()?->profile?->avatar ?? '/default.png';
 
-// Readonly DTO + constructor promotion
 final readonly class CreateTaskDto {
     public function __construct(public string $title, public bool $urgent = false) {}
 }
 
-// Backed Enum + strict match
 enum Status: string {
     case Draft = 'draft';
     case Live = 'live';
@@ -76,55 +111,54 @@ enum Status: string {
     }
 }
 
-// Array & String helpers
 $clean = Arr::only($payload, ['title', 'slug']);
 $slug = Str::of($title)->trim()->slug();
 ```
 
 ---
 
-## 4. Eloquent ORM & Performance Must-Knows
+## 5. Authorization, Multi-Guard Sessions & Blade Safety
 
 ```php
-// Model definition
-protected $fillable = ['user_id', 'title', 'slug', 'status'];
-protected function casts(): array {
-    return ['status' => Status::class, 'published_at' => 'datetime'];
-}
-
-// Eager loading (prevents N+1)
-$posts = Post::with(['author:id,name', 'tags:id,name'])->latest()->paginate(15);
-
-// Prevent accidental lazy loading outside production (in AppServiceProvider::boot)
-Model::preventLazyLoading(! app()->isProduction());
-```
-
----
-
-## 5. Authorization, Validation & Blade Safety
-
-```php
-// Controller
+// Policy + validated FormRequest update
 public function update(UpdateTaskRequest $request, Task $task): RedirectResponse
 {
     Gate::authorize('update', $task);
     $task->update($request->validated());
     return to_route('tasks.index')->with('success', 'Saved!');
 }
+
+// Hardened admin login / logout session hygiene
+Auth::guard('admin')->attempt($credentials);
+$request->session()->regenerate();
+Auth::guard('admin')->logout();
+$request->session()->invalidate();
+$request->session()->regenerateToken();
 ```
 
 ```blade
-<form action="{{ route('tasks.update', $task) }}" method="POST">
+<x-forms.input name="title" :$defaultTitle />
+<form action="{{ route('posts.update', $post) }}" method="POST">
     @csrf
     @method('PATCH')
-    <input name="title" value="{{ old('title', $task->title) }}">
+    <input name="title" value="{{ old('title', $post->title) }}">
     @error('title') <span>{{ $message }}</span> @enderror
 </form>
+
+@forelse ($posts as $post)
+    <tr>
+        <td>{{ $posts->firstItem() + $loop->index }}</td>
+        <td>{{ $post->created_at?->diffForHumans() }}</td>
+    </tr>
+@empty
+    <tr><td colspan="2">No posts yet.</td></tr>
+@endforelse
+{{ $posts->links() }}
 ```
 
 ---
 
-## 6. Queues, Caching, `defer()` & Testing
+## 6. Queues, Caching, `defer()` & Pest Testing
 
 ```php
 defer(fn () => AuditLog::record('login'));                 // Run after HTTP response sends
@@ -142,13 +176,20 @@ it('forbids strangers', function () {
 
 ---
 
-## 7. Production Deployment Commands
+## 7. Composer, Vite, Diagnostics & Production Deployment
 
 ```bash
+# Local inspection & dependency hygiene
+composer validate && composer audit
+php artisan route:list --except-vendor
+php artisan queue:failed
+php artisan vendor:publish --list
+
+# Release build & cache lifecycle
 composer install --no-dev --optimize-autoloader
 npm ci && npm run build
 php artisan migrate --force
-php artisan optimize          # Caches config, routes, events & views
+php artisan optimize               # Caches config, routes, events & views
 # Local reset:
 php artisan optimize:clear
 ```

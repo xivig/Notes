@@ -67,7 +67,7 @@
     .search-input {
       background: var(--surface-2); color: var(--text);
       border: 1px solid var(--border); border-radius: 8px;
-      padding: 0.45rem 0.85rem; width: 240px; font-size: 0.85rem;
+      padding: 0.45rem 0.85rem; width: 245px; font-size: 0.85rem;
     }
     .search-input:focus { outline: 2px solid var(--accent-2); border-color: transparent; }
     .btn {
@@ -80,7 +80,7 @@
     .btn.active { background: var(--accent-2); border-color: var(--accent-2); color: #fff; }
     .layout {
       max-width: 1400px; margin: 0 auto;
-      display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 2rem;
+      display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 2rem;
       padding: 1.5rem;
     }
     @media (max-width: 960px) {
@@ -99,7 +99,7 @@
     .progress-fill { height: 100%; width: 0%; background: var(--emerald); transition: width 0.25s ease; }
     .quick-links { display: grid; grid-template-columns: 1fr 1fr; gap: 0.45rem; margin-bottom: 1rem; }
     .quick-links a {
-      text-align: center; padding: 0.4rem; border-radius: 7px; font-size: 0.75rem; font-weight: 600;
+      text-align: center; padding: 0.4rem; border-radius: 7px; font-size: 0.74rem; font-weight: 600;
       background: var(--surface-2); color: var(--text); text-decoration: none; border: 1px solid var(--border);
     }
     .quick-links a:hover { border-color: var(--accent-2); }
@@ -111,8 +111,8 @@
     }
     .nav-item:hover { background: var(--surface-2); color: var(--text); }
     .nav-num {
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.72rem;
-      background: var(--surface-2); color: var(--text); padding: 0.1rem 0.4rem; border-radius: 5px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.7rem;
+      background: var(--surface-2); color: var(--text); padding: 0.1rem 0.38rem; border-radius: 5px;
     }
     .nav-item.completed .nav-num { background: var(--emerald); color: #fff; }
     .hero {
@@ -120,7 +120,7 @@
       border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem 1.75rem; margin-bottom: 1.5rem;
     }
     .hero h1 { margin: 0 0 0.4rem; font-size: 1.65rem; }
-    .hero p { margin: 0 0 1rem; color: var(--muted); max-width: 72ch; }
+    .hero p { margin: 0 0 1rem; color: var(--muted); max-width: 78ch; }
     .filter-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
     .chapter-card {
       background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
@@ -135,13 +135,15 @@
     .track-1 { background: rgba(99,102,241,0.18); color: #a5b4fc; }
     .track-2 { background: rgba(239,68,68,0.18); color: #fca5a5; }
     .track-3 { background: rgba(16,185,129,0.18); color: #6ee7b7; }
+    .track-quiz { background: rgba(245,158,11,0.18); color: #fcd34d; }
     html[data-theme="light"] .track-1 { color: #4338ca; }
     html[data-theme="light"] .track-2 { color: #b91c1c; }
     html[data-theme="light"] .track-3 { color: #047857; }
+    html[data-theme="light"] .track-quiz { color: #b45309; }
     .source-link, .md-link { color: var(--accent-2); text-decoration: none; font-weight: 600; font-size: 0.85rem; }
     .source-link:hover, .md-link:hover { text-decoration: underline; }
     .title-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; }
-    .title-row h2 { margin: 0; font-size: 1.3rem; }
+    .title-row h2 { margin: 0; font-size: 1.28rem; }
     .ch-prefix { color: var(--accent); font-family: ui-monospace, monospace; }
     .done-toggle {
       border: 1px solid var(--border); background: var(--surface-2); color: var(--muted);
@@ -193,10 +195,21 @@
     .lab-details summary {
       cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600;
     }
+    .quiz-card {
+      border: 1px solid var(--border); border-radius: 10px; padding: 1rem; margin: 0.75rem 0;
+      background: var(--surface-2);
+    }
+    .quiz-card label { display: block; padding: 0.28rem 0; cursor: pointer; font-size: 0.9rem; }
+    .quiz-fb { margin-top: 0.45rem; font-size: 0.86rem; font-weight: 600; }
+    .quiz-header { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
     .hidden { display: none !important; }
     .empty-state {
       text-align: center; padding: 3rem 1.5rem; background: var(--surface);
       border: 1px dashed var(--border); border-radius: 14px; color: var(--muted);
+    }
+    @media print {
+      .topbar, .sidebar, .copy-btn, .done-toggle, .filter-pills { display: none !important; }
+      .layout { display: block; }
     }
   </style>
 </head>
@@ -207,11 +220,11 @@
       <div class="logo">L</div>
       <div>
         <span class="brand-title">All-in-One Laravel Developer Handbook</span>
-        <span class="brand-sub">Laravel 12 / 13 &bull; PHP 8.3–8.5 &bull; 16 Chapters &amp; Runnable Labs</span>
+        <span class="brand-sub">Laravel 12 / 13 &bull; PHP 8.3–8.5 &bull; 18 Chapters, Runnable Labs &amp; Mastery Quiz</span>
       </div>
     </div>
     <div class="controls">
-      <input type="search" id="searchInput" class="search-input" placeholder="Search chapters (press /)...">
+      <input type="search" id="searchInput" class="search-input" placeholder="Search chapters &amp; commands (press /)...">
       <button type="button" class="btn" id="themeBtn" onclick="toggleTheme()">Light Mode</button>
       <a class="btn" href="./README.md">README</a>
       <a class="btn" href="./CHEATSHEET.md">Cheatsheet</a>
@@ -223,7 +236,7 @@
       <div class="progress-box">
         <div class="progress-meta">
           <span>Handbook Progress</span>
-          <strong id="progressLabel">0 / 16</strong>
+          <strong id="progressLabel">0 / 18</strong>
         </div>
         <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
       </div>
@@ -231,6 +244,8 @@
         <a href="./CHEATSHEET.md">Cheatsheet</a>
         <a href="./GLOSSARY.md">Glossary</a>
         <a href="./run-all-examples.php">Lab Runner</a>
+        <a href="./scripts/laravel_artisan_setup.sh">Setup Script</a>
+        <a href="#quiz-section">Mastery Quiz</a>
         <a href="./README.md">Repo Map</a>
       </div>
       <nav class="nav-list" id="sidebarNav">
@@ -240,29 +255,33 @@
 <a class="nav-item" href="#ch-04" data-track="track-1"><span class="nav-num">04</span><span class="nav-title">Chapter 04 — Modern PHP (8.0–8.5): Enums, Attributes, Property Hooks &amp; Pipe</span></a>
 <a class="nav-item" href="#ch-05" data-track="track-1"><span class="nav-num">05</span><span class="nav-title">Chapter 05 — Closures, Exceptions, Arrays &amp; Strings for Laravel</span></a>
 <a class="nav-item" href="#ch-06" data-track="track-1"><span class="nav-num">06</span><span class="nav-title">Chapter 06 — Composer PSR-4, Service Container Auto-Wiring &amp; Facades</span></a>
-<a class="nav-item" href="#ch-07" data-track="track-2"><span class="nav-num">07</span><span class="nav-title">Chapter 07 — Laravel 12/13 Installation, Directory Structure &amp; Starter Kits</span></a>
-<a class="nav-item" href="#ch-08" data-track="track-2"><span class="nav-num">08</span><span class="nav-title">Chapter 08 — Routing, Controllers, Middleware &amp; Demo Project 1</span></a>
-<a class="nav-item" href="#ch-09" data-track="track-2"><span class="nav-num">09</span><span class="nav-title">Chapter 09 — Blade Templates, Reusable Components &amp; Vite</span></a>
-<a class="nav-item" href="#ch-10" data-track="track-2"><span class="nav-num">10</span><span class="nav-title">Chapter 10 — Migrations, Eloquent ORM, Relationships &amp; Demo Project 2 (DevBlog)</span></a>
-<a class="nav-item" href="#ch-11" data-track="track-2"><span class="nav-num">11</span><span class="nav-title">Chapter 11 — Forms, Validation, Policies &amp; Demo Project 3 (Auth Task Manager)</span></a>
+<a class="nav-item" href="#ch-07" data-track="track-2"><span class="nav-num">07</span><span class="nav-title">Chapter 07 — Laravel 12/13 Versions, Setup, Directory Layout &amp; Starter Kits</span></a>
+<a class="nav-item" href="#ch-08" data-track="track-2"><span class="nav-num">08</span><span class="nav-title">Chapter 08 — Routing, Controllers, Middleware &amp; Demo Project 1 (Agency Site)</span></a>
+<a class="nav-item" href="#ch-09" data-track="track-2"><span class="nav-num">09</span><span class="nav-title">Chapter 09 — Blade Templates, Partials, Deep-Dive Components, Directives &amp; Vite</span></a>
+<a class="nav-item" href="#ch-10" data-track="track-2"><span class="nav-num">10</span><span class="nav-title">Chapter 10 — SQL, Migrations, Faker, Seeders, Eloquent CRUD &amp; DevBlog Project</span></a>
+<a class="nav-item" href="#ch-11" data-track="track-2"><span class="nav-num">11</span><span class="nav-title">Chapter 11 — Validation, Uploads, Policies, RBAC &amp; Hardened Multi-Guard Auth</span></a>
 <a class="nav-item" href="#ch-12" data-track="track-2"><span class="nav-num">12</span><span class="nav-title">Chapter 12 — Overriding Packages, Service Providers &amp; Configuration</span></a>
-<a class="nav-item" href="#ch-13" data-track="track-3"><span class="nav-num">13</span><span class="nav-title">Chapter 13 — REST APIs, Eloquent Resources, Sanctum &amp; HTTP Client</span></a>
-<a class="nav-item" href="#ch-14" data-track="track-3"><span class="nav-num">14</span><span class="nav-title">Chapter 14 — Queues, Jobs, Events, Caching, `defer()` &amp; Scheduler</span></a>
-<a class="nav-item" href="#ch-15" data-track="track-3"><span class="nav-num">15</span><span class="nav-title">Chapter 15 — Automated Testing with Pest &amp; PHPUnit</span></a>
-<a class="nav-item" href="#ch-16" data-track="track-3"><span class="nav-num">16</span><span class="nav-title">Chapter 16 — Security, Performance, Laravel 13 AI SDK &amp; Production Deployment</span></a>
+<a class="nav-item" href="#ch-13" data-track="track-3"><span class="nav-num">13</span><span class="nav-title">Chapter 13 — REST APIs, Sanctum Token Lifecycle, Resources &amp; HTTP Client</span></a>
+<a class="nav-item" href="#ch-14" data-track="track-3"><span class="nav-num">14</span><span class="nav-title">Chapter 14 — Mail, Queues, Events, Caching, `defer()` &amp; Scheduler</span></a>
+<a class="nav-item" href="#ch-15" data-track="track-3"><span class="nav-num">15</span><span class="nav-title">Chapter 15 — Automated Testing with Pest, PHPUnit &amp; Fakes</span></a>
+<a class="nav-item" href="#ch-16" data-track="track-3"><span class="nav-num">16</span><span class="nav-title">Chapter 16 — Security, Nginx / cPanel Server Configs, CI/CD, Reverb &amp; Laravel 13 AI SDK</span></a>
+<a class="nav-item" href="#ch-17" data-track="track-3"><span class="nav-num">17</span><span class="nav-title">Chapter 17 — Troubleshooting Playbook &amp; CLI Diagnostics</span></a>
+<a class="nav-item" href="#ch-18" data-track="track-3"><span class="nav-num">18</span><span class="nav-title">Chapter 18 — Clean Architecture, Automated Scaffolder, Capstone CMS &amp; 12-Week Roadmap</span></a>
+<a class="nav-item" href="#quiz-section" data-track="track-quiz"><span class="nav-num">QZ</span><span class="nav-title">Mastery Quiz (12 Qs)</span></a>
 
       </nav>
     </aside>
 
     <main>
       <section class="hero">
-        <h1>Modern Laravel 12/13 &amp; PHP 8.3–8.5 Handbook</h1>
-        <p>From PHP 8 strict types, OOP contracts, and Service Container reflection auto-wiring to building SQLite-backed blogs, policy-guarded CRUD apps, Sanctum APIs, queues, Pest tests, and production deployments.</p>
+        <h1>Modern Laravel 12/13 &amp; PHP 8.3–8.5 Developer Handbook</h1>
+        <p>Complete progressive guide uniting PHP 8.3–8.5 OOP &amp; Container Reflection DI, Starter Kits, Blade Admin/Blog Partials &amp; Directives, Faker/Seeders, Eloquent N+1 optimization, Multi-Guard Auth &amp; RBAC, Sanctum APIs, Queues &amp; <code>defer()</code>, Pest testing, Nginx/cPanel CI/CD, Troubleshooting, and EliteBlog Pro CMS.</p>
         <div class="filter-pills">
-          <button type="button" class="btn active" onclick="setTrack('all', this)">All Chapters (16)</button>
+          <button type="button" class="btn active" onclick="setTrack('all', this)">All (18 + Quiz)</button>
           <button type="button" class="btn" onclick="setTrack('track-1', this)">Track 1: PHP &amp; OOP</button>
           <button type="button" class="btn" onclick="setTrack('track-2', this)">Track 2: Laravel Core</button>
           <button type="button" class="btn" onclick="setTrack('track-3', this)">Track 3: Production</button>
+          <button type="button" class="btn" onclick="setTrack('track-quiz', this)">Mastery Quiz (12)</button>
         </div>
       </section>
 
@@ -1300,72 +1319,56 @@ $container-&gt;swap(MailerContract::class, new class implements MailerContract {
     }
 });
 echo &#039;After fake swap: &#039; . MailFacade::send(&#039;ada@example.com&#039;, &#039;Test Run&#039;) . PHP_EOL;</code></pre></div></details></div></div></article>
-<article class="chapter-card" id="ch-07" data-track="track-2"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-2">Track 2: Laravel Core</span><a class="source-link" href="chapters/07-laravel-installation-structure-and-starter-kits/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">07.</span> Chapter 07 — Laravel 12/13 Installation, Directory Structure &amp; Starter Kits</h2><button type="button" class="done-toggle" data-ch="ch-07" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Modern Laravel streamlines bootstrapping so you can go from zero to a live database-backed application (complete with authentication, Vite asset bundling, and testing) in minutes.</p>
-<h2>1. Prerequisites &amp; Tooling (Laravel 12 / 13)</h2>
-<p>Before creating a project, verify your environment meets modern requirements:</p>
-<ul><li><strong>PHP</strong>: <code>8.3+</code> required for Laravel 13 (<code>8.2+</code> for Laravel 12; both support PHP 8.3–8.5). Essential extensions enabled (<code>pdo_sqlite</code>, <code>mbstring</code>, <code>openssl</code>, <code>curl</code>, <code>xml</code>, <code>zip</code>, <code>ctype</code>, <code>fileinfo</code>).</li><li><strong>Composer 2.x</strong>: Dependency manager (<code>composer --version</code>).</li><li><strong>Node.js &amp; NPM</strong>: Frontend asset bundling via Vite (<code>node -v &amp;&amp; npm -v</code>).</li><li><strong>Local Stack Options</strong>: <strong>Laravel Herd</strong> (macOS/Windows one-click PHP/Nginx/SQLite), <strong>Laragon</strong> (Windows), or <strong>Laravel Sail</strong> (Docker).</li></ul>
-<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php -v
-composer -V
-node -v</code></pre></div>
-<h2>2. Creating a New Application</h2>
-<h3>Option A: Official Laravel Installer (Recommended)</h3>
-<p>Install the global Laravel installer once via Composer:</p>
+<article class="chapter-card" id="ch-07" data-track="track-2"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-2">Track 2: Laravel Core</span><a class="source-link" href="chapters/07-laravel-installation-structure-and-starter-kits/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">07.</span> Chapter 07 — Laravel 12/13 Versions, Setup, Directory Layout &amp; Starter Kits</h2><button type="button" class="done-toggle" data-ch="ch-07" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Choose the right Laravel release, verify PHP/Composer/Node prerequisites, pick an official Starter Kit via <code>laravel new</code>, and master Laravel&#039;s streamlined HTTP request lifecycle from <code>public/index.php</code>.</p>
+<h2>1. Laravel Version Support Matrix &amp; Prerequisites</h2>
+<div class="table-wrap"><table><thead><tr><th>Release</th><th>Minimum PHP</th><th>Release Date</th><th>Security Fixes Until</th><th>Recommendation</th></tr></thead><tbody><tr><td><strong>Laravel 13</strong></td><td><strong>PHP 8.3+</strong></td><td>17 Mar 2026</td><td>17 Mar 2028</td><td><strong>Default choice</strong> for new apps (PHP Attributes, AI SDK, PHP 8.3–8.5)</td></tr><tr><td><strong>Laravel 12</strong></td><td><strong>PHP 8.2–8.5</strong></td><td>24 Feb 2025</td><td>24 Feb 2027</td><td>Compatibility bridge when hosting restricts PHP to 8.2; plan upgrade</td></tr></tbody></table></div>
+<p>Before bootstrapping a project, verify your environment (<code>Laravel Herd</code> on Windows/macOS, <code>Laragon</code>, or <code>Laravel Sail</code> Docker):</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php -v          # PHP 8.3+ recommended
+composer -V     # Composer 2.x
+node -v &amp;&amp; npm -v</code></pre></div>
+<h2>2. Creating a New App &amp; Choosing Starter Kits</h2>
+<h3>Official Laravel Installer (Recommended)</h3>
 <div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">composer global require laravel/installer
 laravel new my-laravel-app</code></pre></div>
-<p>During <code>laravel new</code>, the interactive CLI asks you to choose:</p>
-<ol><li><strong>Starter Kit</strong>: None, <strong>React</strong> (Inertia 2 + TypeScript + Tailwind + shadcn/ui), <strong>Vue</strong> (Inertia 2 + Tailwind + shadcn-vue), or <strong>Livewire</strong> (Livewire 4 + Flux UI + Volt), with optional <strong>Laravel WorkOS AuthKit</strong> (SSO/Passkeys).</li><li><strong>Testing Framework</strong>: <strong>Pest</strong> (expressive, default in modern starter kits) or <strong>PHPUnit</strong>.</li><li><strong>Database Engine</strong>: <strong>SQLite</strong> (zero-config default!), PostgreSQL, MySQL, or MariaDB.</li></ol>
-<h3>Option B: Via Composer Directly</h3>
+<p><code>laravel new</code> configures your stack interactively:</p>
+<ul><li><strong>Livewire Starter Kit</strong>: Livewire 4 + Flux UI + Volt (reactive server-rendered PHP directly in Blade).</li><li><strong>React Starter Kit</strong>: Inertia 2 + TypeScript + Tailwind CSS v4 + shadcn/ui.</li><li><strong>Vue Starter Kit</strong>: Inertia 2 + TypeScript + Tailwind CSS v4 + shadcn-vue.</li><li><strong>WorkOS AuthKit (<code>--workos</code>)</strong>: Pre-wired enterprise SSO, passkeys, and social auth.</li><li><strong>Database &amp; Tests</strong>: SQLite (zero-config default) / MySQL / PostgreSQL + <strong>Pest</strong> or PHPUnit.</li></ul>
+<h3>Alternative Direct Composer Setup</h3>
 <div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">composer create-project laravel/laravel my-laravel-app
-cd my-laravel-app</code></pre></div>
-<h2>3. Streamlined Laravel 11 / 12 / 13 Project Layout</h2>
-<p>Starting in Laravel 11 and continuing through Laravel 12 &amp; 13, redundant boilerplate folders (<code>app/Console/Kernel.php</code>, <code>app/Http/Middleware/*</code>, <code>app/Exceptions/Handler.php</code>, extra config stubs) were removed cleanly:</p>
+cd my-laravel-app
+npm install &amp;&amp; npm run build
+composer run dev   # Runs HTTP server, Queue worker, Pail logs &amp; Vite concurrently</code></pre></div>
+<div class="callout callout-important"><strong>Important:</strong> Commit <code>composer.lock</code> and <code>package-lock.json</code> for deterministic deployments across dev, CI, and production — NEVER commit <code>.env</code> or <code>/vendor</code>.</div>
+<h2>3. Streamlined Laravel 11 / 12 / 13 Directory Layout &amp; Request Lifecycle</h2>
+<p>Every request enters <strong><code>public/index.php</code></strong> (<code>public/</code> MUST be the web server DocumentRoot so <code>.env</code>, <code>vendor/</code>, and <code>storage/</code> remain unreachable over HTTP):</p>
 <div class="code-block"><div class="code-head"><span class="code-lang">TEXT</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-text">my-laravel-app/
 ├── app/
-│   ├── Http/
-│   │   └── Controllers/       # Web &amp; API controllers
+│   ├── Actions/               # Single-purpose domain use cases
+│   ├── Http/Controllers/      # Web &amp; API controllers
 │   ├── Models/                # Eloquent ORM models (User.php, Post.php...)
 │   └── Providers/
 │       └── AppServiceProvider.php
 ├── bootstrap/
-│   └── app.php                # Central routing, middleware, and exception hooks
-├── config/                    # Minimal configuration (customize via config:publish)
+│   ├── app.php                # Central routing, middleware aliases &amp; exception hooks
+│   └── providers.php          # Registered application service providers
+├── config/                    # Framework &amp; package config (ONLY place to call env())
 ├── database/
-│   ├── factories/             # Model factories for seeders &amp; tests
+│   ├── factories/             # Model factories (Faker)
 │   ├── migrations/            # Version-controlled schema files
-│   ├── seeders/               # Sample &amp; reference data seeders
+│   ├── seeders/               # Sample &amp; baseline seeders
 │   └── database.sqlite        # Default zero-config local database
-├── public/
-│   └── index.php              # Web server DocumentRoot (NEVER expose project root!)
-├── resources/
-│   ├── css/app.css            # Tailwind v4 / CSS entry
-│   ├── js/app.js              # Vite JS entry
-│   └── views/                 # Blade templates &amp; components
-├── routes/
-│   ├── web.php                # Session + CSRF web routes
-│   └── console.php            # Artisan closure commands &amp; Task Scheduler
-├── tests/                     # Feature &amp; Unit tests (Pest / PHPUnit)
-├── .env                       # Local secrets &amp; environment variables (gitignored)
-└── artisan                    # CLI runner</code></pre></div>
-<div class="callout callout-important"><strong>Important:</strong> <strong>API &amp; Real-Time Scaffolding Are Opt-In</strong><br>Need REST API routes or WebSockets? Run:<br>```bash<br>php artisan install:api          # Adds routes/api.php &amp; Laravel Sanctum<br>php artisan install:broadcasting # Adds Laravel Reverb WebSocket server<br>```</div>
-<h2>4. First Boot &amp; Development Commands</h2>
-<p>Modern Laravel includes a unified <code>composer run dev</code> script (in starter kits / fresh installs) that launches the PHP server, queue worker, log tail (<code>Pail</code>), and Vite dev server concurrently:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash"># 1. Unified dev command (HTTP + Queue + Logs + Vite)
-composer run dev
-
-# OR launch processes manually in separate terminals:
-php artisan serve     # http://127.0.0.1:8000
-npm run dev           # Hot-reloading Vite asset server
-php artisan queue:work</code></pre></div>
-<h3>Everyday Artisan Setup Commands</h3>
-<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan migrate           # Run database migrations
-php artisan migrate:fresh --seed  # Wipe DB, re-run migrations + DatabaseSeeder
-php artisan route:list        # Inspect all registered URLs, methods &amp; middleware
-php artisan tinker            # Interactive PHP REPL booted inside your Laravel app
-php artisan config:publish    # Publish default config files if you need to edit them</code></pre></div>
-<h2>Key Takeaways</h2>
-<ul><li>Prefer <code>laravel new</code> with SQLite + Pest for instant zero-config local setup.</li><li>All middleware, exception rules, and route paths live centrally in <code>bootstrap/app.php</code>.</li><li>Always point Nginx/Apache/Herd at <code>public/</code> so <code>.env</code> and <code>vendor/</code> remain unreachable over HTTP.</li></ul></div></article>
-<article class="chapter-card" id="ch-08" data-track="track-2"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-2">Track 2: Laravel Core</span><a class="source-link" href="chapters/08-routing-controllers-middleware-and-responses/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">08.</span> Chapter 08 — Routing, Controllers, Middleware &amp; Demo Project 1</h2><button type="button" class="done-toggle" data-ch="ch-08" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Routing maps incoming HTTP verbs and URIs (<code>GET /services</code>, <code>POST /tasks</code>) to closures or controller methods, passing them cleanly through HTTP middleware defined in <code>bootstrap/app.php</code>.</p>
-<h2>1. Essential Route Definitions (<code>routes/web.php</code>)</h2>
+├── public/                    # Public DocumentRoot: index.php, build/, storage symlink
+├── resources/                 # Uncompiled Blade views, components, layouts, CSS/JS
+├── routes/                    # web.php, console.php (Artisan + Scheduler), api.php (opt-in)
+├── storage/                   # Logs, file caches, sessions &amp; private uploads
+└── tests/                     # Feature &amp; Unit tests (Pest / PHPUnit)</code></pre></div>
+<h3>Opt-In APIs &amp; Real-Time WebSockets</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan install:api          # Installs Laravel Sanctum + routes/api.php
+php artisan install:broadcasting # Installs Laravel Reverb WebSockets
+php artisan storage:link         # Creates public/storage -&gt; storage/app/public
+php artisan about                # Displays active PHP, drivers, environment &amp; cache status
+php artisan tinker               # Interactive REPL booted inside the Laravel container</code></pre></div></div></article>
+<article class="chapter-card" id="ch-08" data-track="track-2"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-2">Track 2: Laravel Core</span><a class="source-link" href="chapters/08-routing-controllers-middleware-and-responses/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">08.</span> Chapter 08 — Routing, Controllers, Middleware &amp; Demo Project 1 (Agency Site)</h2><button type="button" class="done-toggle" data-ch="ch-08" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Routing maps HTTP verbs and URIs cleanly to controller actions via named routes, Route Model Binding, and central middleware configuration in <code>bootstrap/app.php</code>.</p>
+<h2>1. Web Routing, Named URLs &amp; Route Model Binding (<code>routes/web.php</code>)</h2>
 <div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">&lt;?php
 
 declare(strict_types=1);
@@ -1374,43 +1377,56 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
-// Single-method controller actions
-Route::get(&#039;/&#039;, [PageController::class, &#039;home&#039;])-&gt;name(&#039;home&#039;);
-Route::get(&#039;/about&#039;, [PageController::class, &#039;about&#039;])-&gt;name(&#039;about&#039;);
+// View shortcut for static pages
+Route::view(&#039;/welcome-info&#039;, &#039;welcome&#039;)-&gt;name(&#039;welcome.info&#039;);
 
-// Route Model Binding: Laravel automatically fetches the Post matching {post:slug} or throws 404
-Route::get(&#039;/blog/{post:slug}&#039;, [PostController::class, &#039;show&#039;])-&gt;name(&#039;blog.show&#039;);
+// Group routes sharing a controller
+Route::controller(PageController::class)-&gt;group(function () {
+    Route::get(&#039;/&#039;, &#039;home&#039;)-&gt;name(&#039;home&#039;);
+    Route::get(&#039;/services&#039;, &#039;services&#039;)-&gt;name(&#039;services&#039;);
+    Route::get(&#039;/contact&#039;, &#039;contact&#039;)-&gt;name(&#039;contact&#039;);
+});
 
-// Group routes sharing middleware or URL prefixes
-Route::middleware(&#039;auth&#039;)-&gt;prefix(&#039;dashboard&#039;)-&gt;name(&#039;dashboard.&#039;)-&gt;group(function () {
-    Route::get(&#039;/&#039;, fn () =&gt; view(&#039;dashboard&#039;))-&gt;name(&#039;index&#039;);
-});</code></pre></div>
-<h3>Route Caching Rule in Production</h3>
-<p>Avoid putting complex logic inside route closures if you run <code>php artisan route:cache</code>: Laravel serializes route tables for blazing speed, and <strong>controller routes (<code>[Controller::class, &#039;method&#039;]</code>) serialize cleanly</strong>, whereas unserializable dependencies fail.</p>
-<h2>2. Resource Controllers &amp; Clean Method Visibility</h2>
-<p>A <strong>Resource Controller</strong> wires all 7 standard CRUD endpoints in one line:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan make:controller TaskController --resource</code></pre></div>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">Route::resource(&#039;tasks&#039;, TaskController::class);</code></pre></div>
-<div class="table-wrap"><table><thead><tr><th>HTTP Method</th><th>URI</th><th>Action</th><th>Route Name</th></tr></thead><tbody><tr><td><code>GET</code></td><td><code>/tasks</code></td><td><code>index</code></td><td><code>tasks.index</code></td></tr><tr><td><code>GET</code></td><td><code>/tasks/create</code></td><td><code>create</code></td><td><code>tasks.create</code></td></tr><tr><td><code>POST</code></td><td><code>/tasks</code></td><td><code>store</code></td><td><code>tasks.store</code></td></tr><tr><td><code>GET</code></td><td><code>/tasks/{task}</code></td><td><code>show</code></td><td><code>tasks.show</code></td></tr><tr><td><code>GET</code></td><td><code>/tasks/{task}/edit</code></td><td><code>edit</code></td><td><code>tasks.edit</code></td></tr><tr><td><code>PUT/PATCH</code></td><td><code>/tasks/{task}</code></td><td><code>update</code></td><td><code>tasks.update</code></td></tr><tr><td><code>DELETE</code></td><td><code>/tasks/{task}</code></td><td><code>destroy</code></td><td><code>tasks.destroy</code></td></tr></tbody></table></div>
-<p>Remember from <strong>Chapter 03</strong>: route action methods (<code>index</code>, <code>store</code>, <code>destroy</code>) MUST remain <code>public</code>, while internal formatting helpers inside the controller should stay <code>protected</code> or <code>private</code> (or move into a Trait / Action class).</p>
-<h2>3. Registering Middleware in <code>bootstrap/app.php</code></h2>
-<p>Instead of editing legacy <code>Kernel.php</code>, configure aliases and global/group middleware inside <code>bootstrap/app.php</code>:</p>
+// Route Model Binding (automatically throws 404 when slug doesn&#039;t exist)
+Route::get(&#039;/posts/{post:slug}&#039;, [PostController::class, &#039;show&#039;])-&gt;name(&#039;posts.show&#039;);
+
+// Full 7-method Resource Controller CRUD mapping
+Route::resource(&#039;posts&#039;, PostController::class);</code></pre></div>
+<h3>URL Generation Helpers in Blade</h3>
+<div class="table-wrap"><table><thead><tr><th>Helper</th><th>Example</th><th>When to Use</th></tr></thead><tbody><tr><td><code>url(&#039;/about&#039;)</code></td><td><code>&lt;a href=&quot;{{ url(&#039;/about&#039;) }}&quot;&gt;</code></td><td>Only for fixed un-named URLs</td></tr><tr><td><code>URL::to(&#039;/about&#039;)</code></td><td><code>&lt;a href=&quot;{{ URL::to(&#039;/about&#039;) }}&quot;&gt;</code></td><td>Verbose facade equivalent</td></tr><tr><td><code>route(&#039;posts.show&#039;, $post)</code></td><td><code>&lt;a href=&quot;{{ route(&#039;posts.show&#039;, $post) }}&quot;&gt;</code></td><td><strong>Recommended default</strong> — survives URI refactors safely</td></tr></tbody></table></div>
+<h2>2. Resource Controller Verb Map &amp; Method Spoofing</h2>
+<div class="table-wrap"><table><thead><tr><th>HTTP Method</th><th>URI</th><th>Action</th><th>Route Name</th><th>HTML Form Spoofing</th></tr></thead><tbody><tr><td><code>GET</code></td><td><code>/posts</code></td><td><code>index</code></td><td><code>posts.index</code></td><td>Native <code>GET</code></td></tr><tr><td><code>GET</code></td><td><code>/posts/create</code></td><td><code>create</code></td><td><code>posts.create</code></td><td>Native <code>GET</code></td></tr><tr><td><code>POST</code></td><td><code>/posts</code></td><td><code>store</code></td><td><code>posts.store</code></td><td><code>&lt;form method=&quot;POST&quot;&gt;@csrf</code></td></tr><tr><td><code>GET</code></td><td><code>/posts/{post}</code></td><td><code>show</code></td><td><code>posts.show</code></td><td>Native <code>GET</code></td></tr><tr><td><code>GET</code></td><td><code>/posts/{post}/edit</code></td><td><code>edit</code></td><td><code>posts.edit</code></td><td>Native <code>GET</code></td></tr><tr><td><code>PUT/PATCH</code></td><td><code>/posts/{post}</code></td><td><code>update</code></td><td><code>posts.update</code></td><td><code>@csrf @method(&#039;PATCH&#039;)</code></td></tr><tr><td><code>DELETE</code></td><td><code>/posts/{post}</code></td><td><code>destroy</code></td><td><code>posts.destroy</code></td><td><code>@csrf @method(&#039;DELETE&#039;)</code></td></tr></tbody></table></div>
+<p>Inspect all registered routes anytime via:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan route:list --except-vendor</code></pre></div>
+<p><em>(Production caching rule: keep controller actions mapped as <code>[Controller::class, &#039;method&#039;]</code> rather than complex closures so <code>php artisan route:cache</code> serializes cleanly!)</em></p>
+<h2>3. Custom Middleware, Sessions, CSRF &amp; CORS (<code>bootstrap/app.php</code>)</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan make:middleware EnsureAccountActive</code></pre></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">public function handle(Request $request, Closure $next): Response
+{
+    if ($request-&gt;user() &amp;&amp; ! $request-&gt;user()-&gt;is_active) {
+        abort(403, &#039;Account disabled.&#039;);
+    }
+
+    return $next($request);
+}</code></pre></div>
+<p>Register middleware aliases inside <code>bootstrap/app.php</code>:</p>
 <div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">return Application::configure(basePath: dirname(__DIR__))
     -&gt;withRouting(
         web: __DIR__.&#039;/../routes/web.php&#039;,
+        api: __DIR__.&#039;/../routes/api.php&#039;,
         commands: __DIR__.&#039;/../routes/console.php&#039;,
-        health: &#039;/up&#039;, // Built-in health endpoint since Laravel 11+
+        health: &#039;/up&#039;,
     )
-    -&gt;withMiddleware(function (Middleware $middleware) {
+    -&gt;withMiddleware(function (Middleware $middleware): void {
         $middleware-&gt;alias([
-            &#039;verified.team&#039; =&gt; \App\Http\Middleware\EnsureTeamVerified::class,
+            &#039;active&#039; =&gt; \App\Http\Middleware\EnsureAccountActive::class,
+            &#039;admin&#039; =&gt; \App\Http\Middleware\AdminMiddleware::class,
         ]);
     })
     -&gt;create();</code></pre></div>
-<h2>4. Demo Project 1 — Creative Agency Multi-Page Site</h2>
-<p>Let&#039;s build a clean <strong>Agency Landing &amp; Portfolio Application</strong> using MVC separation without database boilerplate yet.</p>
-<h3>Step 1: Controller (<code>app/Http/Controllers/PageController.php</code>)</h3>
-<p>Run: <code>php artisan make:controller PageController</code></p>
+<h3>Session, CSRF &amp; CORS Rules</h3>
+<ul><li>Keep <code>VerifyCsrfToken</code> active on <code>web</code> routes; send <code>@csrf</code> in forms and <code>X-CSRF-TOKEN</code> header on same-origin JS <code>fetch()</code> requests.</li><li>Set <code>SESSION_SECURE_COOKIE=true</code>, <code>httpOnly=true</code>, <code>same_site=lax</code> in HTTPS production.</li><li>Configure explicit frontend origins in <code>config/cors.php</code> instead of <code>*</code> when sending cookies/credentials across domains — and remember CORS is <strong>not</strong> authentication.</li></ul>
+<h2>4. Demo Project 1 — Creative Agency Controller (<code>PageController.php</code>)</h2>
 <div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">&lt;?php
 
 declare(strict_types=1);
@@ -1436,9 +1452,9 @@ final class PageController extends Controller
     public function services(): View
     {
         $services = [
-            [&#039;title&#039; =&gt; &#039;Laravel SaaS Engineering&#039;, &#039;desc&#039; =&gt; &#039;Multi-tenant backends with billing, queues, and APIs.&#039;],
+            [&#039;title&#039; =&gt; &#039;Laravel SaaS Engineering&#039;, &#039;desc&#039; =&gt; &#039;Multi-tenant backends with billing, queues &amp; APIs.&#039;],
             [&#039;title&#039; =&gt; &#039;Livewire &amp; Inertia UI&#039;, &#039;desc&#039; =&gt; &#039;Reactive interfaces powered by Tailwind CSS and Vite.&#039;],
-            [&#039;title&#039; =&gt; &#039;Performance &amp; Audits&#039;, &#039;desc&#039; =&gt; &#039;N+1 elimination, caching strategies, and zero-downtime CI/CD.&#039;],
+            [&#039;title&#039; =&gt; &#039;Performance Audits&#039;, &#039;desc&#039; =&gt; &#039;N+1 elimination, caching strategies &amp; zero-downtime deploys.&#039;],
         ];
 
         return view(&#039;pages.services&#039;, compact(&#039;services&#039;));
@@ -1448,136 +1464,256 @@ final class PageController extends Controller
     {
         return view(&#039;pages.contact&#039;, [&#039;email&#039; =&gt; &#039;hello@apexstudio.example&#039;]);
     }
-}</code></pre></div>
-<h3>Step 2: Routes (<code>routes/web.php</code>)</h3>
-<div class="callout callout-note">Note: Always verify the facade import path is <code>Illuminate\Support\Facades\Route</code>.</div>
+}</code></pre></div></div></article>
+<article class="chapter-card" id="ch-09" data-track="track-2"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-2">Track 2: Laravel Core</span><a class="source-link" href="chapters/09-blade-templates-components-and-vite/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">09.</span> Chapter 09 — Blade Templates, Partials, Deep-Dive Components, Directives &amp; Vite</h2><button type="button" class="done-toggle" data-ch="ch-09" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Complete modern UI guide uniting Blade escaping (<code>{{ }}</code>), layouts (<code>&lt;x-layout&gt;</code> vs <code>@extends</code>), full copy-pasteable <strong>Responsive Admin Shell &amp; Blog Card Grid Partials</strong>, <strong>Class-Based</strong>, <strong>Anonymous (<code>--view</code>)</strong>, and <strong>Inline (<code>--inline</code>)</strong> components, <strong><code>@aware</code></strong>, <strong><code>&lt;x-slot:header&gt;</code></strong>, <strong><code>$attributes-&gt;class()</code></strong>, <strong><code>: $shortAttr</code></strong>, custom <code>Blade::directive</code> in <code>AppServiceProvider</code>, and Tailwind v4 + Vite.</p>
+<h2>1. XSS Escaping, Loops, Stacks &amp; Layout Choice</h2>
+<div class="table-wrap"><table><thead><tr><th>Syntax</th><th>Purpose</th></tr></thead><tbody><tr><td><code>{{ $post-&gt;title }}</code></td><td>Automatic <code>htmlspecialchars</code> XSS escaping (<strong>default for all user output</strong>)</td></tr><tr><td><code>{!! $trustedHtml !!}</code></td><td>Unescaped output — ONLY after HTML-Purifier allowlisting</td></tr><tr><td><code>@forelse ($items as $x) ... @empty ... @endforelse</code></td><td>Clean empty-state iteration (always close with <code>@endforelse</code>)</td></tr><tr><td><code>@csrf</code> / <code>@method(&#039;PATCH&#039;)</code></td><td>CSRF token + HTML form verb spoofing</td></tr><tr><td><code>@error(&#039;field&#039;)</code> / <code>@can(&#039;update&#039;, $item)</code></td><td>Validation feedback &amp; policy UI toggles</td></tr><tr><td><code>@push(&#039;scripts&#039;)</code> / <code>@stack(&#039;scripts&#039;)</code> / <code>@once</code></td><td>Page/component script injection without duplication</td></tr></tbody></table></div>
+<h2>2. Full Responsive Admin Dashboard Layout &amp; Partials Kit</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan make:component AdminLayout
+mv resources/views/components/admin-layout.blade.php resources/views/layouts/admin.blade.php
+php artisan make:view admin.partials.head
+php artisan make:view admin.partials.sidebar
+php artisan make:view admin.partials.header
+php artisan make:view admin.partials.footer</code></pre></div>
+<p><code>app/View/Components/AdminLayout.php</code>:</p>
 <div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">&lt;?php
 
 declare(strict_types=1);
 
-use App\Http\Controllers\PageController;
-use Illuminate\Support\Facades\Route;
+namespace App\View\Components;
 
-Route::controller(PageController::class)-&gt;group(function () {
-    Route::get(&#039;/&#039;, &#039;home&#039;)-&gt;name(&#039;home&#039;);
-    Route::get(&#039;/services&#039;, &#039;services&#039;)-&gt;name(&#039;services&#039;);
-    Route::get(&#039;/contact&#039;, &#039;contact&#039;)-&gt;name(&#039;contact&#039;);
-});</code></pre></div>
-<h2>5. Returning Consistent JSON &amp; Download Responses</h2>
-<p>Besides <code>view(...)</code> and <code>redirect()-&gt;route(...)</code>, controllers frequently return JSON or file downloads:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">return response()-&gt;json([&#039;status&#039; =&gt; &#039;ok&#039;, &#039;created_at&#039; =&gt; now()], 201);
-return response()-&gt;download(storage_path(&#039;app/invoices/inv-01.pdf&#039;));
-return redirect()-&gt;route(&#039;services&#039;)-&gt;with(&#039;status&#039;, &#039;Inquiry sent!&#039;);</code></pre></div>
-<h2>Key Takeaways</h2>
-<ul><li>Use <strong>named routes</strong> (<code>-&gt;name(&#039;services&#039;)</code>) and <code>route(&#039;services&#039;)</code> in Blade/redirects so URL refactors never break templates.</li><li>Group shared controller routes with <code>Route::controller(PageController::class)</code> and model CRUD with <code>Route::resource(...)</code>.</li><li>Register custom middleware aliases inside <code>bootstrap/app.php</code>&#039;s <code>-&gt;withMiddleware()</code> callback.</li></ul></div></article>
-<article class="chapter-card" id="ch-09" data-track="track-2"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-2">Track 2: Laravel Core</span><a class="source-link" href="chapters/09-blade-templates-components-and-vite/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">09.</span> Chapter 09 — Blade Templates, Reusable Components &amp; Vite</h2><button type="button" class="done-toggle" data-ch="ch-09" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Blade is Laravel&#039;s compiled PHP templating engine. It compiles views down to cached vanilla PHP with zero runtime overhead, enforces <strong>automatic XSS escaping</strong>, and offers both <strong>Layout Inheritance (<code>@extends</code>)</strong> and modern <strong>Tag-Based Components (<code>&lt;x-layout&gt;</code>)</strong>.</p>
-<h2>1. XSS Escaping: <code>{{ }}</code> vs <code>{!! !!}</code></h2>
-<div class="table-wrap"><table><thead><tr><th>Syntax</th><th>Behavior</th><th>Use Case</th></tr></thead><tbody><tr><td><code>{{ $user-&gt;bio }}</code></td><td>Runs <code>htmlspecialchars(..., ENT_QUOTES, &#039;UTF-8&#039;)</code></td><td><strong>Default for ALL user input!</strong> Prevents <code>&lt;script&gt;</code> injection</td></tr><tr><td><code>{!! $trustedHtml !!}</code></td><td>Outputs raw unescaped HTML</td><td>ONLY after strict HTML sanitization (never raw user input!)</td></tr><tr><td><code>@{{ variable }}</code></td><td>Tells Blade to ignore braces</td><td>Passing mustache braces cleanly to Vue / Alpine.js</td></tr></tbody></table></div>
-<h2>2. Modern Component Layouts (<code>&lt;x-layouts.app&gt;</code>) vs <code>@extends</code></h2>
-<p>Modern Laravel starter kits favor <strong>Blade Components</strong> (<code>resources/views/components/layouts/app.blade.php</code>) because props, attributes (<code>$attributes-&gt;merge([...])</code>), and slots are explicit and composable:</p>
-<h3>Component Layout (<code>resources/views/components/layouts/app.blade.php</code>)</h3>
-<div class="code-block"><div class="code-head"><span class="code-lang">BLADE</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-blade">@props([&#039;title&#039; =&gt; &#039;Apex Studio&#039;])
+use Illuminate\Contracts\View\View;
+use Illuminate\View\Component;
 
-&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
+class AdminLayout extends Component
+{
+    public function __construct(public readonly string $title = &#039;Control Center | Admin&#039;) {}
+
+    public function render(): View
+    {
+        return view(&#039;layouts.admin&#039;);
+    }
+}</code></pre></div>
+<p><code>resources/views/layouts/admin.blade.php</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">BLADE</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-blade">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;{{ str_replace(&#039;_&#039;, &#039;-&#039;, app()-&gt;getLocale()) }}&quot;&gt;
 &lt;head&gt;
     &lt;meta charset=&quot;UTF-8&quot;&gt;
     &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-    &lt;title&gt;{{ $title }} — Creative Agency&lt;/title&gt;
+    &lt;title&gt;{{ $title }}&lt;/title&gt;
     @vite([&#039;resources/css/app.css&#039;, &#039;resources/js/app.js&#039;])
+    @include(&#039;admin.partials.head&#039;)
+    @stack(&#039;styles&#039;)
 &lt;/head&gt;
-&lt;body class=&quot;min-h-screen bg-slate-950 text-slate-100 antialiased flex flex-col&quot;&gt;
-    &lt;header class=&quot;border-b border-slate-800 px-6 py-4 flex items-center justify-between&quot;&gt;
-        &lt;a href=&quot;{{ route(&#039;home&#039;) }}&quot; class=&quot;font-bold text-indigo-400&quot;&gt;Apex Studio&lt;/a&gt;
-        &lt;nav class=&quot;flex gap-6 text-sm&quot;&gt;
-            &lt;a href=&quot;{{ route(&#039;home&#039;) }}&quot; class=&quot;{{ request()-&gt;routeIs(&#039;home&#039;) ? &#039;text-white font-semibold&#039; : &#039;text-slate-400&#039; }}&quot;&gt;Home&lt;/a&gt;
-            &lt;a href=&quot;{{ route(&#039;services&#039;) }}&quot; class=&quot;{{ request()-&gt;routeIs(&#039;services&#039;) ? &#039;text-white font-semibold&#039; : &#039;text-slate-400&#039; }}&quot;&gt;Services&lt;/a&gt;
-            &lt;a href=&quot;{{ route(&#039;contact&#039;) }}&quot; class=&quot;{{ request()-&gt;routeIs(&#039;contact&#039;) ? &#039;text-white font-semibold&#039; : &#039;text-slate-400&#039; }}&quot;&gt;Contact&lt;/a&gt;
-        &lt;/nav&gt;
-    &lt;/header&gt;
+&lt;body class=&quot;bg-slate-950 text-slate-100 antialiased&quot;&gt;
+&lt;div class=&quot;admin-layout-wrapper&quot; id=&quot;layoutWrapper&quot;&gt;
+    @include(&#039;admin.partials.sidebar&#039;)
 
-    &lt;main class=&quot;flex-1 max-w-5xl w-full mx-auto px-6 py-10&quot;&gt;
-        {{ $slot }}
-    &lt;/main&gt;
+    &lt;div class=&quot;main-content-area&quot;&gt;
+        @include(&#039;admin.partials.header&#039;)
 
-    &lt;footer class=&quot;border-t border-slate-800 py-6 text-center text-xs text-slate-500&quot;&gt;
-        &amp;copy; {{ date(&#039;Y&#039;) }} Apex Studio
-    &lt;/footer&gt;
+        &lt;main class=&quot;scrollable-body&quot;&gt;
+            @if (session(&#039;success&#039;))
+                &lt;x-alert type=&quot;success&quot; :message=&quot;session(&#039;success&#039;)&quot; /&gt;
+            @endif
+            @if (session(&#039;error&#039;))
+                &lt;x-alert type=&quot;error&quot; :message=&quot;session(&#039;error&#039;)&quot; /&gt;
+            @endif
+
+            {{ $slot }}
+        &lt;/main&gt;
+
+        @include(&#039;admin.partials.footer&#039;)
+    &lt;/div&gt;
+&lt;/div&gt;
+@stack(&#039;scripts&#039;)
 &lt;/body&gt;
 &lt;/html&gt;</code></pre></div>
-<h3>Consuming the Layout Component (<code>resources/views/pages/services.blade.php</code>)</h3>
-<div class="code-block"><div class="code-head"><span class="code-lang">BLADE</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-blade">&lt;x-layouts.app title=&quot;Our Services&quot;&gt;
-    &lt;h1 class=&quot;text-3xl font-bold mb-6&quot;&gt;Engineering Services&lt;/h1&gt;
+<h3>Partials (<code>head.blade.php</code>, <code>sidebar.blade.php</code>, <code>header.blade.php</code>, <code>footer.blade.php</code>)</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">BLADE</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-blade">{{-- resources/views/admin/partials/head.blade.php --}}
+&lt;style&gt;
+    :root { --sidebar-width: 260px; --header-height: 64px; --surface: #111827; --border: #1f2937; }
+    .admin-layout-wrapper { display: grid; grid-template-columns: var(--sidebar-width) 1fr; min-height: 100vh; transition: grid-template-columns 0.25s ease; }
+    .admin-layout-wrapper.collapsed { --sidebar-width: 76px; }
+    .sidebar-wrapper { background: var(--surface); border-right: 1px solid var(--border); padding: 1.25rem 0.9rem; display: flex; flex-direction: column; justify-content: space-between; }
+    .main-content-area { display: flex; flex-direction: column; min-width: 0; }
+    .header-wrapper { height: var(--header-height); background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; }
+    .scrollable-body { flex: 1; padding: 1.75rem; }
+    @media (max-width: 768px) {
+        .admin-layout-wrapper { grid-template-columns: 1fr; }
+        .sidebar-wrapper { position: fixed; inset: 0 auto 0 -100%; width: 250px; z-index: 50; transition: left 0.25s ease; }
+        .sidebar-wrapper.mobile-active { left: 0; }
+    }
+&lt;/style&gt;
 
-    &lt;div class=&quot;grid md:grid-cols-3 gap-6&quot;&gt;
-        @forelse($services as $service)
-            &lt;article class=&quot;rounded-xl border border-slate-800 bg-slate-900 p-6&quot;&gt;
-                &lt;h2 class=&quot;text-lg font-semibold text-indigo-300&quot;&gt;{{ $service[&#039;title&#039;] }}&lt;/h2&gt;
-                &lt;p class=&quot;mt-2 text-sm text-slate-400&quot;&gt;{{ $service[&#039;desc&#039;] }}&lt;/p&gt;
-            &lt;/article&gt;
-        @empty
-            &lt;p class=&quot;text-slate-400&quot;&gt;No services listed yet.&lt;/p&gt;
-        @endforelse
+{{-- resources/views/admin/partials/sidebar.blade.php --}}
+&lt;aside class=&quot;sidebar-wrapper&quot; id=&quot;sidebar&quot;&gt;
+    &lt;div&gt;
+        &lt;div class=&quot;font-bold text-lg text-rose-500 mb-6 px-2&quot;&gt;Admin Portal&lt;/div&gt;
+        &lt;nav class=&quot;flex flex-col gap-1 text-sm&quot;&gt;
+            &lt;a href=&quot;{{ route(&#039;admin.dashboard&#039;) }}&quot; @class([&#039;px-3 py-2 rounded-lg&#039;, &#039;bg-rose-500/15 text-white&#039; =&gt; request()-&gt;routeIs(&#039;admin.dashboard&#039;)])&gt;Dashboard&lt;/a&gt;
+            &lt;a href=&quot;{{ route(&#039;posts.index&#039;) }}&quot; @class([&#039;px-3 py-2 rounded-lg&#039;, &#039;bg-rose-500/15 text-white&#039; =&gt; request()-&gt;routeIs(&#039;posts.*&#039;)])&gt;Posts&lt;/a&gt;
+        &lt;/nav&gt;
     &lt;/div&gt;
-&lt;/x-layouts.app&gt;</code></pre></div>
-<div class="callout callout-note"><strong>Note:</strong> Notice <code>@forelse ... @empty ... @endforelse</code>! Always close with <code>@endforelse</code> (never a duplicate <code>@forelse</code>), otherwise Blade throws a syntax error when compiling the view.</div>
-<h3>Classic <code>@extends</code> / <code>@section</code> Inheritance</h3>
-<p>You will also frequently encounter traditional layout inheritance in existing projects:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">BLADE</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-blade">{{-- resources/views/layouts/master.blade.php --}}
-&lt;main&gt;@yield(&#039;content&#039;)&lt;/main&gt;
+    &lt;form action=&quot;{{ route(&#039;admin.logout&#039;) }}&quot; method=&quot;POST&quot;&gt;
+        @csrf
+        &lt;button type=&quot;submit&quot; class=&quot;w-full text-left px-3 py-2 text-sm text-rose-400 hover:bg-rose-500/10 rounded-lg&quot;&gt;
+            Sign Out
+        &lt;/button&gt;
+    &lt;/form&gt;
+&lt;/aside&gt;
 
-{{-- resources/views/child.blade.php --}}
-@extends(&#039;layouts.master&#039;)
-@section(&#039;content&#039;)
-    &lt;h1&gt;Hello!&lt;/h1&gt;
-@endsection</code></pre></div>
-<h2>3. Essential Blade Directives Cheat Table</h2>
-<div class="table-wrap"><table><thead><tr><th>Directive</th><th>Purpose</th></tr></thead><tbody><tr><td><code>@csrf</code></td><td>Injects hidden CSRF token field inside every <code>&lt;form method=&quot;POST&quot;&gt;</code></td></tr><tr><td><code>@method(&#039;PATCH&#039;)</code> / <code>@method(&#039;DELETE&#039;)</code></td><td>Spoofs HTTP verbs for HTML forms (which natively only support GET/POST)</td></tr><tr><td><code>@error(&#039;title&#039;) ... @enderror</code></td><td>Renders validation error message for field <code>&#039;title&#039;</code></td></tr><tr><td><code>@class([&#039;p-4&#039;, &#039;bg-emerald-50&#039; =&gt; $isPaid])</code></td><td>Conditional CSS classes cleanly</td></tr><tr><td><code>@auth</code> / <code>@guest</code></td><td>Toggle UI based on authenticated session</td></tr><tr><td><code>@can(&#039;update&#039;, $task)</code></td><td>Check Policy permission before showing Edit/Delete buttons</td></tr></tbody></table></div>
-<h2>4. Asset Bundling with Vite (<code>vite.config.js</code>)</h2>
-<p>Laravel ships with Vite + Tailwind CSS out of the box. Inside <code>resources/css/app.css</code> (Tailwind v4 syntax in Laravel 12/13):</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">CSS</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-css">@import &quot;tailwindcss&quot;;</code></pre></div>
-<p>In development run <code>npm run dev</code> (instant Hot Module Replacement). Before deploying to production, run <code>npm run build</code> to compile fingerprinted CSS/JS bundles into <code>public/build/manifest.json</code> — <code>@vite([...])</code> automatically switches between the dev server and production manifest!</p>
-<h2>Key Takeaways</h2>
-<ul><li>Always render untrusted strings with <code>{{ ... }}</code>, reserving <code>{!! ... !!}</code> solely for sanitized HTML.</li><li>Use <code>&lt;x-component&gt;</code> anonymous Blade components (<code>resources/views/components/</code>) for buttons, alerts, cards, and layouts.</li><li>Never forget <code>@csrf</code> and <code>@method(&#039;PUT&#039;|&#039;DELETE&#039;)</code> in Blade mutation forms.</li></ul></div></article>
-<article class="chapter-card" id="ch-10" data-track="track-2"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-2">Track 2: Laravel Core</span><a class="source-link" href="chapters/10-migrations-eloquent-models-and-relationships/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">10.</span> Chapter 10 — Migrations, Eloquent ORM, Relationships &amp; Demo Project 2 (DevBlog)</h2><button type="button" class="done-toggle" data-ch="ch-10" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Eloquent is Laravel&#039;s Active Record ORM. Instead of writing repetitive SQL joins and manual array hydration, you define versioned <strong>Migrations</strong>, strongly-typed <strong>Models</strong>, <strong>Relationships</strong> (<code>hasMany</code>, <code>belongsTo</code>, <code>belongsToMany</code>), and <strong>Factories/Seeders</strong> for repeatable development and tests.</p>
-<h2>1. Zero-Config Database Setup (SQLite Default)</h2>
-<p>Fresh Laravel 12/13 apps default to <strong>SQLite</strong> in <code>.env</code>, stored at <code>database/database.sqlite</code>:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">DOTENV</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-dotenv">DB_CONNECTION=sqlite</code></pre></div>
-<p>Switching later to PostgreSQL or MySQL only requires updating <code>.env</code> (<code>DB_CONNECTION=pgsql</code>, <code>DB_HOST</code>, <code>DB_DATABASE</code>, <code>DB_USERNAME</code>, <code>DB_PASSWORD</code>) — your Migrations and Eloquent queries stay portable!</p>
-<h2>2. Demo Project 2 — DevBlog Platform (Posts, Authors &amp; Tags)</h2>
-<h3>Step 1: Generate Model, Migration, Factory, Seeder &amp; Controller Together</h3>
-<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan make:model Post -mfsc
-# -m = Migration, -f = Factory, -s = Seeder, -c = Controller</code></pre></div>
-<h3>Step 2: Author Foreign Key &amp; Blog Schema Migration</h3>
-<p>Inside <code>database/migrations/*_create_posts_table.php</code>:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+{{-- resources/views/admin/partials/header.blade.php --}}
+&lt;header class=&quot;header-wrapper&quot;&gt;
+    &lt;button type=&quot;button&quot; class=&quot;toggle-btn text-xl px-2 py-1 rounded border border-slate-700&quot; onclick=&quot;toggleSidebar()&quot;&gt;&amp;#9776;&lt;/button&gt;
+    &lt;span class=&quot;text-sm font-medium&quot;&gt;{{ auth(&#039;admin&#039;)-&gt;user()?-&gt;name ?? &#039;Administrator&#039; }}&lt;/span&gt;
+&lt;/header&gt;
 
-return new class extends Migration
+{{-- resources/views/admin/partials/footer.blade.php --}}
+&lt;footer class=&quot;border-t border-slate-800 px-6 py-4 text-xs text-slate-400 text-center&quot;&gt;
+    &amp;copy; {{ date(&#039;Y&#039;) }} Powered by Laravel
+&lt;/footer&gt;</code></pre></div>
+<h3>Public Blog Grid Layout (<code>resources/views/layouts/blog.blade.php</code>)</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">BLADE</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-blade">@props([&#039;title&#039; =&gt; &#039;DevBlog&#039;])
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;{{ str_replace(&#039;_&#039;, &#039;-&#039;, app()-&gt;getLocale()) }}&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;{{ $title }}&lt;/title&gt;
+    @vite([&#039;resources/css/app.css&#039;, &#039;resources/js/app.js&#039;])
+&lt;/head&gt;
+&lt;body class=&quot;bg-slate-950 text-slate-100 min-h-screen flex flex-col&quot;&gt;
+    &lt;main class=&quot;max-w-6xl w-full mx-auto px-6 py-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6 flex-1&quot;&gt;
+        {{ $slot }}
+    &lt;/main&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>
+<h2>3. Blade Components: Class-Based, Anonymous (<code>--view</code>) &amp; Inline (<code>--inline</code>)</h2>
+<div class="table-wrap"><table><thead><tr><th>Style</th><th>Artisan Command</th><th>When to Use</th></tr></thead><tbody><tr><td><strong>Class-Based</strong></td><td><code>php artisan make:component Alert</code></td><td>Computed helper logic, constructor dependencies, backend state</td></tr><tr><td><strong>Anonymous (<code>--view</code>)</strong></td><td><code>php artisan make:component forms.input --view</code></td><td>Markup-only form controls, cards, badges (<code>@props</code>, <code>$attributes</code>)</td></tr><tr><td><strong>Inline (<code>--inline</code>)</strong></td><td><code>php artisan make:component AlertBox --inline</code></td><td>Compact single-file PHP component returning inline markup</td></tr></tbody></table></div>
+<h3>Class-Based Alert (<code>app/View/Components/Alert.php</code> + <code>resources/views/components/alert.blade.php</code>)</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">final class Alert extends Component
 {
-    public function up(): void
+    public function __construct(
+        public readonly string $type = &#039;info&#039;,
+        public readonly string $message = &#039;&#039;,
+    ) {}
+
+    public function paletteClass(): string
     {
-        Schema::create(&#039;posts&#039;, function (Blueprint $table) {
-            $table-&gt;id();
-            $table-&gt;foreignId(&#039;user_id&#039;)-&gt;constrained()-&gt;cascadeOnDelete();
-            $table-&gt;string(&#039;title&#039;);
-            $table-&gt;string(&#039;slug&#039;)-&gt;unique();
-            $table-&gt;text(&#039;body&#039;);
-            $table-&gt;boolean(&#039;is_published&#039;)-&gt;default(false)-&gt;index();
-            $table-&gt;timestamp(&#039;published_at&#039;)-&gt;nullable();
-            $table-&gt;timestamps();
-        });
+        return match ($this-&gt;type) {
+            &#039;success&#039; =&gt; &#039;border-emerald-600 bg-emerald-950/60 text-emerald-200&#039;,
+            &#039;error&#039; =&gt; &#039;border-rose-600 bg-rose-950/60 text-rose-200&#039;,
+            default =&gt; &#039;border-indigo-600 bg-indigo-950/60 text-indigo-200&#039;,
+        };
     }
 
-    public function down(): void
+    public function render(): View
     {
-        Schema::dropIfExists(&#039;posts&#039;);
+        return view(&#039;components.alert&#039;);
     }
-};</code></pre></div>
-<p>Run it with <code>php artisan migrate</code>.</p>
-<h2>3. Eloquent Model: <code>$fillable</code>, <code>casts(): array</code>, Scopes &amp; Laravel 13 Attributes</h2>
-<p>In <code>app/Models/Post.php</code>:</p>
+}</code></pre></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">BLADE</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-blade">&lt;div {{ $attributes-&gt;merge([&#039;class&#039; =&gt; &#039;rounded-lg border px-4 py-3 mb-4 text-sm &#039; . $paletteClass()]) }}&gt;
+    {{ $message ?: $slot }}
+&lt;/div&gt;</code></pre></div>
+<h3>Anonymous Input (<code>resources/views/components/forms/input.blade.php</code>) + <code>@aware</code> &amp; Short Syntax</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">BLADE</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-blade">@props([&#039;name&#039;, &#039;label&#039; =&gt; null, &#039;type&#039; =&gt; &#039;text&#039;, &#039;value&#039; =&gt; &#039;&#039;])
+
+&lt;div class=&quot;space-y-1&quot;&gt;
+    &lt;label for=&quot;{{ $name }}&quot; class=&quot;block text-sm font-medium&quot;&gt;
+        {{ $label ?? ucfirst(str_replace(&#039;_&#039;, &#039; &#039;, $name)) }}
+    &lt;/label&gt;
+    &lt;input
+        id=&quot;{{ $name }}&quot;
+        name=&quot;{{ $name }}&quot;
+        type=&quot;{{ $type }}&quot;
+        value=&quot;{{ old($name, $value) }}&quot;
+        {{ $attributes-&gt;class([&#039;w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2&#039;, &#039;border-rose-500&#039; =&gt; $errors-&gt;has($name)]) }}
+    &gt;
+    @error($name)
+        &lt;p class=&quot;text-xs text-rose-400&quot;&gt;{{ $message }}&lt;/p&gt;
+    @enderror
+&lt;/div&gt;</code></pre></div>
+<ul><li><strong>Short Attribute Syntax</strong>: <code>&lt;x-profile :$userId /&gt;</code> instead of <code>&lt;x-profile :user-id=&quot;$userId&quot; /&gt;</code>.</li><li><strong>Named Slots</strong>: <code>&lt;x-slot:header&gt;&lt;h1&gt;Title&lt;/h1&gt;&lt;/x-slot:header&gt;</code>.</li><li><strong><code>@aware([&#039;density&#039; =&gt; &#039;compact&#039;])</code></strong>: Child components inherit parent props without manual prop forwarding.</li><li><strong>Custom Directives in <code>AppServiceProvider::boot()</code></strong>:</li></ul>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">  Blade::directive(&#039;truncate&#039;, function (string $expression): string {
+      return &quot;&lt;?php echo e(\\Illuminate\\Support\\Str::limit({$expression})); ?&gt;&quot;;
+  });</code></pre></div>
+<p>Run <code>php artisan view:clear</code> after modifying directives.</p>
+<h2>4. Tailwind v4, Vite Asset Pipeline &amp; Responsive Drawer JS</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">CSS</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-css">/* resources/css/app.css (Tailwind v4) */
+@import &quot;tailwindcss&quot;;</code></pre></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">JAVASCRIPT</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-javascript">// resources/js/app.js
+const wrapper = document.getElementById(&#039;layoutWrapper&#039;);
+const sidebar = document.getElementById(&#039;sidebar&#039;);
+
+window.toggleSidebar = () =&gt; {
+    if (window.innerWidth &lt;= 768) {
+        sidebar?.classList.toggle(&#039;mobile-active&#039;);
+    } else {
+        wrapper?.classList.toggle(&#039;collapsed&#039;);
+    }
+};
+
+document.addEventListener(&#039;click&#039;, (e) =&gt; {
+    if (window.innerWidth &lt;= 768 &amp;&amp; sidebar?.classList.contains(&#039;mobile-active&#039;) &amp;&amp; !sidebar.contains(e.target) &amp;&amp; !e.target.closest(&#039;.toggle-btn&#039;)) {
+        sidebar.classList.remove(&#039;mobile-active&#039;);
+    }
+});</code></pre></div>
+<p>Run <code>npm run dev</code> during local coding and <code>npm run build</code> ahead of production deployment (<code>public/build/manifest.json</code>).</p></div></article>
+<article class="chapter-card" id="ch-10" data-track="track-2"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-2">Track 2: Laravel Core</span><a class="source-link" href="chapters/10-migrations-eloquent-models-and-relationships/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">10.</span> Chapter 10 — SQL, Migrations, Faker, Seeders, Eloquent CRUD &amp; DevBlog Project</h2><button type="button" class="done-toggle" data-ch="ch-10" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Master relational SQL subdivisions, zero-config SQLite &amp; <code>.env</code> DB setup, schema blueprints, modern <strong>Faker (<code>fake()</code>)</strong>, States, <code>Sequence</code>, &amp; <code>-&gt;recycle()</code>, idempotent Seeders, full 7-action <strong><code>PostController</code> CRUD</strong>, continuous pagination (<code>$posts-&gt;firstItem() + $loop-&gt;index</code>), Carbon <code>diffForHumans()</code>, relationships (<code>hasOne</code>, <code>hasMany</code>/<code>belongsTo</code>, <code>belongsToMany</code> pivots), and <strong>N+1 prevention</strong> (<code>with()</code> + <code>Model::preventLazyLoading()</code>).</p>
+<h2>1. SQL Foundations Quick Map &amp; Database Configuration</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">TEXT</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-text">SQL
+├── DDL (Definition)   ── CREATE, ALTER, DROP, Indexes, Foreign Keys, UNIQUE
+├── DML (Manipulation) ── INSERT, UPDATE, DELETE
+├── DQL (Queries)      ── SELECT, FROM (INNER/LEFT/RIGHT/CROSS JOIN), WHERE, GROUP BY, HAVING, ORDER BY, LIMIT
+├── DCL (Security)     ── GRANT, REVOKE (least-privilege application DB user)
+├── TCL (Transactions) ── START TRANSACTION, COMMIT, ROLLBACK
+└── Core Types         ── BIGINT/INT, VARCHAR/TEXT, TIMESTAMP, BOOLEAN, JSON, DECIMAL(p,s)</code></pre></div>
+<p>Local development defaults cleanly to SQLite (<code>DB_CONNECTION=sqlite</code>); configure MySQL/PostgreSQL in <code>.env</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">DOTENV</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-dotenv">DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel_cms
+DB_USERNAME=app_user
+DB_PASSWORD=strong-secret
+APP_FAKER_LOCALE=en_US</code></pre></div>
+<h2>2. Demo Project 2 — DevBlog Schemas (<code>Category</code>, <code>Tag</code>, <code>Post</code>, <code>post_tag</code>)</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan make:model Category -mfs
+php artisan make:model Tag -mfs
+php artisan make:model Post -mfsc --resource
+php artisan make:migration create_post_tag_table</code></pre></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// create_categories_table
+Schema::create(&#039;categories&#039;, function (Blueprint $table) {
+    $table-&gt;id();
+    $table-&gt;string(&#039;name&#039;, 100);
+    $table-&gt;string(&#039;slug&#039;)-&gt;unique();
+    $table-&gt;timestamps();
+});
+
+// create_posts_table
+Schema::create(&#039;posts&#039;, function (Blueprint $table) {
+    $table-&gt;id();
+    $table-&gt;foreignId(&#039;user_id&#039;)-&gt;constrained()-&gt;cascadeOnDelete();
+    $table-&gt;foreignId(&#039;category_id&#039;)-&gt;nullable()-&gt;constrained()-&gt;nullOnDelete();
+    $table-&gt;string(&#039;title&#039;, 180);
+    $table-&gt;string(&#039;slug&#039;)-&gt;unique();
+    $table-&gt;longText(&#039;body&#039;);
+    $table-&gt;string(&#039;cover_path&#039;)-&gt;nullable();
+    $table-&gt;string(&#039;status&#039;, 20)-&gt;default(&#039;draft&#039;)-&gt;index();
+    $table-&gt;timestamp(&#039;published_at&#039;)-&gt;nullable()-&gt;index();
+    $table-&gt;timestamps();
+    $table-&gt;softDeletes();
+});
+
+// create_post_tag_table (Many-to-Many Pivot Junction Table)
+Schema::create(&#039;post_tag&#039;, function (Blueprint $table) {
+    $table-&gt;foreignId(&#039;post_id&#039;)-&gt;constrained()-&gt;cascadeOnDelete();
+    $table-&gt;foreignId(&#039;tag_id&#039;)-&gt;constrained()-&gt;cascadeOnDelete();
+    $table-&gt;primary([&#039;post_id&#039;, &#039;tag_id&#039;]);
+    $table-&gt;timestamps();
+});</code></pre></div>
+<h2>3. Eloquent Model, Relationships, Scopes &amp; Laravel 13 Attributes</h2>
 <div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">&lt;?php
 
 declare(strict_types=1);
@@ -1589,26 +1725,26 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    // Protect against Mass Assignment (remember Chapter 03: keep protected!)
     protected $fillable = [
         &#039;user_id&#039;,
+        &#039;category_id&#039;,
         &#039;title&#039;,
         &#039;slug&#039;,
         &#039;body&#039;,
-        &#039;is_published&#039;,
+        &#039;cover_path&#039;,
+        &#039;status&#039;,
         &#039;published_at&#039;,
     ];
 
-    // Modern method-based casts (supports Enums, Carbon datetimes, booleans)
     protected function casts(): array
     {
         return [
-            &#039;is_published&#039; =&gt; &#039;boolean&#039;,
             &#039;published_at&#039; =&gt; &#039;datetime&#039;,
         ];
     }
@@ -1618,67 +1754,108 @@ class Post extends Model
         return $this-&gt;belongsTo(User::class, &#039;user_id&#039;);
     }
 
+    public function category(): BelongsTo
+    {
+        return $this-&gt;belongsTo(Category::class);
+    }
+
     public function tags(): BelongsToMany
     {
         return $this-&gt;belongsToMany(Tag::class)-&gt;withTimestamps();
     }
 
-    // Reusable query scope: Post::published()-&gt;latest()-&gt;paginate(10)
     public function scopePublished(Builder $query): void
     {
-        $query-&gt;where(&#039;is_published&#039;, true);
+        $query-&gt;where(&#039;status&#039;, &#039;published&#039;)-&gt;whereNotNull(&#039;published_at&#039;);
     }
 }</code></pre></div>
-<div class="callout callout-tip"><strong>Tip:</strong> <strong>Laravel 13 Alternative (PHP Attributes on Models)</strong><br>In Laravel 13, you can also declare model metadata using attributes right above the class:<br><code>#[Table(&#039;posts&#039;)]</code>, <code>#[Fillable([&#039;title&#039;, &#039;slug&#039;, &#039;body&#039;])]</code>, <code>#[Hidden([&#039;secret_token&#039;])]</code>.</div>
-<h2>4. Database Seeders &amp; Factories (<code>database/seeders/DatabaseSeeder.php</code>)</h2>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// database/factories/PostFactory.php -&gt; definition()
-return [
-    &#039;user_id&#039; =&gt; User::factory(),
-    &#039;title&#039; =&gt; $title = fake()-&gt;sentence(6),
-    &#039;slug&#039; =&gt; str($title)-&gt;slug() . &#039;-&#039; . fake()-&gt;unique()-&gt;numberBetween(100, 999),
-    &#039;body&#039; =&gt; fake()-&gt;paragraphs(4, asText: true),
-    &#039;is_published&#039; =&gt; true,
-    &#039;published_at&#039; =&gt; now()-&gt;subDays(rand(0, 30)),
-];</code></pre></div>
-<p>Seed 10 posts across 2 authors in <code>DatabaseSeeder.php</code>:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">User::factory(2)
-    -&gt;has(Post::factory()-&gt;count(5), &#039;posts&#039;)
-    -&gt;create();</code></pre></div>
-<p>Run: <code>php artisan migrate:fresh --seed</code>.</p>
-<h2>5. Eager Loading (<code>with()</code>) vs the N+1 Query Trap</h2>
-<p>Never access <code>$post-&gt;author-&gt;name</code> inside a <code>@foreach</code> loop without eager loading!</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// BAD (N+1 queries: 1 query for 20 posts + 20 extra SELECT queries for authors!):
-$posts = Post::published()-&gt;latest()-&gt;get();
-
-// GOOD (Exactly 2 queries total using WHERE id IN (...)):
-$posts = Post::with([&#039;author:id,name&#039;, &#039;tags:id,name&#039;])
-    -&gt;published()
-    -&gt;latest(&#039;published_at&#039;)
-    -&gt;paginate(10);</code></pre></div>
-<p>Enable strict N+1 prevention during local development inside <code>AppServiceProvider::boot()</code>:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">Model::preventLazyLoading(! app()-&gt;isProduction());</code></pre></div>
-<h3>Controller &amp; Routes (<code>PostController.php</code>)</h3>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">public function index(): View
+<div class="callout callout-tip"><strong>Tip:</strong> <strong>Laravel 13 Alternative (PHP Attributes on Models)</strong><br>Declare <code>#[Table(name: &#039;posts&#039;)]</code>, <code>#[Fillable([&#039;user_id&#039;, &#039;title&#039;, &#039;slug&#039;, &#039;body&#039;])]</code>, and <code>#[Hidden([&#039;secret_notes&#039;])]</code> right above the class!</div>
+<h2>4. Faker, Factories (<code>fake()</code>, States, <code>Sequence</code>, <code>-&gt;recycle()</code>) &amp; Seeders</h2>
+<p>Laravel ships <strong><code>fakerphp/faker</code></strong> out of the box (in <code>composer.json</code> <code>require-dev</code>) together with the global <strong><code>fake()</code></strong> helper. Control locale via <code>.env</code> <code>APP_FAKER_LOCALE=en_US</code> or pass a locale directly: <code>fake(&#039;fr_FR&#039;)-&gt;name()</code>.</p>
+<h3>Essential Faker Providers &amp; Modifiers Reference</h3>
+<div class="table-wrap"><table><thead><tr><th>Category</th><th>Faker Call</th><th>Notes</th></tr></thead><tbody><tr><td><strong>Identity &amp; Email</strong></td><td><code>fake()-&gt;name()</code>, <code>fake()-&gt;unique()-&gt;safeEmail()</code></td><td>Unique valid <code>@example.*</code> test addresses</td></tr><tr><td><strong>Locations</strong></td><td><code>fake()-&gt;address()</code>, <code>fake()-&gt;city()</code>, <code>fake()-&gt;country()</code></td><td>Locale-aware via <code>APP_FAKER_LOCALE</code></td></tr><tr><td><strong>Text &amp; Paragraphs</strong></td><td><code>fake()-&gt;sentence(5)</code>, <code>fake()-&gt;paragraphs(4, asText: true)</code></td><td>Set <code>asText: true</code> to return a single newline string</td></tr><tr><td><strong>Numbers &amp; Booleans</strong></td><td><code>fake()-&gt;numberBetween(100, 999)</code>, <code>fake()-&gt;boolean(75)</code></td><td><code>boolean(75)</code> yields <code>true</code> ~75% of calls</td></tr><tr><td><strong>Dates &amp; Placeholders</strong></td><td><code>fake()-&gt;dateTimeBetween(&#039;-60 days&#039;, &#039;now&#039;)</code>, <code>fake()-&gt;imageUrl(640, 480)</code></td><td>Deterministic historical date windows</td></tr><tr><td><strong>Choices &amp; Nullables</strong></td><td><code>fake()-&gt;randomElement([&#039;draft&#039;, &#039;published&#039;])</code>, <code>fake()-&gt;optional(0.75)-&gt;dateTime()</code></td><td>Cleanly generates null ~25% of the time</td></tr></tbody></table></div>
+<div class="callout callout-warning"><strong>Warning:</strong> <strong>Production <code>--no-dev</code> Faker Gotcha</strong><br>Since <code>fakerphp/faker</code> resides under <code>require-dev</code>, running seeders calling <code>fake()</code> or factories after <code>composer install --no-dev</code> throws <code>Class &quot;Faker\Factory&quot; not found</code>. Reserve Faker for dev/staging/tests; use deterministic <code>firstOrCreate()</code> seeders in production!</div>
+<h3>Factory (<code>database/factories/PostFactory.php</code>) &amp; Custom Seeders</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">public function definition(): array
 {
-    $posts = Post::with(&#039;author&#039;)
-        -&gt;published()
-        -&gt;latest(&#039;published_at&#039;)
-        -&gt;paginate(10);
+    $title = fake()-&gt;unique()-&gt;sentence(5);
 
-    return view(&#039;blog.index&#039;, compact(&#039;posts&#039;));
+    return [
+        &#039;user_id&#039; =&gt; User::factory(),
+        &#039;category_id&#039; =&gt; Category::factory(),
+        &#039;title&#039; =&gt; $title,
+        &#039;slug&#039; =&gt; str($title)-&gt;slug() . &#039;-&#039; . fake()-&gt;numberBetween(100, 999),
+        &#039;body&#039; =&gt; fake()-&gt;paragraphs(4, asText: true),
+        &#039;status&#039; =&gt; &#039;draft&#039;,
+        &#039;published_at&#039; =&gt; null,
+    ];
 }
 
-public function show(Post $post): View // Route model binding via {post:slug}
+public function published(): static
 {
-    abort_unless($post-&gt;is_published, 404);
-    $post-&gt;load(&#039;author&#039;, &#039;tags&#039;);
-
-    return view(&#039;blog.show&#039;, compact(&#039;post&#039;));
+    return $this-&gt;state(fn () =&gt; [
+        &#039;status&#039; =&gt; &#039;published&#039;,
+        &#039;published_at&#039; =&gt; fake()-&gt;dateTimeBetween(&#039;-60 days&#039;, &#039;now&#039;),
+    ]);
 }</code></pre></div>
-<h2>Key Takeaways</h2>
-<ul><li>Always define <code>$fillable</code> (never accept unvalidated <code>$request-&gt;all()</code> directly into <code>create()</code>).</li><li>Prefer <code>protected function casts(): array</code> for booleans, datetimes, JSON, and Backed Enums.</li><li>Pair <code>Model::preventLazyLoading(! app()-&gt;isProduction())</code> with <code>.with([...])</code> to eliminate N+1 bugs permanently.</li></ul>
+<p><code>database/seeders/DatabaseSeeder.php</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">public function run(): void
+{
+    $this-&gt;call([AdminSeeder::class]);
+
+    $authors = User::factory(5)-&gt;create();
+    $categories = Category::factory(4)-&gt;create();
+    $tags = Tag::factory(8)-&gt;create();
+
+    Post::factory(40)
+        -&gt;published()
+        -&gt;recycle($authors)      // Reuses the 5 authors cleanly without spawning 40 extra users!
+        -&gt;recycle($categories)
+        -&gt;create()
+        -&gt;each(fn (Post $post) =&gt; $post-&gt;tags()-&gt;attach($tags-&gt;random(rand(1, 3))));
+}</code></pre></div>
+<p>Execute with:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan migrate:status
+php artisan migrate --pretend      # Dry-run SQL inspection
+php artisan migrate
+php artisan db:seed
+php artisan migrate:fresh --seed   # DEV ONLY! Drops EVERY table — never run on production!</code></pre></div>
+<h2>5. Complete Resource Controller, Continuous Pagination &amp; N+1 Fix</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// app/Http/Controllers/PostController.php
+final class PostController extends Controller
+{
+    public function index(): View
+    {
+        // Eager loading runs 2-3 IN(...) queries total regardless of page size!
+        $posts = Post::with([&#039;author:id,name&#039;, &#039;category:id,name&#039;, &#039;tags:id,name&#039;])
+            -&gt;latest(&#039;created_at&#039;)
+            -&gt;paginate(15);
+
+        return view(&#039;posts.index&#039;, compact(&#039;posts&#039;));
+    }
+
+    public function show(Post $post): View
+    {
+        $post-&gt;load([&#039;author:id,name&#039;, &#039;category:id,name&#039;, &#039;tags:id,name&#039;]);
+        return view(&#039;posts.show&#039;, compact(&#039;post&#039;));
+    }
+}</code></pre></div>
+<p>Paginated Blade table preserving continuous item indices (<code>$posts-&gt;firstItem() + $loop-&gt;index</code>) and human-readable Carbon timestamps:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">BLADE</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-blade">@forelse ($posts as $post)
+    &lt;tr&gt;
+        &lt;td&gt;{{ $posts-&gt;firstItem() + $loop-&gt;index }}&lt;/td&gt;
+        &lt;td&gt;&lt;a href=&quot;{{ route(&#039;posts.show&#039;, $post) }}&quot;&gt;{{ $post-&gt;title }}&lt;/a&gt;&lt;/td&gt;
+        &lt;td&gt;{{ $post-&gt;author?-&gt;name ?? &#039;Unknown&#039; }}&lt;/td&gt;
+        &lt;td&gt;{{ $post-&gt;created_at?-&gt;diffForHumans() ?? &#039;Not recorded&#039; }}&lt;/td&gt;
+    &lt;/tr&gt;
+@empty
+    &lt;tr&gt;&lt;td colspan=&quot;4&quot;&gt;No posts found.&lt;/td&gt;&lt;/tr&gt;
+@endforelse
+{{ $posts-&gt;links() }}</code></pre></div>
+<p>Enable local lazy-load guard in <code>AppServiceProvider::boot()</code> and prefer flat <code>DB::table()-&gt;join()</code> queries only for heavy un-hydrated analytics tables:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">Model::preventLazyLoading(! app()-&gt;isProduction());</code></pre></div>
 <h2>Try It Locally</h2>
-<p>Run our SQLite in-memory lab simulating Eloquent&#039;s <strong>N+1 vs Eager Loading (<code>IN (...)</code> batch query)</strong> and hydration:</p>
+<p>Run our SQLite in-memory lab verifying lazy N+1 query counts vs batched eager loading (<code>IN (...)</code>):</p>
 <div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php chapters/10-migrations-eloquent-models-and-relationships/lab.php</code></pre></div><div class="labs-box"><h3>Verified Runnable Lab</h3><details class="lab-details"><summary><span><code>lab.php</code></span><span class="lab-link-wrap"><a href="chapters/10-migrations-eloquent-models-and-relationships/lab.php" class="md-link" onclick="event.stopPropagation()">Open file &rarr;</a></span></summary><div class="code-block"><div class="code-head"><span class="code-lang">PHP &middot; lab.php</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">&lt;?php
 
 declare(strict_types=1);
@@ -1754,95 +1931,71 @@ unset($ep);
 
 echo &quot;Eager loading (with(&#039;author&#039;)) ran ONLY {$eagerQueries} SQL queries!&quot; . PHP_EOL;
 echo &#039;Sample hydrated row: &#039; . json_encode($eagerPosts[0], JSON_THROW_ON_ERROR) . PHP_EOL;</code></pre></div></details></div></div></article>
-<article class="chapter-card" id="ch-11" data-track="track-2"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-2">Track 2: Laravel Core</span><a class="source-link" href="chapters/11-forms-validation-policies-and-auth-crud/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">11.</span> Chapter 11 — Forms, Validation, Policies &amp; Demo Project 3 (Auth Task Manager)</h2><button type="button" class="done-toggle" data-ch="ch-11" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Real applications require authentication, ownership checks, server-side validation (<code>FormRequest</code>), CSRF protection, and flash feedback. In this chapter we build a complete <strong>Authenticated Task Manager CRUD App</strong> cleanly on modern Laravel 12/13 patterns.</p>
-<h2>1. Choosing Authentication in Laravel 12 / 13</h2>
-<p>Modern <code>laravel new</code> gives you maintained, batteries-included <strong>Starter Kits</strong> right out of the box (superseding standalone legacy <code>laravel/breeze</code> for new projects, though Breeze/Fortify remain common in existing Laravel 11/12 apps):</p>
-<ul><li><strong>Livewire Starter Kit</strong>: Livewire 4 + Flux UI + Volt (reactive server-rendered PHP — zero separate SPA needed).</li><li><strong>React / Vue Starter Kit</strong>: Inertia 2 + TypeScript + Tailwind CSS v4 + shadcn/ui components.</li><li><strong>WorkOS AuthKit Option</strong>: Enterprise SSO, passkeys, and social OAuth via <code>laravel new --workos</code>.</li><li><strong>Classic Blade + Breeze</strong>: <code>composer require laravel/breeze --dev &amp;&amp; php artisan breeze:install blade</code> if you specifically prefer plain Blade controllers on Laravel 11/12.</li></ul>
-<p>Whichever kit you pick, every authenticated user accesses routes protected by <code>middleware(&#039;auth&#039;)</code> via <code>$request-&gt;user()</code> or <code>Auth::user()</code>.</p>
-<h2>2. Demo Project 3 — Authenticated Task Manager (Full CRUD + Policy)</h2>
-<h3>Step 1: Migration &amp; <code>Task</code> Model</h3>
-<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan make:model Task -mc
-php artisan make:policy TaskPolicy --model=Task
-php artisan make:request StoreTaskRequest
+<article class="chapter-card" id="ch-11" data-track="track-2"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-2">Track 2: Laravel Core</span><a class="source-link" href="chapters/11-forms-validation-policies-and-auth-crud/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">11.</span> Chapter 11 — Validation, Uploads, Policies, RBAC &amp; Hardened Multi-Guard Auth</h2><button type="button" class="done-toggle" data-ch="ch-11" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Complete, security-audited implementation of <strong>FormRequests (<code>Store</code> + <code>Update</code> unique ignores)</strong>, public/private file uploads, <strong>Policies</strong>, <strong>RBAC pivot tables</strong>, <strong>Demo Project 3 (Task Manager)</strong>, and <strong>Hardened Multi-Guard Authentication (<code>web</code> vs <code>admin</code> + Blade Login View)</strong>.</p>
+<h2>1. Dedicated FormRequests &amp; Safe File Uploads</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan make:request StoreTaskRequest
 php artisan make:request UpdateTaskRequest</code></pre></div>
-<p>Migration <code>create_tasks_table</code>:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">Schema::create(&#039;tasks&#039;, function (Blueprint $table) {
-    $table-&gt;id();
-    $table-&gt;foreignId(&#039;user_id&#039;)-&gt;constrained()-&gt;cascadeOnDelete();
-    $table-&gt;string(&#039;title&#039;);
-    $table-&gt;text(&#039;notes&#039;)-&gt;nullable();
-    $table-&gt;boolean(&#039;is_completed&#039;)-&gt;default(false);
-    $table-&gt;timestamps();
-});</code></pre></div>
-<p>Model <code>app/Models/Task.php</code>:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">class Task extends Model
-{
-    protected $fillable = [&#039;user_id&#039;, &#039;title&#039;, &#039;notes&#039;, &#039;is_completed&#039;];
-
-    protected function casts(): array
-    {
-        return [&#039;is_completed&#039; =&gt; &#039;boolean&#039;];
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this-&gt;belongsTo(User::class);
-    }
-}</code></pre></div>
-<h3>Step 2: Ownership Authorization (<code>app/Policies/TaskPolicy.php</code>)</h3>
-<p>Never rely on hidden form IDs for security — enforce row ownership on the server with a <strong>Policy</strong>:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">final class TaskPolicy
-{
-    public function view(User $user, Task $task): bool
-    {
-        return $user-&gt;id === $task-&gt;user_id;
-    }
-
-    public function update(User $user, Task $task): bool
-    {
-        return $user-&gt;id === $task-&gt;user_id;
-    }
-
-    public function delete(User $user, Task $task): bool
-    {
-        return $user-&gt;id === $task-&gt;user_id;
-    }
-}</code></pre></div>
-<h3>Step 3: Dedicated Validation (<code>app/Http/Requests/StoreTaskRequest.php</code>)</h3>
-<p>Moving validation rules out of controllers into <code>FormRequest</code> keeps controllers tiny and reusable:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">final class StoreTaskRequest extends FormRequest
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// app/Http/Requests/UpdatePostRequest.php
+final class UpdatePostRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this-&gt;user() !== null;
+        return $this-&gt;user()?-&gt;can(&#039;update&#039;, $this-&gt;route(&#039;post&#039;)) ?? false;
     }
 
     public function rules(): array
     {
         return [
-            &#039;title&#039; =&gt; [&#039;required&#039;, &#039;string&#039;, &#039;max:255&#039;],
-            &#039;notes&#039; =&gt; [&#039;nullable&#039;, &#039;string&#039;, &#039;max:2000&#039;],
+            &#039;title&#039; =&gt; [&#039;required&#039;, &#039;string&#039;, &#039;max:180&#039;],
+            // Ignore current row ID during unique slug check:
+            &#039;slug&#039; =&gt; [&#039;required&#039;, &#039;alpha_dash&#039;, Rule::unique(&#039;posts&#039;, &#039;slug&#039;)-&gt;ignore($this-&gt;route(&#039;post&#039;))],
+            &#039;body&#039; =&gt; [&#039;required&#039;, &#039;string&#039;],
+            &#039;cover&#039; =&gt; [&#039;nullable&#039;, &#039;image&#039;, &#039;mimes:jpg,jpeg,png,webp&#039;, &#039;max:2048&#039;],
         ];
     }
 }</code></pre></div>
-<h3>Step 4: Controller (<code>app/Http/Controllers/TaskController.php</code>)</h3>
-<p>Notice <code>$request-&gt;validated()</code> + <code>Gate::authorize(&#039;update&#039;, $task)</code>:</p>
+<p>Pass ONLY <code>$request-&gt;validated()</code> into <code>create()</code> / <code>update()</code>.</p>
+<ul><li><strong>Public assets</strong>: <code>$path = $request-&gt;file(&#039;cover&#039;)-&gt;store(&#039;post-covers&#039;, &#039;public&#039;);</code> (delete replaced image with <code>Storage::disk(&#039;public&#039;)-&gt;delete($oldPath)</code>).</li><li><strong>Private documents</strong>: <code>$path = $request-&gt;file(&#039;doc&#039;)-&gt;store(&#039;private-docs&#039;, &#039;local&#039;);</code>, streamed strictly after <code>Gate::authorize(&#039;download&#039;, $doc)</code>.</li></ul>
+<h2>2. Policies (<code>TaskPolicy</code> / <code>PostPolicy</code>) &amp; RBAC Pivot Architecture</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan make:policy TaskPolicy --model=Task</code></pre></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">final class TaskPolicy
+{
+    public function update(User $user, Task $task): bool
+    {
+        return $user-&gt;id === $task-&gt;user_id || $user-&gt;hasPermission(&#039;tasks.edit_any&#039;);
+    }
+
+    public function delete(User $user, Task $task): bool
+    {
+        return $this-&gt;update($user, $task);
+    }
+}</code></pre></div>
+<h3>RBAC Tables Schema (<code>roles</code>, <code>permissions</code>, <code>role_user</code>, <code>permission_role</code>)</h3>
+<p>When admins &amp; editors share one <code>users</code> table, prefer single-guard RBAC over duplicating auth tables:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">Schema::create(&#039;roles&#039;, fn (Blueprint $t) =&gt; $t-&gt;id() &amp;&amp; $t-&gt;string(&#039;name&#039;)-&gt;unique());
+Schema::create(&#039;permissions&#039;, fn (Blueprint $t) =&gt; $t-&gt;id() &amp;&amp; $t-&gt;string(&#039;name&#039;)-&gt;unique());
+Schema::create(&#039;role_user&#039;, function (Blueprint $t) {
+    $t-&gt;foreignId(&#039;role_id&#039;)-&gt;constrained()-&gt;cascadeOnDelete();
+    $t-&gt;foreignId(&#039;user_id&#039;)-&gt;constrained()-&gt;cascadeOnDelete();
+    $t-&gt;primary([&#039;role_id&#039;, &#039;user_id&#039;]);
+});
+Schema::create(&#039;permission_role&#039;, function (Blueprint $t) {
+    $t-&gt;foreignId(&#039;permission_id&#039;)-&gt;constrained()-&gt;cascadeOnDelete();
+    $t-&gt;foreignId(&#039;role_id&#039;)-&gt;constrained()-&gt;cascadeOnDelete();
+    $t-&gt;primary([&#039;permission_id&#039;, &#039;role_id&#039;]);
+});</code></pre></div>
+<h2>3. Demo Project 3 — Policy-Guarded Task Manager CRUD</h2>
 <div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">final class TaskController extends Controller
 {
     public function index(Request $request): View
     {
-        $tasks = $request-&gt;user()
-            -&gt;tasks()
-            -&gt;latest()
-            -&gt;paginate(15);
-
+        $tasks = $request-&gt;user()-&gt;tasks()-&gt;latest()-&gt;paginate(15);
         return view(&#039;tasks.index&#039;, compact(&#039;tasks&#039;));
     }
 
     public function store(StoreTaskRequest $request): RedirectResponse
     {
         $request-&gt;user()-&gt;tasks()-&gt;create($request-&gt;validated());
-
         return to_route(&#039;tasks.index&#039;)-&gt;with(&#039;success&#039;, &#039;Task created!&#039;);
     }
 
@@ -1852,82 +2005,107 @@ php artisan make:request UpdateTaskRequest</code></pre></div>
         return view(&#039;tasks.edit&#039;, compact(&#039;task&#039;));
     }
 
-    public function update(UpdateTaskRequest $request, Task $task): RedirectResponse
-    {
-        Gate::authorize(&#039;update&#039;, $task);
-
-        $task-&gt;update([
-            &#039;title&#039; =&gt; $request-&gt;validated(&#039;title&#039;),
-            &#039;notes&#039; =&gt; $request-&gt;validated(&#039;notes&#039;),
-            &#039;is_completed&#039; =&gt; $request-&gt;boolean(&#039;is_completed&#039;),
-        ]);
-
-        return to_route(&#039;tasks.index&#039;)-&gt;with(&#039;success&#039;, &#039;Task updated!&#039;);
-    }
-
     public function destroy(Task $task): RedirectResponse
     {
         Gate::authorize(&#039;delete&#039;, $task);
         $task-&gt;delete();
-
         return to_route(&#039;tasks.index&#039;)-&gt;with(&#039;success&#039;, &#039;Task deleted!&#039;);
     }
 }</code></pre></div>
-<h3>Step 5: Routes (<code>routes/web.php</code>)</h3>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">Route::middleware([&#039;auth&#039;, &#039;verified&#039;])-&gt;group(function () {
-    Route::resource(&#039;tasks&#039;, TaskController::class)-&gt;except([&#039;show&#039;]);
-});</code></pre></div>
-<h3>Step 6: Blade View (<code>resources/views/tasks/index.blade.php</code>)</h3>
-<div class="callout callout-note">Note: Ensure <code>@forelse</code> always closes cleanly with <code>@endforelse</code>!</div>
-<div class="code-block"><div class="code-head"><span class="code-lang">BLADE</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-blade">&lt;x-app-layout&gt;
-    &lt;div class=&quot;max-w-3xl mx-auto py-8 px-4 space-y-6&quot;&gt;
-        @if (session(&#039;success&#039;))
-            &lt;div class=&quot;rounded-lg bg-emerald-950 border border-emerald-700 px-4 py-3 text-emerald-200&quot;&gt;
-                {{ session(&#039;success&#039;) }}
+<p>Blade snippet (<code>resources/views/tasks/index.blade.php</code>):</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">BLADE</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-blade">&lt;ul class=&quot;divide-y divide-slate-800 rounded-xl border border-slate-800&quot;&gt;
+    @forelse ($tasks as $task)
+        &lt;li class=&quot;flex items-center justify-between p-4&quot;&gt;
+            &lt;span&gt;{{ $task-&gt;title }}&lt;/span&gt;
+            &lt;div class=&quot;flex items-center gap-3 text-sm&quot;&gt;
+                @can(&#039;update&#039;, $task)
+                    &lt;a href=&quot;{{ route(&#039;tasks.edit&#039;, $task) }}&quot; class=&quot;text-indigo-400&quot;&gt;Edit&lt;/a&gt;
+                @endcan
+                @can(&#039;delete&#039;, $task)
+                    &lt;form action=&quot;{{ route(&#039;tasks.destroy&#039;, $task) }}&quot; method=&quot;POST&quot;&gt;
+                        @csrf
+                        @method(&#039;DELETE&#039;)
+                        &lt;button type=&quot;submit&quot; class=&quot;text-rose-400&quot;&gt;Delete&lt;/button&gt;
+                    &lt;/form&gt;
+                @endcan
             &lt;/div&gt;
-        @endif
+        &lt;/li&gt;
+    @empty
+        &lt;li class=&quot;p-6 text-center text-slate-400&quot;&gt;No tasks found.&lt;/li&gt;
+    @endforelse
+&lt;/ul&gt;</code></pre></div>
+<h2>4. Hardened Multi-Guard Authentication (<code>web</code> vs <code>admin</code>)</h2>
+<p>Use separate <code>web</code> and <code>admin</code> guards ONLY when threat models require separate DB tables and completely isolated login sessions.</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan make:model Admin -mfs
+php artisan make:controller AdminController
+php artisan make:middleware AdminMiddleware</code></pre></div>
+<h3>Step 1: <code>Admin</code> Model &amp; <code>config/auth.php</code></h3>
+<ul><li>Extend <code>Illuminate\Foundation\Auth\User as Authenticatable</code> with <code>casts(): [&#039;email_verified_at&#039; =&gt; &#039;datetime&#039;, &#039;password&#039; =&gt; &#039;hashed&#039;]</code>.</li><li>In <code>config/auth.php</code>, bind <strong><code>&#039;model&#039; =&gt; App\Models\Admin::class</code> directly</strong> on the <code>admins</code> provider (NEVER <code>env(&#039;AUTH_MODEL&#039;, ...)</code>, preventing <code>.env</code> overrides from querying <code>users</code>!).</li></ul>
+<h3>Step 2: Middleware (<code>bootstrap/app.php</code>) &amp; <code>AdminSeeder</code></h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// app/Http/Middleware/AdminMiddleware.php
+if (! Auth::guard(&#039;admin&#039;)-&gt;check()) {
+    return redirect()-&gt;route(&#039;admin.login&#039;)-&gt;with(&#039;error&#039;, &#039;Administrator login required.&#039;);
+}
 
-        &lt;form action=&quot;{{ route(&#039;tasks.store&#039;) }}&quot; method=&quot;POST&quot; class=&quot;flex gap-3&quot;&gt;
-            @csrf
-            &lt;input type=&quot;text&quot; name=&quot;title&quot; value=&quot;{{ old(&#039;title&#039;) }}&quot;
-                   placeholder=&quot;Add a new task...&quot; class=&quot;flex-1 rounded border px-3 py-2 text-slate-900&quot;&gt;
-            &lt;button type=&quot;submit&quot; class=&quot;rounded bg-indigo-600 px-4 py-2 text-white font-medium&quot;&gt;
-                Add Task
-            &lt;/button&gt;
-        &lt;/form&gt;
-        @error(&#039;title&#039;)
-            &lt;p class=&quot;text-sm text-rose-400&quot;&gt;{{ $message }}&lt;/p&gt;
-        @enderror
+// bootstrap/app.php
+-&gt;withMiddleware(function (Middleware $middleware): void {
+    $middleware-&gt;alias([&#039;admin&#039; =&gt; \App\Http\Middleware\AdminMiddleware::class]);
+})</code></pre></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// database/seeders/AdminSeeder.php
+Admin::firstOrCreate(
+    [&#039;email&#039; =&gt; &#039;admin@example.com&#039;],
+    [&#039;name&#039; =&gt; &#039;Super Admin&#039;, &#039;password&#039; =&gt; Hash::make(&#039;change-this-password&#039;), &#039;email_verified_at&#039; =&gt; now()]
+);</code></pre></div>
+<h3>Step 3: <code>AdminController</code> (Session Regeneration + CSRF <code>POST</code> Logout) &amp; Login View</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">final class AdminController extends Controller
+{
+    public function index(): View { return view(&#039;admin.dashboard&#039;); }
+    public function showLoginForm(): View { return view(&#039;admin.login&#039;); }
 
-        &lt;ul class=&quot;divide-y divide-slate-800 rounded-xl border border-slate-800&quot;&gt;
-            @forelse ($tasks as $task)
-                &lt;li class=&quot;flex items-center justify-between p-4&quot;&gt;
-                    &lt;span class=&quot;{{ $task-&gt;is_completed ? &#039;line-through text-slate-500&#039; : &#039;&#039; }}&quot;&gt;
-                        {{ $task-&gt;title }}
-                    &lt;/span&gt;
-                    &lt;div class=&quot;flex items-center gap-3 text-sm&quot;&gt;
-                        @can(&#039;update&#039;, $task)
-                            &lt;a href=&quot;{{ route(&#039;tasks.edit&#039;, $task) }}&quot; class=&quot;text-indigo-400&quot;&gt;Edit&lt;/a&gt;
-                        @endcan
-                        @can(&#039;delete&#039;, $task)
-                            &lt;form action=&quot;{{ route(&#039;tasks.destroy&#039;, $task) }}&quot; method=&quot;POST&quot; class=&quot;inline&quot;&gt;
-                                @csrf
-                                @method(&#039;DELETE&#039;)
-                                &lt;button type=&quot;submit&quot; class=&quot;text-rose-400&quot;&gt;Delete&lt;/button&gt;
-                            &lt;/form&gt;
-                        @endcan
-                    &lt;/div&gt;
-                &lt;/li&gt;
-            @empty
-                &lt;li class=&quot;p-6 text-center text-slate-400&quot;&gt;No tasks found. Add one above!&lt;/li&gt;
-            @endforelse
-        &lt;/ul&gt;
+    public function store(Request $request): RedirectResponse
+    {
+        $credentials = $request-&gt;validate([
+            &#039;email&#039; =&gt; [&#039;required&#039;, &#039;email&#039;],
+            &#039;password&#039; =&gt; [&#039;required&#039;, &#039;string&#039;],
+        ]);
 
-        {{ $tasks-&gt;links() }}
-    &lt;/div&gt;
-&lt;/x-app-layout&gt;</code></pre></div>
-<h2>Key Takeaways</h2>
-<ul><li>Keep validation rules in <strong>FormRequest</strong> subclasses and pass <code>$request-&gt;validated()</code> — never raw <code>$request-&gt;all()</code>.</li><li>Always enforce row-level security with <strong>Policies</strong> (<code>Gate::authorize(...)</code>) AND mirror UI affordances with <code>@can(...)</code>.</li><li>Double-check <code>@forelse</code> ... <code>@empty</code> ... <code>@endforelse</code> pairing and <code>@csrf</code> / <code>@method(...)</code> on mutation forms.</li></ul></div></article>
+        if (Auth::guard(&#039;admin&#039;)-&gt;attempt($credentials, $request-&gt;boolean(&#039;remember&#039;))) {
+            $request-&gt;session()-&gt;regenerate(); // Stops session fixation!
+            return redirect()-&gt;intended(route(&#039;admin.dashboard&#039;))-&gt;with(&#039;success&#039;, &#039;Welcome to Admin Dashboard!&#039;);
+        }
+
+        return back()-&gt;onlyInput(&#039;email&#039;)-&gt;with(&#039;error&#039;, &#039;Invalid credentials.&#039;);
+    }
+
+    public function destroy(Request $request): RedirectResponse
+    {
+        Auth::guard(&#039;admin&#039;)-&gt;logout();
+        $request-&gt;session()-&gt;invalidate();
+        $request-&gt;session()-&gt;regenerateToken();
+
+        return to_route(&#039;admin.login&#039;)-&gt;with(&#039;success&#039;, &#039;Signed out cleanly.&#039;);
+    }
+}</code></pre></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// routes/web.php
+Route::prefix(&#039;admin&#039;)-&gt;name(&#039;admin.&#039;)-&gt;group(function () {
+    Route::middleware(&#039;guest:admin&#039;)-&gt;group(function () {
+        Route::get(&#039;/login&#039;, [AdminController::class, &#039;showLoginForm&#039;])-&gt;name(&#039;login&#039;);
+        Route::post(&#039;/login&#039;, [AdminController::class, &#039;store&#039;])-&gt;middleware(&#039;throttle:5,1&#039;)-&gt;name(&#039;login.submit&#039;);
+    });
+    Route::middleware(&#039;admin&#039;)-&gt;group(function () {
+        Route::get(&#039;/dashboard&#039;, [AdminController::class, &#039;index&#039;])-&gt;name(&#039;dashboard&#039;);
+        Route::post(&#039;/logout&#039;, [AdminController::class, &#039;destroy&#039;])-&gt;name(&#039;logout&#039;);
+    });
+});</code></pre></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">BLADE</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-blade">{{-- resources/views/admin/login.blade.php --}}
+&lt;form action=&quot;{{ route(&#039;admin.login.submit&#039;) }}&quot; method=&quot;POST&quot; class=&quot;w-full max-w-md mx-auto p-8 space-y-5&quot;&gt;
+    @csrf
+    &lt;h1 class=&quot;text-xl font-bold&quot;&gt;Administrator Login&lt;/h1&gt;
+    &lt;x-forms.input name=&quot;email&quot; type=&quot;email&quot; required autofocus /&gt;
+    &lt;x-forms.input name=&quot;password&quot; type=&quot;password&quot; required /&gt;
+    &lt;label class=&quot;flex items-center gap-2 text-sm&quot;&gt;&lt;input type=&quot;checkbox&quot; name=&quot;remember&quot; value=&quot;1&quot;&gt; Keep me signed in&lt;/label&gt;
+    &lt;button type=&quot;submit&quot; class=&quot;w-full rounded-lg bg-rose-600 py-2.5 text-white font-semibold&quot;&gt;Sign In&lt;/button&gt;
+&lt;/form&gt;</code></pre></div></div></article>
 <article class="chapter-card" id="ch-12" data-track="track-2"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-2">Track 2: Laravel Core</span><a class="source-link" href="chapters/12-overriding-packages-service-providers-and-configuration/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">12.</span> Chapter 12 — Overriding Packages, Service Providers &amp; Configuration</h2><button type="button" class="done-toggle" data-ch="ch-12" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p><strong>Golden Rule of Laravel:</strong> NEVER edit files inside <code>vendor/</code> directly — <code>composer update</code> will immediately wipe out your changes! Instead, Laravel offers three clean extension seams: <strong>Container Rebinding (<code>AppServiceProvider</code>)</strong>, <strong>Configuration &amp; View Publishing (<code>vendor:publish</code>)</strong>, and <strong>Inheritance Overrides</strong>.</p>
 <h2>1. Service Providers: <code>register()</code> vs <code>boot()</code></h2>
 <p>Open <code>app/Providers/AppServiceProvider.php</code>:</p>
@@ -2095,33 +2273,63 @@ $overriddenB = $app-&gt;make(VendorReceiptFormatter::class);
 
 echo &#039;Overridden via AppServiceProvider: &#039; . $overriddenA-&gt;format(4999) . PHP_EOL;
 echo &#039;Singleton identity preserved? &#039; . ($overriddenA === $overriddenB ? &#039;yes&#039; : &#039;no&#039;) . PHP_EOL;</code></pre></div></details></div></div></article>
-<article class="chapter-card" id="ch-13" data-track="track-3"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-3">Track 3: Production</span><a class="source-link" href="chapters/13-rest-apis-resources-sanctum-and-http-client/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">13.</span> Chapter 13 — REST APIs, Eloquent Resources, Sanctum &amp; HTTP Client</h2><button type="button" class="done-toggle" data-ch="ch-13" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>In Laravel 11 / 12 / 13, API scaffolding (<code>routes/api.php</code> + Laravel Sanctum) is opt-in so web-only apps stay slim. One Artisan command installs everything needed to serve fast, strongly-typed JSON APIs.</p>
+<article class="chapter-card" id="ch-13" data-track="track-3"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-3">Track 3: Production</span><a class="source-link" href="chapters/13-rest-apis-resources-sanctum-and-http-client/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">13.</span> Chapter 13 — REST APIs, Sanctum Token Lifecycle, Resources &amp; HTTP Client</h2><button type="button" class="done-toggle" data-ch="ch-13" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>In Laravel 11 / 12 / 13, API scaffolding (<code>routes/api.php</code> + Laravel Sanctum) is opt-in via one command. Build versioned JSON endpoints with scoped token issue/revocation, Eloquent API Resources (<code>whenLoaded()</code>), allowlisted sort filters, and resilient outbound <code>Http</code> calls.</p>
 <h2>1. Enabling <code>routes/api.php</code> &amp; Sanctum (<code>install:api</code>)</h2>
-<p>Run:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan install:api</code></pre></div>
-<p>This installs <code>laravel/sanctum</code>, publishes the <code>personal_access_tokens</code> migration (run <code>php artisan migrate</code>), and wires <code>routes/api.php</code> automatically under the <code>/api</code> URL prefix inside <code>bootstrap/app.php</code>.</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// routes/api.php
-use App\Http\Controllers\Api\PostApiController;
-use Illuminate\Support\Facades\Route;
-
-Route::get(&#039;/posts&#039;, [PostApiController::class, &#039;index&#039;]);
-
-Route::middleware(&#039;auth:sanctum&#039;)-&gt;group(function () {
-    Route::post(&#039;/posts&#039;, [PostApiController::class, &#039;store&#039;]);
-});</code></pre></div>
-<h2>2. Eloquent API Resources (<code>JsonResource</code>) — Never Expose Raw Models</h2>
-<p>Returning <code>return Post::all();</code> directly leaks internal columns (<code>user_id</code>, timestamps, private flags) and couples API consumers to your DB schema. Always transform models through an <strong>API Resource</strong>:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan make:resource PostResource</code></pre></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan install:api
+php artisan migrate
+php artisan make:controller Api/V1/AuthTokenController
+php artisan make:controller Api/V1/PostApiController
+php artisan make:resource PostResource</code></pre></div>
+<p>Ensure <code>App\Models\User</code> uses <code>Laravel\Sanctum\HasApiTokens</code>.</p>
+<h3>Full Sanctum Token Issue &amp; Revoke Controller (<code>AuthTokenController.php</code>)</h3>
 <div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">&lt;?php
 
 declare(strict_types=1);
 
-namespace App\Http\Resources;
+namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
-final class PostResource extends JsonResource
+final class AuthTokenController extends Controller
+{
+    public function store(Request $request): JsonResponse
+    {
+        $data = $request-&gt;validate([
+            &#039;email&#039; =&gt; [&#039;required&#039;, &#039;email&#039;],
+            &#039;password&#039; =&gt; [&#039;required&#039;, &#039;string&#039;],
+            &#039;device_name&#039; =&gt; [&#039;required&#039;, &#039;string&#039;, &#039;max:100&#039;],
+        ]);
+
+        $user = User::where(&#039;email&#039;, $data[&#039;email&#039;])-&gt;first();
+
+        if (! $user || ! Hash::check($data[&#039;password&#039;], $user-&gt;password)) {
+            throw ValidationException::withMessages([
+                &#039;email&#039; =&gt; [&#039;The provided credentials are incorrect.&#039;],
+            ]);
+        }
+
+        $token = $user-&gt;createToken($data[&#039;device_name&#039;], abilities: [&#039;posts:read&#039;, &#039;posts:write&#039;]);
+
+        return response()-&gt;json([
+            &#039;token&#039; =&gt; $token-&gt;plainTextToken,
+            &#039;token_type&#039; =&gt; &#039;Bearer&#039;,
+        ], 201);
+    }
+
+    public function destroy(Request $request): JsonResponse
+    {
+        $request-&gt;user()-&gt;currentAccessToken()?-&gt;delete();
+
+        return response()-&gt;json([&#039;message&#039; =&gt; &#039;Token revoked.&#039;]);
+    }
+}</code></pre></div>
+<h2>2. Eloquent API Resources (<code>PostResource</code>) &amp; Safe Filtering (<code>PostApiController</code>)</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">final class PostResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
@@ -2129,7 +2337,6 @@ final class PostResource extends JsonResource
             &#039;id&#039; =&gt; $this-&gt;id,
             &#039;title&#039; =&gt; $this-&gt;title,
             &#039;slug&#039; =&gt; $this-&gt;slug,
-            // Only serialize author when relationship was eager-loaded (prevents N+1!):
             &#039;author&#039; =&gt; $this-&gt;whenLoaded(&#039;author&#039;, fn () =&gt; [
                 &#039;id&#039; =&gt; $this-&gt;author-&gt;id,
                 &#039;name&#039; =&gt; $this-&gt;author-&gt;name,
@@ -2137,34 +2344,41 @@ final class PostResource extends JsonResource
             &#039;published_at&#039; =&gt; $this-&gt;published_at?-&gt;toIso8601String(),
         ];
     }
-}</code></pre></div>
-<p>Controller usage:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">public function index()
+}
+
+final class PostApiController extends Controller
 {
-    $posts = Post::with(&#039;author:id,name&#039;)-&gt;published()-&gt;paginate(15);
+    public function index(Request $request)
+    {
+        $allowedSorts = [&#039;published_at&#039;, &#039;title&#039;, &#039;created_at&#039;];
+        $sortBy = in_array($request-&gt;query(&#039;sort&#039;), $allowedSorts, true) ? $request-&gt;query(&#039;sort&#039;) : &#039;published_at&#039;;
 
-    return PostResource::collection($posts);
+        $posts = Post::with(&#039;author:id,name&#039;)-&gt;published()-&gt;orderByDesc($sortBy)-&gt;paginate(20);
+        return PostResource::collection($posts);
+    }
+
+    public function store(StorePostRequest $request): JsonResponse
+    {
+        abort_unless($request-&gt;user()-&gt;tokenCan(&#039;posts:write&#039;), 403);
+        $post = $request-&gt;user()-&gt;posts()-&gt;create($request-&gt;validated());
+
+        return (new PostResource($post-&gt;load(&#039;author:id,name&#039;)))-&gt;response()-&gt;setStatusCode(201);
+    }
 }</code></pre></div>
-<p><code>PostResource::collection($paginator)</code> automatically includes <code>data</code>, <code>links</code>, and <code>meta</code> pagination metadata!</p>
-<h2>3. Token Authentication with Laravel Sanctum</h2>
-<p>Add the <code>HasApiTokens</code> trait to <code>App\Models\User</code>:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">use Laravel\Sanctum\HasApiTokens;
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// routes/api.php
+Route::prefix(&#039;v1&#039;)-&gt;group(function () {
+    Route::post(&#039;/tokens&#039;, [AuthTokenController::class, &#039;store&#039;])-&gt;middleware(&#039;throttle:10,1&#039;);
+    Route::get(&#039;/posts&#039;, [PostApiController::class, &#039;index&#039;]);
 
-class User extends Authenticatable
-{
-    use HasApiTokens, HasFactory, Notifiable;
-}</code></pre></div>
-<p>Issue a scoped Personal Access Token upon login:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">$token = $user-&gt;createToken(&#039;mobile-cli&#039;, abilities: [&#039;posts:write&#039;])-&gt;plainTextToken;
-
-// Check token ability inside controllers/policies:
-abort_unless($request-&gt;user()-&gt;tokenCan(&#039;posts:write&#039;), 403);</code></pre></div>
-<p>Clients send <code>Authorization: Bearer &lt;token&gt;</code> plus <code>Accept: application/json</code> so validation errors return HTTP <code>422</code> JSON instead of HTML redirects.</p>
-<h2>4. Consuming External APIs with <code>Http</code> &amp; <code>Http::pool()</code></h2>
-<p>Laravel&#039;s <code>Illuminate\Support\Facades\Http</code> client wraps Guzzle with fluent retries, timeouts, and concurrency:</p>
+    Route::middleware([&#039;auth:sanctum&#039;, &#039;throttle:api&#039;])-&gt;group(function () {
+        Route::delete(&#039;/tokens/current&#039;, [AuthTokenController::class, &#039;destroy&#039;]);
+        Route::get(&#039;/me&#039;, fn (Request $r) =&gt; $r-&gt;user());
+        Route::post(&#039;/posts&#039;, [PostApiController::class, &#039;store&#039;]);
+    });
+});</code></pre></div>
+<h2>3. Consuming External APIs (<code>Http::retry</code> &amp; <code>Http::pool</code>)</h2>
 <div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">use Illuminate\Support\Facades\Http;
 
-// 1. Single resilient request with timeout + automatic retry
 $profile = Http::timeout(5)
     -&gt;retry(times: 3, sleepMilliseconds: 200)
     -&gt;withToken(config(&#039;services.github.token&#039;))
@@ -2172,168 +2386,163 @@ $profile = Http::timeout(5)
     -&gt;throw()
     -&gt;json();
 
-// 2. Concurrent requests via Http::pool() (Laravel 13 defaults concurrency pool limit to 2; adjust as needed)
+// Concurrent requests (Laravel 13 defaults pool concurrency limit to 2; adjust cleanly)
 $responses = Http::pool(concurrency: 4, callback: fn ($pool) =&gt; [
     $pool-&gt;as(&#039;users&#039;)-&gt;get(&#039;https://api.example.com/users&#039;),
     $pool-&gt;as(&#039;metrics&#039;)-&gt;get(&#039;https://api.example.com/metrics&#039;),
-]);</code></pre></div>
-<p>In automated tests, swap all outbound HTTP calls cleanly with <code>Http::fake([...])</code> and assert <code>Http::assertSent(...)</code>.</p>
-<h2>Key Takeaways</h2>
-<ul><li>Install API routing &amp; token auth via <code>php artisan install:api</code>.</li><li>Transform Eloquent output with <code>JsonResource</code> + <code>$this-&gt;whenLoaded(...)</code> to lock your JSON contract and avoid accidental N+1 queries.</li><li>Set explicit <code>timeout(...)</code> and <code>retry(...)</code> on external <code>Http::</code> calls, or batch them with <code>Http::pool()</code>.</li></ul></div></article>
-<article class="chapter-card" id="ch-14" data-track="track-3"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-3">Track 3: Production</span><a class="source-link" href="chapters/14-queues-jobs-events-caching-and-defer/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">14.</span> Chapter 14 — Queues, Jobs, Events, Caching, `defer()` &amp; Scheduler</h2><button type="button" class="done-toggle" data-ch="ch-14" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Production Laravel apps never make users wait 5 seconds on an HTTP request while sending emails, resizing images, calling AI models, or generating PDFs. Instead, offload slow work using <strong><code>defer()</code></strong>, <strong>Queues (<code>ShouldQueue</code>)</strong>, <strong>Events</strong>, <strong>Cache</strong>, and <strong>Scheduled Tasks</strong>.</p>
+]);</code></pre></div></div></article>
+<article class="chapter-card" id="ch-14" data-track="track-3"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-3">Track 3: Production</span><a class="source-link" href="chapters/14-queues-jobs-events-caching-and-defer/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">14.</span> Chapter 14 — Mail, Queues, Events, Caching, `defer()` &amp; Scheduler</h2><button type="button" class="done-toggle" data-ch="ch-14" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Offload slow work asynchronously using <strong><code>defer()</code></strong>, <strong>Markdown Mail (<code>Mailable</code>)</strong>, <strong>Queued Jobs (<code>ShouldQueue</code> + Laravel 13 PHP Attributes)</strong>, <strong>Events/Listeners</strong>, <strong>Cache (<code>remember</code>, <code>flexible</code>, <code>touch</code>)</strong>, and <strong><code>routes/console.php</code> Scheduling</strong>.</p>
 <h2>1. Quick In-Request Offloading with <code>defer()</code> (Laravel 12 / 13)</h2>
-<p>Need to run lightweight work (analytics ping, audit log, webhook notification) right after the HTTP response flushes — <strong>without</strong> configuring a background worker yet? Use <code>defer()</code>:</p>
 <div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">use function Illuminate\Support\defer;
 
 Route::post(&#039;/orders&#039;, function (StoreOrderRequest $request) {
     $order = Order::create($request-&gt;validated());
 
-    defer(fn () =&gt; Metrics::recordOrder($order-&gt;id));
+    // Runs immediately after the HTTP response flushes — zero separate worker required
+    defer(fn () =&gt; AuditLog::recordOrder($order-&gt;id));
 
     return to_route(&#039;orders.show&#039;, $order);
 });</code></pre></div>
-<p>For heavy, retryable work (mail, PDF generation, third-party billing webhooks), always use <strong>Queued Jobs</strong> instead.</p>
-<h2>2. Background Jobs (<code>ShouldQueue</code>) &amp; Laravel 13 Job Attributes</h2>
-<p>Generate a queued job:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan make:job SendWelcomePackJob</code></pre></div>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">&lt;?php
+<h2>2. Markdown Mail (<code>WelcomeMail.php</code> + Template)</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan make:mail WelcomeMail --markdown=mail.welcome</code></pre></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">final class WelcomeMail extends Mailable implements ShouldQueue
+{
+    use Queueable, SerializesModels;
 
-declare(strict_types=1);
+    public function __construct(public readonly User $user) {}
 
-namespace App\Jobs;
+    public function envelope(): Envelope
+    {
+        return new Envelope(subject: &#039;Welcome to &#039; . config(&#039;app.name&#039;));
+    }
 
-use App\Models\User;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Queue\Queueable;
-use Illuminate\Queue\Attributes\Tries;
-use Illuminate\Queue\Attributes\Timeout;
+    public function content(): Content
+    {
+        return new Content(markdown: &#039;mail.welcome&#039;);
+    }
+}</code></pre></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">BLADE</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-blade">{{-- resources/views/mail/welcome.blade.php --}}
+&lt;x-mail::message&gt;
+# Hello {{ $user-&gt;name }}
 
+Your account is ready to publish articles.
+
+&lt;x-mail::button :url=&quot;route(&#039;home&#039;)&quot;&gt;
+Open Dashboard
+&lt;/x-mail::button&gt;
+
+Thanks,&lt;br&gt;
+{{ config(&#039;app.name&#039;) }}
+&lt;/x-mail::message&gt;</code></pre></div>
+<h2>3. Background Jobs (<code>ShouldQueue</code>) &amp; Events/Listeners</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// app/Jobs/GenerateSitemapJob.php
 #[Tries(3)]
-#[Timeout(60)]
-final class SendWelcomePackJob implements ShouldQueue
+#[Timeout(120)]
+#[Connection(&#039;database&#039;)]
+final class GenerateSitemapJob implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(
-        public readonly User $user, // SerializesModels stores User PK cleanly!
-    ) {}
-
-    public function handle(Mailer $mailer): void
+    public function handle(): void
     {
-        $mailer-&gt;sendWelcome($this-&gt;user);
+        $slugs = Post::published()-&gt;pluck(&#039;slug&#039;);
+        $xml = view(&#039;seo.sitemap&#039;, compact(&#039;slugs&#039;))-&gt;render();
+        Storage::disk(&#039;public&#039;)-&gt;put(&#039;sitemap.xml&#039;, $xml);
     }
-}</code></pre></div>
-<p>Dispatch &amp; run the queue worker:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">SendWelcomePackJob::dispatch($user);</code></pre></div>
-<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan queue:work --tries=3</code></pre></div>
-<p><em>(In fresh Laravel apps, the default <code>QUEUE_CONNECTION=database</code> already works locally with zero Redis setup!)</em></p>
-<h2>3. Decoupling Domains with Events &amp; Listeners</h2>
-<p>Events keep controllers/Actions focused on one thing:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// 1. Dispatch an Event after checkout:
-OrderPaid::dispatch($order);
+}
 
-// 2. Listener automatically discovered by type-hint in app/Listeners/:
-final class ProvisionLicenseListener implements ShouldQueue
-{
-    public function handle(OrderPaid $event): void
-    {
-        // Provisions license asynchronously because Listener implements ShouldQueue!
-    }
-}</code></pre></div>
-<p>Notice how adding <code>implements ShouldQueue</code> on a Listener pushes that listener onto the queue automatically without altering <code>OrderController</code>.</p>
-<h2>4. Caching (<code>Cache::remember</code>, <code>flexible</code>, &amp; Laravel 13 <code>Cache::touch</code>)</h2>
-<p>Stop re-running expensive dashboard aggregations on every page view:</p>
+// Dispatch onto queue:
+GenerateSitemapJob::dispatch();</code></pre></div>
+<ul><li><strong>VPS / Container worker</strong>: <code>php artisan queue:work --tries=3 --timeout=120</code> under Supervisor or Docker.</li><li><strong>cPanel / Shared hosting cron worker</strong>: <code>php artisan queue:work --stop-when-empty</code> invoked via cron.</li><li><strong>Inspect failed jobs</strong>: <code>php artisan queue:failed</code> and retry with <code>php artisan queue:retry all</code>.</li></ul>
+<h2>4. Caching (<code>remember</code>, <code>flexible</code>, <code>touch</code>) &amp; Scheduler (<code>routes/console.php</code>)</h2>
 <div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Schedule;
 
-// Cache-Aside Pattern: compute once, store for 10 minutes
-$stats = Cache::remember(&#039;dashboard.stats&#039;, now()-&gt;addMinutes(10), function () {
-    return [
-        &#039;published_posts&#039; =&gt; Post::published()-&gt;count(),
-        &#039;active_users&#039; =&gt; User::whereNotNull(&#039;email_verified_at&#039;)-&gt;count(),
-    ];
-});
+// Cache-aside (10 minutes)
+$stats = Cache::remember(&#039;homepage.stats&#039;, now()-&gt;addMinutes(10), fn () =&gt; [
+    &#039;published_posts&#039; =&gt; Post::published()-&gt;count(),
+]);
 
-// Stale-While-Revalidate (Cache::flexible): serve stale data 5..10 min while refreshing after response!
-$feed = Cache::flexible(&#039;blog.featured&#039;, [300, 600], fn () =&gt; Post::published()-&gt;take(5)-&gt;get());
+// Stale-while-revalidate (fresh 5 min, background refresh 5..10 min)
+$feed = Cache::flexible(&#039;posts.feed&#039;, [300, 600], fn () =&gt; Post::published()-&gt;take(10)-&gt;get());
 
-// Laravel 13: extend TTL of a cached key (without reading/overwriting payload!)
-Cache::touch(&#039;user.session.prefs.&#039; . $user-&gt;id, now()-&gt;addHours(2));</code></pre></div>
-<p>Always remember to <strong>invalidate</strong> caches (<code>Cache::forget(&#039;dashboard.stats&#039;)</code>) inside a Model Observer or Service when underlying records change.</p>
-<h2>5. Task Scheduling (<code>routes/console.php</code>)</h2>
-<p>In Laravel 11/12/13, cron schedules live directly in <code>routes/console.php</code>:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">use Illuminate\Support\Facades\Schedule;
+// Laravel 13: extend TTL without loading payload
+Cache::touch(&#039;user.prefs.&#039; . $user-&gt;id, now()-&gt;addHours(2));
 
-Schedule::command(&#039;model:prune&#039;)-&gt;dailyAt(&#039;02:30&#039;);
-Schedule::job(new CleanupTempExportsJob())-&gt;hourly()-&gt;withoutOverlapping();</code></pre></div>
-<p>On your production server, register ONE cron entry:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">CRON</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-cron">* * * * * cd /var/www/app &amp;&amp; php artisan schedule:run &gt;&gt; /dev/null 2&gt;&amp;1</code></pre></div>
-<h2>Key Takeaways</h2>
-<ul><li>Use <code>defer()</code> for tiny post-response tasks and <code>ShouldQueue</code> Jobs/Listeners for retryable, slow, or external API work.</li><li>Pair <code>Cache::remember()</code> or <code>Cache::flexible()</code> with explicit cache invalidation on writes.</li><li>Manage all cron jobs cleanly inside <code>routes/console.php</code> via <code>Schedule::</code>.</li></ul></div></article>
-<article class="chapter-card" id="ch-15" data-track="track-3"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-3">Track 3: Production</span><a class="source-link" href="chapters/15-testing-with-pest-and-phpunit/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">15.</span> Chapter 15 — Automated Testing with Pest &amp; PHPUnit</h2><button type="button" class="done-toggle" data-ch="ch-15" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Modern Laravel treats tests as first-class engineering infrastructure. By default, <code>phpunit.xml</code> runs tests against an isolated in-memory <strong>SQLite (<code>:memory:</code>)</strong> database with the <strong><code>RefreshDatabase</code></strong> trait so tests execute in milliseconds with zero risk to development data.</p>
-<h2>1. Feature Tests vs Unit Tests</h2>
-<div class="table-wrap"><table><thead><tr><th>Type</th><th>Directory</th><th>Boots Laravel?</th><th>Best Used For</th></tr></thead><tbody><tr><td><strong>Feature Test</strong></td><td><code>tests/Feature/</code></td><td>Yes (<code>$this-&gt;get()</code>, DB, Auth)</td><td>Testing HTTP routes, Policies, Validation, Jobs, API JSON (~80% of tests)</td></tr><tr><td><strong>Unit Test</strong></td><td><code>tests/Unit/</code></td><td>Minimal / Pure PHP</td><td>Pure math helpers, Value Objects, DTOs, string/currency formatters</td></tr></tbody></table></div>
-<p>Run the entire suite anytime:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan test
-# Or run filtered tests with parallel workers:
-php artisan test --filter=TaskPolicyTest --parallel</code></pre></div>
-<h2>2. Expressive Feature Tests in Pest (Laravel 12 / 13 Default)</h2>
+// Invalidate stale keys cleanly inside Model Observer / Action:
+Cache::forget(&#039;homepage.stats&#039;);
+
+// Cron schedules inside routes/console.php
+Schedule::command(&#039;reports:daily&#039;)-&gt;dailyAt(&#039;02:00&#039;)-&gt;withoutOverlapping();
+Schedule::job(new GenerateSitemapJob())-&gt;hourly()-&gt;withoutOverlapping();</code></pre></div>
+<p>Server cron entry:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">CRON</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-cron">* * * * * cd /path/to/laravel-app &amp;&amp; php artisan schedule:run &gt;&gt; /dev/null 2&gt;&amp;1</code></pre></div></div></article>
+<article class="chapter-card" id="ch-15" data-track="track-3"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-3">Track 3: Production</span><a class="source-link" href="chapters/15-testing-with-pest-and-phpunit/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">15.</span> Chapter 15 — Automated Testing with Pest, PHPUnit &amp; Fakes</h2><button type="button" class="done-toggle" data-ch="ch-15" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Test HTTP routes, FormRequests, Policies, uploads, Sanctum APIs, and queued jobs against an isolated <strong>in-memory SQLite (<code>:memory:</code>)</strong> database using <code>RefreshDatabase</code> and built-in Facade fakes.</p>
+<h2>1. Complete Pest Feature Test Suite (<code>tests/Feature/PostManagementTest.php</code>)</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan make:test PostManagementTest
+php artisan test --parallel</code></pre></div>
 <div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">&lt;?php
 
-use App\Models\Task;
+use App\Jobs\GenerateSitemapJob;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\Storage;
+use Laravel\Sanctum\Sanctum;
 
 uses(RefreshDatabase::class);
 
-it(&#039;allows an authenticated user to create a task&#039;, function () {
-    $user = User::factory()-&gt;create();
+it(&#039;stores a post with uploaded cover image and prevents unauthorized edits&#039;, function () {
+    Storage::fake(&#039;public&#039;);
+    $author = User::factory()-&gt;create();
+    $intruder = User::factory()-&gt;create();
 
-    $response = $this-&gt;actingAs($user)-&gt;post(route(&#039;tasks.store&#039;), [
-        &#039;title&#039; =&gt; &#039;Ship Laravel 13 Handbook&#039;,
-    ]);
+    $this-&gt;actingAs($author)-&gt;post(route(&#039;posts.store&#039;), [
+        &#039;title&#039; =&gt; &#039;Tested Laravel Guide&#039;,
+        &#039;slug&#039; =&gt; &#039;tested-laravel-guide&#039;,
+        &#039;body&#039; =&gt; &#039;Full end-to-end feature test coverage.&#039;,
+        &#039;status&#039; =&gt; &#039;published&#039;,
+        &#039;cover&#039; =&gt; UploadedFile::fake()-&gt;image(&#039;cover.jpg&#039;, 800, 600),
+    ])-&gt;assertRedirect(route(&#039;posts.index&#039;));
 
-    $response-&gt;assertRedirect(route(&#039;tasks.index&#039;));
+    $post = Post::firstOrFail();
+    Storage::disk(&#039;public&#039;)-&gt;assertExists($post-&gt;cover_path);
+    $this-&gt;assertDatabaseHas(&#039;posts&#039;, [&#039;slug&#039; =&gt; &#039;tested-laravel-guide&#039;, &#039;user_id&#039; =&gt; $author-&gt;id]);
 
-    $this-&gt;assertDatabaseHas(&#039;tasks&#039;, [
-        &#039;user_id&#039; =&gt; $user-&gt;id,
-        &#039;title&#039; =&gt; &#039;Ship Laravel 13 Handbook&#039;,
-    ]);
+    $this-&gt;actingAs($intruder)
+        -&gt;patch(route(&#039;posts.update&#039;, $post), [&#039;title&#039; =&gt; &#039;Tampered&#039;])
+        -&gt;assertForbidden();
 });
 
-it(&#039;forbids deleting another user’s task via TaskPolicy&#039;, function () {
-    $owner = User::factory()-&gt;create();
-    $stranger = User::factory()-&gt;create();
-    $task = Task::factory()-&gt;for($owner)-&gt;create();
-
-    $this-&gt;actingAs($stranger)
-        -&gt;delete(route(&#039;tasks.destroy&#039;, $task))
-        -&gt;assertForbidden();
-
-    $this-&gt;assertModelExists($task);
-});</code></pre></div>
-<h2>3. Faking Queues, Mail, Events &amp; Outbound HTTP</h2>
-<p>Never send real emails or real Stripe API charges from tests! Because Laravel&#039;s Facades are Container-backed proxies (see <strong>Chapter 06</strong>), you can swap them cleanly in one line:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Queue;
-
-it(&#039;queues a welcome job and calls webhook cleanly&#039;, function () {
+it(&#039;creates posts via Sanctum API and fakes outbound queues/http/mail cleanly&#039;, function () {
     Queue::fake();
-    Http::fake([
-        &#039;api.example.com/*&#039; =&gt; Http::response([&#039;ok&#039; =&gt; true], 200),
-    ]);
+    Mail::fake();
+    Http::fake([&#039;api.example.com/*&#039; =&gt; Http::response([&#039;ok&#039; =&gt; true], 200)]);
 
-    // Act: trigger controller or service...
-    SendWelcomePackJob::dispatch($user);
+    $user = User::factory()-&gt;create();
+    Sanctum::actingAs($user, [&#039;posts:write&#039;]);
 
-    // Assert:
-    Queue::assertPushed(SendWelcomePackJob::class);
+    $this-&gt;postJson(&#039;/api/v1/posts&#039;, [
+        &#039;title&#039; =&gt; &#039;API Created Post&#039;,
+        &#039;slug&#039; =&gt; &#039;api-created-post&#039;,
+        &#039;body&#039; =&gt; &#039;Delivered via Sanctum Bearer token.&#039;,
+        &#039;status&#039; =&gt; &#039;published&#039;,
+    ])-&gt;assertCreated()-&gt;assertJsonPath(&#039;data.slug&#039;, &#039;api-created-post&#039;);
+
+    GenerateSitemapJob::dispatch();
+    Queue::assertPushed(GenerateSitemapJob::class);
 });</code></pre></div>
-<h2>4. Essential Laravel Test Assertions Cheat Sheet</h2>
-<div class="table-wrap"><table><thead><tr><th>Assertion</th><th>Checks</th></tr></thead><tbody><tr><td><code>$response-&gt;assertOk()</code> / <code>assertCreated()</code> / <code>assertForbidden()</code></td><td>HTTP status codes <code>200</code>, <code>201</code>, <code>403</code></td></tr><tr><td><code>$response-&gt;assertRedirect(route(&#039;...&#039;))</code></td><td>Post-redirect-get flow</td></tr><tr><td><code>$response-&gt;assertSessionHasErrors([&#039;title&#039;])</code></td><td>Validation error triggered for field</td></tr><tr><td><code>$response-&gt;assertJsonPath(&#039;data.slug&#039;, &#039;my-post&#039;)</code></td><td>Nested JSON API payload assertion</td></tr><tr><td><code>$this-&gt;assertDatabaseHas(&#039;posts&#039;, [...])</code></td><td>SQL row exists after persistence</td></tr><tr><td><code>Http::assertSentCount(1)</code></td><td>Exact outbound API call count</td></tr></tbody></table></div>
-<h2>Key Takeaways</h2>
-<ul><li>Write <strong>Feature tests</strong> for every route, Policy authorization rule (<code>assertForbidden()</code>), and validation rule (<code>assertSessionHasErrors()</code>).</li><li>Always isolate database tests with <code>RefreshDatabase</code> and external side effects with <code>Queue::fake()</code>, <code>Mail::fake()</code>, <code>Notification::fake()</code>, and <code>Http::fake()</code>.</li></ul>
+<h2>2. Essential Assertions &amp; Code Style Gates</h2>
+<div class="table-wrap"><table><thead><tr><th>Assertion</th><th>Verifies</th></tr></thead><tbody><tr><td><code>$response-&gt;assertOk()</code> / <code>assertCreated()</code> / <code>assertForbidden()</code></td><td>HTTP status codes <code>200</code>, <code>201</code>, <code>403</code></td></tr><tr><td><code>$response-&gt;assertRedirect(route(&#039;...&#039;))</code></td><td>Post-Redirect-Get flow</td></tr><tr><td><code>$response-&gt;assertSessionHasErrors([&#039;title&#039;])</code></td><td>Validation error key returned cleanly</td></tr><tr><td><code>$response-&gt;assertJsonPath(&#039;data.slug&#039;, &#039;my-post&#039;)</code></td><td>Nested JSON API payload structure</td></tr><tr><td><code>$this-&gt;assertDatabaseHas(&#039;posts&#039;, [...])</code></td><td>Persisted database row</td></tr></tbody></table></div>
+<p>Run automated formatting &amp; static checks alongside tests:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">./vendor/bin/pint --test
+php artisan test</code></pre></div>
 <h2>Try It Locally</h2>
-<p>Run our standalone PHP Arrange-Act-Assert micro test suite (<code>lab.php</code>):</p>
+<p>Run our standalone PHP Arrange-Act-Assert micro test runner (<code>lab.php</code>):</p>
 <div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php chapters/15-testing-with-pest-and-phpunit/lab.php</code></pre></div><div class="labs-box"><h3>Verified Runnable Lab</h3><details class="lab-details"><summary><span><code>lab.php</code></span><span class="lab-link-wrap"><a href="chapters/15-testing-with-pest-and-phpunit/lab.php" class="md-link" onclick="event.stopPropagation()">Open file &rarr;</a></span></summary><div class="code-block"><div class="code-head"><span class="code-lang">PHP &middot; lab.php</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">&lt;?php
 
 declare(strict_types=1);
@@ -2415,27 +2624,59 @@ $test-&gt;it(&#039;records pushed background job in fake queue&#039;, function (
 });
 
 echo &#039;Total unit assertions passed: &#039; . $test-&gt;totalPassed() . PHP_EOL;</code></pre></div></details></div></div></article>
-<article class="chapter-card" id="ch-16" data-track="track-3"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-3">Track 3: Production</span><a class="source-link" href="chapters/16-security-performance-and-production-deployment/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">16.</span> Chapter 16 — Security, Performance, Laravel 13 AI SDK &amp; Production Deployment</h2><button type="button" class="done-toggle" data-ch="ch-16" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Shipping a reliable Laravel application requires locking down OWASP vulnerabilities, caching framework manifests cleanly, optimizing PHP OPcache &amp; database indexes, and automating CI/CD rollouts.</p>
-<h2>1. Security Checklist (OWASP + Laravel Best Practices)</h2>
-<div class="table-wrap"><table><thead><tr><th>Threat</th><th>Built-In Laravel Defense</th><th>Developer Responsibility</th></tr></thead><tbody><tr><td><strong>SQL Injection</strong></td><td>PDO Prepared Statements across Query Builder &amp; Eloquent</td><td>Never interpolate variables inside <code>DB::raw(&quot;... $input&quot;)</code> — always pass bound parameters <code>[$input]</code></td></tr><tr><td><strong>XSS (Script Injection)</strong></td><td>Blade <code>{{ $var }}</code> escapes HTML entities</td><td>Avoid <code>{!! $raw !!}</code> unless scrubbed with an HTML Purifier allowlist</td></tr><tr><td><strong>CSRF</strong></td><td><code>VerifyCsrfToken</code> (included in <code>web</code> middleware)</td><td>Include <code>@csrf</code> inside every <code>&lt;form method=&quot;POST&quot;&gt;</code></td></tr><tr><td><strong>Mass Assignment</strong></td><td><code>Model::$fillable</code> whitelist (or Laravel 13 <code>#[Fillable]</code>)</td><td>Never call <code>Model::create($request-&gt;all())</code> — use <code>$request-&gt;validated()</code></td></tr><tr><td><strong>IDOR (Broken Object Auth)</strong></td><td>Policies &amp; Gates</td><td>Always call <code>Gate::authorize(&#039;update&#039;, $model)</code> before mutating/viewing private rows</td></tr><tr><td><strong>Brute Force / Abuse</strong></td><td>RateLimiter (<code>throttle:api</code> / <code>RateLimiter::for(...)</code>)</td><td>Rate-limit login, OTP, and password-reset endpoints</td></tr><tr><td><strong>Secrets Leak</strong></td><td><code>.env</code> gitignored &amp; web root = <code>public/</code></td><td>Set <code>APP_DEBUG=false</code> in production and NEVER expose files above <code>public/</code></td></tr></tbody></table></div>
-<h2>2. Production Performance &amp; Caching Commands</h2>
-<p>During zero-downtime deployment (Envoy, Forge, Cloud, Docker), run <code>php artisan optimize</code> — or its component commands:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">composer install --no-dev --optimize-autoloader
+<article class="chapter-card" id="ch-16" data-track="track-3"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-3">Track 3: Production</span><a class="source-link" href="chapters/16-security-performance-and-production-deployment/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">16.</span> Chapter 16 — Security, Nginx / cPanel Server Configs, CI/CD, Reverb &amp; Laravel 13 AI SDK</h2><button type="button" class="done-toggle" data-ch="ch-16" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Hardened production security checklist alongside copy-pasteable <strong>Nginx virtual host block</strong>, <strong>shared hosting / cPanel <code>public_html</code> setup</strong>, <strong>GitHub Actions CI <code>.yml</code></strong>, <strong>OPcache &amp; <code>artisan optimize</code></strong>, <strong>Laravel Reverb WebSockets</strong>, and <strong>Laravel 13 AI SDK</strong>.</p>
+<h2>1. Layered Security Engineering Checklist</h2>
+<div class="table-wrap"><table><thead><tr><th>Threat / Layer</th><th>Mandatory Safeguard</th><th>Verification</th></tr></thead><tbody><tr><td><strong>Web Root &amp; Secrets</strong></td><td>Point DocumentRoot strictly to <strong><code>public/</code></strong>; set <code>APP_DEBUG=false</code>, <code>APP_ENV=production</code></td><td>Request <code>https://yourdomain/.env</code> -&gt; must return <code>404</code></td></tr><tr><td><strong>SQL &amp; XSS</strong></td><td>Bind <code>?</code> parameters on raw SQL; use Blade <code>{{ $var }}</code> (never unescaped <code>{!! !!}</code>)</td><td>Audit <code>DB::raw</code>, <code>whereRaw</code>, <code>{!!</code></td></tr><tr><td><strong>CSRF &amp; Sessions</strong></td><td>Keep <code>VerifyCsrfToken</code> enabled (<code>@csrf</code> + <code>POST</code> logouts); <code>SESSION_SECURE_COOKIE=true</code>, <code>httpOnly</code></td><td>Confirm no GET logout routes exist</td></tr><tr><td><strong>IDOR &amp; Mass Assignment</strong></td><td>Call <code>Gate::authorize(...)</code> on every private read/edit/delete; keep <code>$fillable</code> + <code>$request-&gt;validated()</code></td><td>Feature tests assert <code>403</code> for non-owners</td></tr><tr><td><strong>Uploads &amp; Packages</strong></td><td>Validate MIME/size, use generated filenames, store private files on <code>local</code> disk</td><td>Run <code>composer audit</code> &amp; <code>npm audit</code> cleanly</td></tr></tbody></table></div>
+<h2>2. Production Nginx Site Configuration (<code>/etc/nginx/sites-available/laravel.conf</code>)</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">NGINX</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-nginx">server {
+    listen 80;
+    server_name example.com www.example.com;
+    root /var/www/laravel_app/public;
+    index index.php;
+
+    charset utf-8;
+    client_max_body_size 10M;
+
+    add_header X-Frame-Options &quot;SAMEORIGIN&quot;;
+    add_header X-Content-Type-Options &quot;nosniff&quot;;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    error_page 404 /index.php;
+
+    location ~ \.php$ {
+        fastcgi_pass unix:/var/run/php/php8.4-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+        fastcgi_hide_header X-Powered-By;
+    }
+
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+}</code></pre></div>
+<h2>3. Shared Hosting / cPanel Layout (<code>public_html</code>)</h2>
+<ol><li>Confirm cPanel PHP Selector &gt;= <code>8.3</code> (<code>Laravel 13</code>) + extensions (<code>pdo_mysql</code>, <code>mbstring</code>, <code>openssl</code>, <code>ctype</code>, <code>xml</code>, <code>fileinfo</code>, <code>bcmath</code>, <code>curl</code>).</li><li>Keep app source <strong>above <code>public_html/</code></strong> at <code>/home/cpaneluser/laravel_app/</code>.</li><li>Point domain DocumentRoot to <code>/home/cpaneluser/laravel_app/public</code> when supported — OR place <code>public/*</code> inside <code>public_html/</code> and update <code>/home/cpaneluser/public_html/index.php</code>:</li></ol>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">   require __DIR__.&#039;/../laravel_app/vendor/autoload.php&#039;;
+   $app = require_once __DIR__.&#039;/../laravel_app/bootstrap/app.php&#039;;</code></pre></div>
+<ol><li>Never set <code>chmod 777</code>! Use <code>755</code> directories / <code>644</code> files (<code>storage</code> and <code>bootstrap/cache</code> writable by PHP runtime user).</li></ol>
+<h2>4. Zero-Downtime Release Commands &amp; GitHub Actions CI</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan down --retry=60
+git pull --ff-only origin main
+composer install --no-dev --optimize-autoloader
 npm ci &amp;&amp; npm run build
 php artisan migrate --force
-php artisan optimize          # Caches config, routes, events, and Blade views together</code></pre></div>
-<div class="callout callout-warning"><strong>Warning:</strong> <strong>Local Development Warning:</strong> Run <code>php artisan optimize:clear</code> locally if config/route changes ever appear ignored! Cache artifacts are strictly for staging/production builds.</div>
-<h3>PHP &amp; Runtime Tuning</h3>
-<ul><li>Enable <strong>PHP OPcache</strong> in production (<code>opcache.enable=1</code>, <code>opcache.validate_timestamps=0</code> for immutable Docker releases).</li><li>Use <strong>Redis</strong> for sessions (<code>SESSION_DRIVER=redis</code>), cache (<code>CACHE_STORE=redis</code>), and queues (<code>QUEUE_CONNECTION=redis</code>).</li><li>Inspect slow SQL queries with <strong>Laravel Pulse</strong>, <strong>Telescope</strong> (dev), or <strong>Debugbar</strong> (dev), and add database indexes (<code>-&gt;index()</code>) on filtered/foreign-key columns.</li><li>For high-throughput workloads, deploy with <strong>Laravel Octane</strong> (FrankenPHP / Swoole / RoadRunner) so the framework stays booted in RAM between requests.</li></ul>
-<h2>3. Modern Additions: Laravel 13 AI SDK &amp; Real-Time Reverb</h2>
-<h3>Official Laravel AI SDK (Laravel 13)</h3>
-<p>Laravel 13 introduced a first-party <strong>Laravel AI SDK</strong> (<code>laravel/ai</code>) for building agents, structured outputs, embeddings, vector stores, and streaming chat with the same expressive DX as <code>Mail</code> or <code>Storage</code> — testable with <code>Agent::fake()</code> inside Pest/PHPUnit!</p>
-<h3>Real-Time WebSockets with Laravel Reverb</h3>
-<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan install:broadcasting
-php artisan reverb:start</code></pre></div>
-<p>Broadcast model updates or notifications cleanly over first-party PHP WebSockets without third-party SaaS bills.</p>
-<h2>4. CI/CD Quality Gate (<code>.github/workflows/ci.yml</code>)</h2>
-<p>Automate formatting (<strong>Laravel Pint</strong>), static analysis (<strong>Larastan / PHPStan</strong>), and <strong>Pest/PHPUnit</strong> on every pull request:</p>
+php artisan storage:link
+php artisan optimize          # Caches config, routes, events &amp; Blade views together
+php artisan about
+php artisan up</code></pre></div>
+<div class="callout callout-note">Run <code>php artisan optimize:clear</code> locally if changes appear cached. <strong>Never</strong> run <code>migrate:fresh</code> in production!</div>
+<h3>CI Pipeline (<code>.github/workflows/ci.yml</code>)</h3>
 <div class="code-block"><div class="code-head"><span class="code-lang">YAML</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-yaml">name: Laravel CI
 on: [push, pull_request]
 jobs:
@@ -2446,20 +2687,74 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: &#039;8.4&#039;
+          extensions: pdo_sqlite, mbstring, openssl, xml, curl
       - run: composer install --no-interaction --prefer-dist
+      - run: cp .env.example .env &amp;&amp; php artisan key:generate
       - run: ./vendor/bin/pint --test
+      - run: composer audit
       - run: php artisan test</code></pre></div>
-<h2>Key Takeaways</h2>
-<ul><li>Keep <code>APP_DEBUG=false</code> in production, validate inputs via FormRequests, authorize objects via Policies, and lock <code>public/</code> as your DocumentRoot.</li><li>Run <code>composer install --no-dev --optimize-autoloader</code>, <code>npm run build</code>, <code>php artisan migrate --force</code>, and <code>php artisan optimize</code> on every release.</li><li>Enforce automated style checks (<code>pint --test</code>) and Pest/PHPUnit suites on every commit.</li></ul></div></article>
+<h2>5. Laravel 13 AI SDK, Reverb WebSockets &amp; Octane</h2>
+<ul><li><strong>Laravel AI SDK (Laravel 13)</strong>: First-party <code>laravel/ai</code> package supporting structured outputs, embeddings, vector stores, and <code>Agent::fake()</code> in automated tests.</li><li><strong>Laravel Reverb</strong>: <code>php artisan install:broadcasting &amp;&amp; php artisan reverb:start</code> for real-time WebSockets without external SaaS fees.</li><li><strong>Laravel Octane</strong>: Keeps the framework booted in RAM across FrankenPHP/Swoole workers (use container <code>scoped()</code> bindings cleanly).</li></ul></div></article>
+<article class="chapter-card" id="ch-17" data-track="track-3"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-3">Track 3: Production</span><a class="source-link" href="chapters/17-troubleshooting-and-diagnostics/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">17.</span> Chapter 17 — Troubleshooting Playbook &amp; CLI Diagnostics</h2><button type="button" class="done-toggle" data-ch="ch-17" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Diagnose Laravel development, multi-guard auth, Vite, SQL, and production deployment errors systematically instead of guessing or clearing caches blindly.</p>
+<h2>1. Essential Diagnostic Commands First</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan about                              # Active PHP version, drivers, caches &amp; APP_DEBUG mode
+php artisan route:list --except-vendor         # Exact URIs, HTTP verbs, route names &amp; middleware
+php artisan migrate:status                     # Pending vs applied schema migration batches
+php artisan queue:failed                       # Failed background jobs + full exception traces
+php artisan pail                               # Real-time colorized application logs (Laravel 11+)
+php artisan optimize:clear                     # Clears config, route, view &amp; event caches locally</code></pre></div>
+<p><strong>Debugging Rule:</strong> Capture the exact HTTP method/URL/payload, read <code>storage/logs/laravel.log</code>, change ONE variable at a time, and add a regression Feature test before closing the fix. Never apply <code>chmod 777</code> or run <code>migrate:fresh</code> on real data.</p>
+<h2>2. Root-Cause Troubleshooting Reference Table</h2>
+<div class="table-wrap"><table><thead><tr><th>Symptom</th><th>Most Likely Root Cause</th><th>Exact Fix</th></tr></thead><tbody><tr><td><strong>HTTP 500 Internal Server Error</strong></td><td>Runtime PHP exception, missing <code>APP_KEY</code>, missing extension, unwritable <code>storage/</code></td><td>Inspect <code>storage/logs/laravel.log</code> &amp; PHP logs; run <code>php artisan about</code>; keep <code>APP_DEBUG=false</code> in production</td></tr><tr><td><strong>HTTP 419 Page Expired</strong></td><td>Missing <code>@csrf</code> token, wrong <code>SESSION_DOMAIN</code>, HTTPS proxy mismatch, unwritable sessions</td><td>Add <code>@csrf</code> in mutation &amp; logout forms; verify <code>.env</code> <code>APP_URL</code>, <code>SESSION_SECURE_COOKIE</code>, and writable <code>storage/framework/sessions</code></td></tr><tr><td><strong>HTTP 404 / Route Not Defined</strong></td><td>Stale route cache, verb mismatch (<code>GET</code> vs <code>POST</code>), missing Nginx <code>try_files</code> rewrite</td><td>Run <code>php artisan route:list --except-vendor</code>; confirm <code>try_files $uri $uri/ /index.php?$query_string;</code>; clear routes locally</td></tr><tr><td><strong><code>SQLSTATE[HY000] [2002]</code></strong></td><td>DB stopped, wrong <code>DB_HOST</code> (<code>127.0.0.1</code> vs <code>localhost</code> socket vs Docker service), missing PDO driver</td><td>Confirm DB service running, verify <code>.env</code> <code>DB_*</code> credentials, verify <code>pdo_mysql</code>/<code>pdo_sqlite</code> in <code>php -m</code></td></tr><tr><td><strong>Target Class Does Not Exist</strong></td><td>Namespace/folder mismatch, Linux case-sensitivity mismatch, stale Composer classmap</td><td>Match PSR-4 path (<code>App\Http\Middleware\AdminMiddleware</code> -&gt; <code>app/Http/Middleware/AdminMiddleware.php</code>) &amp; run <code>composer dump-autoload</code></td></tr><tr><td><strong><code>Vite manifest not found</code></strong></td><td>Assets not compiled (<code>public/build/manifest.json</code> missing) while <code>npm run dev</code> is off</td><td>Run <code>npm install &amp;&amp; npm run dev</code> locally or build &amp; deploy <code>public/build/</code> via <code>npm run build</code></td></tr><tr><td><strong>Uploaded Images Return 404</strong></td><td>Missing <code>public/storage</code> symlink or saving to private <code>local</code> disk instead of <code>public</code></td><td>Run <code>php artisan storage:link</code>; verify uploads call <code>-&gt;store(&#039;folder&#039;, &#039;public&#039;)</code> &amp; URLs use <code>Storage::url($path)</code></td></tr><tr><td><strong>Admin Guard Loads <code>User</code> Model</strong></td><td>Wrapping <code>admins</code> provider in <code>env(&#039;AUTH_MODEL&#039;, ...)</code> inside <code>config/auth.php</code></td><td>Hardcode <code>&#039;model&#039; =&gt; App\Models\Admin::class</code>, regenerate session on login, invalidate on logout</td></tr><tr><td><strong><code>env()</code> Returns <code>null</code> in Production</strong></td><td>Calling <code>env()</code> outside <code>config/*.php</code> after running <code>php artisan config:cache</code></td><td>Move every <code>env()</code> read into <code>config/*.php</code> and read via <code>config(&#039;file.key&#039;)</code> everywhere</td></tr><tr><td><strong>Queued Jobs Stay Pending</strong></td><td>Jobs queued (<code>QUEUE_CONNECTION=database</code>) without running worker or scheduler cron</td><td>Run <code>php artisan queue:work --tries=3</code>, check <code>queue:failed</code>, or schedule <code>--stop-when-empty</code> cron on cPanel</td></tr><tr><td><strong>Permission Denied (<code>storage/</code>, <code>bootstrap/cache/</code>)</strong></td><td>Web server process user lacks write ownership</td><td>Assign runtime owner (<code>chown -R www-data:www-data storage bootstrap/cache</code>) &amp; <code>775</code> dirs — never <code>777</code></td></tr></tbody></table></div></div></article>
+<article class="chapter-card" id="ch-18" data-track="track-3"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-3">Track 3: Production</span><a class="source-link" href="chapters/18-clean-architecture-cms-capstone-and-roadmap/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">18.</span> Chapter 18 — Clean Architecture, Automated Scaffolder, Capstone CMS &amp; 12-Week Roadmap</h2><button type="button" class="done-toggle" data-ch="ch-18" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Bring every pattern in this handbook together using layered domain boundaries, automated batch CMS scaffolding (<a href="./scripts/laravel_artisan_setup.sh" class="md-link"><code>laravel_artisan_setup.sh</code></a>), the <strong>EliteBlog Pro CMS</strong> capstone build, and a 12-week progression plan.</p>
+<h2>1. Clean Feature Architecture &amp; Engineering Standards</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">TEXT</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-text">app/
+├── Actions/Posts/PublishPostAction.php   # Wrapped in DB::transaction()
+├── Http/Controllers/Admin/PostController.php
+├── Http/Requests/StorePostRequest.php
+├── Http/Resources/PostResource.php
+├── Models/Post.php
+├── Policies/PostPolicy.php
+└── Services/MediaService.php</code></pre></div>
+<ul><li>Extract focused <code>Action</code> / <code>Service</code> classes wrapped in <code>DB::transaction(fn () =&gt; ...)</code> when multi-model writes, uploads, and events combine.</li><li>Skip abstract Repository interfaces for standard Eloquent apps — Eloquent scopes, casts, and relations already serve as a clean data boundary.</li><li>Enforce <code>unique()</code>, <code>foreignId()-&gt;constrained()</code>, and <code>NOT NULL</code> constraints at the database level alongside <code>FormRequest</code> validation.</li></ul>
+<h2>2. Batch CMS Scaffolding Script (<code>scripts/laravel_artisan_setup.sh</code>)</h2>
+<p>Preview or execute the bundled scaffolder from any fresh Laravel project root to generate <code>AdminLayout</code>, <code>HomeLayout</code>, <code>BlogLayout</code>, partials across 5 roles (<code>admin</code>, <code>user</code>, <code>tutor</code>, <code>blog</code>, <code>home</code>), anonymous <code>--view</code> form components (<code>forms.input</code>, <code>label</code>, <code>button</code>, etc.), and <code>Admin</code>, <code>Author</code>, <code>Gallery</code>, <code>Category</code>, <code>Comment</code>, <code>Post</code>, and <code>Tag</code> models (<code>-mfs</code>) + Admin resource controllers:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">bash scripts/laravel_artisan_setup.sh --dry-run</code></pre></div>
+<h2>3. Capstone Blueprint — EliteBlog Pro CMS</h2>
+<h3>Functional Modules &amp; Suggested Schema</h3>
+<ul><li><strong>Auth &amp; RBAC</strong>: Verified users + Admin multi-guard dashboard, <code>roles</code>/<code>permissions</code>/<code>role_user</code>/<code>permission_role</code> tables, activity audit logs.</li><li><strong>Editorial Workflow</strong>: <code>posts</code>, <code>pages</code>, <code>categories</code>, <code>tags</code>, <code>category_post</code>, <code>post_tag</code>, <code>galleries</code>, <code>media</code>, <code>comments</code>, <code>post_revisions</code> (draft -&gt; review -&gt; scheduled -&gt; published), <code>newsletter_subscribers</code>, <code>settings</code>.</li><li><strong>SEO &amp; API</strong>: Canonical URLs, Open Graph metadata, queued XML sitemap (<code>GenerateSitemapJob</code>), Sanctum REST API + <code>PostResource</code> + rate limiting.</li></ul>
+<h3>Definition of Done</h3>
+<ol><li>Server-side Policies (<code>Gate::authorize</code>) protect every mutation &amp; private download.</li><li>Validated inputs (<code>FormRequest</code>), eager-loaded queries (<code>Model::preventLazyLoading()</code>), and randomized protected uploads.</li><li>Passing Pest Feature suite covering guest, owner, unauthorized intruder (<code>403</code>), and Sanctum API flows.</li><li><code>APP_DEBUG=false</code>, tested backup/restore, CI checks green (<code>pint --test</code> &amp; <code>php artisan test</code>), and repeatable <code>artisan optimize</code> rollout.</li></ol>
+<h2>4. Hands-On Practice Builds &amp; 12-Week Roadmap</h2>
+<div class="table-wrap"><table><thead><tr><th>Weeks</th><th>Focus</th><th>Deliverable</th></tr></thead><tbody><tr><td><strong>1–2</strong></td><td>PHP 8.3+, Container DI, Lifecycle, Routing &amp; Controllers</td><td>Agency Landing Page (Demo 1)</td></tr><tr><td><strong>3–4</strong></td><td>Blade Components, Partials, Vite, Migrations &amp; Faker Seeders</td><td>Paginated Database CRUD App</td></tr><tr><td><strong>5–6</strong></td><td>Eloquent Relations (<code>1:1</code>, <code>1:N</code>, <code>N:N</code>), N+1 Fix &amp; Uploads</td><td>DevBlog Manager (Demo 2)</td></tr><tr><td><strong>7–8</strong></td><td>Policies, RBAC, Multi-Guard Auth (<code>web</code> + <code>admin</code>), Security</td><td>Guarded Task Manager &amp; Admin Portal</td></tr><tr><td><strong>9–10</strong></td><td>Sanctum APIs, Mail, Queues (<code>ShouldQueue</code>/<code>defer()</code>), Cache</td><td>REST API + Queued Job Pipeline</td></tr><tr><td><strong>11–12</strong></td><td>Pest/PHPUnit Fakes, Nginx/cPanel Deploy, CI &amp; Capstone</td><td>Live <strong>EliteBlog Pro CMS</strong></td></tr></tbody></table></div></div></article>
 
+        <article class="chapter-card" id="quiz-section" data-track="track-quiz">
+          <header class="chapter-head">
+            <div class="chapter-meta">
+              <span class="track-badge track-quiz">Knowledge Check</span>
+              <a class="source-link" href="./CHEATSHEET.md">Open Commands Cheatsheet &rarr;</a>
+            </div>
+            <div class="title-row">
+              <h2><span class="ch-prefix">QZ.</span> Interactive Laravel Mastery Check (12 Questions)</h2>
+              <button type="button" class="done-toggle" onclick="resetQuizzes()">Reset Quizzes</button>
+            </div>
+          </header>
+          <div class="chapter-body">
+            <div class="quiz-header">
+              <strong id="quizSummary">Answered 0 / 12 &bull; Score: 0 correct</strong>
+              <span style="font-size:0.85rem;color:var(--muted)">Covers routing, Blade, Faker, N+1, multi-auth guards, CSRF &amp; production deployment.</span>
+            </div>
+            <div id="quizRoot"></div>
+          </div>
+        </article>
       </div>
-      <div id="emptyState" class="empty-state hidden">No chapters match your current search or filter.</div>
+      <div id="emptyState" class="empty-state hidden">No chapters match your current search or filter. Press Escape to clear search.</div>
     </main>
   </div>
 
   <script>
-    const totalChapters = 16;
-    const storageKey = 'laravel_handbook_done_v1';
+    const totalChapters = 18;
+    const storageKey = 'laravel_handbook_done_v2';
     const themeKey = 'laravel_handbook_theme_v1';
     let activeTrack = 'all';
 
@@ -2490,7 +2785,7 @@ jobs:
 
     function syncProgress() {
       const done = getDoneSet();
-      document.querySelectorAll('.done-toggle').forEach((btn) => {
+      document.querySelectorAll('.done-toggle[data-ch]').forEach((btn) => {
         const isDone = done.has(btn.dataset.ch);
         btn.classList.toggle('is-done', isDone);
         btn.textContent = isDone ? 'Completed' : 'Mark Complete';
@@ -2551,11 +2846,74 @@ jobs:
       });
     }
 
+    const quizQuestions = [
+      ['Which directory MUST the public web server serve as its DocumentRoot?', ['The project root containing .env', 'The public/ directory (public/index.php)', 'The resources/views/ directory'], 1, 'Serving public/ keeps .env, vendor/, and storage/ completely unreachable over HTTP.'],
+      ['What is the safest way to write Blade variables to prevent XSS?', ['{!! $post->title !!}', '{{ $post->title }}', '<?php echo $post->title; ?>'], 1, '{{ ... }} escapes HTML entities automatically via e().'],
+      ['Which Artisan command generates an anonymous Blade-only component without a PHP class?', ['php artisan make:component forms.input --view', 'php artisan make:component forms.input --inline', 'php artisan make:view forms.input'], 0, 'The --view flag generates only resources/views/components/forms/input.blade.php.'],
+      ['How do you preserve continuous row numbers on page 2+ of a paginator?', ['{{ $loop->index + 1 }}', '{{ $posts->firstItem() + $loop->index }}', '{{ $posts->count() }}'], 1, 'firstItem() offsets the loop index by the first item index of the current page.'],
+      ['Why pair Model::preventLazyLoading(! app()->isProduction()) with Post::with("author")?', ['To disable SQL transactions', 'To catch and eliminate N+1 query loops during development', 'To speed up Blade compilation'], 1, 'preventLazyLoading throws loudly in development if templates lazily trigger extra SELECT queries inside loops.'],
+      ['What happens if you run `php artisan migrate:fresh --seed` on production?', ['It skips foreign keys', 'It drops ALL database tables first, destroying live production data', 'It only clears Redis'], 1, 'Never run migrate:fresh or db:wipe on production; always run php artisan migrate --force after taking backups.'],
+      ['Why set `"model" => App\\Models\\Admin::class` directly on the admins provider in config/auth.php?', ['Faster caching', 'Using env("AUTH_MODEL", ...) can accidentally load App\\Models\\User if AUTH_MODEL is set in .env', 'Admin models cannot autoload'], 1, 'Direct class binding guarantees the admin guard always authenticates against admins.'],
+      ['Which session calls prevent session fixation and token reuse on login/logout?', ['Skip session management', 'session()->regenerate() on login and session()->invalidate() + regenerateToken() on logout', 'Disable VerifyCsrfToken middleware'], 1, 'Regenerating session IDs on login and invalidating on logout defeats fixation and stale CSRF reuse.'],
+      ['Which HTTP method should trigger Admin or User logout in Blade templates?', ['GET /logout anchor link', 'POST /logout form with @csrf', 'HEAD /logout'], 1, 'Always use POST with @csrf so third-party pages cannot force-logout signed-in users.'],
+      ['Where should env("MY_KEY") calls be placed so `php artisan config:cache` works cleanly in production?', ['Inside controllers directly', 'Only inside config/*.php files, then read via config("file.key")', 'Inside Blade views'], 1, 'Once config:cache runs, .env is not loaded directly and env() outside config/ returns null.'],
+      ['Where are custom middleware aliases registered cleanly in Laravel 11 / 12 / 13?', ['bootstrap/app.php (->withMiddleware())', 'public/index.php', 'config/session.php'], 0, 'Laravel 11–13 registers middleware aliases and routing hooks centrally inside bootstrap/app.php.'],
+      ['What causes "Vite manifest not found at public/build/manifest.json"?', ['Missing composer.json', 'Assets were not compiled with npm run build and npm run dev is not running', 'Missing storage symlink'], 1, 'Run npm run dev locally or deploy public/build/ built with npm run build.']
+    ];
+
+    const quizResults = new Array(quizQuestions.length).fill(null);
+    function updateQuizSummary() {
+      const answered = quizResults.filter(v => v !== null).length;
+      const correct = quizResults.filter(v => v === true).length;
+      document.getElementById('quizSummary').textContent = `Answered ${answered} / ${quizQuestions.length} \u2022 Score: ${correct} correct`;
+    }
+
+    function renderQuizzes() {
+      const root = document.getElementById('quizRoot');
+      root.innerHTML = '';
+      quizQuestions.forEach((q, idx) => {
+        const card = document.createElement('div');
+        card.className = 'quiz-card';
+        const title = document.createElement('strong');
+        title.textContent = `${idx + 1}. ${q[0]}`;
+        card.append(title);
+        q[1].forEach((opt, optIdx) => {
+          const lbl = document.createElement('label');
+          const r = document.createElement('input');
+          r.type = 'radio'; r.name = `qz-${idx}`; r.value = String(optIdx);
+          lbl.append(r, document.createTextNode(' ' + opt));
+          card.append(lbl);
+        });
+        const btn = document.createElement('button');
+        btn.type = 'button'; btn.className = 'btn'; btn.textContent = 'Check Answer';
+        const fb = document.createElement('div');
+        fb.className = 'quiz-fb';
+        btn.addEventListener('click', () => {
+          const chosen = card.querySelector('input:checked');
+          if (!chosen) { fb.textContent = 'Choose an option first.'; fb.style.color = 'var(--amber)'; return; }
+          const ok = Number(chosen.value) === q[2];
+          quizResults[idx] = ok;
+          updateQuizSummary();
+          fb.textContent = (ok ? 'Correct \u2014 ' : 'Not quite \u2014 ') + q[3];
+          fb.style.color = ok ? 'var(--emerald)' : 'var(--amber)';
+        });
+        card.append(btn, fb);
+        root.append(card);
+      });
+      updateQuizSummary();
+    }
+
+    function resetQuizzes() { quizResults.fill(null); renderQuizzes(); }
+
     document.getElementById('searchInput').addEventListener('input', applyFilters);
     document.addEventListener('keydown', (e) => {
-      if (e.key === '/' && document.activeElement?.tagName !== 'INPUT') {
+      const tag = document.activeElement?.tagName;
+      if (e.key === '/' && tag !== 'INPUT' && tag !== 'TEXTAREA') {
         e.preventDefault();
         document.getElementById('searchInput').focus();
+      } else if (e.key === 'Escape' && document.activeElement === document.getElementById('searchInput')) {
+        document.getElementById('searchInput').value = '';
+        applyFilters();
       }
     });
     window.addEventListener('scroll', () => {
@@ -2566,6 +2924,7 @@ jobs:
 
     applyTheme(localStorage.getItem(themeKey) || 'dark');
     syncProgress();
+    renderQuizzes();
   </script>
 </body>
 </html>

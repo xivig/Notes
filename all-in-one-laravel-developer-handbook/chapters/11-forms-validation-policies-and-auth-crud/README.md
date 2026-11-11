@@ -1,126 +1,97 @@
-# Chapter 11 — Forms, Validation, Policies & Demo Project 3 (Auth Task Manager)
+# Chapter 11 — Validation, Uploads, Policies, RBAC & Hardened Multi-Guard Auth
 
-Real applications require authentication, ownership checks, server-side validation (`FormRequest`), CSRF protection, and flash feedback. In this chapter we build a complete **Authenticated Task Manager CRUD App** cleanly on modern Laravel 12/13 patterns.
-
----
-
-## 1. Choosing Authentication in Laravel 12 / 13
-
-Modern `laravel new` gives you maintained, batteries-included **Starter Kits** right out of the box (superseding standalone legacy `laravel/breeze` for new projects, though Breeze/Fortify remain common in existing Laravel 11/12 apps):
-
-- **Livewire Starter Kit**: Livewire 4 + Flux UI + Volt (reactive server-rendered PHP — zero separate SPA needed).
-- **React / Vue Starter Kit**: Inertia 2 + TypeScript + Tailwind CSS v4 + shadcn/ui components.
-- **WorkOS AuthKit Option**: Enterprise SSO, passkeys, and social OAuth via `laravel new --workos`.
-- **Classic Blade + Breeze**: `composer require laravel/breeze --dev && php artisan breeze:install blade` if you specifically prefer plain Blade controllers on Laravel 11/12.
-
-Whichever kit you pick, every authenticated user accesses routes protected by `middleware('auth')` via `$request->user()` or `Auth::user()`.
+Complete, security-audited implementation of **FormRequests (`Store` + `Update` unique ignores)**, public/private file uploads, **Policies**, **RBAC pivot tables**, **Demo Project 3 (Task Manager)**, and **Hardened Multi-Guard Authentication (`web` vs `admin` + Blade Login View)**.
 
 ---
 
-## 2. Demo Project 3 — Authenticated Task Manager (Full CRUD + Policy)
+## 1. Dedicated FormRequests & Safe File Uploads
 
-### Step 1: Migration & `Task` Model
 ```bash
-php artisan make:model Task -mc
-php artisan make:policy TaskPolicy --model=Task
 php artisan make:request StoreTaskRequest
 php artisan make:request UpdateTaskRequest
 ```
 
-Migration `create_tasks_table`:
 ```php
-Schema::create('tasks', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-    $table->string('title');
-    $table->text('notes')->nullable();
-    $table->boolean('is_completed')->default(false);
-    $table->timestamps();
-});
-```
-
-Model `app/Models/Task.php`:
-```php
-class Task extends Model
-{
-    protected $fillable = ['user_id', 'title', 'notes', 'is_completed'];
-
-    protected function casts(): array
-    {
-        return ['is_completed' => 'boolean'];
-    }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-}
-```
-
-### Step 2: Ownership Authorization (`app/Policies/TaskPolicy.php`)
-Never rely on hidden form IDs for security — enforce row ownership on the server with a **Policy**:
-
-```php
-final class TaskPolicy
-{
-    public function view(User $user, Task $task): bool
-    {
-        return $user->id === $task->user_id;
-    }
-
-    public function update(User $user, Task $task): bool
-    {
-        return $user->id === $task->user_id;
-    }
-
-    public function delete(User $user, Task $task): bool
-    {
-        return $user->id === $task->user_id;
-    }
-}
-```
-
-### Step 3: Dedicated Validation (`app/Http/Requests/StoreTaskRequest.php`)
-Moving validation rules out of controllers into `FormRequest` keeps controllers tiny and reusable:
-
-```php
-final class StoreTaskRequest extends FormRequest
+// app/Http/Requests/UpdatePostRequest.php
+final class UpdatePostRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user() !== null;
+        return $this->user()?->can('update', $this->route('post')) ?? false;
     }
 
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
-            'notes' => ['nullable', 'string', 'max:2000'],
+            'title' => ['required', 'string', 'max:180'],
+            // Ignore current row ID during unique slug check:
+            'slug' => ['required', 'alpha_dash', Rule::unique('posts', 'slug')->ignore($this->route('post'))],
+            'body' => ['required', 'string'],
+            'cover' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ];
     }
 }
 ```
+Pass ONLY `$request->validated()` into `create()` / `update()`.
+- **Public assets**: `$path = $request->file('cover')->store('post-covers', 'public');` (delete replaced image with `Storage::disk('public')->delete($oldPath)`).
+- **Private documents**: `$path = $request->file('doc')->store('private-docs', 'local');`, streamed strictly after `Gate::authorize('download', $doc)`.
 
-### Step 4: Controller (`app/Http/Controllers/TaskController.php`)
-Notice `$request->validated()` + `Gate::authorize('update', $task)`:
+---
+
+## 2. Policies (`TaskPolicy` / `PostPolicy`) & RBAC Pivot Architecture
+
+```bash
+php artisan make:policy TaskPolicy --model=Task
+```
+
+```php
+final class TaskPolicy
+{
+    public function update(User $user, Task $task): bool
+    {
+        return $user->id === $task->user_id || $user->hasPermission('tasks.edit_any');
+    }
+
+    public function delete(User $user, Task $task): bool
+    {
+        return $this->update($user, $task);
+    }
+}
+```
+
+### RBAC Tables Schema (`roles`, `permissions`, `role_user`, `permission_role`)
+When admins & editors share one `users` table, prefer single-guard RBAC over duplicating auth tables:
+```php
+Schema::create('roles', fn (Blueprint $t) => $t->id() && $t->string('name')->unique());
+Schema::create('permissions', fn (Blueprint $t) => $t->id() && $t->string('name')->unique());
+Schema::create('role_user', function (Blueprint $t) {
+    $t->foreignId('role_id')->constrained()->cascadeOnDelete();
+    $t->foreignId('user_id')->constrained()->cascadeOnDelete();
+    $t->primary(['role_id', 'user_id']);
+});
+Schema::create('permission_role', function (Blueprint $t) {
+    $t->foreignId('permission_id')->constrained()->cascadeOnDelete();
+    $t->foreignId('role_id')->constrained()->cascadeOnDelete();
+    $t->primary(['permission_id', 'role_id']);
+});
+```
+
+---
+
+## 3. Demo Project 3 — Policy-Guarded Task Manager CRUD
 
 ```php
 final class TaskController extends Controller
 {
     public function index(Request $request): View
     {
-        $tasks = $request->user()
-            ->tasks()
-            ->latest()
-            ->paginate(15);
-
+        $tasks = $request->user()->tasks()->latest()->paginate(15);
         return view('tasks.index', compact('tasks'));
     }
 
     public function store(StoreTaskRequest $request): RedirectResponse
     {
         $request->user()->tasks()->create($request->validated());
-
         return to_route('tasks.index')->with('success', 'Task created!');
     }
 
@@ -130,92 +101,129 @@ final class TaskController extends Controller
         return view('tasks.edit', compact('task'));
     }
 
-    public function update(UpdateTaskRequest $request, Task $task): RedirectResponse
-    {
-        Gate::authorize('update', $task);
-
-        $task->update([
-            'title' => $request->validated('title'),
-            'notes' => $request->validated('notes'),
-            'is_completed' => $request->boolean('is_completed'),
-        ]);
-
-        return to_route('tasks.index')->with('success', 'Task updated!');
-    }
-
     public function destroy(Task $task): RedirectResponse
     {
         Gate::authorize('delete', $task);
         $task->delete();
-
         return to_route('tasks.index')->with('success', 'Task deleted!');
     }
 }
 ```
 
-### Step 5: Routes (`routes/web.php`)
-```php
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::resource('tasks', TaskController::class)->except(['show']);
-});
-```
-
-### Step 6: Blade View (`resources/views/tasks/index.blade.php`)
-> Note: Ensure `@forelse` always closes cleanly with `@endforelse`!
-
+Blade snippet (`resources/views/tasks/index.blade.php`):
 ```blade
-<x-app-layout>
-    <div class="max-w-3xl mx-auto py-8 px-4 space-y-6">
-        @if (session('success'))
-            <div class="rounded-lg bg-emerald-950 border border-emerald-700 px-4 py-3 text-emerald-200">
-                {{ session('success') }}
+<ul class="divide-y divide-slate-800 rounded-xl border border-slate-800">
+    @forelse ($tasks as $task)
+        <li class="flex items-center justify-between p-4">
+            <span>{{ $task->title }}</span>
+            <div class="flex items-center gap-3 text-sm">
+                @can('update', $task)
+                    <a href="{{ route('tasks.edit', $task) }}" class="text-indigo-400">Edit</a>
+                @endcan
+                @can('delete', $task)
+                    <form action="{{ route('tasks.destroy', $task) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="text-rose-400">Delete</button>
+                    </form>
+                @endcan
             </div>
-        @endif
-
-        <form action="{{ route('tasks.store') }}" method="POST" class="flex gap-3">
-            @csrf
-            <input type="text" name="title" value="{{ old('title') }}"
-                   placeholder="Add a new task..." class="flex-1 rounded border px-3 py-2 text-slate-900">
-            <button type="submit" class="rounded bg-indigo-600 px-4 py-2 text-white font-medium">
-                Add Task
-            </button>
-        </form>
-        @error('title')
-            <p class="text-sm text-rose-400">{{ $message }}</p>
-        @enderror
-
-        <ul class="divide-y divide-slate-800 rounded-xl border border-slate-800">
-            @forelse ($tasks as $task)
-                <li class="flex items-center justify-between p-4">
-                    <span class="{{ $task->is_completed ? 'line-through text-slate-500' : '' }}">
-                        {{ $task->title }}
-                    </span>
-                    <div class="flex items-center gap-3 text-sm">
-                        @can('update', $task)
-                            <a href="{{ route('tasks.edit', $task) }}" class="text-indigo-400">Edit</a>
-                        @endcan
-                        @can('delete', $task)
-                            <form action="{{ route('tasks.destroy', $task) }}" method="POST" class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-rose-400">Delete</button>
-                            </form>
-                        @endcan
-                    </div>
-                </li>
-            @empty
-                <li class="p-6 text-center text-slate-400">No tasks found. Add one above!</li>
-            @endforelse
-        </ul>
-
-        {{ $tasks->links() }}
-    </div>
-</x-app-layout>
+        </li>
+    @empty
+        <li class="p-6 text-center text-slate-400">No tasks found.</li>
+    @endforelse
+</ul>
 ```
 
 ---
 
-## Key Takeaways
-- Keep validation rules in **FormRequest** subclasses and pass `$request->validated()` — never raw `$request->all()`.
-- Always enforce row-level security with **Policies** (`Gate::authorize(...)`) AND mirror UI affordances with `@can(...)`.
-- Double-check `@forelse` ... `@empty` ... `@endforelse` pairing and `@csrf` / `@method(...)` on mutation forms.
+## 4. Hardened Multi-Guard Authentication (`web` vs `admin`)
+
+Use separate `web` and `admin` guards ONLY when threat models require separate DB tables and completely isolated login sessions.
+
+```bash
+php artisan make:model Admin -mfs
+php artisan make:controller AdminController
+php artisan make:middleware AdminMiddleware
+```
+
+### Step 1: `Admin` Model & `config/auth.php`
+- Extend `Illuminate\Foundation\Auth\User as Authenticatable` with `casts(): ['email_verified_at' => 'datetime', 'password' => 'hashed']`.
+- In `config/auth.php`, bind **`'model' => App\Models\Admin::class` directly** on the `admins` provider (NEVER `env('AUTH_MODEL', ...)`, preventing `.env` overrides from querying `users`!).
+
+### Step 2: Middleware (`bootstrap/app.php`) & `AdminSeeder`
+```php
+// app/Http/Middleware/AdminMiddleware.php
+if (! Auth::guard('admin')->check()) {
+    return redirect()->route('admin.login')->with('error', 'Administrator login required.');
+}
+
+// bootstrap/app.php
+->withMiddleware(function (Middleware $middleware): void {
+    $middleware->alias(['admin' => \App\Http\Middleware\AdminMiddleware::class]);
+})
+```
+```php
+// database/seeders/AdminSeeder.php
+Admin::firstOrCreate(
+    ['email' => 'admin@example.com'],
+    ['name' => 'Super Admin', 'password' => Hash::make('change-this-password'), 'email_verified_at' => now()]
+);
+```
+
+### Step 3: `AdminController` (Session Regeneration + CSRF `POST` Logout) & Login View
+```php
+final class AdminController extends Controller
+{
+    public function index(): View { return view('admin.dashboard'); }
+    public function showLoginForm(): View { return view('admin.login'); }
+
+    public function store(Request $request): RedirectResponse
+    {
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string'],
+        ]);
+
+        if (Auth::guard('admin')->attempt($credentials, $request->boolean('remember'))) {
+            $request->session()->regenerate(); // Stops session fixation!
+            return redirect()->intended(route('admin.dashboard'))->with('success', 'Welcome to Admin Dashboard!');
+        }
+
+        return back()->onlyInput('email')->with('error', 'Invalid credentials.');
+    }
+
+    public function destroy(Request $request): RedirectResponse
+    {
+        Auth::guard('admin')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return to_route('admin.login')->with('success', 'Signed out cleanly.');
+    }
+}
+```
+```php
+// routes/web.php
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::middleware('guest:admin')->group(function () {
+        Route::get('/login', [AdminController::class, 'showLoginForm'])->name('login');
+        Route::post('/login', [AdminController::class, 'store'])->middleware('throttle:5,1')->name('login.submit');
+    });
+    Route::middleware('admin')->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
+        Route::post('/logout', [AdminController::class, 'destroy'])->name('logout');
+    });
+});
+```
+```blade
+{{-- resources/views/admin/login.blade.php --}}
+<form action="{{ route('admin.login.submit') }}" method="POST" class="w-full max-w-md mx-auto p-8 space-y-5">
+    @csrf
+    <h1 class="text-xl font-bold">Administrator Login</h1>
+    <x-forms.input name="email" type="email" required autofocus />
+    <x-forms.input name="password" type="password" required />
+    <label class="flex items-center gap-2 text-sm"><input type="checkbox" name="remember" value="1"> Keep me signed in</label>
+    <button type="submit" class="w-full rounded-lg bg-rose-600 py-2.5 text-white font-semibold">Sign In</button>
+</form>
+```

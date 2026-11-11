@@ -1,0 +1,11 @@
+Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Disable Win+R Run Command Dialog Policy (Current User, Windows 11)
+; ==============================================================================
+; Sets NoRun = 1 under HKCU\...\Policies\Explorer. Sign out or restart Explorer
+; to enforce immediately. Revert with: enable_run_box.reg
+; ==============================================================================
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer]
+"NoRun"=dword:00000001

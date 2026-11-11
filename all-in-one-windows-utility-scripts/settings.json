@@ -1,0 +1,7 @@
+{
+  "default_backup_dir": "mybackup",
+  "default_web_root": "webroot",
+  "html_template_dir": "htmlSiteCreation",
+  "app_template_dir": "app",
+  "php_oop_dir": "php_oop"
+}

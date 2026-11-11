@@ -1,0 +1,13 @@
+Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Enable USB Mass Storage Write Protection / Read-Only Mode (Windows 11)
+; ==============================================================================
+; Requires Administrator privileges (HKLM).
+; Prevents writing, modifying, deleting, or formatting removable USB drives.
+; Re-plug any currently inserted USB drive for the policy to take effect.
+; Revert with: usb_write_protect_disable.reg
+; ==============================================================================
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\StorageDevicePolicies]
+"WriteProtect"=dword:00000001

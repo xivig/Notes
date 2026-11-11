@@ -1,0 +1,10 @@
+Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Re-Enable USB Mass Storage Driver (USBSTOR = 3, Windows 11 Default)
+; ==============================================================================
+; Requires Administrator privileges (HKLM).
+; ==============================================================================
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\USBSTOR]
+"Start"=dword:00000003

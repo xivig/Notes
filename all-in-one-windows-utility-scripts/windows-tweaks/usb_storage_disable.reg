@@ -1,0 +1,12 @@
+Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Disable USB Mass Storage Driver Entirely (USBSTOR = 4, Windows 11)
+; ==============================================================================
+; Requires Administrator privileges (HKLM).
+; Blocks Windows from mounting newly inserted USB flash drives/external disks.
+; Revert with: usb_storage_enable.reg
+; ==============================================================================
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\USBSTOR]
+"Start"=dword:00000004

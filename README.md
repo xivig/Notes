@@ -1,6 +1,6 @@
 # 📚 Xivig Developer Notes & Knowledge Base
 
-[![Topics](https://img.shields.io/badge/Knowledge%20Base-20%20Disciplines-6366f1?style=flat-square)](.)
+[![Topics](https://img.shields.io/badge/Knowledge%20Base-21%20Disciplines-6366f1?style=flat-square)](.)
 [![Python](https://img.shields.io/badge/Python-3.10%20--%203.14-3776AB?style=flat-square&logo=python&logoColor=white)](all-in-one-python-developer-handbook/README.md)
 [![Laravel](https://img.shields.io/badge/Laravel-12%20%7C%2013-FF2D20?style=flat-square&logo=laravel&logoColor=white)](all-in-one-laravel-developer-handbook/README.md)
 [![ORM](https://img.shields.io/badge/ORM-Eloquent%20%7C%20Doctrine%203-e11d48?style=flat-square&logo=laravel&logoColor=white)](all-in-one-orm-developer-handbook/README.md)
@@ -17,6 +17,7 @@
 [![Sublime Text](https://img.shields.io/badge/Editor-Sublime%20Text-FF9800?style=flat-square&logo=sublimetext&logoColor=white)](sublime-text-editor-trick/README.md)
 [![Vagrant](https://img.shields.io/badge/Virtualization-Vagrant%20%26%20Docker-1563FF?style=flat-square&logo=vagrant&logoColor=white)](vagrant-docker-vm-setup/gettingStartedVagrant.md)
 [![Jekyll](https://img.shields.io/badge/Static%20Sites-Jekyll%204.x-CC0000?style=flat-square&logo=jekyll&logoColor=white)](jekyll-static-site-guide/Jekyll-config-windows-mac-linux.md)
+[![Windows](https://img.shields.io/badge/Windows%2011-Utility%20%26%20Tweak%20Scripts-0078D4?style=flat-square&logo=windows11&logoColor=white)](all-in-one-windows-utility-scripts/README.md)
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg?style=flat-square)](LICENSE)
 
 An exhaustive, modular collection of developer notes, architectural cheat sheets, code-first tutorials, automation scripts, and systems operations recipes curated across web, database, and systems engineering disciplines.
@@ -46,6 +47,7 @@ xivig-all-in-one-notes/
 ├── all-in-one-python-developer-handbook/     # Modern Python 3.10–3.14 18-module handbook, Pyodide academy & verified labs
 ├── all-in-one-orm-developer-handbook/        # Eloquent (Active Record) vs Doctrine 3 (Data Mapper) 12-chapter handbook & SQLite labs
 ├── developer-handbook-unix-linux-git-shell/  # Unix/Linux, Git, Shell, macOS, HTML5 handbooks & 25 scripts
+├── all-in-one-windows-utility-scripts/       # Modern Windows 11 5-language utility suites, templates & 20 tweaks
 └── rc-meaning.md                             # The historical meaning and origin of Unix 'rc' files
 ```
 
@@ -208,6 +210,13 @@ xivig-all-in-one-notes/
 * **Track 1 — Foundations, Modeling & Core CRUD**: [01. Architectures & Impedance Mismatch](all-in-one-orm-developer-handbook/chapters/01_orm_setup.md) · [02. Models, Entities & Value Objects](all-in-one-orm-developer-handbook/chapters/02_models_entities.md) · [03. Saving, Upserts & Entity States](all-in-one-orm-developer-handbook/chapters/03_saving_records.md) · [04. Querying, Scopes & DQL Safety](all-in-one-orm-developer-handbook/chapters/04_querying_data.md).
 * **Track 2 — Relationships, Analytics & Data Integrity**: [05. Relations, Polymorphic Models & N+1](all-in-one-orm-developer-handbook/chapters/05_orm_relations.md) · [06. Aggregations & DTO Projections](all-in-one-orm-developer-handbook/chapters/06_orm_aggregations.md) · [07. ACID Transactions, Savepoints & Locks](all-in-one-orm-developer-handbook/chapters/07_orm_transactions.md) · [08. Mutators, Observers & Lifecycle Hooks](all-in-one-orm-developer-handbook/chapters/08_lifecycle_hooks.md).
 * **Track 3 — Scale, Migrations & Clean Architecture**: [09. Sorting, Offset Traps & Cursor Pagination](all-in-one-orm-developer-handbook/chapters/09_sorting_pagination.md) · [10. Hydration, Streaming Batches & Caching](all-in-one-orm-developer-handbook/chapters/10_orm_optimization.md) · [11. Migrations, Indexes & ORM Testing](all-in-one-orm-developer-handbook/chapters/11_orm_migrations_indexes_and_testing.md) · [12. Clean Architecture & CQRS Playbook](all-in-one-orm-developer-handbook/chapters/12_orm_clean_architecture_and_benchmarks.md).
+
+### 21. 🪟 [All-in-One Windows 11 Utility & Automation Scripts](all-in-one-windows-utility-scripts/README.md)
+* **Master Hub & Interactive Portal**: 📘 **[Full Script Index (`README.md`)](all-in-one-windows-utility-scripts/README.md)** · 🌐 **Interactive Master Portal ([Launch Live ↗](https://htmlpreview.github.io/?https://github.com/xivig/xivig-all-in-one-notes/blob/master/all-in-one-windows-utility-scripts/index.html) · [Local](all-in-one-windows-utility-scripts/index.html))** · ⚙️ **[`settings.json`](all-in-one-windows-utility-scripts/settings.json)**.
+* **Suite 1 — Enterprise File & System Utility Suites (5 Runtimes)**: [`MasterUtilitySuite.bat`](all-in-one-windows-utility-scripts/MasterUtilitySuite.bat) · [`FileUtilitySuite.ps1`](all-in-one-windows-utility-scripts/FileUtilitySuite.ps1) · [`file_utility_suite.py`](all-in-one-windows-utility-scripts/file_utility_suite.py) · [`file_utility_suite.js`](all-in-one-windows-utility-scripts/file_utility_suite.js) · [`file_utility_suite.php`](all-in-one-windows-utility-scripts/file_utility_suite.php) (PowerShell RunAs elevation, Windows Terminal/`pwsh` detection, safe bulk file guards, 64/32-bit/User software export).
+* **Suite 2 — Cross-Language Admin Master Templates**: 🛠️ **[Templates Guide](all-in-one-windows-utility-scripts/script-template/README.md)** — [`master_script.bat`](all-in-one-windows-utility-scripts/script-template/master_script.bat) · [`master_script.ps1`](all-in-one-windows-utility-scripts/script-template/master_script.ps1) · [`master_script.py`](all-in-one-windows-utility-scripts/script-template/master_script.py) · [`master_script.js`](all-in-one-windows-utility-scripts/script-template/master_script.js) (CIM OS/activation diagnostics, self-contained `reg.exe` context menus, gateway diagnostics, confirmation-guarded reboot/abort).
+* **Suite 3 — Windows 11 Registry & Batch Tweaks (13 `.reg` + 7 `.bat`)**: 🔧 **[Tweak Index](all-in-one-windows-utility-scripts/windows-tweaks/README.md)** · 🌐 **Tweaks Portal ([Launch Live ↗](https://htmlpreview.github.io/?https://github.com/xivig/xivig-all-in-one-notes/blob/master/all-in-one-windows-utility-scripts/windows-tweaks/index.html) · [Local](all-in-one-windows-utility-scripts/windows-tweaks/index.html))** · [`master_tweak_tool.bat`](all-in-one-windows-utility-scripts/windows-tweaks/master_tweak_tool.bat).
+* **Suite 4 — 4-Chapter Windows 11 Tweaks Handbook**: 📖 **[Guide Index](all-in-one-windows-utility-scripts/comprehensive-tweak-guide/README.md)** · 🌐 **Handbook Portal ([Launch Live ↗](https://htmlpreview.github.io/?https://github.com/xivig/xivig-all-in-one-notes/blob/master/all-in-one-windows-utility-scripts/comprehensive-tweak-guide/index.html) · [Local](all-in-one-windows-utility-scripts/comprehensive-tweak-guide/index.html))**.
 
 ---
 

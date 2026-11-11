@@ -1,0 +1,12 @@
+Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Clear Custom Pre-Login Security Notice Banner (Windows 11)
+; ==============================================================================
+; Requires Administrator privileges (HKLM).
+; Clears both LegalNoticeCaption and LegalNoticeText so sign-in proceeds normally.
+; ==============================================================================
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System]
+"legalnoticecaption"=""
+"legalnoticetext"=""

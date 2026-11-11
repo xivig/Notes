@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-in-One Windows 11 Utility &amp; Automation Scripts — Master Index</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #070b14;
+            --bg-card: rgba(17, 25, 42, 0.78);
+            --bg-elevated: rgba(30, 41, 59, 0.72);
+            --border: rgba(148, 163, 184, 0.16);
+            --border-hover: rgba(56, 189, 248, 0.45);
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent: #38bdf8;
+            --accent-2: #818cf8;
+            --accent-green: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-purple: #a855f7;
+            --shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+            --font-display: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+            --font-sans: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', Consolas, monospace;
+        }
+
+        [data-theme="light"] {
+            --bg-main: #f8fafc;
+            --bg-card: rgba(255, 255, 255, 0.92);
+            --bg-elevated: #eef2ff;
+            --border: rgba(15, 23, 42, 0.12);
+            --border-hover: rgba(2, 132, 199, 0.45);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --accent: #0284c7;
+            --accent-2: #4f46e5;
+            --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--bg-main);
+            background-image:
+                radial-gradient(circle at 12% 10%, rgba(56, 189, 248, 0.10), transparent 34%),
+                radial-gradient(circle at 88% 85%, rgba(129, 140, 248, 0.10), transparent 34%);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+
+        .container { max-width: 1280px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+        .topbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .brand {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .brand-pill {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            padding: 0.2rem 0.55rem;
+            border-radius: 999px;
+            background: rgba(56, 189, 248, 0.14);
+            color: var(--accent);
+            border: 1px solid rgba(56, 189, 248, 0.28);
+        }
+
+        .topbar-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.65rem; }
+
+        .nav-pill {
+            text-decoration: none;
+            color: var(--text-secondary);
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            padding: 0.45rem 0.85rem;
+            font-size: 0.84rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .nav-pill:hover { color: var(--text-primary); border-color: var(--border-hover); transform: translateY(-1px); }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3.1rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.85rem;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 60%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            max-width: 780px;
+            margin: 0 auto 1.75rem;
+            color: var(--text-secondary);
+            font-size: 1.04rem;
+        }
+
+        .suite-hub {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .hub-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.15rem 1.25rem;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .hub-card:hover { transform: translateY(-3px); border-color: var(--border-hover); }
+        .hub-title { font-family: var(--font-display); font-weight: 700; font-size: 1rem; color: var(--text-primary); }
+        .hub-meta { font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent); font-weight: 600; }
+        .hub-desc { font-size: 0.86rem; color: var(--text-secondary); }
+
+        .notice {
+            background: rgba(245, 158, 11, 0.10);
+            border: 1px solid rgba(245, 158, 11, 0.28);
+            border-radius: 12px;
+            padding: 0.9rem 1.2rem;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.75rem;
+        }
+
+        .notice strong { color: var(--accent-amber); }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .search-wrap {
+            position: relative;
+            width: 100%;
+            max-width: 680px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.9rem 4.5rem 0.9rem 1.15rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 0.96rem;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+        }
+
+        .search-kbd {
+            position: absolute;
+            right: 0.9rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.15rem 0.45rem;
+            pointer-events: none;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn {
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 0.48rem 0.95rem;
+            font-size: 0.84rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover { color: var(--text-primary); border-color: var(--border-hover); }
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        .result-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-family: var(--font-mono);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+            gap: 1.15rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 0.9rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .card:hover { transform: translateY(-3px); border-color: var(--border-hover); }
+        .card.hidden { display: none; }
+
+        .card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+
+        .card-num {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .badge {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 0.2rem 0.55rem;
+            border-radius: 6px;
+        }
+
+        .badge-bat { background: rgba(16, 185, 129, 0.14); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.28); }
+        .badge-ps1 { background: rgba(56, 189, 248, 0.14); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.28); }
+        .badge-py { background: rgba(245, 158, 11, 0.14); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.28); }
+        .badge-js { background: rgba(234, 179, 8, 0.14); color: #facc15; border: 1px solid rgba(234, 179, 8, 0.28); }
+        .badge-php { background: rgba(129, 140, 248, 0.16); color: #a5b4fc; border: 1px solid rgba(129, 140, 248, 0.30); }
+        .badge-json { background: rgba(148, 163, 184, 0.14); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.28); }
+        .badge-reg { background: rgba(168, 85, 247, 0.14); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.28); }
+        .badge-html { background: rgba(14, 165, 233, 0.15); color: #7dd3fc; border: 1px solid rgba(14, 165, 233, 0.30); }
+        .badge-md { background: rgba(244, 63, 94, 0.14); color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.28); }
+
+        [data-theme="light"] .badge-bat { color: #047857; }
+        [data-theme="light"] .badge-ps1 { color: #0369a1; }
+        [data-theme="light"] .badge-py { color: #b45309; }
+        [data-theme="light"] .badge-js { color: #a16207; }
+        [data-theme="light"] .badge-php { color: #4338ca; }
+        [data-theme="light"] .badge-json { color: #334155; }
+        [data-theme="light"] .badge-reg { color: #7e22ce; }
+        [data-theme="light"] .badge-html { color: #0284c7; }
+        [data-theme="light"] .badge-md { color: #be123c; }
+
+        .card-body h3 {
+            font-family: var(--font-mono);
+            font-size: 0.96rem;
+            color: var(--text-primary);
+            margin-bottom: 0.45rem;
+            word-break: break-word;
+        }
+
+        .card-body p {
+            font-size: 0.87rem;
+            color: var(--text-secondary);
+        }
+
+        .card-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-secondary, .btn-primary {
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.45rem 0.75rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            font-family: var(--font-mono);
+        }
+
+        .btn-secondary:hover { color: var(--text-primary); border-color: var(--border-hover); }
+        .btn-secondary.copied { background: rgba(16, 185, 129, 0.18); color: var(--accent-green); border-color: rgba(16, 185, 129, 0.45); }
+
+        .btn-primary {
+            margin-left: auto;
+            background: rgba(56, 189, 248, 0.14);
+            color: var(--accent);
+            border: 1px solid rgba(56, 189, 248, 0.28);
+        }
+
+        .btn-primary:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+        .empty-state {
+            display: none;
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-muted);
+        }
+
+        footer {
+            margin-top: 3.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.84rem;
+        }
+
+        footer a { color: var(--accent); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="topbar" aria-label="Primary navigation">
+            <div class="brand">
+                <span>all-in-one-windows-utility-scripts</span>
+                <span class="brand-pill">44 Indexed Entries • Win11</span>
+            </div>
+            <div class="topbar-actions">
+                <a class="nav-pill" href="../README.md">Xivig Notes</a>
+                <a class="nav-pill" href="./README.md">README</a>
+                <a class="nav-pill" href="./windows-tweaks/index.html">Tweaks Portal</a>
+                <a class="nav-pill" href="./comprehensive-tweak-guide/index.html">Tweak Guide</a>
+                <a class="nav-pill" href="./script-template/README.md">Templates</a>
+                <button type="button" class="nav-pill" id="theme-toggle" aria-label="Toggle color theme">Toggle Theme</button>
+            </div>
+        </nav>
+
+        <header class="hero">
+            <h1>All-in-One Windows 11 Utility &amp; Automation Scripts</h1>
+            <p>Modernized Windows 11 (24H2+/26H1) portal indexing 5-language File &amp; System Utility Suites, 4 self-contained Admin Master Templates, 20 Registry &amp; Batch Tweaks, and the 4-Chapter Handbook.</p>
+        </header>
+
+        <section class="suite-hub" aria-label="Suite quick launch">
+            <a class="hub-card" href="./README.md">
+                <span class="hub-meta">SUITE 01 • 5 RUNTIMES + JSON</span>
+                <span class="hub-title">File &amp; System Utility Suites</span>
+                <span class="hub-desc">Modern Batch, PowerShell 5.1/7, Python 3, Node.js, and PHP CLI suites with dynamic app &amp; 64/32-bit inventory lookup.</span>
+            </a>
+            <a class="hub-card" href="./script-template/README.md">
+                <span class="hub-meta">SUITE 02 • 4 TEMPLATES</span>
+                <span class="hub-title">Windows 11 Admin Templates</span>
+                <span class="hub-desc">Self-contained RunAs elevation, CIM activation checks, gateway diagnostics, inline context menus, and confirmation-guarded reboots.</span>
+            </a>
+            <a class="hub-card" href="./windows-tweaks/index.html">
+                <span class="hub-meta">SUITE 03 • 13 .REG + 7 .BAT</span>
+                <span class="hub-title">Windows 11 Tweak Portal UI</span>
+                <span class="hub-desc">Open the interactive modal viewer and search grid for all 20 modernized registry policies &amp; UTF-8 batch tools.</span>
+            </a>
+            <a class="hub-card" href="./comprehensive-tweak-guide/index.html">
+                <span class="hub-meta">SUITE 04 • 4 CHAPTERS</span>
+                <span class="hub-title">Comprehensive Tweak Guide</span>
+                <span class="hub-desc">Step-by-step HTML &amp; Markdown lessons covering USB hardening, AutoPlay policies, CLSID folder locking, and 113 Run shortcuts.</span>
+            </a>
+        </section>
+
+        <div class="notice">
+            <strong>Windows 11 Modern OS Standards:</strong> VBScript elevation (<code>getadmin.vbs</code>), missing legacy external <code>.inf</code>/<code>.reg</code> dependencies, retired IE <code>shell:cookies</code> paths, and hardcoded hostnames/LAN IPs have been removed in favor of PowerShell <code>RunAs</code>, CIM queries, Windows Terminal (<code>wt.exe</code>), and synchronous <code>reg.exe import</code>.
+        </div>
+
+        <section class="controls" aria-label="Search and filter repository index">
+            <div class="search-wrap">
+                <input type="text" id="search-input" class="search-input" placeholder="Search scripts, tweaks, extensions, runtimes, or chapters..." aria-label="Search repository index">
+                <span class="search-kbd">/</span>
+            </div>
+            <div class="tabs" role="tablist">
+                <button type="button" class="tab-btn active" data-filter="all">All (44)</button>
+                <button type="button" class="tab-btn" data-filter="utility">Utility Suite (6)</button>
+                <button type="button" class="tab-btn" data-filter="template">Templates (4)</button>
+                <button type="button" class="tab-btn" data-filter="registry">Registry .reg (13)</button>
+                <button type="button" class="tab-btn" data-filter="tweak-bat">Tweak .bat (7)</button>
+                <button type="button" class="tab-btn" data-filter="guide">Guides &amp; Portals (14)</button>
+            </div>
+        </section>
+
+        <div class="result-bar">
+            <span id="result-count">Showing 44 of 44 indexed entries</span>
+            <span>Shortcut: press / to search</span>
+        </div>
+
+        <main class="grid" id="index-grid">
+            <article class="card" data-suite="utility" data-search="masterutilitysuite.bat root utility suite batch (.bat) windows 11 utf-8 cmd utility suite using powershell runas uac elevation (no vbscript), settings.json loader, yes-guarded file ops, wt/pwsh/per-user app launchers, and 64/32-bit software export. batch cmd utility suite uac powershell elevation settings json win11">
+                <div class="card-top">
+                    <span class="card-num">01 • Root Utility Suite</span>
+                    <span class="badge badge-bat">Batch (.bat)</span>
+                </div>
+                <div class="card-body">
+                    <h3>MasterUtilitySuite.bat</h3>
+                    <p>Windows 11 UTF-8 CMD utility suite using PowerShell RunAs UAC elevation (no VBScript), settings.json loader, YES-guarded file ops, wt/pwsh/per-user app launchers, and 64/32-bit software export.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd=".\MasterUtilitySuite.bat" title="Copy command">Copy Cmd</button>
+                    <a href="./MasterUtilitySuite.bat" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="utility" data-search="fileutilitysuite.ps1 root utility suite powershell (.ps1) engine-aware powershell 5.1/7+ dashboard with structured logging, home-edition msc guards (netplwiz fallback), desk.cpl,,0, dynamic app resolution, and full 64/32/user uninstall export. powershell ps1 pwsh utility suite dashboard shortcuts admin logging">
+                <div class="card-top">
+                    <span class="card-num">02 • Root Utility Suite</span>
+                    <span class="badge badge-ps1">PowerShell (.ps1)</span>
+                </div>
+                <div class="card-body">
+                    <h3>FileUtilitySuite.ps1</h3>
+                    <p>Engine-aware PowerShell 5.1/7+ dashboard with structured logging, Home-edition MSC guards (netplwiz fallback), desk.cpl,,0, dynamic app resolution, and full 64/32/User uninstall export.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="powershell -NoProfile -ExecutionPolicy Bypass -File .\FileUtilitySuite.ps1" title="Copy command">Copy Cmd</button>
+                    <a href="./FileUtilitySuite.ps1" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="utility" data-search="file_utility_suite.py root utility suite python 3 (.py) python 3.10+ stdlib cli utility with shutil.which lookup, winreg 64/32/user software exporter, yes-guarded bulk ops, home-edition console guards, and fixed batch image renamer. python py cli utility suite winreg shutil which">
+                <div class="card-top">
+                    <span class="card-num">03 • Root Utility Suite</span>
+                    <span class="badge badge-py">Python 3 (.py)</span>
+                </div>
+                <div class="card-body">
+                    <h3>file_utility_suite.py</h3>
+                    <p>Python 3.10+ stdlib CLI utility with shutil.which lookup, winreg 64/32/User software exporter, YES-guarded bulk ops, Home-edition console guards, and fixed batch image renamer.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="python file_utility_suite.py" title="Copy command">Copy Cmd</button>
+                    <a href="./file_utility_suite.py" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="utility" data-search="file_utility_suite.js root utility suite node.js (.js) node.js 18+ async terminal suite with command discovery, %localappdata%/wt.exe/pwsh.exe support, home-edition fallback guards, safe bulk rename confirmation, and 64/32-bit uninstall exporter. nodejs javascript js cli utility suite async readline">
+                <div class="card-top">
+                    <span class="card-num">04 • Root Utility Suite</span>
+                    <span class="badge badge-js">Node.js (.js)</span>
+                </div>
+                <div class="card-body">
+                    <h3>file_utility_suite.js</h3>
+                    <p>Node.js 18+ async terminal suite with command discovery, %LOCALAPPDATA%/wt.exe/pwsh.exe support, Home-edition fallback guards, safe bulk rename confirmation, and 64/32-bit uninstall exporter.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="node file_utility_suite.js" title="Copy command">Copy Cmd</button>
+                    <a href="./file_utility_suite.js" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="utility" data-search="file_utility_suite.php root utility suite php cli (.php) php 8.2+ cli utility suite supporting web scaffolding, oop php generation, windows 11 guarded shortcuts, dynamic app resolution, and 64/32/user software inventory export. php cli utility suite oop scaffold terminal">
+                <div class="card-top">
+                    <span class="card-num">05 • Root Utility Suite</span>
+                    <span class="badge badge-php">PHP CLI (.php)</span>
+                </div>
+                <div class="card-body">
+                    <h3>file_utility_suite.php</h3>
+                    <p>PHP 8.2+ CLI utility suite supporting web scaffolding, OOP PHP generation, Windows 11 guarded shortcuts, dynamic app resolution, and 64/32/User software inventory export.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="php file_utility_suite.php" title="Copy command">Copy Cmd</button>
+                    <a href="./file_utility_suite.php" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="utility" data-search="settings.json root utility suite config (.json) centralized configuration loaded by all 5 utility suites (default_backup_dir, default_web_root, html_template_dir, app_template_dir, php_oop_dir). json config settings backup web root template">
+                <div class="card-top">
+                    <span class="card-num">06 • Root Utility Suite</span>
+                    <span class="badge badge-json">Config (.json)</span>
+                </div>
+                <div class="card-body">
+                    <h3>settings.json</h3>
+                    <p>Centralized configuration loaded by all 5 utility suites (default_backup_dir, default_web_root, html_template_dir, app_template_dir, php_oop_dir).</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="type settings.json" title="Copy command">Copy Cmd</button>
+                    <a href="./settings.json" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="template" data-search="script-template/master_script.bat master script templates batch (.bat) self-contained win11 cmd template: powershell runas elevation, cim os/activation readout, dynamic gateway diagnostics, self-contained admin terminal &amp; take ownership context menus, and 5r/5a guarded reboot. template batch cmd cim network context menu shutdown abort">
+                <div class="card-top">
+                    <span class="card-num">07 • Master Script Templates</span>
+                    <span class="badge badge-bat">Batch (.bat)</span>
+                </div>
+                <div class="card-body">
+                    <h3>script-template/master_script.bat</h3>
+                    <p>Self-contained Win11 CMD template: PowerShell RunAs elevation, CIM OS/activation readout, dynamic gateway diagnostics, self-contained Admin Terminal &amp; Take Ownership context menus, and 5R/5A guarded reboot.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd=".\script-template\master_script.bat" title="Copy command">Copy Cmd</button>
+                    <a href="./script-template/master_script.bat" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="template" data-search="script-template/master_script.ps1 master script templates powershell (.ps1) powershell 5.1/7+ admin template using get-ciminstance, clear-dnsclientcache, get-netroute gateway lookup, self-contained reg.exe context menus, ms-settings: launcher, and confirmed reboot/abort. template powershell ps1 cim dns cache gateway settings">
+                <div class="card-top">
+                    <span class="card-num">08 • Master Script Templates</span>
+                    <span class="badge badge-ps1">PowerShell (.ps1)</span>
+                </div>
+                <div class="card-body">
+                    <h3>script-template/master_script.ps1</h3>
+                    <p>PowerShell 5.1/7+ admin template using Get-CimInstance, Clear-DnsClientCache, Get-NetRoute gateway lookup, self-contained reg.exe context menus, ms-settings: launcher, and confirmed reboot/abort.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="powershell -NoProfile -ExecutionPolicy Bypass -File .\script-template\master_script.ps1" title="Copy command">Copy Cmd</button>
+                    <a href="./script-template/master_script.ps1" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="template" data-search="script-template/master_script.py master script templates python 3 (.py) python 3.10+ admin template with quoted ctypes uac relaunch, injection-safe list subprocess calls, cim activation checks, self-contained context menu installers, and confirmation-guarded reboot. template python py ctypes uac cim subprocess safe">
+                <div class="card-top">
+                    <span class="card-num">09 • Master Script Templates</span>
+                    <span class="badge badge-py">Python 3 (.py)</span>
+                </div>
+                <div class="card-body">
+                    <h3>script-template/master_script.py</h3>
+                    <p>Python 3.10+ admin template with quoted ctypes UAC relaunch, injection-safe list subprocess calls, CIM activation checks, self-contained context menu installers, and confirmation-guarded reboot.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="python .\script-template\master_script.py" title="Copy command">Copy Cmd</button>
+                    <a href="./script-template/master_script.py" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="template" data-search="script-template/master_script.js master script templates node.js (.js) node.js 18+ admin template using execfile, net session elevation, cim os/activation readout, get-netroute gateway test, self-contained context menus, wt.exe launcher, and 5r/5a reboot controls. template nodejs js execfile cim gateway settings">
+                <div class="card-top">
+                    <span class="card-num">10 • Master Script Templates</span>
+                    <span class="badge badge-js">Node.js (.js)</span>
+                </div>
+                <div class="card-body">
+                    <h3>script-template/master_script.js</h3>
+                    <p>Node.js 18+ admin template using execFile, net session elevation, CIM OS/activation readout, Get-NetRoute gateway test, self-contained context menus, wt.exe launcher, and 5R/5A reboot controls.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="node .\script-template\master_script.js" title="Copy command">Copy Cmd</button>
+                    <a href="./script-template/master_script.js" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="registry" data-search="usb_write_protect_enable.reg windows tweaks (.reg) registry (.reg) sets storagedevicepolicies\writeprotect = 1 so newly mounted usb storage devices operate read-only. usb write protect enable read only storage device policies">
+                <div class="card-top">
+                    <span class="card-num">11 • Windows Tweaks (.reg)</span>
+                    <span class="badge badge-reg">Registry (.reg)</span>
+                </div>
+                <div class="card-body">
+                    <h3>usb_write_protect_enable.reg</h3>
+                    <p>Sets StorageDevicePolicies\WriteProtect = 1 so newly mounted USB storage devices operate read-only.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="reg import .\windows-tweaks\usb_write_protect_enable.reg" title="Copy command">Copy Cmd</button>
+                    <a href="./windows-tweaks/usb_write_protect_enable.reg" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="registry" data-search="usb_write_protect_disable.reg windows tweaks (.reg) registry (.reg) sets storagedevicepolicies\writeprotect = 0 to restore normal read/write access on usb drives. usb write protect disable restore writable flash drive">
+                <div class="card-top">
+                    <span class="card-num">12 • Windows Tweaks (.reg)</span>
+                    <span class="badge badge-reg">Registry (.reg)</span>
+                </div>
+                <div class="card-body">
+                    <h3>usb_write_protect_disable.reg</h3>
+                    <p>Sets StorageDevicePolicies\WriteProtect = 0 to restore normal read/write access on USB drives.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="reg import .\windows-tweaks\usb_write_protect_disable.reg" title="Copy command">Copy Cmd</button>
+                    <a href="./windows-tweaks/usb_write_protect_disable.reg" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="registry" data-search="usb_storage_disable.reg windows tweaks (.reg) registry (.reg) sets usbstor\start = 4 to block the windows usb mass storage driver. usb storage disable usbstor driver block security">
+                <div class="card-top">
+                    <span class="card-num">13 • Windows Tweaks (.reg)</span>
+                    <span class="badge badge-reg">Registry (.reg)</span>
+                </div>
+                <div class="card-body">
+                    <h3>usb_storage_disable.reg</h3>
+                    <p>Sets USBSTOR\Start = 4 to block the Windows USB Mass Storage driver.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="reg import .\windows-tweaks\usb_storage_disable.reg" title="Copy command">Copy Cmd</button>
+                    <a href="./windows-tweaks/usb_storage_disable.reg" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="registry" data-search="usb_storage_enable.reg windows tweaks (.reg) registry (.reg) sets usbstor\start = 3 to re-enable standard usb mass storage device detection. usb storage enable usbstor driver restore">
+                <div class="card-top">
+                    <span class="card-num">14 • Windows Tweaks (.reg)</span>
+                    <span class="badge badge-reg">Registry (.reg)</span>
+                </div>
+                <div class="card-body">
+                    <h3>usb_storage_enable.reg</h3>
+                    <p>Sets USBSTOR\Start = 3 to re-enable standard USB Mass Storage device detection.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="reg import .\windows-tweaks\usb_storage_enable.reg" title="Copy command">Copy Cmd</button>
+                    <a href="./windows-tweaks/usb_storage_enable.reg" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="registry" data-search="speed_up_shutdown.reg windows tweaks (.reg) registry (.reg) sets hklm\...\control\waittokillservicetimeout = &quot;2000&quot; ms (down from 5000ms) for faster clean shutdowns. speed shutdown waittokillservicetimeout performance registry">
+                <div class="card-top">
+                    <span class="card-num">15 • Windows Tweaks (.reg)</span>
+                    <span class="badge badge-reg">Registry (.reg)</span>
+                </div>
+                <div class="card-body">
+                    <h3>speed_up_shutdown.reg</h3>
+                    <p>Sets HKLM\...\Control\WaitToKillServiceTimeout = &quot;2000&quot; ms (down from 5000ms) for faster clean shutdowns.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="reg import .\windows-tweaks\speed_up_shutdown.reg" title="Copy command">Copy Cmd</button>
+                    <a href="./windows-tweaks/speed_up_shutdown.reg" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="registry" data-search="custom_logon_message.reg windows tweaks (.reg) registry (.reg) configures legalnoticecaption and legalnoticetext under winlogon to display a pre-login notice banner. logon banner message winlogon legalnoticecaption legalnoticetext">
+                <div class="card-top">
+                    <span class="card-num">16 • Windows Tweaks (.reg)</span>
+                    <span class="badge badge-reg">Registry (.reg)</span>
+                </div>
+                <div class="card-body">
+                    <h3>custom_logon_message.reg</h3>
+                    <p>Configures LegalNoticeCaption and LegalNoticeText under Winlogon to display a pre-login notice banner.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="reg import .\windows-tweaks\custom_logon_message.reg" title="Copy command">Copy Cmd</button>
+                    <a href="./windows-tweaks/custom_logon_message.reg" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="registry" data-search="remove_logon_message.reg windows tweaks (.reg) registry (.reg) clears legalnoticecaption and legalnoticetext under winlogon to remove pre-login popup notices. logon remove clear legalnotice winlogon">
+                <div class="card-top">
+                    <span class="card-num">17 • Windows Tweaks (.reg)</span>
+                    <span class="badge badge-reg">Registry (.reg)</span>
+                </div>
+                <div class="card-body">
+                    <h3>remove_logon_message.reg</h3>
+                    <p>Clears LegalNoticeCaption and LegalNoticeText under Winlogon to remove pre-login popup notices.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="reg import .\windows-tweaks\remove_logon_message.reg" title="Copy command">Copy Cmd</button>
+                    <a href="./windows-tweaks/remove_logon_message.reg" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="registry" data-search="disable_run_box.reg windows tweaks (.reg) registry (.reg) sets policies\explorer\norun = 1 to hide and disable the win+r run command dialog. disable run box win+r norun explorer policy">
+                <div class="card-top">
+                    <span class="card-num">18 • Windows Tweaks (.reg)</span>
+                    <span class="badge badge-reg">Registry (.reg)</span>
+                </div>
+                <div class="card-body">
+                    <h3>disable_run_box.reg</h3>
+                    <p>Sets Policies\Explorer\NoRun = 1 to hide and disable the Win+R Run command dialog.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="reg import .\windows-tweaks\disable_run_box.reg" title="Copy command">Copy Cmd</button>
+                    <a href="./windows-tweaks/disable_run_box.reg" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="registry" data-search="enable_run_box.reg windows tweaks (.reg) registry (.reg) sets policies\explorer\norun = 0 to re-enable the win+r run command dialog and start menu entry. enable run box win+r norun restore explorer policy">
+                <div class="card-top">
+                    <span class="card-num">19 • Windows Tweaks (.reg)</span>
+                    <span class="badge badge-reg">Registry (.reg)</span>
+                </div>
+                <div class="card-body">
+                    <h3>enable_run_box.reg</h3>
+                    <p>Sets Policies\Explorer\NoRun = 0 to re-enable the Win+R Run command dialog and Start menu entry.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="reg import .\windows-tweaks\enable_run_box.reg" title="Copy command">Copy Cmd</button>
+                    <a href="./windows-tweaks/enable_run_box.reg" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="registry" data-search="autoplay_disable.reg windows tweaks (.reg) registry (.reg) disables both policies\explorer\nodrivetypeautorun (0xff) and autoplayhandlers\disableautoplay (1) for windows 11. autoplay autorun disable usb cd nodrivetypeautorun disableautoplay win11">
+                <div class="card-top">
+                    <span class="card-num">20 • Windows Tweaks (.reg)</span>
+                    <span class="badge badge-reg">Registry (.reg)</span>
+                </div>
+                <div class="card-body">
+                    <h3>autoplay_disable.reg</h3>
+                    <p>Disables both Policies\Explorer\NoDriveTypeAutoRun (0xff) and AutoplayHandlers\DisableAutoplay (1) for Windows 11.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="reg import .\windows-tweaks\autoplay_disable.reg" title="Copy command">Copy Cmd</button>
+                    <a href="./windows-tweaks/autoplay_disable.reg" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="registry" data-search="autoplay_enable.reg windows tweaks (.reg) registry (.reg) restores nodrivetypeautorun (0x91) and autoplayhandlers\disableautoplay (0) to windows 11 defaults. autoplay autorun enable restore win11">
+                <div class="card-top">
+                    <span class="card-num">21 • Windows Tweaks (.reg)</span>
+                    <span class="badge badge-reg">Registry (.reg)</span>
+                </div>
+                <div class="card-body">
+                    <h3>autoplay_enable.reg</h3>
+                    <p>Restores NoDriveTypeAutoRun (0x91) and AutoplayHandlers\DisableAutoplay (0) to Windows 11 defaults.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="reg import .\windows-tweaks\autoplay_enable.reg" title="Copy command">Copy Cmd</button>
+                    <a href="./windows-tweaks/autoplay_enable.reg" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="registry" data-search="disable_adobe_updater.reg windows tweaks (.reg) registry (.reg) sets featurelockdown\bupdater = 0 for both modern unified 64-bit adobe acrobat dc and legacy acrobat reader dc. adobe acrobat reader updater disable background service">
+                <div class="card-top">
+                    <span class="card-num">22 • Windows Tweaks (.reg)</span>
+                    <span class="badge badge-reg">Registry (.reg)</span>
+                </div>
+                <div class="card-body">
+                    <h3>disable_adobe_updater.reg</h3>
+                    <p>Sets FeatureLockDown\bUpdater = 0 for both modern unified 64-bit Adobe Acrobat DC and legacy Acrobat Reader DC.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="reg import .\windows-tweaks\disable_adobe_updater.reg" title="Copy command">Copy Cmd</button>
+                    <a href="./windows-tweaks/disable_adobe_updater.reg" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="registry" data-search="spoof_cpu.reg windows tweaks (.reg) registry (.reg) updates centralprocessor\0\processornamestring (session-only in volatile hklm\hardware; resets on reboot). cpu spoof processor name string centralprocessor registry">
+                <div class="card-top">
+                    <span class="card-num">23 • Windows Tweaks (.reg)</span>
+                    <span class="badge badge-reg">Registry (.reg)</span>
+                </div>
+                <div class="card-body">
+                    <h3>spoof_cpu.reg</h3>
+                    <p>Updates CentralProcessor\0\ProcessorNameString (session-only in volatile HKLM\HARDWARE; resets on reboot).</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="reg import .\windows-tweaks\spoof_cpu.reg" title="Copy command">Copy Cmd</button>
+                    <a href="./windows-tweaks/spoof_cpu.reg" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="tweak-bat" data-search="master_tweak_tool.bat windows tweaks (.bat) batch (.bat) utf-8 console dashboard (options 1-20) with powershell runas self-elevation and synchronous reg.exe import exit-code checks across all 19 tweaks. master tweak tool menu dashboard administrator reg import">
+                <div class="card-top">
+                    <span class="card-num">24 • Windows Tweaks (.bat)</span>
+                    <span class="badge badge-bat">Batch (.bat)</span>
+                </div>
+                <div class="card-body">
+                    <h3>master_tweak_tool.bat</h3>
+                    <p>UTF-8 console dashboard (options 1-20) with PowerShell RunAs self-elevation and synchronous reg.exe import exit-code checks across all 19 tweaks.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd=".\windows-tweaks\master_tweak_tool.bat" title="Copy command">Copy Cmd</button>
+                    <a href="./windows-tweaks/master_tweak_tool.bat" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="tweak-bat" data-search="lock_folder.bat windows tweaks (.bat) batch (.bat) utf-8 clsid folder locker with already-locked guard and error-checked rename +attrib +h +s on local private folder. lock folder private clsid hide attrib explorer">
+                <div class="card-top">
+                    <span class="card-num">25 • Windows Tweaks (.bat)</span>
+                    <span class="badge badge-bat">Batch (.bat)</span>
+                </div>
+                <div class="card-body">
+                    <h3>lock_folder.bat</h3>
+                    <p>UTF-8 CLSID folder locker with already-locked guard and error-checked rename +attrib +h +s on local Private folder.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd=".\windows-tweaks\lock_folder.bat" title="Copy command">Copy Cmd</button>
+                    <a href="./windows-tweaks/lock_folder.bat" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="tweak-bat" data-search="unlock_folder.bat windows tweaks (.bat) batch (.bat) checks locked/collision state, strips +h +s attributes, and restores clsid-locked private folder with exit-code validation. unlock folder private clsid restore unhide">
+                <div class="card-top">
+                    <span class="card-num">26 • Windows Tweaks (.bat)</span>
+                    <span class="badge badge-bat">Batch (.bat)</span>
+                </div>
+                <div class="card-body">
+                    <h3>unlock_folder.bat</h3>
+                    <p>Checks locked/collision state, strips +h +s attributes, and restores CLSID-locked Private folder with exit-code validation.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd=".\windows-tweaks\unlock_folder.bat" title="Copy command">Copy Cmd</button>
+                    <a href="./windows-tweaks/unlock_folder.bat" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="tweak-bat" data-search="create_shutdown_shortcut.bat windows tweaks (.bat) batch (.bat) uses specialfolders(&#039;desktop&#039;) (onedrive-safe) and powershell com to create shutdown.lnk and restart.lnk with icons. shutdown restart desktop shortcut lnk powershell specialfolders">
+                <div class="card-top">
+                    <span class="card-num">27 • Windows Tweaks (.bat)</span>
+                    <span class="badge badge-bat">Batch (.bat)</span>
+                </div>
+                <div class="card-body">
+                    <h3>create_shutdown_shortcut.bat</h3>
+                    <p>Uses SpecialFolders(&#039;Desktop&#039;) (OneDrive-safe) and PowerShell COM to create Shutdown.lnk and Restart.lnk with icons.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd=".\windows-tweaks\create_shutdown_shortcut.bat" title="Copy command">Copy Cmd</button>
+                    <a href="./windows-tweaks/create_shutdown_shortcut.bat" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="tweak-bat" data-search="show_desktop_icon.bat windows tweaks (.bat) batch (.bat) creates a desktop &quot;show desktop.lnk&quot; via specialfolders(&#039;desktop&#039;) targeting explorer&#039;s toggle desktop shell uuid. show desktop shortcut toggle explorer uuid">
+                <div class="card-top">
+                    <span class="card-num">28 • Windows Tweaks (.bat)</span>
+                    <span class="badge badge-bat">Batch (.bat)</span>
+                </div>
+                <div class="card-body">
+                    <h3>show_desktop_icon.bat</h3>
+                    <p>Creates a Desktop &quot;Show Desktop.lnk&quot; via SpecialFolders(&#039;Desktop&#039;) targeting Explorer&#039;s Toggle Desktop shell UUID.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd=".\windows-tweaks\show_desktop_icon.bat" title="Copy command">Copy Cmd</button>
+                    <a href="./windows-tweaks/show_desktop_icon.bat" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="tweak-bat" data-search="enable_admin.bat windows tweaks (.bat) batch (.bat) enforces uac admin check, offers enable/disable menu, requires yes confirmation, and prompts optional administrator password setup. administrator enable disable built-in admin password net user">
+                <div class="card-top">
+                    <span class="card-num">29 • Windows Tweaks (.bat)</span>
+                    <span class="badge badge-bat">Batch (.bat)</span>
+                </div>
+                <div class="card-body">
+                    <h3>enable_admin.bat</h3>
+                    <p>Enforces UAC admin check, offers enable/disable menu, requires YES confirmation, and prompts optional Administrator password setup.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd=".\windows-tweaks\enable_admin.bat" title="Copy command">Copy Cmd</button>
+                    <a href="./windows-tweaks/enable_admin.bat" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="tweak-bat" data-search="file_lister.bat windows tweaks (.bat) batch (.bat) sets utf-8 (chcp 65001), recursively scans directory paths into file_list.txt, and reports total indexed entries. file lister utf8 recursive dir export txt">
+                <div class="card-top">
+                    <span class="card-num">30 • Windows Tweaks (.bat)</span>
+                    <span class="badge badge-bat">Batch (.bat)</span>
+                </div>
+                <div class="card-body">
+                    <h3>file_lister.bat</h3>
+                    <p>Sets UTF-8 (chcp 65001), recursively scans directory paths into file_list.txt, and reports total indexed entries.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd=".\windows-tweaks\file_lister.bat" title="Copy command">Copy Cmd</button>
+                    <a href="./windows-tweaks/file_lister.bat" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="guide" data-search="windows 11 tweak portal (ui) interactive sub-portal html portal searchable 20-card grid for every .reg and .bat tweak synced with updated windows 11 code previews and modal copy. portal ui windows tweaks modal search preview">
+                <div class="card-top">
+                    <span class="card-num">31 • Interactive Sub-Portal</span>
+                    <span class="badge badge-html">HTML Portal</span>
+                </div>
+                <div class="card-body">
+                    <h3>Windows 11 Tweak Portal (UI)</h3>
+                    <p>Searchable 20-card grid for every .reg and .bat tweak synced with updated Windows 11 code previews and modal copy.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="start .\windows-tweaks\index.html" title="Copy command">Copy Cmd</button>
+                    <a href="./windows-tweaks/index.html" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="guide" data-search="windows 11 tweaks mastery portal interactive handbook html portal structured textbook portal indexing the 4 chapters of windows 11 registry, usb, explorer, and shortcut techniques. portal textbook comprehensive tweak guide handbook">
+                <div class="card-top">
+                    <span class="card-num">32 • Interactive Handbook</span>
+                    <span class="badge badge-html">HTML Portal</span>
+                </div>
+                <div class="card-body">
+                    <h3>Windows 11 Tweaks Mastery Portal</h3>
+                    <p>Structured textbook portal indexing the 4 chapters of Windows 11 registry, USB, Explorer, and shortcut techniques.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="start .\comprehensive-tweak-guide\index.html" title="Copy command">Copy Cmd</button>
+                    <a href="./comprehensive-tweak-guide/index.html" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="guide" data-search="01 — registry operations &amp; policies comprehensive guide chapter 01 (html) version 5.00 .reg syntax, waittokillservicetimeout tuning, autoplay + disableautoplay blocking, and legalnotice logon banners. chapter 1 registry operations policies waittokill autoplay legalnotice">
+                <div class="card-top">
+                    <span class="card-num">33 • Comprehensive Guide</span>
+                    <span class="badge badge-html">Chapter 01 (HTML)</span>
+                </div>
+                <div class="card-body">
+                    <h3>01 — Registry Operations &amp; Policies</h3>
+                    <p>Version 5.00 .reg syntax, WaitToKillServiceTimeout tuning, AutoPlay + DisableAutoplay blocking, and LegalNotice logon banners.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="start .\comprehensive-tweak-guide\01_registry_tweaks.html" title="Copy command">Copy Cmd</button>
+                    <a href="./comprehensive-tweak-guide/01_registry_tweaks.html" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="guide" data-search="02 — usb protections &amp; storage security comprehensive guide chapter 02 (html) storagedevicepolicies read-only enforcement and complete usbstor driver lockdowns. chapter 2 usb write protect usbstor storage security">
+                <div class="card-top">
+                    <span class="card-num">34 • Comprehensive Guide</span>
+                    <span class="badge badge-html">Chapter 02 (HTML)</span>
+                </div>
+                <div class="card-body">
+                    <h3>02 — USB Protections &amp; Storage Security</h3>
+                    <p>StorageDevicePolicies read-only enforcement and complete USBSTOR driver lockdowns.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="start .\comprehensive-tweak-guide\02_system_tweaks.html" title="Copy command">Copy Cmd</button>
+                    <a href="./comprehensive-tweak-guide/02_system_tweaks.html" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="guide" data-search="03 — windows explorer &amp; shell tweaks comprehensive guide chapter 03 (html) control panel clsid folder locking, norun dialog policy, and specialfolders(&#039;desktop&#039;) power &amp; show desktop links. chapter 3 explorer shell clsid lock norun shutdown shortcut">
+                <div class="card-top">
+                    <span class="card-num">35 • Comprehensive Guide</span>
+                    <span class="badge badge-html">Chapter 03 (HTML)</span>
+                </div>
+                <div class="card-body">
+                    <h3>03 — Windows Explorer &amp; Shell Tweaks</h3>
+                    <p>Control Panel CLSID folder locking, NoRun dialog policy, and SpecialFolders(&#039;Desktop&#039;) power &amp; Show Desktop links.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="start .\comprehensive-tweak-guide\03_explorer_tweaks.html" title="Copy command">Copy Cmd</button>
+                    <a href="./comprehensive-tweak-guide/03_explorer_tweaks.html" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="guide" data-search="04 — special utilities &amp; 113 run shortcuts comprehensive guide chapter 04 (html) admin activation, utf-8 file lister, unified acrobat/reader updater block, cpu string tweak, password bookmarklet, and run command tables. chapter 4 admin file lister adobe cpu spoof run commands shortcuts">
+                <div class="card-top">
+                    <span class="card-num">36 • Comprehensive Guide</span>
+                    <span class="badge badge-html">Chapter 04 (HTML)</span>
+                </div>
+                <div class="card-body">
+                    <h3>04 — Special Utilities &amp; 113 Run Shortcuts</h3>
+                    <p>Admin activation, UTF-8 file lister, unified Acrobat/Reader updater block, CPU string tweak, password bookmarklet, and Run command tables.</p>
+                </div>
+                <div class="card-actions">
+                    <button type="button" class="btn-secondary copy-cmd-btn" data-cmd="start .\comprehensive-tweak-guide\04_other_tricks.html" title="Copy command">Copy Cmd</button>
+                    <a href="./comprehensive-tweak-guide/04_other_tricks.html" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="guide" data-search="root readme.md (full index) documentation markdown (.md) complete repository map, per-script descriptions, modern windows 11 upgrade summary, and module catalog across all 4 suites. readme documentation index root overview">
+                <div class="card-top">
+                    <span class="card-num">37 • Documentation</span>
+                    <span class="badge badge-md">Markdown (.md)</span>
+                </div>
+                <div class="card-body">
+                    <h3>Root README.md (Full Index)</h3>
+                    <p>Complete repository map, per-script descriptions, Modern Windows 11 upgrade summary, and module catalog across all 4 suites.</p>
+                </div>
+                <div class="card-actions">
+                    <a href="./README.md" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="guide" data-search="script-template/readme.md documentation markdown (.md) cross-language master script template reference covering menus 1a-5a and modern windows 11 updates. readme documentation script-template master script">
+                <div class="card-top">
+                    <span class="card-num">38 • Documentation</span>
+                    <span class="badge badge-md">Markdown (.md)</span>
+                </div>
+                <div class="card-body">
+                    <h3>script-template/README.md</h3>
+                    <p>Cross-language master script template reference covering menus 1A-5A and Modern Windows 11 updates.</p>
+                </div>
+                <div class="card-actions">
+                    <a href="./script-template/README.md" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="guide" data-search="windows-tweaks/readme.md documentation markdown (.md) full index table and windows 11 changelog for all 13 registry (.reg) files and 7 batch (.bat) tweak utilities. readme documentation windows-tweaks registry batch">
+                <div class="card-top">
+                    <span class="card-num">39 • Documentation</span>
+                    <span class="badge badge-md">Markdown (.md)</span>
+                </div>
+                <div class="card-body">
+                    <h3>windows-tweaks/README.md</h3>
+                    <p>Full index table and Windows 11 changelog for all 13 Registry (.reg) files and 7 Batch (.bat) tweak utilities.</p>
+                </div>
+                <div class="card-actions">
+                    <a href="./windows-tweaks/README.md" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="guide" data-search="comprehensive-tweak-guide/readme.md documentation markdown (.md) 4-chapter curriculum overview with relative links to both markdown and interactive html lessons. readme documentation comprehensive-tweak-guide chapters">
+                <div class="card-top">
+                    <span class="card-num">40 • Documentation</span>
+                    <span class="badge badge-md">Markdown (.md)</span>
+                </div>
+                <div class="card-body">
+                    <h3>comprehensive-tweak-guide/README.md</h3>
+                    <p>4-chapter curriculum overview with relative links to both Markdown and interactive HTML lessons.</p>
+                </div>
+                <div class="card-actions">
+                    <a href="./comprehensive-tweak-guide/README.md" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="guide" data-search="01_registry_tweaks.md markdown lessons markdown (.md) markdown edition of chapter 1: registry operations &amp; policies. markdown chapter 1 registry tweaks">
+                <div class="card-top">
+                    <span class="card-num">41 • Markdown Lessons</span>
+                    <span class="badge badge-md">Markdown (.md)</span>
+                </div>
+                <div class="card-body">
+                    <h3>01_registry_tweaks.md</h3>
+                    <p>Markdown edition of Chapter 1: Registry Operations &amp; Policies.</p>
+                </div>
+                <div class="card-actions">
+                    <a href="./comprehensive-tweak-guide/01_registry_tweaks.md" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="guide" data-search="02_system_tweaks.md markdown lessons markdown (.md) markdown edition of chapter 2: usb port protections &amp; storage security. markdown chapter 2 usb system tweaks">
+                <div class="card-top">
+                    <span class="card-num">42 • Markdown Lessons</span>
+                    <span class="badge badge-md">Markdown (.md)</span>
+                </div>
+                <div class="card-body">
+                    <h3>02_system_tweaks.md</h3>
+                    <p>Markdown edition of Chapter 2: USB Port Protections &amp; Storage Security.</p>
+                </div>
+                <div class="card-actions">
+                    <a href="./comprehensive-tweak-guide/02_system_tweaks.md" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="guide" data-search="03_explorer_tweaks.md markdown lessons markdown (.md) markdown edition of chapter 3: windows explorer &amp; shell customizations. markdown chapter 3 explorer shell tweaks">
+                <div class="card-top">
+                    <span class="card-num">43 • Markdown Lessons</span>
+                    <span class="badge badge-md">Markdown (.md)</span>
+                </div>
+                <div class="card-body">
+                    <h3>03_explorer_tweaks.md</h3>
+                    <p>Markdown edition of Chapter 3: Windows Explorer &amp; Shell Customizations.</p>
+                </div>
+                <div class="card-actions">
+                    <a href="./comprehensive-tweak-guide/03_explorer_tweaks.md" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+            <article class="card" data-suite="guide" data-search="04_other_tricks.md markdown lessons markdown (.md) markdown edition of chapter 4: special windows 11 utilities &amp; run/shortcut lists. markdown chapter 4 other tricks run commands shortcuts">
+                <div class="card-top">
+                    <span class="card-num">44 • Markdown Lessons</span>
+                    <span class="badge badge-md">Markdown (.md)</span>
+                </div>
+                <div class="card-body">
+                    <h3>04_other_tricks.md</h3>
+                    <p>Markdown edition of Chapter 4: Special Windows 11 Utilities &amp; Run/Shortcut Lists.</p>
+                </div>
+                <div class="card-actions">
+                    <a href="./comprehensive-tweak-guide/04_other_tricks.md" class="btn-primary">Open File →</a>
+                </div>
+            </article>
+        </main>
+
+        <div class="empty-state" id="empty-state">
+            <p>No files matched your search or filter. Try "usb", "powershell", "cim", or "chapter".</p>
+        </div>
+
+        <footer>
+            <p>all-in-one-windows-utility-scripts • Windows 11 Edition • <a href="../README.md">Xivig Knowledge Base</a> · <a href="./README.md">README.md</a> · <a href="./windows-tweaks/index.html">Tweaks Portal</a> · <a href="./comprehensive-tweak-guide/index.html">Tweak Guide</a></p>
+        </footer>
+    </div>
+
+    <script>
+        (function () {
+            const rootEl = document.documentElement;
+            const themeBtn = document.getElementById('theme-toggle');
+            const savedTheme = localStorage.getItem('finalScriptTheme');
+            if (savedTheme === 'light') {
+                rootEl.setAttribute('data-theme', 'light');
+            }
+
+            themeBtn.addEventListener('click', function () {
+                const isLight = rootEl.getAttribute('data-theme') === 'light';
+                if (isLight) {
+                    rootEl.removeAttribute('data-theme');
+                    localStorage.setItem('finalScriptTheme', 'dark');
+                } else {
+                    rootEl.setAttribute('data-theme', 'light');
+                    localStorage.setItem('finalScriptTheme', 'light');
+                }
+            });
+
+            const searchInput = document.getElementById('search-input');
+            const tabButtons = Array.from(document.querySelectorAll('.tab-btn'));
+            const cards = Array.from(document.querySelectorAll('.card'));
+            const emptyState = document.getElementById('empty-state');
+            const resultCount = document.getElementById('result-count');
+            const totalCards = cards.length;
+            let activeSuite = 'all';
+
+            function applyFilters() {
+                const query = searchInput.value.trim().toLowerCase();
+                let visible = 0;
+
+                cards.forEach(function (card) {
+                    const suite = card.getAttribute('data-suite');
+                    const haystack = card.getAttribute('data-search') || '';
+                    const suiteMatch = activeSuite === 'all' || suite === activeSuite;
+                    const queryMatch = query === '' || haystack.indexOf(query) !== -1;
+
+                    if (suiteMatch && queryMatch) {
+                        card.classList.remove('hidden');
+                        visible += 1;
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+
+                resultCount.textContent = 'Showing ' + visible + ' of ' + totalCards + ' indexed entries';
+                emptyState.style.display = visible === 0 ? 'block' : 'none';
+            }
+
+            tabButtons.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    tabButtons.forEach(function (b) { b.classList.remove('active'); });
+                    btn.classList.add('active');
+                    activeSuite = btn.getAttribute('data-filter') || 'all';
+                    applyFilters();
+                });
+            });
+
+            searchInput.addEventListener('input', applyFilters);
+
+            document.addEventListener('keydown', function (ev) {
+                if (ev.key === '/' && document.activeElement !== searchInput) {
+                    ev.preventDefault();
+                    searchInput.focus();
+                } else if (ev.key === 'Escape' && document.activeElement === searchInput) {
+                    searchInput.value = '';
+                    applyFilters();
+                    searchInput.blur();
+                }
+            });
+
+            document.querySelectorAll('.copy-cmd-btn').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    const cmd = btn.getAttribute('data-cmd') || '';
+                    if (!cmd) return;
+                    navigator.clipboard.writeText(cmd).then(function () {
+                        btn.classList.add('copied');
+                        btn.textContent = 'Copied!';
+                        setTimeout(function () {
+                            btn.classList.remove('copied');
+                            btn.textContent = 'Copy Cmd';
+                        }, 1500);
+                    });
+                });
+            });
+        })();
+    </script>
+</body>
+</html>

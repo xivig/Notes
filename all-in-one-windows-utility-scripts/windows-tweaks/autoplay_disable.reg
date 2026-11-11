@@ -1,0 +1,16 @@
+Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Disable AutoPlay and AutoRun on All Drives (Windows 10 / 11 24H2+)
+; ==============================================================================
+; 1. Sets Policies\Explorer\NoDriveTypeAutoRun = 0xff to block AutoRun across
+;    removable, fixed, network, and optical drives.
+; 2. Sets AutoplayHandlers\DisableAutoplay = 1 to toggle off AutoPlay in Windows Settings.
+; Revert with: autoplay_enable.reg
+; ==============================================================================
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer]
+"NoDriveTypeAutoRun"=dword:000000ff
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers]
+"DisableAutoplay"=dword:00000001

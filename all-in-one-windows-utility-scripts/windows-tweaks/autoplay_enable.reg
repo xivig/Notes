@@ -1,0 +1,14 @@
+Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Restore Default AutoPlay Settings (Windows 10 / 11 24H2+)
+; ==============================================================================
+; 1. Restores Policies\Explorer\NoDriveTypeAutoRun = 0x91 (standard Windows default).
+; 2. Sets AutoplayHandlers\DisableAutoplay = 0 to re-enable AutoPlay in Windows Settings.
+; ==============================================================================
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer]
+"NoDriveTypeAutoRun"=dword:00000091
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers]
+"DisableAutoplay"=dword:00000000

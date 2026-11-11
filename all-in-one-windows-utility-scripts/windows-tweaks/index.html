@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive Windows 11 Registry and System Tweaks Dashboard">
+    <title>Windows 11 Tweak Portal - Scripts & Guides</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --surface-color: rgba(22, 29, 49, 0.7);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --primary-glow: linear-gradient(135deg, #0284c7, #0f766e);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --accent-green: #10b981;
+            --accent-blue: #0ea5e9;
+            --accent-purple: #a855f7;
+            --accent-red: #ef4444;
+            --font-main: 'Inter', sans-serif;
+            --font-display: 'Plus Jakarta Sans', sans-serif;
+            --font-code: 'Fira Code', monospace;
+            --shadow-card: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 10% 20%, rgba(14, 165, 233, 0.08) 0px, transparent 50%),
+                radial-gradient(at 90% 80%, rgba(15, 118, 110, 0.08) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header Style */
+        header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+            position: relative;
+        }
+
+        header h1 {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 3rem;
+            letter-spacing: -0.03em;
+            background: linear-gradient(to right, #38bdf8, #06b6d4, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.75rem;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+            font-weight: 400;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Controls Section */
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            background: var(--surface-color);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(12px);
+            box-shadow: var(--shadow-card);
+        }
+
+        @media (min-width: 768px) {
+            .controls {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
+
+        /* Search Box */
+        .search-box {
+            position: relative;
+            flex-grow: 1;
+            max-width: 500px;
+        }
+
+        .search-input {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            padding: 0.85rem 1.2rem 0.85rem 2.8rem;
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 15px rgba(14, 165, 233, 0.2);
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            fill: none;
+            stroke: var(--text-secondary);
+            stroke-width: 2;
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Tabs Section */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding-bottom: 0.25rem;
+            scrollbar-width: thin;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .tab-btn.active {
+            color: var(--text-primary);
+            background: var(--primary-glow);
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.35);
+        }
+
+        /* Grid Layout */
+        .grid-section {
+            display: flex;
+            flex-direction: column;
+            gap: 3.5rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.75rem;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .badge-count {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-color);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Card Component */
+        .card {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 1rem;
+            backdrop-filter: blur(16px);
+            box-shadow: var(--shadow-card);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary-glow);
+            opacity: 0.7;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .card-num {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.5rem;
+            opacity: 0.15;
+            line-height: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover .card-num {
+            opacity: 0.4;
+            color: var(--accent-blue);
+        }
+
+        .card-meta-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .badge-reg {
+            background: rgba(14, 165, 233, 0.1);
+            color: var(--accent-blue);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+        }
+
+        .badge-bat {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .badge-scf {
+            background: rgba(168, 85, 247, 0.1);
+            color: var(--accent-purple);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+        }
+
+        .card-body {
+            flex-grow: 1;
+        }
+
+        .card h3 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+            word-break: break-all;
+            color: var(--text-primary);
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .view-code-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .view-code-btn:hover {
+            background: var(--accent-blue);
+            border-color: transparent;
+            box-shadow: 0 0 10px rgba(14, 165, 233, 0.4);
+        }
+
+        .action-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            font-family: var(--font-display);
+            transition: color 0.2s ease;
+        }
+
+        .action-link:hover {
+            color: var(--text-primary);
+        }
+
+        .action-link svg {
+            width: 14px;
+            height: 14px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            transition: transform 0.2s ease;
+        }
+
+        .action-link:hover svg {
+            transform: translateX(3px);
+        }
+
+        /* Alert Box */
+        .info-alert {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(14, 165, 233, 0.08);
+            border: 1px solid rgba(14, 165, 233, 0.25);
+            border-radius: 10px;
+            padding: 0.85rem 1.2rem;
+            margin-bottom: 2.5rem;
+            font-size: 0.9rem;
+            color: #38bdf8;
+        }
+
+        .info-alert svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* Empty State */
+        .empty-state {
+            display: none;
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+            background: var(--surface-color);
+            border-radius: 14px;
+            border: 1px dashed var(--border-color);
+        }
+
+        .empty-state h3 {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        /* Modal Overlay */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background-color: #0b0f19;
+            border: 1px solid var(--border-color);
+            width: 100%;
+            max-width: 900px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            max-height: 90vh;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h2 {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            color: var(--text-primary);
+        }
+
+        .close-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 2.25rem;
+            cursor: pointer;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            color: var(--accent-red);
+        }
+
+        .modal-body {
+            overflow-y: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 1.5rem;
+            flex-grow: 1;
+        }
+
+        #code-block {
+            font-family: var(--font-code);
+            font-size: 0.92rem;
+            color: #e2e8f0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .copy-modal-btn {
+            background: var(--primary-glow);
+            border: none;
+            color: var(--text-primary);
+            padding: 0.65rem 1.5rem;
+            border-radius: 8px;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.35);
+            transition: all 0.3s ease;
+        }
+
+        .copy-modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.5);
+        }
+
+        .copy-modal-btn.copied {
+            background: var(--accent-green);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 6rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            color: #4b5563;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <p style="margin-bottom: 1rem;">
+                <a href="../index.html" style="color: var(--accent-blue); text-decoration: none; font-weight: 600;">← Back to Main Repository Portal</a>
+                &nbsp;•&nbsp;
+                <a href="../comprehensive-tweak-guide/index.html" style="color: var(--accent-indigo); text-decoration: none; font-weight: 600;">Open Comprehensive Tweak Guide →</a>
+            </p>
+            <h1 id="main-title">Windows 11 Tweak Portal</h1>
+            <p>An interactive guide and script copier to configure Windows 11 Registry settings, system speeds, and folder protections.</p>
+        </header>
+
+        <!-- Dynamic Warning Alert -->
+        <div class="info-alert" id="version-warning">
+            <svg viewBox="0 0 24 24"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            <span>Applying Registry changes (`.reg` scripts) or running the batch tools requires administrative permissions. Right-click and choose <strong>Run as Administrator</strong>.</span>
+        </div>
+
+        <!-- Controls (Filters and Search) -->
+        <section class="controls" id="dashboard-controls">
+            <!-- Search bar -->
+            <div class="search-box">
+                <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="search-input" class="search-input" placeholder="Search tweaks, paths, registry values..." aria-label="Search tweaks">
+            </div>
+
+            <!-- Tab Filters -->
+            <div class="tabs" role="tablist">
+                <button class="tab-btn active" role="tab" aria-selected="true" data-filter="all">All Tweaks</button>
+                <button class="tab-btn" role="tab" aria-selected="false" data-filter="registry">Registry (.reg)</button>
+                <button class="tab-btn" role="tab" aria-selected="false" data-filter="script">Scripts (.bat)</button>
+            </div>
+        </section>
+
+        <!-- Learning Grid Grid-Sections -->
+        <main class="grid-section" id="tweak-list">
+
+            <!-- Category Section -->
+            <div class="stage-container" data-stage="registry">
+                <div class="section-header">
+                    <h2>Registry Tweaks (.reg)</h2>
+                    <span class="badge-count">13 Files</span>
+                </div>
+                <div class="cards-grid">
+                    
+                    <!-- 1. usb_write_protect_enable.reg -->
+                    <div class="card" data-tags="usb write protection enable read-only storage device policies">
+                        <textarea style="display:none;" class="raw-code">Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Enable USB Mass Storage Write Protection / Read-Only Mode (Windows 11)
+; ==============================================================================
+; Requires Administrator privileges (HKLM).
+; Prevents writing, modifying, deleting, or formatting removable USB drives.
+; Re-plug any currently inserted USB drive for the policy to take effect.
+; Revert with: usb_write_protect_disable.reg
+; ==============================================================================
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\StorageDevicePolicies]
+"WriteProtect"=dword:00000001
+</textarea>
+                        <div class="card-top">
+                            <span class="card-num">01</span>
+                            <span class="card-meta-badge badge-reg">Registry (.reg)</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>usb_write_protect_enable.reg</h3>
+                            <p>Enforce write protection to make all connected USB drives read-only (prevents editing/copying data to flash drives).</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="view-code-btn">View Code</button>
+                            <a href="./usb_write_protect_enable.reg" class="action-link" target="_blank">Open File <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                    </div>
+
+                    <!-- 2. usb_write_protect_disable.reg -->
+                    <div class="card" data-tags="usb write protection disable write access normal storage device policies">
+                        <textarea style="display:none;" class="raw-code">Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Disable USB Mass Storage Write Protection (Restore Read/Write Access)
+; ==============================================================================
+; Requires Administrator privileges (HKLM).
+; Re-plug any connected USB drive after importing.
+; ==============================================================================
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\StorageDevicePolicies]
+"WriteProtect"=dword:00000000
+</textarea>
+                        <div class="card-top">
+                            <span class="card-num">02</span>
+                            <span class="card-meta-badge badge-reg">Registry (.reg)</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>usb_write_protect_disable.reg</h3>
+                            <p>Restore normal write access to USB drives by disabling the registry write-protection flag.</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="view-code-btn">View Code</button>
+                            <a href="./usb_write_protect_disable.reg" class="action-link" target="_blank">Open File <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                    </div>
+
+                    <!-- 3. usb_storage_disable.reg -->
+                    <div class="card" data-tags="usb storage disable block drives usbstor driver start value 4">
+                        <textarea style="display:none;" class="raw-code">Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Disable USB Mass Storage Driver Entirely (USBSTOR = 4, Windows 11)
+; ==============================================================================
+; Requires Administrator privileges (HKLM).
+; Blocks Windows from mounting newly inserted USB flash drives/external disks.
+; Revert with: usb_storage_enable.reg
+; ==============================================================================
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\USBSTOR]
+"Start"=dword:00000004
+</textarea>
+                        <div class="card-top">
+                            <span class="card-num">03</span>
+                            <span class="card-meta-badge badge-reg">Registry (.reg)</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>usb_storage_disable.reg</h3>
+                            <p>Completely disable USB storage drives on Windows 11 by stopping the USBSTOR driver from starting (value=4).</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="view-code-btn">View Code</button>
+                            <a href="./usb_storage_disable.reg" class="action-link" target="_blank">Open File <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                    </div>
+
+                    <!-- 4. usb_storage_enable.reg -->
+                    <div class="card" data-tags="usb storage enable restore drives usbstor driver start value 3">
+                        <textarea style="display:none;" class="raw-code">Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Re-Enable USB Mass Storage Driver (USBSTOR = 3, Windows 11 Default)
+; ==============================================================================
+; Requires Administrator privileges (HKLM).
+; ==============================================================================
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\USBSTOR]
+"Start"=dword:00000003
+</textarea>
+                        <div class="card-top">
+                            <span class="card-num">04</span>
+                            <span class="card-meta-badge badge-reg">Registry (.reg)</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>usb_storage_enable.reg</h3>
+                            <p>Enable USB storage drives back by setting the USBSTOR driver to start automatically (value=3).</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="view-code-btn">View Code</button>
+                            <a href="./usb_storage_enable.reg" class="action-link" target="_blank">Open File <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                    </div>
+
+                    <!-- 5. speed_up_shutdown.reg -->
+                    <div class="card" data-tags="speed up shutdown waittokillservicetimeout service delay seconds fast">
+                        <textarea style="display:none;" class="raw-code">Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Speed Up Windows 11 Service Shutdown Timeout
+; ==============================================================================
+; Requires Administrator privileges (HKLM).
+; Shortens WaitToKillServiceTimeout to 2000 ms (default is 5000 ms) so background
+; services close promptly on restart/shutdown without risking abrupt 0 ms termination.
+; ==============================================================================
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control]
+"WaitToKillServiceTimeout"="2000"
+</textarea>
+                        <div class="card-top">
+                            <span class="card-num">05</span>
+                            <span class="card-meta-badge badge-reg">Registry (.reg)</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>speed_up_shutdown.reg</h3>
+                            <p>Speeds up Windows 11 shutdown times by shortening the delay before terminating background services (set to 2 seconds).</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="view-code-btn">View Code</button>
+                            <a href="./speed_up_shutdown.reg" class="action-link" target="_blank">Open File <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                    </div>
+
+                    <!-- 6. custom_logon_message.reg -->
+                    <div class="card" data-tags="custom logon banner legal notice text caption message login">
+                        <textarea style="display:none;" class="raw-code">Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Configure Custom Pre-Login Security Notice Banner (Windows 11)
+; ==============================================================================
+; Requires Administrator privileges (HKLM).
+; Displays a mandatory acknowledgment banner before the Windows sign-in screen.
+; Revert with: remove_logon_message.reg
+; ==============================================================================
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System]
+"legalnoticecaption"="Security Policy Notice"
+"legalnoticetext"="WARNING: Authorized access only. All actions on this system are logged and monitored."
+</textarea>
+                        <div class="card-top">
+                            <span class="card-num">06</span>
+                            <span class="card-meta-badge badge-reg">Registry (.reg)</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>custom_logon_message.reg</h3>
+                            <p>Generates a pre-login popup banner containing a custom security policy notice text message.</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="view-code-btn">View Code</button>
+                            <a href="./custom_logon_message.reg" class="action-link" target="_blank">Open File <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                    </div>
+
+                    <!-- 7. remove_logon_message.reg -->
+                    <div class="card" data-tags="remove logon banner legal notice clear logon message">
+                        <textarea style="display:none;" class="raw-code">Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Clear Custom Pre-Login Security Notice Banner (Windows 11)
+; ==============================================================================
+; Requires Administrator privileges (HKLM).
+; Clears both LegalNoticeCaption and LegalNoticeText so sign-in proceeds normally.
+; ==============================================================================
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System]
+"legalnoticecaption"=""
+"legalnoticetext"=""
+</textarea>
+                        <div class="card-top">
+                            <span class="card-num">07</span>
+                            <span class="card-meta-badge badge-reg">Registry (.reg)</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>remove_logon_message.reg</h3>
+                            <p>Clears the pre-login popup banner notice by resetting the registry text entries.</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="view-code-btn">View Code</button>
+                            <a href="./remove_logon_message.reg" class="action-link" target="_blank">Open File <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                    </div>
+
+                    <!-- 8. disable_run_box.reg -->
+                    <div class="card" data-tags="disable run box win+r menu policy norun restriction">
+                        <textarea style="display:none;" class="raw-code">Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Disable Win+R Run Command Dialog Policy (Current User, Windows 11)
+; ==============================================================================
+; Sets NoRun = 1 under HKCU\...\Policies\Explorer. Sign out or restart Explorer
+; to enforce immediately. Revert with: enable_run_box.reg
+; ==============================================================================
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer]
+"NoRun"=dword:00000001
+</textarea>
+                        <div class="card-top">
+                            <span class="card-num">08</span>
+                            <span class="card-meta-badge badge-reg">Registry (.reg)</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>disable_run_box.reg</h3>
+                            <p>Locks and disables the Win+R Run Dialog box, restricting users from launching applications via command entries.</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="view-code-btn">View Code</button>
+                            <a href="./disable_run_box.reg" class="action-link" target="_blank">Open File <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                    </div>
+
+                    <!-- 9. autoplay_disable.reg -->
+                    <div class="card" data-tags="disable autoplay autorun nodrivetypeautorun usb cd drives">
+                        <textarea style="display:none;" class="raw-code">Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Disable AutoPlay and AutoRun on All Drives (Windows 10 / 11 24H2+)
+; ==============================================================================
+; 1. Sets Policies\Explorer\NoDriveTypeAutoRun = 0xff to block AutoRun across
+;    removable, fixed, network, and optical drives.
+; 2. Sets AutoplayHandlers\DisableAutoplay = 1 to toggle off AutoPlay in Windows Settings.
+; Revert with: autoplay_enable.reg
+; ==============================================================================
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer]
+"NoDriveTypeAutoRun"=dword:000000ff
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers]
+"DisableAutoplay"=dword:00000001
+</textarea>
+                        <div class="card-top">
+                            <span class="card-num">09</span>
+                            <span class="card-meta-badge badge-reg">Registry (.reg)</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>autoplay_disable.reg</h3>
+                            <p>Disables AutoRun policies and AutoPlay Handlers (NoDriveTypeAutoRun + DisableAutoplay) across all drives for Windows 11.</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="view-code-btn">View Code</button>
+                            <a href="./autoplay_disable.reg" class="action-link" target="_blank">Open File <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                    </div>
+
+                    <!-- 10. autoplay_enable.reg -->
+                    <div class="card" data-tags="enable autoplay autorun nodrivetypeautorun restore">
+                        <textarea style="display:none;" class="raw-code">Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Restore Default AutoPlay Settings (Windows 10 / 11 24H2+)
+; ==============================================================================
+; 1. Restores Policies\Explorer\NoDriveTypeAutoRun = 0x91 (standard Windows default).
+; 2. Sets AutoplayHandlers\DisableAutoplay = 0 to re-enable AutoPlay in Windows Settings.
+; ==============================================================================
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer]
+"NoDriveTypeAutoRun"=dword:00000091
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers]
+"DisableAutoplay"=dword:00000000
+</textarea>
+                        <div class="card-top">
+                            <span class="card-num">10</span>
+                            <span class="card-meta-badge badge-reg">Registry (.reg)</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>autoplay_enable.reg</h3>
+                            <p>Enable default AutoPlay settings in Windows 11 (returns AutoRun behavior to system defaults).</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="view-code-btn">View Code</button>
+                            <a href="./autoplay_enable.reg" class="action-link" target="_blank">Open File <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                    </div>
+
+                    <!-- 11. disable_adobe_updater.reg -->
+                    <div class="card" data-tags="disable adobe reader updater manager auto update featurelockdown">
+                        <textarea style="display:none;" class="raw-code">Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Disable Adobe Acrobat / Reader Background Auto-Updater (Windows 11)
+; ==============================================================================
+; Requires Administrator privileges (HKLM).
+; Covers both modern unified 64-bit Adobe Acrobat DC and legacy Acrobat Reader DC.
+; ==============================================================================
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Adobe\Adobe Acrobat\DC\FeatureLockDown]
+"bUpdater"=dword:00000000
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Adobe\Acrobat Reader\DC\FeatureLockDown]
+"bUpdater"=dword:00000000
+</textarea>
+                        <div class="card-top">
+                            <span class="card-num">11</span>
+                            <span class="card-meta-badge badge-reg">Registry (.reg)</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>disable_adobe_updater.reg</h3>
+                            <p>Disables background updater checks for both unified 64-bit Adobe Acrobat DC and Acrobat Reader DC.</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="view-code-btn">View Code</button>
+                            <a href="./disable_adobe_updater.reg" class="action-link" target="_blank">Open File <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                    </div>
+
+                    <!-- 12. spoof_cpu.reg -->
+                    <div class="card" data-tags="spoof cpu processor description processorNamestring registry trick">
+                        <textarea style="display:none;" class="raw-code">Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Customize Processor Name String in System Info (Session-Only, Windows 11)
+; ==============================================================================
+; Requires Administrator privileges (HKLM\HARDWARE).
+; Note: HKLM\HARDWARE is a volatile registry hive rebuilt dynamically by the
+; Windows kernel on every boot; changes automatically reset on system restart.
+; ==============================================================================
+
+[HKEY_LOCAL_MACHINE\HARDWARE\DESCRIPTION\System\CentralProcessor\0]
+"ProcessorNameString"="Intel Core i9-14900KS @ 6.20GHz"
+</textarea>
+                        <div class="card-top">
+                            <span class="card-num">12</span>
+                            <span class="card-meta-badge badge-reg">Registry (.reg)</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>spoof_cpu.reg</h3>
+                            <p>Sets a session-only custom ProcessorNameString in volatile HKLM\HARDWARE\...\CentralProcessor\0 (resets cleanly on reboot).</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="view-code-btn">View Code</button>
+                            <a href="./spoof_cpu.reg" class="action-link" target="_blank">Open File <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                    </div>
+
+                    <!-- 13. enable_run_box.reg -->
+                    <div class="card" data-tags="enable run box dialog win+r norun explorer policy restore">
+                        <textarea style="display:none;" class="raw-code">Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Re-Enable Win+R Run Command Dialog Policy (Current User, Windows 11)
+; ==============================================================================
+; Sets NoRun = 0 under HKCU\...\Policies\Explorer. Sign out or restart Explorer
+; if policy cache does not refresh immediately.
+; ==============================================================================
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer]
+"NoRun"=dword:00000000
+</textarea>
+                        <div class="card-top">
+                            <span class="card-num">13</span>
+                            <span class="card-meta-badge badge-reg">Registry (.reg)</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>enable_run_box.reg</h3>
+                            <p>Restores and re-enables the Win+R Run Command Dialog box and Start menu Run entry in Windows 11.</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="view-code-btn">View Code</button>
+                            <a href="./enable_run_box.reg" class="action-link" target="_blank">Open File <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Category Section -->
+            <div class="stage-container" data-stage="script">
+                <div class="section-header">
+                    <h2>Script Files (.bat)</h2>
+                    <span class="badge-count">7 Files/Scripts</span>
+                </div>
+                <div class="cards-grid">
+                    
+                    <!-- 13. lock_folder.bat -->
+                    <div class="card" data-tags="lock folder private clsid control panel rename hide">
+                        <textarea style="display:none;" class="raw-code">@echo off
+chcp 65001 >nul
+setlocal
+title Lock Folder (Windows 11)
+:: Renames "Private" in the script directory using Control Panel CLSID suffix + sets +h +s attributes.
+
+set "target=%~dp0Private"
+set "locked=%~dp0Private.{21EC2020-3AEA-1069-A2DD-08002B30309D}"
+
+if exist "%locked%\" (
+    echo [INFO] Folder is already locked: "%locked%"
+    pause
+    exit /b 0
+)
+
+if not exist "%target%\" (
+    echo Creating "Private" folder in "%~dp0"...
+    mkdir "%target%" || (
+        echo [ERROR] Failed to create "%target%".
+        pause
+        exit /b 1
+    )
+)
+
+ren "%target%" "Private.{21EC2020-3AEA-1069-A2DD-08002B30309D}" || (
+    echo [ERROR] Could not rename "%target%". Close any open handles and retry.
+    pause
+    exit /b 1
+)
+attrib +h +s "%locked%"
+echo [OK] Folder locked successfully!
+pause
+exit /b 0
+</textarea>
+                        <div class="card-top">
+                            <span class="card-num">14</span>
+                            <span class="card-meta-badge badge-bat">Batch (.bat)</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>lock_folder.bat</h3>
+                            <p>Hides and locks a folder named "Private" in the local directory by renaming it with the Control Panel CLSID string.</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="view-code-btn">View Code</button>
+                            <a href="./lock_folder.bat" class="action-link" target="_blank">Open File <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                    </div>
+
+                    <!-- 14. unlock_folder.bat -->
+                    <div class="card" data-tags="unlock folder restore private clsid control panel rename show">
+                        <textarea style="display:none;" class="raw-code">@echo off
+chcp 65001 >nul
+setlocal
+title Unlock Folder (Windows 11)
+:: Removes hidden/system attributes and restores the CLSID-locked "Private" folder to normal visibility.
+
+set "locked=%~dp0Private.{21EC2020-3AEA-1069-A2DD-08002B30309D}"
+set "target=%~dp0Private"
+
+if not exist "%locked%\" (
+    echo [INFO] Locked folder not found in "%~dp0". Nothing to unlock.
+    pause
+    exit /b 0
+)
+
+if exist "%target%\" (
+    echo [ERROR] A normal "Private" folder already exists in "%~dp0". Move or rename it first.
+    pause
+    exit /b 1
+)
+
+attrib -h -s "%locked%"
+ren "%locked%" "Private" || (
+    echo [ERROR] Could not unlock "%locked%". Close any open handles and retry.
+    pause
+    exit /b 1
+)
+echo [OK] Folder unlocked successfully!
+pause
+exit /b 0
+</textarea>
+                        <div class="card-top">
+                            <span class="card-num">15</span>
+                            <span class="card-meta-badge badge-bat">Batch (.bat)</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>unlock_folder.bat</h3>
+                            <p>Restores and unlocks the hidden "Private" folder back to normal folder visibility.</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="view-code-btn">View Code</button>
+                            <a href="./unlock_folder.bat" class="action-link" target="_blank">Open File <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                    </div>
+
+                    <!-- 15. create_shutdown_shortcut.bat -->
+                    <div class="card" data-tags="create shutdown restart shortcuts desktop powershell com object lnk">
+                        <textarea style="display:none;" class="raw-code">@echo off
+chcp 65001 >nul
+title Create Desktop Power Shortcuts (Windows 11)
+:: Uses WScript.Shell SpecialFolders('Desktop') so OneDrive Known Folder Move desktops resolve reliably.
+
+echo Creating Shutdown and Restart Desktop Shortcuts...
+powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+    "$s = New-Object -ComObject WScript.Shell; " ^
+    "$d = $s.SpecialFolders('Desktop'); " ^
+    "$lnk1 = $s.CreateShortcut((Join-Path $d 'Shutdown.lnk')); " ^
+    "$lnk1.TargetPath = 'shutdown.exe'; " ^
+    "$lnk1.Arguments = '/s /t 0'; " ^
+    "$lnk1.IconLocation = 'shell32.dll,27'; " ^
+    "$lnk1.Save(); " ^
+    "$lnk2 = $s.CreateShortcut((Join-Path $d 'Restart.lnk')); " ^
+    "$lnk2.TargetPath = 'shutdown.exe'; " ^
+    "$lnk2.Arguments = '/r /t 0'; " ^
+    "$lnk2.IconLocation = 'shell32.dll,238'; " ^
+    "$lnk2.Save();"
+
+if %errorlevel% neq 0 (
+    echo [ERROR] Failed to create Desktop power shortcuts.
+    pause
+    exit /b 1
+)
+
+echo [OK] Shutdown.lnk and Restart.lnk created on your Desktop!
+pause
+exit /b 0
+</textarea>
+                        <div class="card-top">
+                            <span class="card-num">16</span>
+                            <span class="card-meta-badge badge-bat">Batch (.bat)</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>create_shutdown_shortcut.bat</h3>
+                            <p>Resolves SpecialFolders('Desktop') cleanly (OneDrive-safe) via PowerShell COM to create Shutdown.lnk and Restart.lnk.</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="view-code-btn">View Code</button>
+                            <a href="./create_shutdown_shortcut.bat" class="action-link" target="_blank">Open File <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                    </div>
+
+                    <!-- 16. show_desktop_icon.bat -->
+                    <div class="card" data-tags="show desktop shortcut icon taskbar toggle shell uuid powershell">
+                        <textarea style="display:none;" class="raw-code">@echo off
+chcp 65001 >nul
+title Create Show Desktop Shortcut (Windows 11)
+:: Creates a Desktop "Show Desktop.lnk" targeting Explorer's Toggle Desktop Shell CLSID.
+
+echo Creating "Show Desktop" Shortcut on Desktop...
+powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+    "$s = New-Object -ComObject WScript.Shell; " ^
+    "$d = $s.SpecialFolders('Desktop'); " ^
+    "$lnk = $s.CreateShortcut((Join-Path $d 'Show Desktop.lnk')); " ^
+    "$lnk.TargetPath = 'explorer.exe'; " ^
+    "$lnk.Arguments = 'shell:::{3080F90D-D7AD-11D9-BD98-0000947B0257}'; " ^
+    "$lnk.IconLocation = 'shell32.dll,34'; " ^
+    "$lnk.Save();"
+
+if %errorlevel% neq 0 (
+    echo [ERROR] Failed to create "Show Desktop.lnk".
+    pause
+    exit /b 1
+)
+
+echo [OK] "Show Desktop.lnk" created successfully on your Desktop!
+pause
+exit /b 0
+</textarea>
+                        <div class="card-top">
+                            <span class="card-num">17</span>
+                            <span class="card-meta-badge badge-bat">Batch (.bat)</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>show_desktop_icon.bat</h3>
+                            <p>Resolves SpecialFolders('Desktop') cleanly to create a "Show Desktop.lnk" Explorer shell toggle shortcut.</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="view-code-btn">View Code</button>
+                            <a href="./show_desktop_icon.bat" class="action-link" target="_blank">Open File <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                    </div>
+
+                    <!-- 17. enable_admin.bat -->
+                    <div class="card" data-tags="enable hidden admin administrator net user active command line">
+                        <textarea style="display:none;" class="raw-code">@echo off
+chcp 65001 >nul
+setlocal
+title Built-in Administrator Account Utility (Windows 11)
+:: Safely checks UAC elevation, confirms action, and enables or disables the built-in Administrator account.
+
+net session >nul 2>&1
+if %errorlevel% neq 0 (
+    echo [ERROR] Administrative privileges are required to modify local user accounts.
+    echo Right-click this file and select "Run as administrator".
+    pause
+    exit /b 1
+)
+
+echo ====================================================================
+echo   Windows 11 Built-in Administrator Account Manager
+echo ====================================================================
+echo  [1] Enable built-in Administrator account (/active:yes)
+echo  [2] Disable built-in Administrator account (/active:no)
+echo  [3] Cancel
+echo.
+set /p adm_choice="Select an option (1-3): "
+
+if "%adm_choice%"=="2" (
+    net user Administrator /active:no
+    echo [OK] Built-in Administrator account disabled.
+    pause
+    exit /b 0
+)
+
+if not "%adm_choice%"=="1" (
+    echo Operation canceled.
+    pause
+    exit /b 0
+)
+
+echo.
+echo [SECURITY WARNING] Enabling the built-in Administrator account bypasses UAC prompts.
+set /p confirm="Type YES to activate built-in Administrator: "
+if /i not "%confirm%"=="YES" (
+    echo Operation canceled.
+    pause
+    exit /b 0
+)
+
+net user Administrator /active:yes || (
+    echo [ERROR] Failed to activate Administrator account.
+    pause
+    exit /b 1
+)
+echo [OK] Administrator account activated!
+set /p setpw="Set a password for Administrator now? Recommended [Y/N]: "
+if /i "%setpw%"=="Y" (
+    net user Administrator *
+)
+pause
+exit /b 0
+</textarea>
+                        <div class="card-top">
+                            <span class="card-num">18</span>
+                            <span class="card-meta-badge badge-bat">Batch (.bat)</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>enable_admin.bat</h3>
+                            <p>Enforces UAC admin check, warns clearly, lets you enable or disable built-in Administrator, and offers optional password setup.</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="view-code-btn">View Code</button>
+                            <a href="./enable_admin.bat" class="action-link" target="_blank">Open File <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                    </div>
+
+                    <!-- 18. file_lister.bat -->
+                    <div class="card" data-tags="file lister recursively list directory text file map">
+                        <textarea style="display:none;" class="raw-code">@echo off
+chcp 65001 >nul
+setlocal
+title Directory File Lister (Windows 11 UTF-8)
+:: Recursively indexes all files and folders under the script directory in UTF-8 encoding.
+
+echo Generating recursive UTF-8 directory map...
+set "outfile=%~dp0file_list.txt"
+dir /b /s "%~dp0" > "%outfile%" || (
+    echo [ERROR] Failed to generate directory listing.
+    pause
+    exit /b 1
+)
+
+for /f %%C in ('find /c /v "" ^< "%outfile%"') do set "linecount=%%C"
+echo [OK] Indexed %linecount% paths into "%outfile%"!
+pause
+exit /b 0
+</textarea>
+                        <div class="card-top">
+                            <span class="card-num">19</span>
+                            <span class="card-meta-badge badge-bat">Batch (.bat)</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>file_lister.bat</h3>
+                            <p>Enables UTF-8 (chcp 65001), recursively indexes directory paths into file_list.txt, and reports total indexed entries.</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="view-code-btn">View Code</button>
+                            <a href="./file_lister.bat" class="action-link" target="_blank">Open File <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                    </div>
+
+                    <!-- 19. master_tweak_tool.bat -->
+                    <div class="card" data-tags="master tweak tool cmd console options administrator import run">
+                        <textarea style="display:none;" class="raw-code">@echo off
+chcp 65001 >nul
+setlocal
+title Windows 11 Registry & System Tweak Tool
+
+:: Check for administrative rights; offer modern PowerShell UAC elevation without VBScript
+net session >nul 2>&1
+if %errorlevel% neq 0 (
+    echo ==========================================================
+    echo WARNING: HKLM registry and account tweaks require Admin rights.
+    echo ==========================================================
+    set "elev="
+    set /p elev="Relaunch elevated as Administrator? [Y/N]: "
+    if /i "%elev%"=="Y" (
+        powershell -NoProfile -Command "Start-Process '%~f0' -Verb RunAs"
+        exit /b 0
+    )
+    echo Continuing without elevation ^(HKLM tweaks will fail^)...
+    pause
+)
+
+:menu
+cls
+echo =========================================================
+echo       Windows 11 Registry and System Tweak Utility
+echo =========================================================
+echo.
+echo [1]  Lock Folder (Rename "Private" to Control Panel CLSID)
+echo [2]  Unlock Folder (Restore "Private" folder name)
+echo [3]  Enable USB Write Protection (Read-Only USB drives)
+echo [4]  Disable USB Write Protection (Restore write access)
+echo [5]  Disable USB Storage Devices Entirely (Block access)
+echo [6]  Enable USB Storage Devices
+echo [7]  Speed Up Service Shutdown Timeout (2000ms)
+echo [8]  Set Custom Pre-Login Security Notice Warning Message
+echo [9]  Remove Pre-Login Security Notice Warning Message
+echo [10] Disable Run Command Dialog (Win+R Policy)
+echo [11] Enable Run Command Dialog (Win+R Policy)
+echo [12] Disable AutoPlay on All Drives (Policies + Handlers)
+echo [13] Enable Default AutoPlay Settings
+echo [14] Create Desktop Shutdown ^& Restart Shortcuts
+echo [15] Create "Show Desktop" Shortcut on Desktop
+echo [16] Manage Built-in Administrator Account (Enable/Disable)
+echo [17] Generate UTF-8 File Listing in Current Directory
+echo [18] Disable Adobe Acrobat / Reader Auto-Update Manager
+echo [19] Customize Processor Name String (Session-Only HKLM)
+echo [20] Exit
+echo.
+echo =========================================================
+set "choice="
+set /p choice="Enter option number (1-20): "
+
+if "%choice%"=="1" goto lock
+if "%choice%"=="2" goto unlock
+if "%choice%"=="3" goto usb_wp_en
+if "%choice%"=="4" goto usb_wp_dis
+if "%choice%"=="5" goto usb_stor_dis
+if "%choice%"=="6" goto usb_stor_en
+if "%choice%"=="7" goto speed_shutdown
+if "%choice%"=="8" goto logon_msg
+if "%choice%"=="9" goto logon_msg_rem
+if "%choice%"=="10" goto run_dis
+if "%choice%"=="11" goto run_en
+if "%choice%"=="12" goto autoplay_dis
+if "%choice%"=="13" goto autoplay_en
+if "%choice%"=="14" goto shortcuts
+if "%choice%"=="15" goto show_desktop
+if "%choice%"=="16" goto enable_admin
+if "%choice%"=="17" goto file_list
+if "%choice%"=="18" goto adobe_dis
+if "%choice%"=="19" goto spoof_cpu
+if "%choice%"=="20" goto end
+goto menu
+
+:import_reg
+echo Importing "%~1"...
+reg.exe import "%~dp0%~1"
+if %errorlevel% neq 0 (
+    echo [ERROR] Registry import failed for "%~1" ^(run as Administrator for HKLM keys^).
+) else (
+    echo [OK] Imported "%~1" successfully!
+)
+pause
+goto :eof
+
+:lock
+call "%~dp0lock_folder.bat"
+goto menu
+
+:unlock
+call "%~dp0unlock_folder.bat"
+goto menu
+
+:usb_wp_en
+call :import_reg "usb_write_protect_enable.reg"
+goto menu
+
+:usb_wp_dis
+call :import_reg "usb_write_protect_disable.reg"
+goto menu
+
+:usb_stor_dis
+call :import_reg "usb_storage_disable.reg"
+goto menu
+
+:usb_stor_en
+call :import_reg "usb_storage_enable.reg"
+goto menu
+
+:speed_shutdown
+call :import_reg "speed_up_shutdown.reg"
+goto menu
+
+:logon_msg
+call :import_reg "custom_logon_message.reg"
+goto menu
+
+:logon_msg_rem
+call :import_reg "remove_logon_message.reg"
+goto menu
+
+:run_dis
+call :import_reg "disable_run_box.reg"
+goto menu
+
+:run_en
+call :import_reg "enable_run_box.reg"
+goto menu
+
+:autoplay_dis
+call :import_reg "autoplay_disable.reg"
+goto menu
+
+:autoplay_en
+call :import_reg "autoplay_enable.reg"
+goto menu
+
+:shortcuts
+call "%~dp0create_shutdown_shortcut.bat"
+goto menu
+
+:show_desktop
+call "%~dp0show_desktop_icon.bat"
+goto menu
+
+:enable_admin
+call "%~dp0enable_admin.bat"
+goto menu
+
+:file_list
+call "%~dp0file_lister.bat"
+goto menu
+
+:adobe_dis
+call :import_reg "disable_adobe_updater.reg"
+goto menu
+
+:spoof_cpu
+call :import_reg "spoof_cpu.reg"
+goto menu
+
+:end
+echo Exiting Windows 11 Tweak Tool.
+exit /b 0
+</textarea>
+                        <div class="card-top">
+                            <span class="card-num">20</span>
+                            <span class="card-meta-badge badge-bat">Batch (.bat)</span>
+                        </div>
+                        <div class="card-body">
+                            <h3>master_tweak_tool.bat</h3>
+                            <p>UTF-8 menu dashboard with PowerShell UAC self-elevation prompt and synchronous reg.exe import exit-code checks across all 19 tweaks.</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="view-code-btn">View Code</button>
+                            <a href="./master_tweak_tool.bat" class="action-link" target="_blank">Open File <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+        <!-- Empty state element for search -->
+        <div class="empty-state" id="search-empty">
+            <h3>No Tweaks Found</h3>
+            <p>We couldn't find any registry paths or scripts matching your search query. Try typing "usb" or "logon".</p>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>Windows 11 Tweak Portal • Designed in 2026 • <a href="../index.html" style="color: #38bdf8; text-decoration: none;">Main Repository Portal</a> • <a href="../comprehensive-tweak-guide/index.html" style="color: #818cf8; text-decoration: none;">Comprehensive Guide</a></p>
+        </footer>
+    </div>
+
+    <!-- Code Viewer Modal Overlay -->
+    <div id="code-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">File Code Preview</h2>
+                <button id="close-modal-btn" class="close-btn" aria-label="Close Code Viewer">&times;</button>
+            </div>
+            <div class="modal-body">
+                <pre><code id="code-block"></code></pre>
+            </div>
+            <div class="modal-footer">
+                <button id="copy-btn" class="copy-modal-btn">Copy to Clipboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Javascript logic for filtering, search, and modal interactions -->
+    <script id="search-logic">
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('search-input');
+            const filterBtns = document.querySelectorAll('.tab-btn');
+            const cards = document.querySelectorAll('.card');
+            const stages = document.querySelectorAll('.stage-container');
+            const emptyState = document.getElementById('search-empty');
+
+            // Modal elements
+            const modal = document.getElementById('code-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const modalTitle = document.getElementById('modal-title');
+            const codeBlock = document.getElementById('code-block');
+            const copyBtn = document.getElementById('copy-btn');
+
+            let activeFilter = 'all';
+            let searchQuery = '';
+            let currentCodeText = '';
+
+            function updateUI() {
+                let totalVisible = 0;
+
+                stages.forEach(stage => {
+                    const stageType = stage.getAttribute('data-stage');
+                    const stageCards = stage.querySelectorAll('.card');
+                    let visibleInStage = 0;
+
+                    stageCards.forEach(card => {
+                        const tags = card.getAttribute('data-tags').toLowerCase();
+                        const title = card.querySelector('h3').textContent.toLowerCase();
+                        const desc = card.querySelector('p').textContent.toLowerCase();
+                        
+                        const matchesFilter = (activeFilter === 'all' || activeFilter === stageType);
+                        const matchesSearch = (!searchQuery || 
+                                               title.includes(searchQuery) || 
+                                               desc.includes(searchQuery) || 
+                                               tags.includes(searchQuery));
+
+                        if (matchesFilter && matchesSearch) {
+                            card.style.display = 'flex';
+                            visibleInStage++;
+                            totalVisible++;
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+
+                    // Hide the entire section if no cards are visible
+                    if (visibleInStage > 0) {
+                        stage.style.display = 'block';
+                        stage.querySelector('.badge-count').textContent = `${visibleInStage} File${visibleInStage > 1 ? 's' : ''}`;
+                    } else {
+                        stage.style.display = 'none';
+                    }
+                });
+
+                // Display empty state if no files match
+                if (totalVisible === 0) {
+                    emptyState.style.display = 'block';
+                } else {
+                    emptyState.style.display = 'none';
+                }
+            }
+
+            // Search input listener
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value.toLowerCase().trim();
+                updateUI();
+            });
+
+            // Tab button clicks
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    filterBtns.forEach(b => {
+                        b.classList.remove('active');
+                        b.setAttribute('aria-selected', 'false');
+                    });
+                    btn.classList.add('active');
+                    btn.setAttribute('aria-selected', 'true');
+
+                    activeFilter = btn.getAttribute('data-filter');
+                    updateUI();
+                });
+            });
+
+            // Modal Interactions
+            cards.forEach(card => {
+                const viewBtn = card.querySelector('.view-code-btn');
+                if (viewBtn) {
+                    viewBtn.addEventListener('click', () => {
+                        const fileName = card.querySelector('h3').textContent;
+                        const codeText = card.querySelector('.raw-code').value;
+
+                        currentCodeText = codeText;
+                        modalTitle.textContent = fileName + " - Tweak Code";
+                        
+                        // Escape HTML inside code block
+                        codeBlock.textContent = codeText;
+                        
+                        // Show modal
+                        modal.style.display = 'flex';
+                        copyBtn.classList.remove('copied');
+                        copyBtn.textContent = 'Copy to Clipboard';
+                    });
+                }
+            });
+
+            // Close Modal
+            function closeModal() {
+                modal.style.display = 'none';
+            }
+
+            closeModalBtn.addEventListener('click', closeModal);
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // Copy to Clipboard
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(currentCodeText).then(() => {
+                    copyBtn.classList.add('copied');
+                    copyBtn.textContent = 'Copied!';
+                    setTimeout(() => {
+                        copyBtn.classList.remove('copied');
+                        copyBtn.textContent = 'Copy to Clipboard';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Could not copy text: ', err);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

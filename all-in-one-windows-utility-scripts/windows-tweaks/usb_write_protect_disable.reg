@@ -1,0 +1,11 @@
+Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Disable USB Mass Storage Write Protection (Restore Read/Write Access)
+; ==============================================================================
+; Requires Administrator privileges (HKLM).
+; Re-plug any connected USB drive after importing.
+; ==============================================================================
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\StorageDevicePolicies]
+"WriteProtect"=dword:00000000

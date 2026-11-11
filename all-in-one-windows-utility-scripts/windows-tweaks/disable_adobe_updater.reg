@@ -1,0 +1,14 @@
+Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Disable Adobe Acrobat / Reader Background Auto-Updater (Windows 11)
+; ==============================================================================
+; Requires Administrator privileges (HKLM).
+; Covers both modern unified 64-bit Adobe Acrobat DC and legacy Acrobat Reader DC.
+; ==============================================================================
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Adobe\Adobe Acrobat\DC\FeatureLockDown]
+"bUpdater"=dword:00000000
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Adobe\Acrobat Reader\DC\FeatureLockDown]
+"bUpdater"=dword:00000000

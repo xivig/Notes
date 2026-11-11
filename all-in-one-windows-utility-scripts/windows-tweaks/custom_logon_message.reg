@@ -1,0 +1,13 @@
+Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Configure Custom Pre-Login Security Notice Banner (Windows 11)
+; ==============================================================================
+; Requires Administrator privileges (HKLM).
+; Displays a mandatory acknowledgment banner before the Windows sign-in screen.
+; Revert with: remove_logon_message.reg
+; ==============================================================================
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System]
+"legalnoticecaption"="Security Policy Notice"
+"legalnoticetext"="WARNING: Authorized access only. All actions on this system are logged and monitored."

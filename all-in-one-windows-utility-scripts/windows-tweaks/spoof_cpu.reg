@@ -1,0 +1,12 @@
+Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Customize Processor Name String in System Info (Session-Only, Windows 11)
+; ==============================================================================
+; Requires Administrator privileges (HKLM\HARDWARE).
+; Note: HKLM\HARDWARE is a volatile registry hive rebuilt dynamically by the
+; Windows kernel on every boot; changes automatically reset on system restart.
+; ==============================================================================
+
+[HKEY_LOCAL_MACHINE\HARDWARE\DESCRIPTION\System\CentralProcessor\0]
+"ProcessorNameString"="Intel Core i9-14900KS @ 6.20GHz"

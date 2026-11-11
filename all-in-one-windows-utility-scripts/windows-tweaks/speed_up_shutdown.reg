@@ -1,0 +1,12 @@
+Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Speed Up Windows 11 Service Shutdown Timeout
+; ==============================================================================
+; Requires Administrator privileges (HKLM).
+; Shortens WaitToKillServiceTimeout to 2000 ms (default is 5000 ms) so background
+; services close promptly on restart/shutdown without risking abrupt 0 ms termination.
+; ==============================================================================
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control]
+"WaitToKillServiceTimeout"="2000"

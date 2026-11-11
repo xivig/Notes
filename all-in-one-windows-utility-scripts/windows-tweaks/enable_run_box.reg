@@ -1,0 +1,11 @@
+Windows Registry Editor Version 5.00
+
+; ==============================================================================
+; Re-Enable Win+R Run Command Dialog Policy (Current User, Windows 11)
+; ==============================================================================
+; Sets NoRun = 0 under HKCU\...\Policies\Explorer. Sign out or restart Explorer
+; if policy cache does not refresh immediately.
+; ==============================================================================
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer]
+"NoRun"=dword:00000000

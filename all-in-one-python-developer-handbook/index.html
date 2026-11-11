@@ -1,0 +1,1170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A standalone Python learning platform with a structured curriculum, interactive exercises, code playground, projects, quizzes and developer reference.">
+<meta name="theme-color" content="#0b1020">
+<title>Python Academy — Complete Developer Learning Platform</title>
+<style>
+:root{color-scheme:dark;--bg:#080d18;--panel:#101a2b;--panel2:#142238;--line:#263750;--text:#edf3ff;--muted:#a8b6cc;--blue:#68a5ff;--violet:#a78bfa;--green:#54d6a0;--amber:#f4c66a;--red:#ff8294;--radius:16px;--shadow:0 18px 55px #0006}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:radial-gradient(ellipse at 10% 0%,#19345a55,transparent 38%),radial-gradient(ellipse at 100% 30%,#39275a44,transparent 34%),var(--bg);color:var(--text);font:15px/1.7 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}a{color:var(--blue)}button,input,select{font:inherit}button{cursor:pointer}.shell{max-width:1500px;margin:auto;padding:24px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 0 24px}.brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:-.03em}.brand-mark{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#347fe9,#8759d8);font-size:21px}.top-actions{display:flex;gap:9px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:#17243a;color:var(--text);padding:9px 13px;border-radius:10px;font-weight:650}.btn:hover,.btn:focus-visible{border-color:var(--blue);outline:none}.btn.primary{background:linear-gradient(120deg,#347fe9,#7955d8);border:0}.hero{padding:34px 0 28px;display:grid;grid-template-columns:1.4fr .8fr;gap:24px;align-items:center}.eyebrow{color:var(--green);font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}.hero h1{font-size:clamp(2.2rem,5vw,4.6rem);line-height:1.05;letter-spacing:-.06em;margin:10px 0 18px;max-width:850px}.gradient{background:linear-gradient(100deg,#79b6ff,#b8a2ff,#65dfb2);-webkit-background-clip:text;background-clip:text;color:transparent}.hero p{color:var(--muted);max-width:760px;font-size:17px}.hero-card,.panel,.lesson-card,.topic-card{background:linear-gradient(145deg,#142238ee,#0e1727ee);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}.hero-card{padding:22px}.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.stat{padding:15px;border:1px solid var(--line);border-radius:12px;background:#0c1525}.stat strong{display:block;font-size:25px}.stat span{color:var(--muted);font-size:12px}.progress-wrap{margin-top:18px}.progress-label{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:7px}.progress{height:9px;background:#26364d;border-radius:20px;overflow:hidden}.progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--green));transition:width .25s}.layout{display:grid;grid-template-columns:285px minmax(0,1fr);gap:22px;align-items:start}.sidebar{position:sticky;top:14px;max-height:calc(100vh - 28px);overflow:auto;padding:16px}.search{width:100%;background:#0b1423;border:1px solid var(--line);color:var(--text);padding:12px;border-radius:10px;margin-bottom:12px}.nav-title{font-size:11px;text-transform:uppercase;letter-spacing:.13em;color:#7f94b3;font-weight:800;margin:18px 8px 7px}.navlink{display:flex;justify-content:space-between;gap:10px;text-decoration:none;color:var(--muted);padding:8px 10px;border-radius:8px;font-size:13px}.navlink:hover,.navlink.active{background:#1c3150;color:var(--text)}.navlink small{color:#7f94b3}.content{min-width:0}.section{margin:0 0 30px;scroll-margin-top:90px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:14px;margin:0 0 14px}.section-head h2{font-size:clamp(1.45rem,3vw,2rem);letter-spacing:-.035em;margin:0}.section-head p{color:var(--muted);margin:4px 0 0}.kicker{color:var(--blue);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.12em}.panel{padding:21px;margin-bottom:14px}.panel h3{margin:0 0 8px;font-size:1.1rem}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.topic-card{padding:18px;box-shadow:none}.topic-card h3{margin:0 0 7px;font-size:1.03rem}.topic-card p{color:var(--muted);margin:0 0 12px;font-size:14px}.tag{display:inline-block;padding:3px 8px;border-radius:20px;background:#203653;color:#a9ceff;font-size:11px;font-weight:750;margin:0 5px 5px 0}.lesson{border:1px solid var(--line);border-radius:13px;margin:12px 0;background:#0c1626;overflow:hidden}.lesson summary{cursor:pointer;list-style:none;padding:14px 16px;font-weight:750;display:flex;justify-content:space-between;gap:12px}.lesson summary::-webkit-details-marker{display:none}.lesson summary:after{content:"＋";color:var(--blue)}.lesson[open] summary:after{content:"−"}.lesson-body{padding:0 16px 17px;color:#d4deee}.lesson-body h4{margin:17px 0 5px;color:#fff}.lesson-body p{margin:7px 0}.lesson-body ul,.lesson-body ol{padding-left:22px}.code{position:relative;background:#070c15;border:1px solid #26364d;border-radius:10px;margin:10px 0;padding:15px;overflow:auto;color:#dbeafe;font:13px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre}.copy{float:right;margin:8px 8px 0 0;padding:5px 9px;font-size:11px}.callout{padding:12px 14px;border-left:3px solid var(--blue);background:#172a43;border-radius:0 9px 9px 0;margin:12px 0}.callout.warn{border-color:var(--amber)}.callout.good{border-color:var(--green)}.checklist{list-style:none;padding:0!important}.checklist li{margin:8px 0}.checklist input{accent-color:var(--green);margin-right:8px}.quiz{border:1px solid var(--line);padding:16px;border-radius:12px;margin:12px 0;background:#0c1626}.quiz label{display:block;padding:6px 0;color:var(--muted);cursor:pointer}.quiz button{margin-top:8px}.feedback{font-size:13px;margin-top:8px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:#a9ceff}.pill{font-size:11px;color:var(--green);border:1px solid #2e725f;padding:3px 8px;border-radius:30px}.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin:12px 0}.toolbar select,.toolbar input{background:#0b1423;border:1px solid var(--line);color:var(--text);padding:9px;border-radius:9px}.footer{border-top:1px solid var(--line);padding:24px 0 10px;color:#8191aa;text-align:center;margin-top:40px;font-size:13px}.hidden{display:none!important}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}.kbd{font:12px ui-monospace;background:#26364d;padding:2px 6px;border-radius:5px}.backtop{position:fixed;right:20px;bottom:20px;border-radius:50%;width:44px;height:44px;box-shadow:var(--shadow)}
+@media(max-width:950px){.layout{grid-template-columns:1fr}.sidebar{position:relative;top:auto;max-height:none}.sidebar nav{display:grid;grid-template-columns:repeat(2,1fr)}.hero{grid-template-columns:1fr}.hero-card{max-width:520px}.shell{padding:16px}}
+@media(max-width:620px){.grid,.two-col{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}.shell{padding:12px}.hero{padding-top:18px}.section-head{align-items:flex-start;flex-direction:column}.sidebar nav{grid-template-columns:1fr 1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+
+.exercise-card{background:#0c1626;border:1px solid var(--line);border-radius:13px;padding:17px;margin:12px 0}
+.exercise-card h3{margin:0 0 7px}.exercise-card p{color:var(--muted)}
+.exercise-meta{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0}
+.exercise-card details{margin-top:10px;border-top:1px solid var(--line);padding-top:9px}
+.exercise-card textarea{width:100%;min-height:150px;background:#070c15;color:#dbeafe;border:1px solid #26364d;border-radius:9px;padding:12px;font:13px/1.6 ui-monospace,monospace}
+.exercise-card .exercise-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
+@media print{body{background:#fff;color:#111}.sidebar,.top-actions,.btn,.copy,.backtop{display:none!important}.layout{display:block}.panel,.topic-card,.lesson{background:#fff;color:#111;box-shadow:none;border:1px solid #bbb}.muted,.lesson-body{color:#333}.code{color:#111;background:#f5f5f5;white-space:pre-wrap}.hero-card{display:none}}
+html[data-theme="light"]{color-scheme:light;--bg:#f8fafc;--panel:#ffffff;--panel2:#f1f5f9;--line:#cbd5e1;--text:#0f172a;--muted:#475569;--blue:#2563eb;--violet:#6d28d9;--green:#059669;--amber:#b45309;--red:#dc2626;--shadow:0 12px 32px rgba(15,23,42,.08)}html[data-theme="light"] body{background:radial-gradient(ellipse at 10% 0%,rgba(59,130,246,.08),transparent 38%),var(--bg)}html[data-theme="light"] .hero-card,html[data-theme="light"] .panel,html[data-theme="light"] .topic-card,html[data-theme="light"] .lesson,html[data-theme="light"] .quiz,html[data-theme="light"] .exercise-card{background:#ffffff;border-color:var(--line)}html[data-theme="light"] .stat,html[data-theme="light"] .search,html[data-theme="light"] .toolbar select,html[data-theme="light"] .toolbar input,html[data-theme="light"] #learningNotes,html[data-theme="light"] .btn{background:#f8fafc;color:var(--text)}html[data-theme="light"] .btn.primary{color:#fff}html[data-theme="light"] .lesson-body{color:#1e293b}html[data-theme="light"] .lesson-body h4,html[data-theme="light"] th{color:#0f172a}html[data-theme="light"] .callout{background:#eff6ff;color:#1e293b}html[data-theme="light"] .tag{background:#e2e8f0;color:#1e293b}html[data-theme="light"] .navlink:hover,html[data-theme="light"] .navlink.active{background:#e0e7ff;color:#1e1b4b}.code-bar{display:flex;justify-content:flex-end;gap:6px;margin:8px 0 -4px}.code-bar .btn{padding:4px 9px;font-size:11px;border-radius:7px}.mod-links{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 0}.mod-links a{font-size:12px;text-decoration:none;border:1px solid var(--line);padding:2px 9px;border-radius:99px;background:var(--panel2)}.mod-links a:hover{border-color:var(--blue)}.quiz-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px;padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}.search-meta{font-size:12px;color:var(--muted);margin:-6px 0 10px 2px}</style>
+</head>
+<body>
+<div class="shell" id="top">
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">Py</span><span>PYTHON <span class="muted">DEVELOPER HANDBOOK</span></span></div>
+  <div class="top-actions"><a class="btn" href="./README.md">Markdown Hub</a><a class="btn" href="./CHEATSHEET.md">Cheatsheet</a><button class="btn" id="themeBtn" type="button">Light Mode</button><button class="btn" id="printBtn" type="button">Print / PDF</button><button class="btn" id="resetBtn" type="button">Reset progress</button><a class="btn primary" href="#roadmap">Start learning →</a></div>
+</header>
+<section class="hero">
+  <div><div class="eyebrow">A practical, project-first learning path</div><h1>Python from <span class="gradient">zero to professional.</span></h1><p>A structured tutorial, developer reference and hands-on workbook in one page. Learn the language, write maintainable software, test it, work with data and APIs, automate tasks, and build portfolio-ready projects.</p><div class="toolbar"><a class="btn primary" href="#roadmap">Explore the roadmap</a><a class="btn" href="#playground">Try Python playground</a><a class="btn" href="#projects">Build projects</a><a class="btn" href="#reference">Quick reference</a><a class="btn" href="./GLOSSARY.md">Glossary (MD)</a><a class="btn" href="./PROJECTS.md">Projects Blueprint</a></div></div>
+  <aside class="hero-card"><div class="stats"><div class="stat"><strong>18</strong><span>Learning modules</span></div><div class="stat"><strong>6</strong><span>Portfolio projects</span></div><div class="stat"><strong>12+</strong><span>Core skill areas</span></div><div class="stat"><strong>1</strong><span>Offline-friendly guide</span></div></div><div class="progress-wrap"><div class="progress-label"><span>Your learning progress</span><strong id="progressText">0%</strong></div><div class="progress"><i id="progressBar"></i></div><p class="muted" style="font-size:12px;margin:8px 0 0">Progress is saved in this browser on this device.</p></div></aside>
+</section>
+<div class="layout">
+<aside class="sidebar panel">
+  <input class="search" id="search" type="search" placeholder="Search lessons, topics, code… ( / )" aria-label="Search handbook"><div class="search-meta" id="searchMeta"></div>
+  <nav id="navigation">
+    <div class="nav-title">Getting started</div>
+    <a class="navlink" href="#roadmap">Learning roadmap <small>01</small></a>
+    <a class="navlink" href="#setup">Setup & workflow <small>02</small></a>
+    <div class="nav-title">Core curriculum</div>
+    <a class="navlink" href="#fundamentals">Syntax & fundamentals</a><a class="navlink" href="#control">Control flow</a><a class="navlink" href="#collections">Collections</a><a class="navlink" href="#functions">Functions</a><a class="navlink" href="#modules">Modules & packages</a><a class="navlink" href="#files">Files & data formats</a><a class="navlink" href="#errors">Errors & debugging</a><a class="navlink" href="#oop">Object-oriented Python</a><a class="navlink" href="#advanced">Advanced Python</a><a class="navlink" href="#stdlib">Standard library</a><a class="navlink" href="#testing">Testing & quality</a><a class="navlink" href="#web">HTTP, APIs & web</a><a class="navlink" href="#data">Databases & data</a><a class="navlink" href="#async">Concurrency & async</a><a class="navlink" href="#security">Security & performance</a><a class="navlink" href="#deployment">Packaging &amp; deployment</a><a class="navlink" href="#professional">Professional practices</a>
+    <div class="nav-title">Practice & reference</div>
+    <a class="navlink" href="#playground">Python playground</a><a class="navlink" href="#exercises">Coding exercises</a><a class="navlink" href="#study-plan">Study planner</a><a class="navlink" href="#pro-sprint">30-day Pro sprint</a><a class="navlink" href="#problem-solving">Algorithm gym</a><a class="navlink" href="#interview-prep">Interview prep</a><a class="navlink" href="#career-tracks">Career tracks</a><a class="navlink" href="#portfolio-review">Portfolio review</a><a class="navlink" href="#projects">Portfolio projects</a><a class="navlink" href="#quiz">Knowledge checks</a><a class="navlink" href="#reference">Developer quick reference</a><a class="navlink" href="#glossary">Glossary</a><a class="navlink" href="#resources">Official resources</a>
+  </nav>
+</aside>
+<main class="content" id="main">
+<section class="section searchable" id="roadmap">
+<div class="section-head"><div><div class="kicker">Your route</div><h2>Learning roadmap</h2><p>Follow the modules in order. Each module has concepts, runnable examples, practice and a completion marker.</p></div><span class="pill">Beginner → job-ready</span></div>
+<div class="panel"><h3>Suggested 16-week study plan</h3><div class="table-wrap"><table><thead><tr><th>Weeks</th><th>Focus</th><th>Outcome</th></tr></thead><tbody>
+<tr><td>1–2</td><td>Setup, syntax, types, control flow</td><td>Small command-line programs</td></tr><tr><td>3–4</td><td>Collections, functions, modules</td><td>Reusable scripts and a CLI utility</td></tr><tr><td>5–6</td><td>Files, exceptions, OOP, standard library</td><td>Structured application with persistent data</td></tr><tr><td>7–8</td><td>Testing, debugging, Git, code quality</td><td>Tested, maintainable repository</td></tr><tr><td>9–10</td><td>HTTP, APIs, databases, SQL</td><td>API-backed database application</td></tr><tr><td>11–12</td><td>Async, concurrency, performance, security</td><td>Reliable network/data workflow</td></tr><tr><td>13–14</td><td>Packaging, environments, deployment</td><td>Installable application</td></tr><tr><td>15–16</td><td>Capstone, documentation, interview practice</td><td>Portfolio-ready project</td></tr>
+</tbody></table></div><div class="callout good"><strong>Study loop:</strong> Read → type the code yourself → predict the output → run it → change it → explain it without looking → solve the exercise.</div></div>
+</section>
+<section class="section searchable" id="setup">
+<div class="section-head"><div><div class="kicker">Module 01</div><h2>Install Python &amp; create a professional workspace</h2><p>Use a supported Python 3 release (3.10–3.14) and isolate each project’s dependencies.</p><div class="mod-links"><a href="./chapters/01-setup-venv-uv-and-workflow/README.md">Chapter Guide (MD) &rarr;</a><a href="./chapters/01-setup-venv-uv-and-workflow/lab.py">Verified Lab (<code>lab.py</code>) &rarr;</a></div></div><label class="pill"><input class="done" type="checkbox" data-module="setup" aria-label="Mark Install Python &amp; create a professional workspace complete"> Complete</label></div>
+<div class="panel">
+<details class="lesson" open><summary>1.1 Install and verify Python</summary><div class="lesson-body"><p>Install Python 3 from the official downloads page. On Windows, enable the option to add Python to PATH. On macOS/Linux, use the system package manager or the official installer appropriate to your platform.</p><pre class="code"># Check the interpreter
+python --version
+# Some systems use:
+python3 --version
+
+# Check pip
+python -m pip --version</pre><p>Use the same interpreter for pip commands: <code>python -m pip</code>. This avoids installing a package into a different Python installation.</p></div></details>
+<details class="lesson"><summary>1.2 Create a project and virtual environment</summary><div class="lesson-body"><pre class="code">mkdir hello-python
+cd hello-python
+
+# Create an isolated environment
+python -m venv .venv
+
+# Windows PowerShell
+.venv\Scripts\Activate.ps1
+
+# macOS / Linux
+source .venv/bin/activate
+
+python -m pip install --upgrade pip</pre><p>A virtual environment keeps project dependencies isolated cleanly. Add <code>.venv/</code> to <code>.gitignore</code>; never commit it. For modern fast workflows, consider <code>uv</code>: <code>uv init</code>, <code>uv add httpx pytest</code>, <code>uv run main.py</code>.</p></div></details>
+<details class="lesson"><summary>1.3 Your first program and editor workflow</summary><div class="lesson-body"><pre class="code"># hello.py
+def main() -> None:
+    name = input("What is your name? ").strip()
+    if not name:
+        name = "Python learner"
+    print(f"Hello, {name}! Welcome to Python.")
+
+if __name__ == "__main__":
+    main()</pre><pre class="code">python hello.py</pre><p>Use an editor with Python language support, linting, formatting and debugging. Learn the terminal, file navigation, Git basics and how to read tracebacks early.</p></div></details>
+</div></section>
+<section class="section searchable" id="fundamentals"><div class="section-head"><div><div class="kicker">Module 02</div><h2>Syntax, variables &amp; data types</h2><p>Names, values, expressions, strings, numbers, booleans, None and type conversion.</p><div class="mod-links"><a href="./chapters/02-syntax-types-strings-and-decimal/README.md">Chapter Guide (MD) &rarr;</a><a href="./chapters/02-syntax-types-strings-and-decimal/lab.py">Verified Lab (<code>lab.py</code>) &rarr;</a></div></div><label class="pill"><input class="done" type="checkbox" data-module="fundamentals" aria-label="Mark Syntax, variables &amp; data types complete"> Complete</label></div><div class="panel"><details class="lesson"><summary>2.1 Names, assignment and Python&#x27;s dynamic typing</summary><div class="lesson-body"><p>Python is dynamically typed, but variables still refer to objects with types. Prefer descriptive snake_case names. Constants are conventionally written in UPPER_SNAKE_CASE.</p><pre class="code"># A name refers to an object; Python infers the type at runtime
+display_name = &quot;Ada&quot;
+age = 36
+height_m = 1.68
+is_learning = True
+nothing_here = None
+
+print(type(display_name).__name__)  # str
+print(type(age).__name__)           # int
+print(f&quot;{display_name} is {age}&quot;)</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>2.2 Numbers, operators and conversion</summary><div class="lesson-body"><p>Use Decimal for money calculations where exact decimal arithmetic matters. Conversion can fail: int(&#x27;hello&#x27;) raises ValueError.</p><pre class="code">from decimal import Decimal
+
+price = Decimal("19.95")
+quantity = 3
+exact_total = price * quantity  # Exact cents, no 0.1 + 0.2 binary drift
+
+fprice = 19.95
+subtotal = fprice * quantity
+tax = subtotal * 0.18
+total = subtotal + tax
+
+print(total)
+print(17 // 5)   # floor division: 3
+print(17 % 5)    # remainder: 2
+print(2 ** 5)    # exponentiation: 32
+
+user_input = &quot;42&quot;
+count = int(user_input)
+ratio = float(&quot;3.5&quot;)</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>2.3 Strings, formatting and text methods</summary><div class="lesson-body"><p>Strings are immutable Unicode sequences. f-strings are usually the clearest way to interpolate values. Use encode/decode explicitly when crossing text/bytes boundaries.</p><pre class="code">first = &quot;grace&quot;
+last = &quot;hopper&quot;
+full_name = f&quot;{first.title()} {last.title()}&quot;
+
+message = &quot;  Python is practical  &quot;
+clean = message.strip()
+words = clean.split()
+joined = &quot;-&quot;.join(words)
+
+print(full_name)
+print(f&quot;Name: {full_name!r}; length: {len(full_name)}&quot;)</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>2.4 Boolean logic, comparisons and truthiness</summary><div class="lesson-body"><p>Use == to compare values and is for identity checks (especially None). Empty strings, zero, None and empty collections are falsey; most other objects are truthy.</p><pre class="code">age = 21
+has_ticket = True
+can_enter = age &gt;= 18 and has_ticket
+
+items = []
+if not items:
+    print(&quot;The collection is empty&quot;)
+
+# Identity vs equality
+a = None
+if a is None:
+    print(&quot;No value was supplied&quot;)</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details></div></section><section class="section searchable" id="control"><div class="section-head"><div><div class="kicker">Module 03</div><h2>Conditions, loops &amp; pattern matching</h2><p>Branching, iteration, loop control and readable decision logic.</p><div class="mod-links"><a href="./chapters/03-control-flow-loops-and-match-case/README.md">Chapter Guide (MD) &rarr;</a><a href="./chapters/03-control-flow-loops-and-match-case/lab.py">Verified Lab (<code>lab.py</code>) &rarr;</a></div></div><label class="pill"><input class="done" type="checkbox" data-module="control" aria-label="Mark Conditions, loops &amp; pattern matching complete"> Complete</label></div><div class="panel"><details class="lesson"><summary>3.1 if / elif / else</summary><div class="lesson-body"><p>Conditions are evaluated from top to bottom; the first matching branch runs. Keep conditions simple and extract complicated decisions into named functions.</p><pre class="code">temperature = 28
+
+if temperature &gt;= 35:
+    advice = &quot;Very hot&quot;
+elif temperature &gt;= 25:
+    advice = &quot;Warm&quot;
+elif temperature &gt;= 15:
+    advice = &quot;Mild&quot;
+else:
+    advice = &quot;Cold&quot;
+
+print(advice)</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>3.2 for loops, range and enumerate</summary><div class="lesson-body"><p>Iterate over values directly when you do not need an index. Use enumerate when you need both an index and an item.</p><pre class="code">languages = [&quot;Python&quot;, &quot;Kotlin&quot;, &quot;JavaScript&quot;]
+
+for index, language in enumerate(languages, start=1):
+    print(index, language)
+
+for number in range(2, 11, 2):
+    print(number)</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>3.3 while, break, continue and loop else</summary><div class="lesson-body"><p>break exits the nearest loop; continue skips to the next iteration. A loop&#x27;s else clause runs only if the loop finishes normally (without break).</p><pre class="code">attempts = 0
+while attempts &lt; 3:
+    attempts += 1
+    if attempts == 2:
+        continue
+    print(&quot;Attempt&quot;, attempts)
+else:
+    print(&quot;Loop completed without break&quot;)</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>3.4 match / case</summary><div class="lesson-body"><p>Structural pattern matching is available in Python 3.10+. Use it when matching structured values or alternative shapes makes code clearer than nested conditionals.</p><pre class="code">command = &quot;start&quot;
+
+match command:
+    case &quot;start&quot;:
+        result = &quot;Starting&quot;
+    case &quot;stop&quot;:
+        result = &quot;Stopping&quot;
+    case &quot;restart&quot;:
+        result = &quot;Restarting&quot;
+    case _:
+        result = &quot;Unknown command&quot;
+
+print(result)
+
+# Structural pattern matching on dictionaries + guards (Python 3.10+)
+event = {&quot;type&quot;: &quot;click&quot;, &quot;x&quot;: 12, &quot;y&quot;: 40}
+match event:
+    case {&quot;type&quot;: &quot;click&quot;, &quot;x&quot;: int(x), &quot;y&quot;: int(y)} if x &gt;= 0:
+        print(f&quot;Click at ({x}, {y})&quot;)</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details></div></section><section class="section searchable" id="collections"><div class="section-head"><div><div class="kicker">Module 04</div><h2>Built-in data structures</h2><p>Lists, tuples, dictionaries, sets, slicing, iteration and comprehensions.</p><div class="mod-links"><a href="./chapters/04-collections-slicing-and-comprehensions/README.md">Chapter Guide (MD) &rarr;</a><a href="./chapters/04-collections-slicing-and-comprehensions/lab.py">Verified Lab (<code>lab.py</code>) &rarr;</a></div></div><label class="pill"><input class="done" type="checkbox" data-module="collections" aria-label="Mark Built-in data structures complete"> Complete</label></div><div class="panel"><details class="lesson"><summary>4.1 Lists and slicing</summary><div class="lesson-body"><p>Lists are ordered and mutable. Assignment does not copy a list: use list.copy() or scores[:] for a shallow copy. Nested mutable objects are still shared by a shallow copy.</p><pre class="code">scores = [72, 91, 84]
+scores.append(96)
+scores.extend([67, 88])
+
+print(scores[0])       # first item
+print(scores[-1])      # last item
+print(scores[1:4])     # slice: start included, stop excluded
+print(scores[::-1])    # reversed copy
+
+scores.sort()
+print(scores)</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>4.2 Tuples, sets and dictionaries</summary><div class="lesson-body"><p>Tuples are useful for fixed records and unpacking. Sets store unique hashable values and support set algebra. Dictionaries preserve insertion order and map hashable keys to values.</p><pre class="code">point = (10, 20)                 # immutable sequence
+unique_roles = {&quot;admin&quot;, &quot;editor&quot;, &quot;admin&quot;}
+user = {&quot;id&quot;: 7, &quot;name&quot;: &quot;Mina&quot;, &quot;active&quot;: True}
+
+user[&quot;role&quot;] = &quot;admin&quot;
+print(user.get(&quot;email&quot;, &quot;not supplied&quot;))
+print(&quot;admin&quot; in unique_roles)</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>4.3 Comprehensions and unpacking</summary><div class="lesson-body"><p>Comprehensions are concise transformations. Avoid deeply nested comprehensions; a normal loop is often easier to debug.</p><pre class="code">numbers = [1, 2, 3, 4, 5, 6]
+squares = [n * n for n in numbers]
+even_squares = [n * n for n in numbers if n % 2 == 0]
+lookup = {n: n * n for n in numbers}
+unique_lengths = {len(str(n)) for n in numbers}
+
+first, *middle, last = [10, 20, 30, 40, 50]
+print(even_squares, lookup, middle)</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details></div></section><section class="section searchable" id="functions"><div class="section-head"><div><div class="kicker">Module 05</div><h2>Functions &amp; reusable design</h2><p>Parameters, return values, scope, closures, lambda, type hints and documentation.</p><div class="mod-links"><a href="./chapters/05-functions-scopes-closures-and-typing/README.md">Chapter Guide (MD) &rarr;</a><a href="./chapters/05-functions-scopes-closures-and-typing/lab.py">Verified Lab (<code>lab.py</code>) &rarr;</a></div></div><label class="pill"><input class="done" type="checkbox" data-module="functions" aria-label="Mark Functions &amp; reusable design complete"> Complete</label></div><div class="panel"><details class="lesson"><summary>5.1 Define functions and return values</summary><div class="lesson-body"><p>A function should have one clear responsibility. Prefer returning values over printing inside reusable business logic. Defaults are evaluated once at function definition time; avoid mutable defaults such as [].</p><pre class="code"># Always use None sentinel for mutable defaults (never items=[])
+def add_tag(tag: str, tags: list[str] | None = None) -&gt; list[str]:
+    out = [] if tags is None else list(tags)
+    out.append(tag.strip().lower())
+    return out
+
+def calculate_total(price: float, quantity: int = 1) -&gt; float:
+    &quot;&quot;&quot;Return the total before tax.&quot;&quot;&quot;
+    if price &lt; 0 or quantity &lt; 0:
+        raise ValueError(&quot;price and quantity must be non-negative&quot;)
+    return price * quantity
+
+total = calculate_total(12.5, quantity=3)
+print(total)</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>5.2 Positional-only, keyword-only, *args and **kwargs</summary><div class="lesson-body"><p>The slash marks positional-only parameters; the bare asterisk marks keyword-only parameters. *args collects extra positional arguments; **kwargs collects extra keyword arguments.</p><pre class="code">def create_user(name, /, *roles, active=True, **metadata):
+    return {
+        &quot;name&quot;: name,
+        &quot;roles&quot;: roles,
+        &quot;active&quot;: active,
+        &quot;metadata&quot;: metadata,
+    }
+
+user = create_user(&quot;Ravi&quot;, &quot;reader&quot;, &quot;author&quot;,
+                   active=True, city=&quot;Kolkata&quot;)
+print(user)</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>5.3 Scope, closures and lambda</summary><div class="lesson-body"><p>Python resolves names using the LEGB rule: Local, Enclosing, Global, Built-in. Use lambda for small expressions, not multi-step logic.</p><pre class="code">def make_multiplier(factor: int):
+    def multiply(value: int) -&gt; int:
+        return value * factor
+    return multiply
+
+double = make_multiplier(2)
+print(double(9))
+
+names = [&quot;zoe&quot;, &quot;Ada&quot;, &quot;linus&quot;]
+print(sorted(names, key=lambda name: name.lower()))</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details></div></section><section class="section searchable" id="modules"><div class="section-head"><div><div class="kicker">Module 06</div><h2>Modules, imports &amp; package management</h2><p>Organize code, understand imports, install dependencies and structure real projects.</p><div class="mod-links"><a href="./chapters/06-modules-packages-and-pyproject/README.md">Chapter Guide (MD) &rarr;</a><a href="./chapters/06-modules-packages-and-pyproject/lab.py">Verified Lab (<code>lab.py</code>) &rarr;</a></div></div><label class="pill"><input class="done" type="checkbox" data-module="modules" aria-label="Mark Modules, imports &amp; package management complete"> Complete</label></div><div class="panel"><details class="lesson"><summary>6.1 Modules and safe entry points</summary><div class="lesson-body"><p>A module is a Python file. The __name__ guard prevents application startup code from running when a module is imported by another module or a test.</p><pre class="code"># geometry.py
+PI = 3.141592653589793
+
+def circle_area(radius: float) -&gt; float:
+    return PI * radius ** 2
+
+# app.py
+from geometry import circle_area
+
+def main():
+    print(circle_area(4))
+
+if __name__ == &quot;__main__&quot;:
+    main()</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>6.2 Packages and project layout</summary><div class="lesson-body"><p>Keep application code in a package, tests in a separate directory and project metadata in pyproject.toml. Choose a clear package name and avoid naming files after standard-library modules (json.py, typing.py, email.py).</p><pre class="code">my_app/
+├── pyproject.toml
+├── README.md
+├── src/
+│   └── my_app/
+│       ├── __init__.py
+│       ├── cli.py
+│       └── services.py
+└── tests/
+    └── test_services.py</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>6.3 Dependencies with pip</summary><div class="lesson-body"><p>For modern projects, define project metadata and dependencies in pyproject.toml and use a reproducible lock workflow where supported. Review dependencies before adding them.</p><pre class="code"># Install a dependency into the active virtual environment
+python -m pip install requests
+
+# Inspect installed packages
+python -m pip list
+python -m pip show requests
+
+# Record a simple environment snapshot
+python -m pip freeze &gt; requirements.txt
+python -m pip install -r requirements.txt</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details></div></section><section class="section searchable" id="files"><div class="section-head"><div><div class="kicker">Module 07</div><h2>Files, paths &amp; data formats</h2><p>Read and write text, CSV, JSON, paths and binary files safely.</p><div class="mod-links"><a href="./chapters/07-files-pathlib-json-csv-and-tomllib/README.md">Chapter Guide (MD) &rarr;</a><a href="./chapters/07-files-pathlib-json-csv-and-tomllib/lab.py">Verified Lab (<code>lab.py</code>) &rarr;</a></div></div><label class="pill"><input class="done" type="checkbox" data-module="files" aria-label="Mark Files, paths &amp; data formats complete"> Complete</label></div><div class="panel"><details class="lesson"><summary>7.1 pathlib and context managers</summary><div class="lesson-body"><p>Use pathlib for portable path operations. with closes resources even when an exception occurs. Specify text encodings explicitly, usually UTF-8.</p><pre class="code">from pathlib import Path
+
+data_dir = Path(&quot;data&quot;)
+data_dir.mkdir(exist_ok=True)
+
+file_path = data_dir / &quot;notes.txt&quot;
+file_path.write_text(&quot;Learn Python\nBuild projects\n&quot;, encoding=&quot;utf-8&quot;)
+
+with file_path.open(&quot;r&quot;, encoding=&quot;utf-8&quot;) as file:
+    content = file.read()
+
+print(content)</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>7.2 JSON</summary><div class="lesson-body"><p>JSON supports objects, arrays, strings, numbers, booleans and null. Validate untrusted input and handle JSONDecodeError.</p><pre class="code">import json
+from pathlib import Path
+
+profile = {&quot;name&quot;: &quot;Asha&quot;, &quot;skills&quot;: [&quot;Python&quot;, &quot;SQL&quot;]}
+path = Path(&quot;profile.json&quot;)
+
+path.write_text(
+    json.dumps(profile, indent=2, ensure_ascii=False),
+    encoding=&quot;utf-8&quot;
+)
+loaded = json.loads(path.read_text(encoding=&quot;utf-8&quot;))
+print(loaded[&quot;skills&quot;])</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>7.3 CSV and binary data</summary><div class="lesson-body"><p>Use csv module instead of splitting lines manually; quoted fields may contain commas. Binary files use rb/wb modes and bytes.</p><pre class="code">import csv
+
+rows = [
+    {&quot;name&quot;: &quot;Asha&quot;, &quot;score&quot;: 91},
+    {&quot;name&quot;: &quot;Dev&quot;, &quot;score&quot;: 84},
+]
+
+with open(&quot;scores.csv&quot;, &quot;w&quot;, newline=&quot;&quot;, encoding=&quot;utf-8&quot;) as file:
+    writer = csv.DictWriter(file, fieldnames=[&quot;name&quot;, &quot;score&quot;])
+    writer.writeheader()
+    writer.writerows(rows)
+
+with open(&quot;image.bin&quot;, &quot;rb&quot;) as file:
+    first_bytes = file.read(16)</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details></div></section><section class="section searchable" id="errors"><div class="section-head"><div><div class="kicker">Module 08</div><h2>Exceptions, logging &amp; debugging</h2><p>Handle expected failures, raise meaningful exceptions and diagnose problems.</p><div class="mod-links"><a href="./chapters/08-exceptions-custom-errors-and-logging/README.md">Chapter Guide (MD) &rarr;</a><a href="./chapters/08-exceptions-custom-errors-and-logging/lab.py">Verified Lab (<code>lab.py</code>) &rarr;</a></div></div><label class="pill"><input class="done" type="checkbox" data-module="errors" aria-label="Mark Exceptions, logging &amp; debugging complete"> Complete</label></div><div class="panel"><details class="lesson"><summary>8.1 Exceptions and cleanup</summary><div class="lesson-body"><p>Catch the narrowest exception you can handle. Do not silently swallow errors with a bare except. Use finally for cleanup that must happen regardless of success.</p><pre class="code">def read_age(value: str) -&gt; int:
+    try:
+        age = int(value)
+    except ValueError as exc:
+        raise ValueError(&quot;Age must be a whole number&quot;) from exc
+
+    if age &lt; 0:
+        raise ValueError(&quot;Age cannot be negative&quot;)
+    return age
+
+try:
+    print(read_age(&quot;twenty&quot;))
+except ValueError as error:
+    print(&quot;Input problem:&quot;, error)</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>8.2 Custom exceptions and assertions</summary><div class="lesson-body"><p>Use custom exceptions for meaningful domain failures. assert is for developer assumptions and tests; it can be disabled and must not validate user input.</p><pre class="code">class InsufficientFundsError(Exception):
+    &quot;&quot;&quot;Raised when an account cannot cover a withdrawal.&quot;&quot;&quot;
+
+def withdraw(balance: float, amount: float) -&gt; float:
+    if amount &lt;= 0:
+        raise ValueError(&quot;amount must be positive&quot;)
+    if amount &gt; balance:
+        raise InsufficientFundsError(&quot;not enough funds&quot;)
+    return balance - amount
+
+assert withdraw(100, 30) == 70</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>8.3 Logging and debugging</summary><div class="lesson-body"><p>Use logging instead of print statements in applications. Learn breakpoints, stepping, watches and stack traces. Log useful context but never secrets, passwords or tokens.</p><pre class="code">import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format=&quot;%(asctime)s %(levelname)s %(name)s: %(message)s&quot;
+)
+logger = logging.getLogger(__name__)
+
+def process_order(order_id: int) -&gt; None:
+    logger.info(&quot;Processing order %s&quot;, order_id)
+    try:
+        # perform work
+        pass
+    except OSError:
+        logger.exception(&quot;Order %s failed&quot;, order_id)
+        raise</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details></div></section><section class="section searchable" id="oop"><div class="section-head"><div><div class="kicker">Module 09</div><h2>Object-oriented Python</h2><p>Classes, instances, encapsulation, inheritance, composition, dataclasses and protocols.</p><div class="mod-links"><a href="./chapters/09-oop-dataclasses-inheritance-and-protocols/README.md">Chapter Guide (MD) &rarr;</a><a href="./chapters/09-oop-dataclasses-inheritance-and-protocols/lab.py">Verified Lab (<code>lab.py</code>) &rarr;</a></div></div><label class="pill"><input class="done" type="checkbox" data-module="oop" aria-label="Mark Object-oriented Python complete"> Complete</label></div><div class="panel"><details class="lesson"><summary>9.1 Classes, instances and methods</summary><div class="lesson-body"><p>self refers to the current instance. A leading underscore signals a non-public implementation detail by convention; it is not strict access control.</p><pre class="code">class BankAccount:
+    def __init__(self, owner: str, opening_balance: float = 0):
+        self.owner = owner
+        self._balance = opening_balance
+
+    @property
+    def balance(self) -&gt; float:
+        return self._balance
+
+    def deposit(self, amount: float) -&gt; None:
+        if amount &lt;= 0:
+            raise ValueError(&quot;amount must be positive&quot;)
+        self._balance += amount
+
+account = BankAccount(&quot;Mina&quot;, 100)
+account.deposit(25)
+print(account.balance)</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>9.2 Inheritance, composition and dataclasses</summary><div class="lesson-body"><p>Prefer composition when one object uses or contains another. Inheritance models a genuine &#x27;is-a&#x27; relationship. dataclasses reduce boilerplate for data-centric classes.</p><pre class="code">from dataclasses import dataclass
+
+@dataclass(frozen=True, slots=True)
+class Product:
+    name: str
+    price: float
+    in_stock: bool = True
+
+@dataclass
+class Cart:
+    items: list[Product]
+
+    def total(self) -&gt; float:
+        return sum(item.price for item in self.items)
+
+cart = Cart([Product(&quot;Book&quot;, 250), Product(&quot;Pen&quot;, 20)])
+print(cart.total())</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>9.3 Dunder methods and protocols</summary><div class="lesson-body"><p>Special methods such as __repr__, __len__, __iter__ and __eq__ integrate objects with Python syntax and built-ins. Design behavior around clear protocols.</p><pre class="code">class Temperature:
+    def __init__(self, celsius: float):
+        self.celsius = celsius
+
+    def __repr__(self) -&gt; str:
+        return f&quot;Temperature({self.celsius!r})&quot;
+
+    def __eq__(self, other):
+        if not isinstance(other, Temperature):
+            return NotImplemented
+        return self.celsius == other.celsius
+
+print(Temperature(20))</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details></div></section><section class="section searchable" id="advanced"><div class="section-head"><div><div class="kicker">Module 10</div><h2>Advanced Python language features</h2><p>Iterators, generators, decorators, context managers, descriptors and typing.</p><div class="mod-links"><a href="./chapters/10-iterators-generators-decorators-and-context-managers/README.md">Chapter Guide (MD) &rarr;</a><a href="./chapters/10-iterators-generators-decorators-and-context-managers/lab.py">Verified Lab (<code>lab.py</code>) &rarr;</a></div></div><label class="pill"><input class="done" type="checkbox" data-module="advanced" aria-label="Mark Advanced Python language features complete"> Complete</label></div><div class="panel"><details class="lesson"><summary>10.1 Iterators and generators</summary><div class="lesson-body"><p>An iterable can produce an iterator; an iterator yields one item at a time. Generators are lazy and useful for streams or large datasets.</p><pre class="code">def fibonacci(limit: int):
+    a, b = 0, 1
+    while a &lt; limit:
+        yield a
+        a, b = b, a + b
+
+for value in fibonacci(100):
+    print(value)</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>10.2 Decorators</summary><div class="lesson-body"><p>A decorator takes a callable and returns a callable. functools.wraps preserves useful metadata. Decorators are useful for logging, authorization, caching and instrumentation.</p><pre class="code">from functools import wraps
+from time import perf_counter
+
+def measure_time(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start = perf_counter()
+        try:
+            return func(*args, **kwargs)
+        finally:
+            elapsed = perf_counter() - start
+            print(f&quot;{func.__name__}: {elapsed:.4f}s&quot;)
+    return wrapper
+
+@measure_time
+def calculate():
+    return sum(range(100_000))
+
+calculate()</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>10.3 Context managers</summary><div class="lesson-body"><p>Context managers define setup/teardown behavior through __enter__/__exit__ or a contextmanager generator. Use them for files, locks, transactions and temporary state.</p><pre class="code">from contextlib import contextmanager
+
+@contextmanager
+def managed_resource():
+    print(&quot;acquire&quot;)
+    try:
+        yield &quot;resource&quot;
+    finally:
+        print(&quot;release&quot;)
+
+with managed_resource() as resource:
+    print(&quot;using&quot;, resource)</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>10.4 Type hints and generics</summary><div class="lesson-body"><p>Type hints document intent and enable static analysis; Python does not enforce them automatically at runtime. Use a type checker such as mypy or pyright for larger projects.</p><pre class="code">from collections.abc import Sequence
+from typing import TypeVar
+
+T = TypeVar(&quot;T&quot;)
+
+def first_item(items: Sequence[T]) -&gt; T:
+    if not items:
+        raise ValueError(&quot;items cannot be empty&quot;)
+    return items[0]
+
+name = first_item([&quot;Ada&quot;, &quot;Grace&quot;])</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details></div></section><section class="section searchable" id="stdlib"><div class="section-head"><div><div class="kicker">Module 11</div><h2>Python standard library essentials</h2><p>Use batteries-included modules before adding third-party dependencies.</p><div class="mod-links"><a href="./chapters/11-stdlib-datetime-collections-itertools-and-functools/README.md">Chapter Guide (MD) &rarr;</a><a href="./chapters/11-stdlib-datetime-collections-itertools-and-functools/lab.py">Verified Lab (<code>lab.py</code>) &rarr;</a></div></div><label class="pill"><input class="done" type="checkbox" data-module="stdlib" aria-label="Mark Python standard library essentials complete"> Complete</label></div><div class="panel"><details class="lesson"><summary>11.1 Dates, time and time zones</summary><div class="lesson-body"><p>Prefer timezone-aware datetimes for real-world timestamps. Store instants in UTC and convert to the user&#x27;s timezone for display.</p><pre class="code">from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
+
+now_utc = datetime.now(timezone.utc)
+kolkata = now_utc.astimezone(ZoneInfo(&quot;Asia/Kolkata&quot;))
+
+print(kolkata.isoformat())</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>11.2 Collections, itertools and functools</summary><div class="lesson-body"><p>Explore pathlib, argparse, logging, re, statistics, math, secrets, hashlib, subprocess, shutil, tempfile, sqlite3 and unittest. Choose standard-library solutions when they fit.</p><pre class="code">from collections import Counter, defaultdict, deque
+from itertools import islice
+from functools import lru_cache
+
+words = [&quot;python&quot;, &quot;code&quot;, &quot;python&quot;]
+print(Counter(words))
+
+groups = defaultdict(list)
+groups[&quot;backend&quot;].append(&quot;Python&quot;)
+
+@lru_cache(maxsize=128)
+def fib(n):
+    if n &lt; 2:
+        return n
+    return fib(n - 1) + fib(n - 2)
+
+print(fib(30))</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details></div></section><section class="section searchable" id="testing"><div class="section-head"><div><div class="kicker">Module 12</div><h2>Testing, quality &amp; Git workflow</h2><p>Unit tests, fixtures, coverage, formatting, linting, type checking and version control.</p><div class="mod-links"><a href="./chapters/12-testing-unittest-pytest-ruff-and-git/README.md">Chapter Guide (MD) &rarr;</a><a href="./chapters/12-testing-unittest-pytest-ruff-and-git/lab.py">Verified Lab (<code>lab.py</code>) &rarr;</a></div></div><label class="pill"><input class="done" type="checkbox" data-module="testing" aria-label="Mark Testing, quality &amp; Git workflow complete"> Complete</label></div><div class="panel"><details class="lesson"><summary>12.1 Unit tests with unittest</summary><div class="lesson-body"><p>Test behavior, edge cases and failure paths. Keep tests deterministic and independent. pytest is a popular third-party test runner; unittest is included with Python.</p><pre class="code"># test_math_utils.py
+import unittest
+
+def add(a, b):
+    return a + b
+
+class TestAdd(unittest.TestCase):
+    def test_positive_numbers(self):
+        self.assertEqual(add(2, 3), 5)
+
+    def test_negative_numbers(self):
+        self.assertEqual(add(-2, -3), -5)
+
+if __name__ == &quot;__main__&quot;:
+    unittest.main()</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>12.2 Quality tools and workflow</summary><div class="lesson-body"><p>Adopt a consistent formatter and linter, use type checking where valuable, and run tests before committing. Review diffs; make small, focused commits.</p><pre class="code"># Typical project checks (install tools in your environment)
+python -m compileall src
+python -m unittest discover -s tests
+# Common optional tools:
+# ruff check . && ruff format --check .
+# mypy src
+# pytest -q</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>12.3 Git essentials</summary><div class="lesson-body"><p>Commit source code and project metadata. Usually ignore .venv/, __pycache__/, .pytest_cache/, build artifacts, local databases and secrets. Never commit API keys.</p><pre class="code">git init
+git status
+git add .
+git commit -m &quot;Add initial Python application&quot;
+git switch -c feature/add-validation
+git diff
+git log --oneline --graph
+git switch main
+git merge feature/add-validation</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details></div></section><section class="section searchable" id="web"><div class="section-head"><div><div class="kicker">Module 13</div><h2>HTTP, APIs &amp; web development</h2><p>Understand requests, JSON APIs, validation and the shape of web applications.</p><div class="mod-links"><a href="./chapters/13-http-rest-apis-fastapi-and-pydantic/README.md">Chapter Guide (MD) &rarr;</a><a href="./chapters/13-http-rest-apis-fastapi-and-pydantic/lab.py">Verified Lab (<code>lab.py</code>) &rarr;</a></div></div><label class="pill"><input class="done" type="checkbox" data-module="web" aria-label="Mark HTTP, APIs &amp; web development complete"> Complete</label></div><div class="panel"><details class="lesson"><summary>13.1 HTTP concepts and requests</summary><div class="lesson-body"><p>HTTP uses methods such as GET, POST, PUT, PATCH and DELETE. Check status codes, set timeouts, validate response data and handle network errors. Never assume a request always succeeds.</p><pre class="code"># Install in your virtual environment: python -m pip install requests
+import requests
+
+response = requests.get(
+    &quot;https://api.github.com&quot;,
+    timeout=10
+)
+response.raise_for_status()
+payload = response.json()
+print(payload.get(&quot;current_user_url&quot;))</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>13.2 API design checklist</summary><div class="lesson-body"><p>For production API clients, add retry policies for safe transient failures, rate-limit handling, structured logging and tests. Do not blindly retry non-idempotent operations.</p><pre class="code"># Example JSON request body
+{
+    &quot;name&quot;: &quot;Notebook&quot;,
+    &quot;quantity&quot;: 2
+}
+
+# A good API defines:
+# - resource URLs and HTTP methods
+# - request/response schemas
+# - status codes and error format
+# - authentication and authorization
+# - pagination, filtering and versioning</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>13.3 Web frameworks</summary><div class="lesson-body"><p>Learn routing, request validation, middleware, authentication, authorization, migrations, templates, deployment and observability. Pick a framework based on the application, not hype.</p><pre class="code"># Common Python web options:
+# FastAPI  — typed APIs and automatic OpenAPI docs
+# Django   — batteries-included web framework
+# Flask    — lightweight WSGI framework
+
+# Example FastAPI + Pydantic v2 shape (pip install fastapi uvicorn):
+# from fastapi import FastAPI
+# from pydantic import BaseModel, Field
+# class ItemIn(BaseModel):
+#     name: str = Field(min_length=1, max_length=120)
+# app = FastAPI()
+# @app.post(&quot;/items&quot;, status_code=201)
+# def create_item(item: ItemIn):
+#     return {&quot;created&quot;: item.name}</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details></div></section><section class="section searchable" id="data"><div class="section-head"><div><div class="kicker">Module 14</div><h2>SQL, databases &amp; data workflows</h2><p>Relational modeling, safe queries, transactions and data processing.</p><div class="mod-links"><a href="./chapters/14-sqlite-transactions-and-data-workflows/README.md">Chapter Guide (MD) &rarr;</a><a href="./chapters/14-sqlite-transactions-and-data-workflows/lab.py">Verified Lab (<code>lab.py</code>) &rarr;</a></div></div><label class="pill"><input class="done" type="checkbox" data-module="data" aria-label="Mark SQL, databases &amp; data workflows complete"> Complete</label></div><div class="panel"><details class="lesson"><summary>14.1 SQLite and parameterized queries</summary><div class="lesson-body"><p>Use parameterized queries, never string concatenation, for user-provided SQL values. Understand indexes, constraints, transactions, joins and migrations.</p><pre class="code">import sqlite3
+
+with sqlite3.connect(&quot;app.db&quot;) as connection:
+    connection.execute(&quot;&quot;&quot;
+        CREATE TABLE IF NOT EXISTS tasks (
+            id INTEGER PRIMARY KEY,
+            title TEXT NOT NULL,
+            done INTEGER NOT NULL DEFAULT 0
+        )
+    &quot;&quot;&quot;)
+    connection.execute(
+        &quot;INSERT INTO tasks (title) VALUES (?)&quot;,
+        (&quot;Learn SQL&quot;,)
+    )
+    rows = connection.execute(
+        &quot;SELECT id, title, done FROM tasks WHERE done = ?&quot;,
+        (0,)
+    ).fetchall()
+    print(rows)</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>14.2 Data analysis foundations</summary><div class="lesson-body"><p>Learn CSV/JSON ingestion, missing values, data types, joins, grouping, vectorized operations and reproducible notebooks. Validate assumptions before interpreting results.</p><pre class="code"># Install pandas and numpy when your task needs them.
+# import pandas as pd
+# df = pd.read_csv(&quot;sales.csv&quot;)
+# print(df.head())
+# print(df.info())
+# print(df.groupby(&quot;region&quot;)[&quot;revenue&quot;].sum())
+
+# Typical workflow:
+# load → inspect → clean → transform → validate → analyze → communicate</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details></div></section><section class="section searchable" id="async"><div class="section-head"><div><div class="kicker">Module 15</div><h2>Threads, processes &amp; asyncio</h2><p>Choose concurrency according to whether work is I/O-bound or CPU-bound.</p><div class="mod-links"><a href="./chapters/15-concurrency-threads-processes-and-asyncio/README.md">Chapter Guide (MD) &rarr;</a><a href="./chapters/15-concurrency-threads-processes-and-asyncio/lab.py">Verified Lab (<code>lab.py</code>) &rarr;</a></div></div><label class="pill"><input class="done" type="checkbox" data-module="async" aria-label="Mark Threads, processes &amp; asyncio complete"> Complete</label></div><div class="panel"><details class="lesson"><summary>15.1 AsyncIO coroutines</summary><div class="lesson-body"><p>async def defines a coroutine; await suspends it until an awaitable completes. AsyncIO is most useful for many concurrent I/O operations, not automatically for CPU-heavy work.</p><pre class="code">import asyncio
+
+async def fetch(label: str, delay: float) -&gt; str:
+    print(&quot;starting&quot;, label)
+    await asyncio.sleep(delay)  # placeholder for async I/O
+    return f&quot;done: {label}&quot;
+
+async def main():
+    results = await asyncio.gather(
+        fetch(&quot;A&quot;, 1),
+        fetch(&quot;B&quot;, 0.5),
+    )
+    print(results)
+
+if __name__ == &quot;__main__&quot;:
+    asyncio.run(main())</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>15.2 Threads and processes</summary><div class="lesson-body"><p>Threads are commonly useful for blocking I/O. Processes can use multiple CPU cores for CPU-bound tasks. Measure performance and account for synchronization and serialization costs.</p><pre class="code">from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+
+def square(number: int) -&gt; int:
+    return number * number
+
+numbers = [1, 2, 3, 4]
+
+with ThreadPoolExecutor() as pool:
+    io_style_results = list(pool.map(square, numbers))
+
+# ProcessPoolExecutor can help CPU-bound work,
+# subject to process startup and serialization costs.</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details></div></section><section class="section searchable" id="security"><div class="section-head"><div><div class="kicker">Module 16</div><h2>Security, performance &amp; reliability</h2><p>Protect secrets and inputs, profile before optimizing and design for failure.</p><div class="mod-links"><a href="./chapters/16-security-profiling-and-reliability/README.md">Chapter Guide (MD) &rarr;</a><a href="./chapters/16-security-profiling-and-reliability/lab.py">Verified Lab (<code>lab.py</code>) &rarr;</a></div></div><label class="pill"><input class="done" type="checkbox" data-module="security" aria-label="Mark Security, performance &amp; reliability complete"> Complete</label></div><div class="panel"><details class="lesson"><summary>16.1 Secure coding basics</summary><div class="lesson-body"><p>Do not hard-code secrets. Validate and constrain untrusted input, use least privilege, keep dependencies patched, use TLS, and avoid unsafe deserialization (for example, never unpickle untrusted data).</p><pre class="code">import os
+import secrets
+
+# Read secrets from environment or a secret manager.
+api_key = os.environ.get(&quot;SERVICE_API_KEY&quot;)
+
+# Generate security-sensitive tokens with secrets.
+reset_token = secrets.token_urlsafe(32)
+
+# Validate input at trust boundaries.
+def safe_filename(name: str) -&gt; str:
+    if not name or &quot;/&quot; in name or &quot;\\&quot; in name:
+        raise ValueError(&quot;invalid filename&quot;)
+    return name</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>16.2 Performance and profiling</summary><div class="lesson-body"><p>Measure before optimizing. Use timeit for microbenchmarks and cProfile for whole-program profiling. Consider algorithmic complexity, memory use, caching and I/O before low-level tweaks.</p><pre class="code">from timeit import timeit
+
+def build_with_append(n):
+    result = []
+    for number in range(n):
+        result.append(number * 2)
+    return result
+
+print(timeit(lambda: build_with_append(10_000), number=100))</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>16.3 Reliability checklist</summary><div class="lesson-body"><p>Design for partial failure. Make operations idempotent where possible, use transactions for related database changes, and define backup/restore and incident procedures.</p><pre class="code"># Production readiness checklist
+# [ ] Validate external input
+# [ ] Set network and database timeouts
+# [ ] Handle expected exceptions
+# [ ] Log actionable context (no secrets)
+# [ ] Test success and failure paths
+# [ ] Back up and test restoration
+# [ ] Monitor latency and error rates
+# [ ] Document operational procedures</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details></div></section><section class="section searchable" id="deployment"><div class="section-head"><div><div class="kicker">Module 17</div><h2>Packaging, configuration &amp; deployment</h2><p>Make software installable, configurable, documented and deployable.</p><div class="mod-links"><a href="./chapters/17-packaging-configuration-and-deployment/README.md">Chapter Guide (MD) &rarr;</a><a href="./chapters/17-packaging-configuration-and-deployment/lab.py">Verified Lab (<code>lab.py</code>) &rarr;</a></div></div><label class="pill"><input class="done" type="checkbox" data-module="deployment" aria-label="Mark Packaging, configuration &amp; deployment complete"> Complete</label></div><div class="panel"><details class="lesson"><summary>17.1 Project metadata</summary><div class="lesson-body"><p>Use pyproject.toml for build configuration and project metadata. Pin or lock dependencies according to your team&#x27;s deployment process.</p><pre class="code"># Minimal pyproject.toml example
+[build-system]
+requires = [&quot;setuptools&gt;=68&quot;]
+build-backend = &quot;setuptools.build_meta&quot;
+
+[project]
+name = &quot;hello-python&quot;
+version = &quot;0.1.0&quot;
+description = &quot;A small example Python package&quot;
+requires-python = &quot;&gt;=3.10&quot;
+
+[tool.setuptools.packages.find]
+where = [&quot;src&quot;]</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>17.2 Configuration and environment</summary><div class="lesson-body"><p>Keep environment-specific configuration outside source code. Separate development, test and production settings. Never expose debug mode or detailed tracebacks publicly in production.</p><pre class="code">import os
+
+environment = os.getenv(&quot;APP_ENV&quot;, &quot;development&quot;)
+debug = environment == &quot;development&quot;
+database_url = os.getenv(&quot;DATABASE_URL&quot;)
+
+if not database_url:
+    raise RuntimeError(&quot;DATABASE_URL must be configured&quot;)</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>17.3 Deployment checklist</summary><div class="lesson-body"><p>Learn one deployment target deeply: a Linux server, container platform or managed application host. Understand process management, reverse proxies, TLS, environment variables and logs.</p><pre class="code"># Before release
+# 1. Run tests and static checks
+# 2. Build the package or container
+# 3. Configure secrets outside the image/repository
+# 4. Apply database migrations safely
+# 5. Add health checks and logs
+# 6. Deploy gradually where possible
+# 7. Verify and monitor the release
+# 8. Keep a rollback plan</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details></div></section><section class="section searchable" id="professional"><div class="section-head"><div><div class="kicker">Module 18</div><h2>Professional developer practices</h2><p>Architecture, documentation, collaboration, code review and career readiness.</p><div class="mod-links"><a href="./chapters/18-architecture-code-review-and-interviews/README.md">Chapter Guide (MD) &rarr;</a><a href="./chapters/18-architecture-code-review-and-interviews/lab.py">Verified Lab (<code>lab.py</code>) &rarr;</a></div></div><label class="pill"><input class="done" type="checkbox" data-module="professional" aria-label="Mark Professional developer practices complete"> Complete</label></div><div class="panel"><details class="lesson"><summary>18.1 Maintainable architecture</summary><div class="lesson-body"><p>Avoid premature abstraction. Separate concerns when it improves testing, changeability or clarity. Make dependencies explicit and keep modules cohesive.</p><pre class="code"># A simple layered design
+# presentation / CLI / API
+#          ↓
+# application services (use cases)
+#          ↓
+# domain rules and models
+#          ↓
+# infrastructure (database, files, external APIs)
+
+# Keep dependencies pointing toward stable business rules.</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>18.2 Documentation and code review</summary><div class="lesson-body"><p>A good pull request explains why a change exists, what changed, how it was tested and any risks. Review correctness, security, readability, tests and operational impact.</p><pre class="code"># A useful README usually explains:
+# - what the project does
+# - requirements and installation
+# - configuration and environment variables
+# - how to run and test it
+# - example usage / API endpoints
+# - architecture and data model
+# - limitations, security notes and license</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details><details class="lesson"><summary>18.3 Interview and problem-solving practice</summary><div class="lesson-body"><p>Practice strings, arrays/lists, dictionaries, sets, stacks, queues, sorting, searching, recursion, trees, graphs and complexity. Explain trade-offs, not just syntax.</p><pre class="code"># For each coding problem:
+# 1. Restate requirements and constraints
+# 2. Work through a small example
+# 3. Choose a data structure and algorithm
+# 4. Explain time and space complexity
+# 5. Implement readable code
+# 6. Test normal, boundary and invalid cases</pre><div class="callout"><strong>Practice:</strong> Modify the example, test at least one edge case and write down what changed.</div></div></details></div></section>
+
+<section class="section searchable" id="playground">
+<div class="section-head"><div><div class="kicker">Practice in the browser</div><h2>Python playground</h2><p>Write and run real Python in this page. The Python runtime loads from Pyodide the first time, so an internet connection is required for the initial load.</p></div><span class="pill" id="runtimeStatus">Runtime not loaded</span></div>
+<div class="panel">
+  <div class="toolbar">
+    <button class="btn primary" id="runPython">▶ Run Python</button>
+    <button class="btn" id="clearOutput">Clear output</button>
+    <button class="btn" id="resetEditor">Reset example</button>
+    <select id="exampleSelect" aria-label="Choose a code example">
+      <option value="hello">Hello world</option><option value="loops">Loops and collections</option><option value="match">Pattern matching (3.10+)</option><option value="function">Functions &amp; Decimal</option><option value="class">Classes &amp; Dataclasses</option><option value="json">JSON</option><option value="sqlite">In-Memory SQLite</option>
+    </select>
+  </div>
+  <textarea id="pythonEditor" spellcheck="false" aria-label="Python code editor" style="width:100%;min-height:260px;resize:vertical;background:#070c15;color:#dbeafe;border:1px solid #26364d;border-radius:10px;padding:16px;font:13px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:4">learner = "Ada Lovelace"
+squares = [n * n for n in range(1, 6)]
+print(f"Hello, {learner}! Welcome to Python 3.")
+print("Squares:", squares)</textarea>
+  <div class="progress-label" style="margin-top:12px"><strong>Program output</strong><span class="muted">Input prompts are supported</span></div>
+  <pre id="pythonOutput" class="code" style="min-height:90px;white-space:pre-wrap">Click “Run Python” to initialize the Python runtime.</pre>
+  <div class="callout warn"><strong>Privacy:</strong> Your code runs in the browser after the runtime loads. This playground does not send your code to this handbook's author. Avoid entering passwords, API keys or other secrets.</div>
+</div>
+</section>
+<section class="section searchable" id="exercises">
+<div class="section-head"><div><div class="kicker">Learn by doing</div><h2>Coding exercises & solutions</h2><p>Try each task before opening its hint or reference solution. Mark it complete when you can solve it yourself.</p></div></div>
+<div id="exerciseList"></div>
+</section>
+<section class="section searchable" id="study-plan">
+<div class="section-head"><div><div class="kicker">Your learning system</div><h2>Study planner & personal notes</h2><p>Turn the roadmap into a repeatable daily routine. Your checklists and notes are saved in this browser.</p></div></div>
+<div class="grid">
+  <div class="panel"><h3>Daily 90-minute routine</h3><ul class="checklist" id="dailyRoutine">
+    <li><label><input type="checkbox" data-routine="review"> 10 min — Review yesterday's notes</label></li>
+    <li><label><input type="checkbox" data-routine="learn"> 20 min — Study one new concept</label></li>
+    <li><label><input type="checkbox" data-routine="type"> 25 min — Type and modify examples</label></li>
+    <li><label><input type="checkbox" data-routine="solve"> 25 min — Solve an exercise independently</label></li>
+    <li><label><input type="checkbox" data-routine="reflect"> 10 min — Write a summary and questions</label></li>
+  </ul><button class="btn" id="resetRoutine">Reset today's checklist</button></div>
+  <div class="panel"><h3>Learning journal</h3><p class="muted">Record what you learned, what confused you and what you will build next.</p><textarea id="learningNotes" placeholder="Today I learned…&#10;I found difficult…&#10;Next I will…" style="width:100%;min-height:180px;background:#0b1423;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:12px"></textarea><div class="progress-label"><span id="notesStatus">Saved locally in this browser</span><span id="notesCount">0 characters</span></div></div>
+</div>
+<div class="panel"><h3>16-week milestone tracker</h3><div class="table-wrap"><table><thead><tr><th>Week</th><th>Target</th><th>Evidence you should produce</th><th>Done</th></tr></thead><tbody id="milestoneRows"></tbody></table></div></div>
+</section>
+
+<section class="section searchable" id="pro-sprint">
+<div class="section-head"><div><div class="kicker">Level up · 30-day build sprint</div><h2>Python Developer Pro: 30-day implementation plan</h2><p>A practical bridge from knowing syntax to shipping a tested, documented application. Complete the task, save evidence in Git, then mark the day done.</p></div><span class="pill" id="sprintProgress">0 / 30 complete</span></div>
+<div class="panel"><div class="progress-label"><strong>30-day sprint progress</strong><span id="sprintPercent">0%</span></div><div class="progress"><i id="sprintBar"></i></div><p class="muted">Suggested pace: 60–120 minutes daily. If a day takes longer, finish it properly rather than rushing to the next one.</p><div class="toolbar"><button class="btn" id="sprintAllReset">Reset sprint checks</button><button class="btn" id="sprintExport">Export sprint report</button></div></div>
+<div id="sprintDays"></div>
+</section>
+<section class="section searchable" id="problem-solving">
+<div class="section-head"><div><div class="kicker">Think like an engineer</div><h2>Problem-solving & algorithm gym</h2><p>Use a repeatable method: clarify inputs, identify constraints, choose a data structure, write a simple solution, test edge cases, then analyze complexity.</p></div></div>
+<div class="grid" id="algorithmChallenges"></div>
+<div class="panel"><h3>Complexity quick guide</h3><div class="table-wrap"><table><thead><tr><th>Complexity</th><th>Typical example</th><th>Interpretation</th></tr></thead><tbody><tr><td>O(1)</td><td>Dictionary lookup (average case)</td><td>Constant with respect to input size</td></tr><tr><td>O(log n)</td><td>Binary search on sorted data</td><td>Input space shrinks each step</td></tr><tr><td>O(n)</td><td>Single pass through a list</td><td>Work grows linearly</td></tr><tr><td>O(n log n)</td><td>Efficient comparison sorting</td><td>Common scalable sorting class</td></tr><tr><td>O(n²)</td><td>Nested full scans</td><td>Can become expensive as input grows</td></tr></tbody></table></div></div>
+</section>
+<section class="section searchable" id="interview-prep">
+<div class="section-head"><div><div class="kicker">Career readiness</div><h2>Python interview preparation</h2><p>Practice explaining concepts aloud, writing code without autocomplete, and defending trade-offs. Open each answer only after attempting it.</p></div></div>
+<div id="interviewQuestions"></div>
+</section>
+<section class="section searchable" id="career-tracks">
+<div class="section-head"><div><div class="kicker">Choose a direction</div><h2>Specialist developer tracks</h2><p>Complete the shared Python core first, then choose one primary track and build two substantial projects in it.</p></div></div>
+<div class="grid">
+<article class="topic-card"><span class="tag">Backend</span><h3>Backend & API engineer</h3><p>HTTP, REST, FastAPI or Django, PostgreSQL, authentication, caching, queues, observability, Docker and deployment.</p><strong>Portfolio proof:</strong> Versioned API with auth, migrations, integration tests and deployment notes.</article>
+<article class="topic-card"><span class="tag">Data</span><h3>Data analyst / engineer</h3><p>SQL, pandas, NumPy, data cleaning, validation, ETL, orchestration, warehouse concepts and reproducible reporting.</p><strong>Portfolio proof:</strong> Reproducible pipeline with data-quality checks and a clear analytical report.</article>
+<article class="topic-card"><span class="tag">Automation</span><h3>Automation & tooling</h3><p>CLI design, filesystem operations, APIs, scheduling, browser automation, logging, retries and safe dry-run workflows.</p><strong>Portfolio proof:</strong> Installable CLI tool with configuration, logs, tests and safe recovery behavior.</article>
+<article class="topic-card"><span class="tag">AI / ML</span><h3>AI & machine learning</h3><p>Statistics, NumPy, pandas, scikit-learn, model evaluation, data leakage, experiment tracking and responsible deployment.</p><strong>Portfolio proof:</strong> End-to-end model project with baseline, evaluation, limitations and reproducible inference.</article>
+<article class="topic-card"><span class="tag">QA</span><h3>QA automation engineer</h3><p>pytest, fixtures, parametrization, mocks, API testing, browser testing, CI pipelines and test strategy.</p><strong>Portfolio proof:</strong> Test suite with unit, integration and end-to-end layers in CI.</article>
+<article class="topic-card"><span class="tag">Platform</span><h3>Platform / DevOps with Python</h3><p>Linux, processes, networking, cloud SDKs, infrastructure automation, containers, CI/CD and operational reliability.</p><strong>Portfolio proof:</strong> Repeatable deployment automation with validation, rollback and operational documentation.</article>
+</div>
+</section>
+<section class="section searchable" id="portfolio-review">
+<div class="section-head"><div><div class="kicker">Ship work that stands up to review</div><h2>Portfolio quality gate</h2><p>Use this rubric before calling a project finished. A working demo alone is not enough.</p></div></div>
+<div class="panel"><div class="table-wrap"><table><thead><tr><th>Area</th><th>What reviewers expect</th><th>Score (0–2)</th></tr></thead><tbody id="rubricRows"></tbody></table></div><div class="progress-label"><strong>Portfolio readiness score</strong><span id="rubricScore">0 / 20</span></div><div class="progress"><i id="rubricBar"></i></div><p class="muted">0 = missing, 1 = partial, 2 = complete. Aim for at least 16/20 before publishing as a flagship project.</p></div>
+</section>
+
+<section class="section searchable" id="projects">
+<div class="section-head"><div><div class="kicker">Build real things</div><h2>Portfolio projects</h2><p>Build in increasing complexity. Each project should include a README, tests, clean Git history and a demo.</p></div></div>
+<div class="grid">
+<article class="topic-card"><span class="tag">Beginner</span><h3>1. Command-line task manager</h3><p>Add, list, complete and delete tasks. Persist data in JSON; validate input and handle missing/corrupt files.</p><strong>Skills:</strong> functions, lists/dicts, JSON, argparse, exceptions, tests.</article>
+<article class="topic-card"><span class="tag">Beginner+</span><h3>2. Expense tracker</h3><p>Record transactions, categories and dates. Generate monthly totals and CSV exports. Use Decimal for currency.</p><strong>Skills:</strong> datetime, CSV, Decimal, SQLite, reporting.</article>
+<article class="topic-card"><span class="tag">Intermediate</span><h3>3. File organizer & backup tool</h3><p>Scan a directory, classify files, detect duplicates, support dry-run mode and produce a log/manifest.</p><strong>Skills:</strong> pathlib, hashing, shutil, logging, CLI design.</article>
+<article class="topic-card"><span class="tag">Intermediate</span><h3>4. REST API with database</h3><p>Create CRUD endpoints for a resource, validate request schemas, persist to a relational database and add API tests.</p><strong>Skills:</strong> FastAPI or Django, SQL, HTTP, auth basics, pytest.</article>
+<article class="topic-card"><span class="tag">Intermediate+</span><h3>5. Data analysis report</h3><p>Load a real public dataset, clean it, validate assumptions, analyze trends and publish a reproducible report.</p><strong>Skills:</strong> pandas, visualization, statistics, notebooks, communication.</article>
+<article class="topic-card"><span class="tag">Capstone</span><h3>6. Production-style application</h3><p>Build an issue tracker, inventory system or learning platform with users, roles, audit logs, tests, migrations and deployment.</p><strong>Skills:</strong> architecture, database design, security, CI, deployment, documentation.</article>
+</div>
+<div class="panel"><h3>Guided build sequence: task manager</h3>
+<p class="muted">Use this as your first complete project. Build one milestone at a time; do not copy the entire solution before understanding each step.</p>
+<details class="lesson"><summary>Milestone 1 — Define the task model</summary><div class="lesson-body"><p>Decide what a task contains: a unique integer ID, title, completion status and creation timestamp. Write down valid and invalid inputs.</p><pre class="code">from dataclasses import dataclass
+from datetime import datetime, timezone
+
+@dataclass
+class Task:
+    id: int
+    title: str
+    done: bool = False
+    created_at: str = ""
+
+    @classmethod
+    def create(cls, task_id: int, title: str):
+        title = title.strip()
+        if not title:
+            raise ValueError("Task title cannot be empty")
+        timestamp = datetime.now(timezone.utc).isoformat()
+        return cls(task_id, title, False, timestamp)</pre></div></details>
+<details class="lesson"><summary>Milestone 2 — Add storage</summary><div class="lesson-body"><p>Write a repository module that loads a JSON list and saves it safely. Handle a missing file separately from invalid JSON. Keep storage logic out of the user interface.</p></div></details>
+<details class="lesson"><summary>Milestone 3 — Implement use cases</summary><div class="lesson-body"><p>Create functions to add, list, complete and delete tasks. Each function should have a clear input and return value. Validate task IDs and avoid duplicated business logic.</p></div></details>
+<details class="lesson"><summary>Milestone 4 — Build the CLI</summary><div class="lesson-body"><p>Use argparse or a simple command loop. Keep prompts and printing in the CLI layer; keep task rules in service functions so they can be tested independently.</p></div></details>
+<details class="lesson"><summary>Milestone 5 — Test and document</summary><div class="lesson-body"><p>Test empty titles, missing IDs, corrupted storage, duplicate IDs and normal operations. Add a README with installation, examples and limitations.</p></div></details>
+</div>
+<div class="panel"><h3>Project definition of done</h3><ul class="checklist">
+<li><label><input type="checkbox"> Clear problem statement and requirements</label></li><li><label><input type="checkbox"> Sensible package and folder structure</label></li><li><label><input type="checkbox"> Input validation and helpful error messages</label></li><li><label><input type="checkbox"> Automated tests for core behavior</label></li><li><label><input type="checkbox"> Formatter, linter and type checking where useful</label></li><li><label><input type="checkbox"> README with setup, usage, screenshots/API examples</label></li><li><label><input type="checkbox"> No secrets or local environment files committed</label></li><li><label><input type="checkbox"> Reproducible setup and deployment instructions</label></li></ul></div>
+</section>
+<section class="section searchable" id="quiz">
+<div class="section-head"><div><div class="kicker">Check understanding</div><h2>Knowledge checks</h2><p>Answer first, then reveal feedback. These are short concept checks, not a substitute for coding exercises.</p></div></div>
+<div class="quiz-bar"><span id="quizScoreText">Answered 0 / 12 · Score: 0</span><button class="btn" id="resetQuizBtn" type="button">Reset quiz</button></div><div id="quizzes"></div>
+</section>
+<section class="section searchable" id="reference">
+<div class="section-head"><div><div class="kicker">Keep this nearby</div><h2>Developer quick reference</h2><p>Common syntax patterns to revisit while building projects.</p></div></div>
+<div class="panel"><div class="toolbar"><input id="refSearch" placeholder="Filter reference…" aria-label="Filter quick reference"><select id="refCategory"><option value="all">All categories</option><option>Syntax</option><option>Collections</option><option>Functions</option><option>Files</option><option>Quality</option><option>Modern</option></select></div><div class="table-wrap"><table id="referenceTable"><thead><tr><th>Category</th><th>Pattern</th><th>Example</th></tr></thead><tbody>
+<tr><td>Syntax</td><td>f-string</td><td><code>f"Hello, {name}"</code></td></tr><tr><td>Syntax</td><td>Conditional expression</td><td><code>label = "yes" if ok else "no"</code></td></tr><tr><td>Syntax</td><td>Unpacking</td><td><code>first, *rest = values</code></td></tr><tr><td>Collections</td><td>List comprehension</td><td><code>[x * 2 for x in items if x &gt; 0]</code></td></tr><tr><td>Collections</td><td>Dictionary lookup</td><td><code>settings.get("theme", "dark")</code></td></tr><tr><td>Collections</td><td>Sort by key</td><td><code>sorted(users, key=lambda u: u["name"])</code></td></tr><tr><td>Functions</td><td>Type hints</td><td><code>def total(items: list[int]) -&gt; int:</code></td></tr><tr><td>Functions</td><td>Variable arguments</td><td><code>def f(*args, **kwargs): ...</code></td></tr><tr><td>Files</td><td>Safe text read</td><td><code>Path("notes.txt").read_text(encoding="utf-8")</code></td></tr><tr><td>Files</td><td>Context manager</td><td><code>with open(path, encoding="utf-8") as file:</code></td></tr><tr><td>Quality</td><td>Run tests</td><td><code>python -m unittest discover -s tests</code></td></tr><tr><td>Quality</td><td>Compile check</td><td><code>python -m compileall .</code></td></tr><tr><td>Quality</td><td>Virtual environment</td><td><code>python -m venv .venv</code></td></tr><tr><td>Modern</td><td>Structural match</td><td><code>match evt: case {"type": "click", "x": int(x)}: ...</code></td></tr><tr><td>Modern</td><td>Immutable dataclass</td><td><code>@dataclass(frozen=True, slots=True)</code></td></tr><tr><td>Modern</td><td>uv project add</td><td><code>uv add httpx pytest &amp;&amp; uv run pytest</code></td></tr><tr><td>Modern</td><td>Parameterized SQL</td><td><code>conn.execute("SELECT * FROM t WHERE id = ?", (tid,))</code></td></tr>
+</tbody></table></div></div>
+</section>
+<section class="section searchable" id="glossary">
+<div class="section-head"><div><div class="kicker">Language</div><h2>Glossary</h2><p>Core terms used throughout the handbook.</p></div></div>
+<div class="panel"><div class="grid">
+<div><strong>Argument / parameter</strong><p class="muted">An argument is supplied at a call site; a parameter is a name in a function definition.</p></div>
+<div><strong>Iterable / iterator</strong><p class="muted">An iterable can provide an iterator; an iterator yields values one at a time.</p></div>
+<div><strong>Mutable / immutable</strong><p class="muted">Mutable objects can be changed in place; immutable objects cannot be changed after creation.</p></div>
+<div><strong>Exception</strong><p class="muted">An object representing an error or unusual condition during execution.</p></div>
+<div><strong>Module / package</strong><p class="muted">A module is a Python source file; a package organizes modules under a namespace.</p></div>
+<div><strong>Decorator</strong><p class="muted">A callable that takes another callable and returns a callable, commonly extending behavior.</p></div>
+<div><strong>Coroutine</strong><p class="muted">An asynchronous computation that can suspend and resume, commonly using async and await.</p></div>
+<div><strong>Environment</strong><p class="muted">A Python interpreter plus installed dependencies and configuration used to run a project.</p></div>
+</div></div>
+</section>
+<section class="section searchable" id="resources">
+<div class="section-head"><div><div class="kicker">Go deeper</div><h2>Official documentation & trusted resources</h2><p>Use primary documentation to verify version-specific behavior and learn beyond this handbook.</p></div></div>
+<div class="panel">
+<ul>
+<li><a href="https://docs.python.org/3/" target="_blank" rel="noopener">Python 3 official documentation</a> — language reference, standard library and tutorials.</li>
+<li><a href="https://docs.python.org/3/tutorial/" target="_blank" rel="noopener">The official Python tutorial</a> — foundational language tutorial.</li>
+<li><a href="https://packaging.python.org/" target="_blank" rel="noopener">Python Packaging User Guide</a> — packaging, distribution and dependency management.</li>
+<li><a href="https://peps.python.org/pep-0008/" target="_blank" rel="noopener">PEP 8</a> — Python style guide.</li>
+<li><a href="https://peps.python.org/pep-0257/" target="_blank" rel="noopener">PEP 257</a> — docstring conventions.</li>
+<li><a href="https://pytest.org/" target="_blank" rel="noopener">pytest documentation</a> — widely used testing framework.</li>
+<li><a href="https://fastapi.tiangolo.com/" target="_blank" rel="noopener">FastAPI documentation</a> — API framework guide.</li>
+<li><a href="https://docs.djangoproject.com/" target="_blank" rel="noopener">Django documentation</a> — full-stack web framework.</li><li><a href="https://docs.astral.sh/uv/" target="_blank" rel="noopener">uv documentation</a> — fast modern Python project &amp; package manager.</li><li><a href="https://docs.astral.sh/ruff/" target="_blank" rel="noopener">Ruff documentation</a> — fast linter and formatter.</li><li><a href="https://docs.pydantic.dev/" target="_blank" rel="noopener">Pydantic v2 documentation</a> — type-driven data validation.</li><li><a href="https://typing.python.org/" target="_blank" rel="noopener">Python Typing guide</a> — type hints, generics &amp; Protocols.</li>
+</ul>
+<div class="callout warn"><strong>Version note:</strong> Python evolves. This guide focuses on stable, broadly used Python 3 language features. Check the official documentation for features, installation instructions and library APIs specific to the Python version you use.</div>
+</div>
+</section>
+<div id="searchEmpty" class="panel hidden"><p class="muted">No sections match your search filter. Press Escape or clear the search input to show all modules.</p></div>
+<footer class="footer">Python Developer Handbook · Learn by building · Keep practicing, testing and documenting.</footer>
+</main></div></div>
+<button class="btn backtop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+<script>
+(() => {
+  const STORAGE_KEY = "python-handbook-progress-v1";
+  const checks = [...document.querySelectorAll(".done")];
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); } catch {}
+  checks.forEach(box => { box.checked = Boolean(saved[box.dataset.module]); box.addEventListener("change", updateProgress); });
+  function updateProgress() {
+    const state = {};
+    checks.forEach(box => state[box.dataset.module] = box.checked);
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+    const done = checks.filter(box => box.checked).length;
+    const percent = Math.round(done / checks.length * 100);
+    document.getElementById("progressText").textContent = percent + "%";
+    document.getElementById("progressBar").style.width = percent + "%";
+  }
+  updateProgress();
+  document.getElementById("resetBtn").addEventListener("click", () => {
+    if (!confirm("Reset all module completion progress on this browser?")) return;
+    checks.forEach(box => box.checked = false);
+    updateProgress();
+  });
+  document.getElementById("printBtn").addEventListener("click", () => window.print());
+  const themeKey = "python-academy-theme-v1";
+  const themeBtn = document.getElementById("themeBtn");
+  function applyTheme(t) {
+    document.documentElement.setAttribute("data-theme", t);
+    if (themeBtn) themeBtn.textContent = t === "dark" ? "Light Mode" : "Dark Mode";
+  }
+  applyTheme(localStorage.getItem(themeKey) || "dark");
+  if (themeBtn) {
+    themeBtn.addEventListener("click", () => {
+      const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      localStorage.setItem(themeKey, next);
+      applyTheme(next);
+    });
+  }
+
+  function loadCodeToPlayground(codeText, autoRun = false) {
+    const ed = document.getElementById("pythonEditor");
+    const pg = document.getElementById("playground");
+    if (!ed || !pg) return;
+    ed.value = codeText.trim();
+    pg.scrollIntoView({ behavior: "smooth" });
+    if (autoRun) document.getElementById("runPython")?.click();
+  }
+
+  document.querySelectorAll(".code").forEach(pre => {
+    if (pre.id === "pythonOutput") return;
+    const bar = document.createElement("div");
+    bar.className = "code-bar";
+    const button = document.createElement("button");
+    button.className = "btn";
+    button.type = "button";
+    button.textContent = "Copy";
+    button.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(pre.textContent);
+        button.textContent = "Copied!";
+        setTimeout(() => button.textContent = "Copy", 1400);
+      } catch {
+        button.textContent = "Select code";
+      }
+    });
+    bar.append(button);
+    if (pre.closest(".lesson")) {
+      const tryBtn = document.createElement("button");
+      tryBtn.className = "btn";
+      tryBtn.type = "button";
+      tryBtn.textContent = "▶ Playground";
+      tryBtn.addEventListener("click", () => loadCodeToPlayground(pre.textContent, false));
+      bar.append(tryBtn);
+    }
+    pre.before(bar);
+  });
+
+  const search = document.getElementById("search");
+  const searchMeta = document.getElementById("searchMeta");
+  const searchEmpty = document.getElementById("searchEmpty");
+  function runSearch() {
+    const q = search.value.trim().toLowerCase();
+    let visible = 0;
+    const allSearchable = document.querySelectorAll(".searchable");
+    allSearchable.forEach(section => {
+      const show = !q || section.innerText.toLowerCase().includes(q);
+      section.classList.toggle("hidden", !show);
+      if (show) visible++;
+    });
+    document.querySelectorAll(".navlink").forEach(link => {
+      const target = document.querySelector(link.getAttribute("href"));
+      link.classList.toggle("hidden", Boolean(q) && (!target || target.classList.contains("hidden")));
+    });
+    if (searchMeta) searchMeta.textContent = q ? `Showing ${visible} / ${allSearchable.length} sections` : "";
+    if (searchEmpty) searchEmpty.classList.toggle("hidden", visible > 0);
+  }
+  search.addEventListener("input", runSearch);
+  document.addEventListener("keydown", (e) => {
+    const tag = document.activeElement?.tagName;
+    if (e.key === "/" && tag !== "INPUT" && tag !== "TEXTAREA") {
+      e.preventDefault();
+      search.focus();
+    } else if (e.key === "Escape" && document.activeElement === search && search.value) {
+      search.value = "";
+      runSearch();
+    }
+  });
+
+  const quizData = [
+    ["Which operator checks whether two values are equal?",["=","==","is"],1,"== compares values; = binds a name; is checks object identity."],
+    ["What is the safest common way to open a file?",["open() without closing","with open(...) as file","Read raw bytes without decoding"],1,"A with statement uses a context manager to close files reliably even on exceptions."],
+    ["What does `[x * 2 for x in nums]` produce?",["A new list","A lazy generator","A dictionary"],0,"Square brackets create a list comprehension; parentheses create a lazy generator expression."],
+    ["What is the recommended check for None?",["value == None","value is None","not value"],1,"Use `is None`; `not value` matches 0, '', and [] too."],
+    ["Which tool ships in the stdlib for isolated environments?",["venv","Django","pytest"],0,"`venv` ships in Python's standard library (`python -m venv .venv`)."],
+    ["Which model best fits many concurrent network I/O waits?",["asyncio coroutines","Deep recursion","Busy CPU polling"],0,"AsyncIO lets a single thread multiplex thousands of concurrent non-blocking I/O waits."],
+    ["What happens if you write `def add(item, bucket=[]):`?",["Creates a new list per call","Shares one default list across every call","Raises SyntaxError"],1,"Default arguments evaluate once at `def` time; always use `bucket: list | None = None`."],
+    ["Which numeric type avoids binary float drift for money?",["float","Decimal (initialized from strings)","complex"],1,"`Decimal('19.95')` performs exact decimal arithmetic without `0.1 + 0.2` binary rounding errors."],
+    ["What does `list.copy()` do on `[[1, 2], [3, 4]]`?",["Deep-clones every nested list","Shallow-copies the outer list only","Returns an immutable tuple"],1,"Shallow copy duplicates only the outer list; use `copy.deepcopy()` when nesting mutables."],
+    ["How must user input be supplied to `sqlite3` SQL queries?",["f-string interpolation","Parameterized `?` placeholders","Manual single-quote escaping"],1,"Always bind parameters with `?` placeholders so values can never alter SQL syntax."],
+    ["When does a Python `for ...: ... else:` clause execute?",["Whenever an item is found","Only if the loop finishes without hitting `break`","Whenever `continue` runs"],1,"Loop `else:` executes strictly when iteration completes normally without `break`."],
+    ["Why guard child file paths with `target.resolve().is_relative_to(base.resolve())`?",["Faster disk writes","Blocks `../` path traversal escapes","Enables UTF-8 automatically"],1,"Path resolution checks prevent `../../` filenames from reading or writing outside the allowed folder."]
+  ];
+  const quizRoot = document.getElementById("quizzes");
+  const quizScoreText = document.getElementById("quizScoreText");
+  const quizResults = new Array(quizData.length).fill(null);
+  function updateQuizTelemetry() {
+    const answered = quizResults.filter(v => v !== null).length;
+    const correct = quizResults.filter(v => v === true).length;
+    if (quizScoreText) quizScoreText.textContent = `Answered ${answered} / ${quizData.length} · Score: ${correct} correct`;
+  }
+  quizData.forEach((q, i) => {
+    const card = document.createElement("div"); card.className = "quiz";
+    const title = document.createElement("strong"); title.textContent = `${i+1}. ${q[0]}`; card.append(title);
+    q[1].forEach((choice, j) => {
+      const label = document.createElement("label");
+      const radio = document.createElement("input"); radio.type = "radio"; radio.name = `quiz-${i}`; radio.value = j;
+      label.append(radio, document.createTextNode(" " + choice)); card.append(label);
+    });
+    const button = document.createElement("button"); button.className = "btn"; button.type = "button"; button.textContent = "Check answer";
+    const feedback = document.createElement("div"); feedback.className = "feedback"; feedback.setAttribute("aria-live","polite");
+    button.addEventListener("click", () => {
+      const chosen = card.querySelector("input:checked");
+      if (!chosen) { feedback.textContent = "Choose an answer first."; feedback.style.color = "var(--amber)"; return; }
+      const ok = Number(chosen.value) === q[2];
+      quizResults[i] = ok;
+      updateQuizTelemetry();
+      feedback.textContent = (ok ? "Correct. " : "Not quite. ") + q[3];
+      feedback.style.color = ok ? "var(--green)" : "var(--amber)";
+    });
+    card.append(button, feedback); quizRoot.append(card);
+  });
+  document.getElementById("resetQuizBtn")?.addEventListener("click", () => {
+    quizResults.fill(null);
+    quizRoot.querySelectorAll("input[type='radio']").forEach(r => r.checked = false);
+    quizRoot.querySelectorAll(".feedback").forEach(f => f.textContent = "");
+    updateQuizTelemetry();
+  });
+  updateQuizTelemetry();
+  const refSearch = document.getElementById("refSearch"), refCategory = document.getElementById("refCategory");
+  function filterReference() {
+    const q = refSearch.value.toLowerCase(), category = refCategory.value;
+    document.querySelectorAll("#referenceTable tbody tr").forEach(row => {
+      row.classList.toggle("hidden", !(row.innerText.toLowerCase().includes(q) && (category === "all" || row.cells[0].innerText === category)));
+    });
+  }
+  refSearch.addEventListener("input", filterReference); refCategory.addEventListener("change", filterReference);
+
+  // Standalone learning-platform features
+  const appKey = "python-handbook-platform-v2";
+  let appState = {};
+  try { appState = JSON.parse(localStorage.getItem(appKey) || "{}"); } catch {}
+  const persist = () => { try { localStorage.setItem(appKey, JSON.stringify(appState)); } catch {} };
+
+  const exercises = [
+    {id:"ex1",level:"Beginner",topic:"Strings",title:"Normalize a person's name",task:"Write normalize_name(name) that trims surrounding spaces and returns the name in title case. Empty input should return an empty string.",hint:"Combine strip() and title().",solution:'def normalize_name(name: str) -> str:\n    return name.strip().title()\n\nprint(normalize_name("  ada LOVELACE  "))  # Ada Lovelace'},
+    {id:"ex2",level:"Beginner",topic:"Conditions",title:"Classify a score",task:"Write grade(score). Return A for 90–100, B for 80–89, C for 70–79, D for 60–69 and F below 60. Reject values outside 0–100.",hint:"Validate the range first, then use an if/elif chain.",solution:'def grade(score):\n    if not 0 <= score <= 100:\n        raise ValueError("score must be between 0 and 100")\n    if score >= 90: return "A"\n    if score >= 80: return "B"\n    if score >= 70: return "C"\n    if score >= 60: return "D"\n    return "F"\n\nprint(grade(87))'},
+    {id:"ex3",level:"Beginner",topic:"Loops",title:"Count vowels",task:"Write count_vowels(text) that counts a, e, i, o and u without caring about letter case.",hint:"Loop over the lowercased text and test membership in a string or set.",solution:'def count_vowels(text):\n    vowels = set("aeiou")\n    return sum(1 for char in text.lower() if char in vowels)\n\nprint(count_vowels("Python Developer"))'},
+    {id:"ex4",level:"Beginner+",topic:"Collections",title:"Find duplicate values",task:"Write duplicates(values) that returns each repeated value once, in the order its second occurrence is found.",hint:"Track values in a seen set and repeated values in another set.",solution:'def duplicates(values):\n    seen = set()\n    repeated = set()\n    result = []\n    for value in values:\n        if value in seen and value not in repeated:\n            result.append(value)\n            repeated.add(value)\n        seen.add(value)\n    return result\n\nprint(duplicates([2, 1, 2, 3, 1, 2]))'},
+    {id:"ex5",level:"Beginner+",topic:"Dictionaries",title:"Word frequency",task:"Return a dictionary containing the frequency of each word in a sentence. Treat uppercase and lowercase as equal and ignore basic punctuation.",hint:"Normalize the text, split into words and count with a dictionary or Counter.",solution:'import re\nfrom collections import Counter\n\ndef word_frequency(sentence):\n    words = re.findall(r"[a-z0-9]+", sentence.lower())\n    return dict(Counter(words))\n\nprint(word_frequency("Code, code well!"))'},
+    {id:"ex6",level:"Intermediate",topic:"Functions",title:"Safe division",task:"Write safe_divide(a, b) that returns the quotient, but raises ValueError when b is zero. Do not silently return None.",hint:"Check the denominator before performing division.",solution:'def safe_divide(a, b):\n    if b == 0:\n        raise ValueError("denominator cannot be zero")\n    return a / b\n\nprint(safe_divide(15, 3))'},
+    {id:"ex7",level:"Intermediate",topic:"Files",title:"Read a simple text report",task:"Write a function that reads a UTF-8 text file and returns the number of non-empty lines. Use pathlib.",hint:"Path.read_text() and splitlines() are useful.",solution:'from pathlib import Path\n\ndef count_non_empty_lines(filename):\n    text = Path(filename).read_text(encoding="utf-8")\n    return sum(1 for line in text.splitlines() if line.strip())'},
+    {id:"ex8",level:"Intermediate",topic:"OOP",title:"Build a bank account",task:"Create a BankAccount class with deposit and withdraw methods. Reject non-positive amounts and prevent withdrawals greater than the balance.",hint:"Keep balance as instance state and raise ValueError for invalid operations.",solution:'class BankAccount:\n    def __init__(self, balance=0):\n        if balance < 0: raise ValueError("invalid opening balance")\n        self.balance = balance\n    def deposit(self, amount):\n        if amount <= 0: raise ValueError("amount must be positive")\n        self.balance += amount\n    def withdraw(self, amount):\n        if amount <= 0: raise ValueError("amount must be positive")\n        if amount > self.balance: raise ValueError("insufficient funds")\n        self.balance -= amount'},
+    {id:"ex9",level:"Intermediate+",topic:"Generators",title:"Create a chunk generator",task:"Write chunks(items, size) that yields successive lists of at most size items. Reject size values less than one.",hint:"Use a for loop and yield each full batch, then yield the remaining items.",solution:'def chunks(items, size):\n    if size < 1:\n        raise ValueError("size must be at least 1")\n    batch = []\n    for item in items:\n        batch.append(item)\n        if len(batch) == size:\n            yield batch\n            batch = []\n    if batch:\n        yield batch\n\nprint(list(chunks([1, 2, 3, 4, 5], 2)))'},
+    {id:"ex10",level:"Advanced",topic:"Testing",title:"Test a pure function",task:"Write tests for is_even(n), covering a positive even number, an odd number, zero and a negative even number.",hint:"Use unittest.TestCase and assertTrue/assertFalse.",solution:'import unittest\n\ndef is_even(number):\n    return number % 2 == 0\n\nclass TestIsEven(unittest.TestCase):\n    def test_even(self): self.assertTrue(is_even(8))\n    def test_odd(self): self.assertFalse(is_even(7))\n    def test_zero(self): self.assertTrue(is_even(0))\n    def test_negative_even(self): self.assertTrue(is_even(-4))\n\nif __name__ == "__main__":\n    unittest.main()'}
+  ];
+  const exerciseRoot = document.getElementById("exerciseList");
+  exercises.forEach((ex, index) => {
+    const card = document.createElement("article"); card.className = "exercise-card";
+    const heading = document.createElement("h3"); heading.textContent = `${index+1}. ${ex.title}`; card.append(heading);
+    const meta = document.createElement("div"); meta.className = "exercise-meta";
+    [ex.level, ex.topic, appState[ex.id] ? "Completed" : "Not completed"].forEach(t => { const tag=document.createElement("span");tag.className="tag";tag.textContent=t;meta.append(tag); }); card.append(meta);
+    const task = document.createElement("p"); task.textContent = ex.task; card.append(task);
+    const editor = document.createElement("textarea"); editor.spellcheck=false; editor.setAttribute("aria-label", "Your solution for " + ex.title); editor.placeholder="# Write your solution here\n"; editor.value = appState[ex.id+"code"] || ""; card.append(editor);
+    const actions = document.createElement("div"); actions.className="exercise-actions";
+    const hintBtn=document.createElement("button");hintBtn.className="btn";hintBtn.textContent="Show hint";
+    const doneBtn=document.createElement("button");doneBtn.className="btn primary";doneBtn.textContent=appState[ex.id]?"Completed ✓":"Mark complete";
+    const solution=document.createElement("details");const sum=document.createElement("summary");sum.textContent="Reveal reference solution";const pre=document.createElement("pre");pre.className="code";pre.textContent=ex.solution;solution.append(sum,pre);
+    const hint=document.createElement("p");hint.className="callout";hint.textContent=ex.hint;hint.hidden=true;
+    hintBtn.addEventListener("click",()=>{hint.hidden=!hint.hidden;hintBtn.textContent=hint.hidden?"Show hint":"Hide hint";});
+    editor.addEventListener("input",()=>{appState[ex.id+"code"]=editor.value;persist();});
+    doneBtn.addEventListener("click",()=>{appState[ex.id]=!appState[ex.id];persist();doneBtn.textContent=appState[ex.id]?"Completed ✓":"Mark complete";meta.lastChild.textContent=appState[ex.id]?"Completed":"Not completed";});
+    const runExBtn=document.createElement("button");runExBtn.className="btn";runExBtn.type="button";runExBtn.textContent="▶ Run in Playground";runExBtn.addEventListener("click",()=>{loadCodeToPlayground(editor.value.trim()||ex.solution,true);});actions.append(hintBtn,runExBtn,doneBtn);card.append(actions,hint,solution);exerciseRoot.append(card);
+  });
+
+  const routineChecks=[...document.querySelectorAll("[data-routine]")];
+  routineChecks.forEach(c=>{c.checked=Boolean(appState["routine_"+c.dataset.routine]);c.addEventListener("change",()=>{appState["routine_"+c.dataset.routine]=c.checked;persist();});});
+  document.getElementById("resetRoutine").addEventListener("click",()=>{routineChecks.forEach(c=>{c.checked=false;delete appState["routine_"+c.dataset.routine];});persist();});
+  const notes=document.getElementById("learningNotes");
+  notes.value=appState.notes||"";
+  notes.addEventListener("input",()=>{appState.notes=notes.value;persist();document.getElementById("notesCount").textContent=notes.value.length+" characters";document.getElementById("notesStatus").textContent="Saved";});
+  document.getElementById("notesCount").textContent=notes.value.length+" characters";
+
+  const milestones=[
+    ["1","Install Python, terminal and editor","Run scripts and create a virtual environment"],
+    ["2","Variables, strings and control flow","Three small command-line programs"],
+    ["3","Lists, tuples, sets and dictionaries","A contact-list data structure"],
+    ["4","Functions and modules","A reusable utility package"],
+    ["5","Files, JSON and CSV","A persistent task list"],
+    ["6","Exceptions, logging and OOP","A tested expense tracker model"],
+    ["7","Standard library and debugging","A file organizer script"],
+    ["8","Git, testing and code quality","A clean GitHub repository with tests"],
+    ["9","HTTP and API fundamentals","A script consuming a public API"],
+    ["10","SQL and database design","A SQLite-backed application"],
+    ["11","Web framework fundamentals","A small REST API"],
+    ["12","Async and concurrency","A concurrent I/O exercise"],
+    ["13","Security and performance","A security and profiling review"],
+    ["14","Packaging and configuration","An installable Python package"],
+    ["15","Capstone implementation","Working application with documentation"],
+    ["16","Release and portfolio polish","Demo, README, tests and retrospective"]
+  ];
+  const milestoneBody=document.getElementById("milestoneRows");
+  milestones.forEach((m,i)=>{
+    const tr=document.createElement("tr");
+    [m[0],m[1],m[2]].forEach(value=>{const td=document.createElement("td");td.textContent=value;tr.append(td);});
+    const td=document.createElement("td");const cb=document.createElement("input");cb.type="checkbox";cb.checked=Boolean(appState["week_"+i]);cb.setAttribute("aria-label","Complete week "+m[0]);cb.addEventListener("change",()=>{appState["week_"+i]=cb.checked;persist();});td.append(cb);tr.append(td);milestoneBody.append(tr);
+  });
+
+
+  // Pro-level learning tracks: all progress is stored in the same local state.
+  const sprintTasks = [
+    ["Environment & workflow","Create a clean project folder, virtual environment, .gitignore and README. Record Python and dependency versions.","Commit: project scaffold and setup instructions."],
+    ["Python refresh","Write small functions using strings, collections, loops and comprehensions. Explain mutability and truthiness in your notes.","Commit: fundamentals.py with examples."],
+    ["Functions & contracts","Add type hints, docstrings, validation and meaningful return values to five functions.","Commit: reusable utility module."],
+    ["Data modeling","Model a real domain using dataclasses or focused classes. Define invariants and invalid states.","Commit: models.py plus model tests."],
+    ["File persistence","Read and write JSON with pathlib and context managers. Handle missing, empty and malformed files.","Commit: storage layer and error tests."],
+    ["CLI design","Build a CLI with argparse, subcommands, help text, exit codes and useful error messages.","Demo: add/list/update/delete commands."],
+    ["Logging & diagnostics","Replace debug prints with logging. Add levels, useful context and safe exception handling.","Commit: logs for success and failure paths."],
+    ["Unit testing","Write pytest or unittest tests for happy paths, boundaries, invalid input and regressions.","Evidence: repeatable test command and passing output."],
+    ["Test doubles","Use fixtures and mocks only at external boundaries. Test behavior rather than implementation details.","Commit: isolated tests for an external dependency."],
+    ["Code quality","Run a formatter and linter; resolve meaningful warnings. Add type checking where it improves safety.","Commit: quality configuration and clean run."],
+    ["Git collaboration","Create a feature branch, make focused commits, resolve a deliberate merge conflict and tag a release.","Evidence: readable commit history and v0.1.0 tag."],
+    ["SQL foundations","Design tables, primary/foreign keys, constraints and indexes for your project domain.","Commit: schema and relationship diagram."],
+    ["Database integration","Use parameterized queries or an ORM. Add transactions and migrations; never concatenate untrusted SQL.","Commit: repository layer and database tests."],
+    ["HTTP & APIs","Consume a public API with timeouts, status checks, JSON validation and retry rules for transient errors.","Commit: API client module with mocked tests."],
+    ["Build a REST API","Create CRUD endpoints, request validation, response schemas and consistent error responses.","Demo: API endpoints and OpenAPI documentation."],
+    ["Authentication & security","Study password hashing, authorization checks, secret management, input validation and dependency updates.","Evidence: threat checklist and access-control tests."],
+    ["Concurrency choices","Compare synchronous, threaded and async I/O using a small network-bound workload.","Commit: benchmark notes and justified design choice."],
+    ["Performance profiling","Profile before optimizing. Identify one bottleneck and compare before/after measurements.","Evidence: reproducible benchmark and explanation."],
+    ["Configuration","Move environment-specific settings out of source code. Validate required config at startup.","Commit: example env file without secrets."],
+    ["Packaging","Add pyproject.toml metadata and a clear install/run workflow. Separate application code from scripts.","Evidence: installable package or documented package layout."],
+    ["Data validation","Validate incoming and stored data at boundaries. Define what happens when records are incomplete.","Commit: validation rules and edge-case tests."],
+    ["Observability","Add structured, useful logs and health checks. Decide what information must never be logged.","Evidence: operational troubleshooting notes."],
+    ["Documentation","Write README sections: problem, features, setup, usage, architecture, tests, limitations and screenshots.","Commit: complete project documentation."],
+    ["Continuous integration","Configure CI to install dependencies and run tests and quality checks on every push.","Evidence: passing CI workflow."],
+    ["Deployment plan","Choose a target, configure environment variables, persistent storage and process startup safely.","Commit: deployment guide and environment checklist."],
+    ["Capstone feature 1","Implement the main user journey end-to-end with validation and persistence.","Demo: core workflow works from a clean setup."],
+    ["Capstone feature 2","Add a second meaningful feature, permissions or reporting without duplicating business logic.","Commit: feature plus automated tests."],
+    ["Hardening","Test empty states, large inputs, duplicate requests, failures and recovery. Fix the highest-risk issues.","Evidence: release checklist and known limitations."],
+    ["Release candidate","Run the full test suite, review dependencies and secrets, tag a release candidate and prepare demo data.","Evidence: release notes and clean install test."],
+    ["Publish & retrospective","Publish the repository, record a short demo, explain trade-offs and list the next three improvements.","Deliverable: portfolio-ready v1.0 project."]
+  ];
+  const sprintRoot=document.getElementById("sprintDays");
+  const sprintDone=()=>sprintTasks.filter((_,i)=>appState["sprint_"+i]).length;
+  const refreshSprint=()=>{const n=sprintDone();document.getElementById("sprintProgress").textContent=n+" / 30 complete";document.getElementById("sprintPercent").textContent=Math.round(n/30*100)+"%";document.getElementById("sprintBar").style.width=(n/30*100)+"%";};
+  sprintTasks.forEach((task,i)=>{const d=document.createElement("details");d.className="lesson";const sum=document.createElement("summary");sum.textContent="Day "+String(i+1).padStart(2,"0")+" — "+task[0];const body=document.createElement("div");body.className="lesson-body";const p=document.createElement("p");p.textContent=task[1];const evidence=document.createElement("div");evidence.className="callout";evidence.textContent=task[2];const label=document.createElement("label");const cb=document.createElement("input");cb.type="checkbox";cb.checked=Boolean(appState["sprint_"+i]);cb.addEventListener("change",()=>{appState["sprint_"+i]=cb.checked;persist();refreshSprint();});label.append(cb,document.createTextNode(" Mark day complete"));body.append(p,evidence,label);d.append(sum,body);sprintRoot.append(d);});refreshSprint();
+  document.getElementById("sprintAllReset").addEventListener("click",()=>{sprintTasks.forEach((_,i)=>delete appState["sprint_"+i]);persist();sprintRoot.querySelectorAll('input[type="checkbox"]').forEach(c=>c.checked=false);refreshSprint();});
+  document.getElementById("sprintExport").addEventListener("click",()=>{const report=["Python Developer Pro — 30-day sprint",...sprintTasks.map((t,i)=>(appState["sprint_"+i]?"[x] ":"[ ] ")+"Day "+(i+1)+": "+t[0]+" — "+t[2])].join("\n");const blob=new Blob([report],{type:"text/plain"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="python-30-day-sprint.txt";a.click();URL.revokeObjectURL(url);});
+
+  const challenges=[
+    ["Two-sum lookup","Given a list and target, return indices of two values that add to target. Aim for O(n) average time.","Use a dictionary to remember previously seen values."],
+    ["First non-repeating character","Return the first character that occurs exactly once; define behavior for empty input.","Count frequencies, then scan the original string."],
+    ["Balanced brackets","Check whether (), [] and {} are correctly nested.","A stack is a natural fit; the most recent opener must close first."],
+    ["Merge intervals","Merge overlapping [start, end] ranges and return sorted, non-overlapping intervals.","Sort by start, then compare with the last merged interval."],
+    ["Top-k frequent values","Return the k most common values and document tie behavior.","Use Counter first; then compare sorting with heap-based approaches."],
+    ["Paginated API reader","Fetch pages until no next page remains; handle timeouts, bad status codes and malformed JSON.","Keep transport, pagination and parsing separate; inject the HTTP client for tests."]
+  ];
+  const challengeRoot=document.getElementById("algorithmChallenges");
+  challenges.forEach((c,i)=>{const a=document.createElement("article");a.className="topic-card";const h=document.createElement("h3");h.textContent=(i+1)+". "+c[0];const p=document.createElement("p");p.textContent=c[1];const d=document.createElement("details");const sm=document.createElement("summary");sm.textContent="Hint";const hint=document.createElement("p");hint.textContent=c[2];d.append(sm,hint);const label=document.createElement("label");const cb=document.createElement("input");cb.type="checkbox";cb.checked=Boolean(appState["algo_"+i]);cb.addEventListener("change",()=>{appState["algo_"+i]=cb.checked;persist();});label.append(cb,document.createTextNode(" Solved independently"));a.append(h,p,d,label);challengeRoot.append(a);});
+
+  const interviews=[
+    ["What is the difference between a list and a tuple?","Lists are mutable; tuples are immutable at the container level. Choose based on whether the collection should be changed and whether hashability is needed."],
+    ["Explain mutable default arguments.","Default expressions are evaluated once when the function is defined. A mutable default can be shared across calls; use None and create a new object inside."],
+    ["What is the difference between == and is?","== checks value equality; is checks object identity. Use is None for the None singleton, not for general value comparisons."],
+    ["What are iterators and generators?","An iterator implements __iter__ and __next__. A generator function uses yield to produce values lazily and preserves its execution state between yields."],
+    ["What is a decorator?","A callable that wraps or transforms another callable, commonly used for cross-cutting behavior such as logging, authorization or caching."],
+    ["How does Python manage memory?","CPython primarily uses reference counting plus a cyclic garbage collector. Implementation details differ across Python implementations."],
+    ["When would you use a set?","For uniqueness and fast average-case membership checks; sets are unordered collections of hashable elements."],
+    ["Why use a virtual environment?","It isolates project dependencies so projects can use different package versions without polluting the global interpreter environment."],
+    ["What is the GIL?","In standard GIL-enabled CPython builds, it limits simultaneous execution of Python bytecode by threads in one interpreter. Threads can still help I/O-bound work; processes can help CPU-bound work. Free-threaded builds change this trade-off."],
+    ["How do you test code that calls an external API?","Keep API access behind a boundary, inject or mock the client, test success and failure behavior, and reserve a small number of integration tests for the real service."],
+    ["What is a context manager?","An object used with with that manages setup and cleanup through __enter__ and __exit__, or via contextlib utilities."],
+    ["How do you prevent SQL injection?","Use parameterized queries or safe ORM APIs; never interpolate untrusted values into SQL strings."],
+    ["What is the difference between concurrency and parallelism?","Concurrency structures overlapping tasks; parallelism executes work simultaneously. They are related but not identical."],
+    ["How would you investigate slow Python code?","Reproduce and measure, profile to locate the bottleneck, optimize the relevant algorithm or I/O, then benchmark again."],
+    ["What belongs in a good Python package?","Clear metadata, focused modules, documented public APIs, declared dependencies, tests, license and reproducible build/install instructions."]
+  ];
+  const interviewRoot=document.getElementById("interviewQuestions");
+  interviews.forEach((q,i)=>{const d=document.createElement("details");d.className="lesson";const sm=document.createElement("summary");sm.textContent=(i+1)+". "+q[0];const body=document.createElement("div");body.className="lesson-body";const p=document.createElement("p");p.textContent=q[1];body.append(p);d.append(sm,body);interviewRoot.append(d);});
+
+  const rubric=[
+    ["Problem & scope","Clear problem statement, target users, requirements and explicit non-goals."],
+    ["Architecture","Cohesive modules, clear boundaries and no unnecessary complexity."],
+    ["Correctness","Normal, boundary and invalid cases handled deliberately."],
+    ["Testing","Automated unit and integration tests with repeatable commands."],
+    ["Code quality","Readable naming, formatting, linting and useful type hints."],
+    ["Data & security","Validated inputs, safe persistence, no committed secrets."],
+    ["Reliability","Logging, useful errors and sensible failure/recovery behavior."],
+    ["Documentation","README, setup, examples, design decisions and limitations."],
+    ["Delivery","Reproducible install, CI and clear deployment instructions."],
+    ["Demonstration","Working demo, screenshots or API examples and a concise walkthrough."]
+  ];
+  const rubricRoot=document.getElementById("rubricRows");
+  const refreshRubric=()=>{let score=0;rubric.forEach((_,i)=>score+=Number(appState["rubric_"+i]||0));document.getElementById("rubricScore").textContent=score+" / 20";document.getElementById("rubricBar").style.width=(score/20*100)+"%";};
+  rubric.forEach((r,i)=>{const tr=document.createElement("tr");const a=document.createElement("td");a.textContent=r[0];const b=document.createElement("td");b.textContent=r[1];const c=document.createElement("td");const select=document.createElement("select");select.setAttribute("aria-label",r[0]+" score");[["0","0 — Missing"],["1","1 — Partial"],["2","2 — Complete"]].forEach(o=>{const op=document.createElement("option");op.value=o[0];op.textContent=o[1];select.append(op);});select.value=String(appState["rubric_"+i]||0);select.addEventListener("change",()=>{appState["rubric_"+i]=Number(select.value);persist();refreshRubric();});c.append(select);tr.append(a,b,c);rubricRoot.append(tr);});refreshRubric();
+
+  // Pyodide: actual CPython compiled to WebAssembly, loaded only on request.
+  const samples={
+    hello:'learner = input("What is your name? ") or "Python developer"\nprint(f"Hello, {learner}! Welcome to Python.")',
+    loops:'numbers = [2, 4, 6, 8]\nfor index, number in enumerate(numbers, start=1):\n    print(index, number, number ** 2)',
+    match:'def route_event(evt):\n    match evt:\n        case {"type": "click", "coords": [x, y]}:\n            return f"Clicked ({x}, {y})"\n        case {"type": "quit" | "exit"}:\n            return "Exiting"\n        case _:\n            return f"Unknown: {evt}"\n\nprint(route_event({"type": "click", "coords": [15, 30]}))\nprint(route_event({"type": "exit"}))',
+    function:'from decimal import Decimal\n\ndef calculate_total(price: Decimal, quantity: int = 1) -> Decimal:\n    return (price * quantity).quantize(Decimal("0.01"))\n\nprint("Exact total:", calculate_total(Decimal("19.95"), 3))',
+    class:'from dataclasses import dataclass\n\n@dataclass(frozen=True, slots=True)\nclass Book:\n    title: str\n    author: str\n\n    def describe(self) -> str:\n        return f"{self.title} by {self.author}"\n\nbook = Book("Python Handbook", "A. Developer")\nprint(book.describe())',
+    json:'import json\nprofile = {"name": "Asha", "skills": ["Python", "SQL"]}\nencoded = json.dumps(profile, indent=2)\nprint(encoded)\nprint(json.loads(encoded)["name"])',
+    sqlite:'import sqlite3\n\nwith sqlite3.connect(":memory:") as conn:\n    conn.execute("CREATE TABLE tasks (id INTEGER PRIMARY KEY, title TEXT, done INT)")\n    conn.execute("INSERT INTO tasks (title, done) VALUES (?, ?)", ("Learn SQLite", 0))\n    print(conn.execute("SELECT * FROM tasks WHERE done = ?", (0,)).fetchall())'
+  };
+  const editor=document.getElementById("pythonEditor"), output=document.getElementById("pythonOutput"), status=document.getElementById("runtimeStatus");
+  let pyodide=null, loading=null;
+  document.getElementById("exampleSelect").addEventListener("change",e=>{editor.value=samples[e.target.value];});
+  document.getElementById("resetEditor").addEventListener("click",()=>{editor.value=samples[document.getElementById("exampleSelect").value];});
+  document.getElementById("clearOutput").addEventListener("click",()=>{output.textContent="";});
+  async function loadPython(){
+    if(pyodide)return pyodide;
+    if(loading)return loading;
+    status.textContent="Loading Python runtime…";
+    loading=(async()=>{
+      if(!window.loadPyodide){
+        await new Promise((resolve,reject)=>{
+          const script=document.createElement("script");
+          script.src="https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js";
+          script.onload=resolve;script.onerror=()=>reject(new Error("Could not load Pyodide. Check your internet connection and try again."));
+          document.head.append(script);
+        });
+      }
+      pyodide=await loadPyodide();
+      status.textContent="Python ready";
+      return pyodide;
+    })();
+    try{return await loading;}catch(error){loading=null;status.textContent="Runtime unavailable";throw error;}
+  }
+  document.getElementById("runPython").addEventListener("click",async()=>{
+    const runButton=document.getElementById("runPython");runButton.disabled=true;runButton.textContent="Running…";
+    output.textContent="Initializing Python…";
+    try{
+      const runtime=await loadPython();
+      let stdout="",stderr="";
+      runtime.setStdout({batched:(text)=>{stdout+=text+"\n";}});
+      runtime.setStderr({batched:(text)=>{stderr+=text+"\n";}});
+      runtime.setStdin({stdin:()=>((window.prompt("Python input requested:")??"Python learner")+"\n")});
+      await runtime.runPythonAsync(editor.value);
+      output.textContent=(stdout+(stderr?"\nErrors:\n"+stderr:"")).trimEnd()||"(Program finished without printed output.)";
+    }catch(error){output.textContent=String(error);}
+    finally{runButton.disabled=false;runButton.textContent="▶ Run Python";}
+  });
+
+  const navLinks = [...document.querySelectorAll(".navlink")];
+  const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+    if (entry.isIntersecting) navLinks.forEach(link => link.classList.toggle("active", link.getAttribute("href") === "#" + entry.target.id));
+  }), {rootMargin:"-20% 0px -70% 0px"});
+  document.querySelectorAll(".section").forEach(section => observer.observe(section));
+})();
+</script>
+</body></html>

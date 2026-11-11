@@ -1,6 +1,7 @@
 # 📚 Xivig Developer Notes & Knowledge Base
 
-[![Topics](https://img.shields.io/badge/Knowledge%20Base-18%20Disciplines-6366f1?style=flat-square)](.)
+[![Topics](https://img.shields.io/badge/Knowledge%20Base-19%20Disciplines-6366f1?style=flat-square)](.)
+[![Python](https://img.shields.io/badge/Python-3.10%20--%203.14-3776AB?style=flat-square&logo=python&logoColor=white)](all-in-one-python-developer-handbook/README.md)
 [![Laravel](https://img.shields.io/badge/Laravel-12%20%7C%2013-FF2D20?style=flat-square&logo=laravel&logoColor=white)](all-in-one-laravel-developer-handbook/README.md)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES2024%2B-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](javascript-mastery-curriculum/)
 [![DOM](https://img.shields.io/badge/DOM-W3C%20%2F%20WHATWG-E34F26?style=flat-square&logo=html5&logoColor=white)](dom-manipulation-guide/dom-facts.md)
@@ -41,6 +42,7 @@ xivig-all-in-one-notes/
 ├── sublime-text-editor-trick/                # Sublime Text shortcuts, multi-cursor, Emmet, snippets & builds
 ├── all-in-one-php-tutorial/                  # Modern PHP 8.0–8.5 18-chapter handbook, runnable labs & portal
 ├── all-in-one-laravel-developer-handbook/    # Modern Laravel 12/13 & PHP 8.3–8.5 16-chapter handbook, 3 demo projects & portal
+├── all-in-one-python-developer-handbook/     # Modern Python 3.10–3.14 18-module handbook, Pyodide academy & verified labs
 ├── developer-handbook-unix-linux-git-shell/  # Unix/Linux, Git, Shell, macOS, HTML5 handbooks & 25 scripts
 └── rc-meaning.md                             # The historical meaning and origin of Unix 'rc' files
 ```
@@ -193,6 +195,12 @@ xivig-all-in-one-notes/
 * **Track 2 — Laravel 12/13 Core Foundations & Demo Projects**: [07. Installation & Starter Kits](all-in-one-laravel-developer-handbook/chapters/07-laravel-installation-structure-and-starter-kits/README.md) · [08. Routing, Middleware & Agency Site (Demo 1)](all-in-one-laravel-developer-handbook/chapters/08-routing-controllers-middleware-and-responses/README.md) · [09. Blade Components & Vite](all-in-one-laravel-developer-handbook/chapters/09-blade-templates-components-and-vite/README.md) · [10. Migrations, Eloquent & DevBlog (Demo 2)](all-in-one-laravel-developer-handbook/chapters/10-migrations-eloquent-models-and-relationships/README.md) · [11. Forms, Policies & Auth Task Manager (Demo 3)](all-in-one-laravel-developer-handbook/chapters/11-forms-validation-policies-and-auth-crud/README.md) · [12. Overriding Packages & Service Providers](all-in-one-laravel-developer-handbook/chapters/12-overriding-packages-service-providers-and-configuration/README.md).
 * **Track 3 — Production Laravel Engineering**: [13. REST APIs, Sanctum & HTTP Client](all-in-one-laravel-developer-handbook/chapters/13-rest-apis-resources-sanctum-and-http-client/README.md) · [14. Queues, Events, Caching & `defer()`](all-in-one-laravel-developer-handbook/chapters/14-queues-jobs-events-caching-and-defer/README.md) · [15. Testing with Pest & PHPUnit](all-in-one-laravel-developer-handbook/chapters/15-testing-with-pest-and-phpunit/README.md) · [16. Security, Performance, AI SDK & Deploy](all-in-one-laravel-developer-handbook/chapters/16-security-performance-and-production-deployment/README.md).
 
+### 19. 🐍 [All-in-One Python 3.x Developer Handbook & Learning Platform](all-in-one-python-developer-handbook/README.md)
+* **Master Hub & Interactive Academy**: 📘 **[18-Module Python Handbook](all-in-one-python-developer-handbook/README.md)** · 🌐 **Interactive Python Academy ([Launch Live ↗](https://htmlpreview.github.io/?https://github.com/xivig/xivig-all-in-one-notes/blob/master/all-in-one-python-developer-handbook/index.html) · [Local](all-in-one-python-developer-handbook/index.html))** · ⚡ **[Developer Cheatsheet](all-in-one-python-developer-handbook/CHEATSHEET.md)** · 📖 **[A–Z Glossary](all-in-one-python-developer-handbook/GLOSSARY.md)** · 🚀 **[6 Portfolio Projects](all-in-one-python-developer-handbook/PROJECTS.md)** · 🧪 **[Lab Verification Runner](all-in-one-python-developer-handbook/run_all_examples.py)**.
+* **Track 1 — Core Language & Program Design**: [01. Setup, `venv` & `uv`](all-in-one-python-developer-handbook/chapters/01-setup-venv-uv-and-workflow/README.md) · [02. Syntax, Types & `Decimal`](all-in-one-python-developer-handbook/chapters/02-syntax-types-strings-and-decimal/README.md) · [03. Control Flow & `match`/`case`](all-in-one-python-developer-handbook/chapters/03-control-flow-loops-and-match-case/README.md) · [04. Collections & Comprehensions](all-in-one-python-developer-handbook/chapters/04-collections-slicing-and-comprehensions/README.md) · [05. Functions, Closures & Typing](all-in-one-python-developer-handbook/chapters/05-functions-scopes-closures-and-typing/README.md) · [06. Modules & `src/` Packaging](all-in-one-python-developer-handbook/chapters/06-modules-packages-and-pyproject/README.md).
+* **Track 2 — Intermediate OOP, Stdlib & Testing**: [07. `pathlib`, JSON, CSV & `tomllib`](all-in-one-python-developer-handbook/chapters/07-files-pathlib-json-csv-and-tomllib/README.md) · [08. Exceptions & Logging](all-in-one-python-developer-handbook/chapters/08-exceptions-custom-errors-and-logging/README.md) · [09. OOP, Dataclasses & `Protocol`](all-in-one-python-developer-handbook/chapters/09-oop-dataclasses-inheritance-and-protocols/README.md) · [10. Generators, Decorators & Contexts](all-in-one-python-developer-handbook/chapters/10-iterators-generators-decorators-and-context-managers/README.md) · [11. Standard Library Essentials](all-in-one-python-developer-handbook/chapters/11-stdlib-datetime-collections-itertools-and-functools/README.md) · [12. `unittest`, `pytest`, Ruff & Git](all-in-one-python-developer-handbook/chapters/12-testing-unittest-pytest-ruff-and-git/README.md).
+* **Track 3 — APIs, SQLite, Concurrency & Production**: [13. HTTP, REST, FastAPI & Pydantic](all-in-one-python-developer-handbook/chapters/13-http-rest-apis-fastapi-and-pydantic/README.md) · [14. SQLite Transactions & Data](all-in-one-python-developer-handbook/chapters/14-sqlite-transactions-and-data-workflows/README.md) · [15. `asyncio`, Threads & Processes](all-in-one-python-developer-handbook/chapters/15-concurrency-threads-processes-and-asyncio/README.md) · [16. Security & Profiling](all-in-one-python-developer-handbook/chapters/16-security-profiling-and-reliability/README.md) · [17. Packaging & 12-Factor Config](all-in-one-python-developer-handbook/chapters/17-packaging-configuration-and-deployment/README.md) · [18. Architecture & Algorithms](all-in-one-python-developer-handbook/chapters/18-architecture-code-review-and-interviews/README.md).
+
 ---
 
 ## 🚀 Quick Reference Snippets
@@ -235,6 +243,9 @@ php all-in-one-php-tutorial/run-all-examples.php
 
 # Run and verify all Laravel Handbook standalone PHP labs
 php all-in-one-laravel-developer-handbook/run-all-examples.php
+
+# Run and verify all Python Handbook labs & unittest suite
+python -B all-in-one-python-developer-handbook/run_all_examples.py
 
 # Run the shell scripts QA suite (Unix/Linux/macOS/Git Bash)
 bash developer-handbook-unix-linux-git-shell/shell-scripts-repo/test_all_scripts.sh

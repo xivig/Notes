@@ -220,7 +220,7 @@
       <div class="logo">L</div>
       <div>
         <span class="brand-title">All-in-One Laravel Developer Handbook</span>
-        <span class="brand-sub">Laravel 12 / 13 &bull; PHP 8.3–8.5 &bull; 18 Chapters, Runnable Labs &amp; Mastery Quiz</span>
+        <span class="brand-sub">Laravel 12 / 13 &bull; PHP 8.3–8.5 &bull; 19 Chapters, Runnable Labs &amp; Mastery Quiz</span>
       </div>
     </div>
     <div class="controls">
@@ -236,7 +236,7 @@
       <div class="progress-box">
         <div class="progress-meta">
           <span>Handbook Progress</span>
-          <strong id="progressLabel">0 / 18</strong>
+          <strong id="progressLabel">0 / 19</strong>
         </div>
         <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
       </div>
@@ -267,7 +267,8 @@
 <a class="nav-item" href="#ch-16" data-track="track-3"><span class="nav-num">16</span><span class="nav-title">Chapter 16 — Security, Nginx / cPanel Server Configs, CI/CD, Reverb &amp; Laravel 13 AI SDK</span></a>
 <a class="nav-item" href="#ch-17" data-track="track-3"><span class="nav-num">17</span><span class="nav-title">Chapter 17 — Troubleshooting Playbook &amp; CLI Diagnostics</span></a>
 <a class="nav-item" href="#ch-18" data-track="track-3"><span class="nav-num">18</span><span class="nav-title">Chapter 18 — Clean Architecture, Automated Scaffolder, Capstone CMS &amp; 12-Week Roadmap</span></a>
-<a class="nav-item" href="#quiz-section" data-track="track-quiz"><span class="nav-num">QZ</span><span class="nav-title">Mastery Quiz (12 Qs)</span></a>
+<a class="nav-item" href="#ch-19" data-track="track-3"><span class="nav-num">19</span><span class="nav-title">Chapter 19 — Full-Stack Reactivity (Livewire 4, Inertia 2, Echo), Localization &amp; Official Packages</span></a>
+<a class="nav-item" href="#quiz-section" data-track="track-quiz"><span class="nav-num">QZ</span><span class="nav-title">Mastery Quiz (15 Qs)</span></a>
 
       </nav>
     </aside>
@@ -275,13 +276,13 @@
     <main>
       <section class="hero">
         <h1>Modern Laravel 12/13 &amp; PHP 8.3–8.5 Developer Handbook</h1>
-        <p>Complete progressive guide uniting PHP 8.3–8.5 OOP &amp; Container Reflection DI, Starter Kits, Blade Admin/Blog Partials &amp; Directives, Faker/Seeders, Eloquent N+1 optimization, Multi-Guard Auth &amp; RBAC, Sanctum APIs, Queues &amp; <code>defer()</code>, Pest testing, Nginx/cPanel CI/CD, Troubleshooting, and EliteBlog Pro CMS.</p>
+        <p>Complete end-to-end guide uniting PHP 8.3–8.5 OOP &amp; Container Reflection DI, Starter Kits, Blade Admin/Blog Partials &amp; Directives, Faker/Seeders, Polymorphic Eloquent &amp; Locking, Multi-Guard Auth &amp; RBAC, Sanctum APIs &amp; Rate Limiting, Mail/Notifications/Commands/Queues/<code>defer()</code>, Pest testing, Nginx/cPanel/Sail/Horizon CI/CD, Troubleshooting, EliteBlog Pro CMS, and Livewire 4 / Inertia 2 / Echo / i18n / Packages.</p>
         <div class="filter-pills">
-          <button type="button" class="btn active" onclick="setTrack('all', this)">All (18 + Quiz)</button>
+          <button type="button" class="btn active" onclick="setTrack('all', this)">All (19 + Quiz)</button>
           <button type="button" class="btn" onclick="setTrack('track-1', this)">Track 1: PHP &amp; OOP</button>
           <button type="button" class="btn" onclick="setTrack('track-2', this)">Track 2: Laravel Core</button>
-          <button type="button" class="btn" onclick="setTrack('track-3', this)">Track 3: Production</button>
-          <button type="button" class="btn" onclick="setTrack('track-quiz', this)">Mastery Quiz (12)</button>
+          <button type="button" class="btn" onclick="setTrack('track-3', this)">Track 3: Production &amp; Ecosystem</button>
+          <button type="button" class="btn" onclick="setTrack('track-quiz', this)">Mastery Quiz (15)</button>
         </div>
       </section>
 
@@ -1852,8 +1853,44 @@ final class PostController extends Controller
     &lt;tr&gt;&lt;td colspan=&quot;4&quot;&gt;No posts found.&lt;/td&gt;&lt;/tr&gt;
 @endforelse
 {{ $posts-&gt;links() }}</code></pre></div>
-<p>Enable local lazy-load guard in <code>AppServiceProvider::boot()</code> and prefer flat <code>DB::table()-&gt;join()</code> queries only for heavy un-hydrated analytics tables:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">Model::preventLazyLoading(! app()-&gt;isProduction());</code></pre></div>
+<p>Enable local lazy-load guard in <code>AppServiceProvider::boot()</code>, and use explicit SQL joins (<code>DB::table()</code>) for flat un-hydrated analytics dashboards:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">Model::preventLazyLoading(! app()-&gt;isProduction());
+
+// Query Builder multi-table reporting join
+$summary = DB::table(&#039;posts&#039;)
+    -&gt;join(&#039;categories&#039;, &#039;categories.id&#039;, &#039;=&#039;, &#039;posts.category_id&#039;)
+    -&gt;select(&#039;categories.name&#039;, DB::raw(&#039;COUNT(posts.id) as total&#039;))
+    -&gt;where(&#039;posts.status&#039;, &#039;published&#039;)
+    -&gt;groupBy(&#039;categories.name&#039;)
+    -&gt;get();</code></pre></div>
+<h2>6. Polymorphic Relations, SoftDeletes, Chunking &amp; Concurrency Locking</h2>
+<h3>A. Polymorphic Relations (<code>morphMany</code> / <code>morphTo</code>)</h3>
+<p>Attach shared comments or attachments to multiple models (<code>Post</code>, <code>Gallery</code>, <code>Page</code>) using one table:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// Migration: creates commentable_id (unsignedBigInteger) + commentable_type (string) + composite index
+Schema::create(&#039;comments&#039;, function (Blueprint $table) {
+    $table-&gt;id();
+    $table-&gt;morphs(&#039;commentable&#039;);
+    $table-&gt;foreignId(&#039;user_id&#039;)-&gt;constrained()-&gt;cascadeOnDelete();
+    $table-&gt;text(&#039;body&#039;);
+    $table-&gt;timestamps();
+});
+
+// App\Models\Comment -&gt; public function commentable(): MorphTo { return $this-&gt;morphTo(); }
+// App\Models\Post    -&gt; public function comments(): MorphMany { return $this-&gt;morphMany(Comment::class, &#039;commentable&#039;); }</code></pre></div>
+<h3>B. SoftDeletes Lifecycle, <code>chunkById</code> &amp; Pessimistic Locking (<code>lockForUpdate</code>)</h3>
+<ul><li><strong>SoftDeletes recovery</strong>: <code>Post::onlyTrashed()-&gt;get()</code>, <code>$post-&gt;restore()</code>, <code>$post-&gt;forceDelete()</code>.</li><li><strong>Large dataset streaming (no OOM)</strong>: process thousands of rows safely without hydrating everything into RAM at once:</li></ul>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">  Post::where(&#039;status&#039;, &#039;draft&#039;)-&gt;chunkById(200, function ($batch) {
+      foreach ($batch as $post) {
+          // Safe batched processing
+      }
+  });
+  // Or memory-flat generator cursor:
+  foreach (Post::published()-&gt;lazyById(200) as $post) { /* ... */ }</code></pre></div>
+<ul><li><strong>Model Observer (<code>#[ObservedBy(PostObserver::class)]</code>)</strong>: bust <code>Cache::forget(&#039;homepage.stats&#039;)</code> on <code>created</code>/<code>updated</code>/<code>deleted</code>.</li><li><strong>Atomic balance/quota updates (<code>lockForUpdate</code>)</strong>:</li></ul>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">  DB::transaction(function () use ($walletId, $amount): void {
+      $wallet = Wallet::whereKey($walletId)-&gt;lockForUpdate()-&gt;firstOrFail();
+      $wallet-&gt;decrement(&#039;balance_cents&#039;, $amount);
+  });</code></pre></div>
 <h2>Try It Locally</h2>
 <p>Run our SQLite in-memory lab verifying lazy N+1 query counts vs batched eager loading (<code>IN (...)</code>):</p>
 <div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php chapters/10-migrations-eloquent-models-and-relationships/lab.php</code></pre></div><div class="labs-box"><h3>Verified Runnable Lab</h3><details class="lab-details"><summary><span><code>lab.php</code></span><span class="lab-link-wrap"><a href="chapters/10-migrations-eloquent-models-and-relationships/lab.php" class="md-link" onclick="event.stopPropagation()">Open file &rarr;</a></span></summary><div class="code-block"><div class="code-head"><span class="code-lang">PHP &middot; lab.php</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">&lt;?php
@@ -1955,7 +1992,14 @@ final class UpdatePostRequest extends FormRequest
     }
 }</code></pre></div>
 <p>Pass ONLY <code>$request-&gt;validated()</code> into <code>create()</code> / <code>update()</code>.</p>
-<ul><li><strong>Public assets</strong>: <code>$path = $request-&gt;file(&#039;cover&#039;)-&gt;store(&#039;post-covers&#039;, &#039;public&#039;);</code> (delete replaced image with <code>Storage::disk(&#039;public&#039;)-&gt;delete($oldPath)</code>).</li><li><strong>Private documents</strong>: <code>$path = $request-&gt;file(&#039;doc&#039;)-&gt;store(&#039;private-docs&#039;, &#039;local&#039;);</code>, streamed strictly after <code>Gate::authorize(&#039;download&#039;, $doc)</code>.</li></ul>
+<ul><li><strong>Public assets</strong>: <code>$path = $request-&gt;file(&#039;cover&#039;)-&gt;store(&#039;post-covers&#039;, &#039;public&#039;);</code> (delete replaced files via <code>Storage::disk(&#039;public&#039;)-&gt;delete($oldPath)</code>).</li><li><strong>Private documents (Policy-gated stream)</strong>:</li></ul>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">  public function download(Document $document): StreamedResponse
+  {
+      Gate::authorize(&#039;download&#039;, $document);
+      abort_unless(Storage::disk(&#039;local&#039;)-&gt;exists($document-&gt;storage_path), 404);
+
+      return Storage::disk(&#039;local&#039;)-&gt;download($document-&gt;storage_path, $document-&gt;original_name);
+  }</code></pre></div>
 <h2>2. Policies (<code>TaskPolicy</code> / <code>PostPolicy</code>) &amp; RBAC Pivot Architecture</h2>
 <div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan make:policy TaskPolicy --model=Task</code></pre></div>
 <div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">final class TaskPolicy
@@ -1972,8 +2016,16 @@ final class UpdatePostRequest extends FormRequest
 }</code></pre></div>
 <h3>RBAC Tables Schema (<code>roles</code>, <code>permissions</code>, <code>role_user</code>, <code>permission_role</code>)</h3>
 <p>When admins &amp; editors share one <code>users</code> table, prefer single-guard RBAC over duplicating auth tables:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">Schema::create(&#039;roles&#039;, fn (Blueprint $t) =&gt; $t-&gt;id() &amp;&amp; $t-&gt;string(&#039;name&#039;)-&gt;unique());
-Schema::create(&#039;permissions&#039;, fn (Blueprint $t) =&gt; $t-&gt;id() &amp;&amp; $t-&gt;string(&#039;name&#039;)-&gt;unique());
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">Schema::create(&#039;roles&#039;, function (Blueprint $t) {
+    $t-&gt;id();
+    $t-&gt;string(&#039;name&#039;)-&gt;unique();
+    $t-&gt;timestamps();
+});
+Schema::create(&#039;permissions&#039;, function (Blueprint $t) {
+    $t-&gt;id();
+    $t-&gt;string(&#039;name&#039;)-&gt;unique();
+    $t-&gt;timestamps();
+});
 Schema::create(&#039;role_user&#039;, function (Blueprint $t) {
     $t-&gt;foreignId(&#039;role_id&#039;)-&gt;constrained()-&gt;cascadeOnDelete();
     $t-&gt;foreignId(&#039;user_id&#039;)-&gt;constrained()-&gt;cascadeOnDelete();
@@ -2390,7 +2442,22 @@ $profile = Http::timeout(5)
 $responses = Http::pool(concurrency: 4, callback: fn ($pool) =&gt; [
     $pool-&gt;as(&#039;users&#039;)-&gt;get(&#039;https://api.example.com/users&#039;),
     $pool-&gt;as(&#039;metrics&#039;)-&gt;get(&#039;https://api.example.com/metrics&#039;),
-]);</code></pre></div></div></article>
+]);</code></pre></div>
+<h2>4. Named Rate Limiters (<code>RateLimiter::for()</code>) &amp; Webhook Signature Guard</h2>
+<p>Configure named limiters referenced by <code>throttle:api</code> inside <code>AppServiceProvider::boot()</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
+
+RateLimiter::for(&#039;api&#039;, function (Request $request) {
+    return $request-&gt;user()
+        ? Limit::perMinute(120)-&gt;by((string) $request-&gt;user()-&gt;id)
+        : Limit::perMinute(30)-&gt;by((string) $request-&gt;ip());
+});</code></pre></div>
+<p>Verify incoming third-party webhooks (Stripe/GitHub) in constant time with <code>hash_equals</code>:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">$expected = hash_hmac(&#039;sha256&#039;, $request-&gt;getContent(), config(&#039;services.webhook.secret&#039;));
+$signature = (string) $request-&gt;header(&#039;X-Webhook-Signature&#039;, &#039;&#039;);
+abort_unless(hash_equals($expected, $signature), 401, &#039;Invalid webhook signature.&#039;);</code></pre></div></div></article>
 <article class="chapter-card" id="ch-14" data-track="track-3"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-3">Track 3: Production</span><a class="source-link" href="chapters/14-queues-jobs-events-caching-and-defer/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">14.</span> Chapter 14 — Mail, Queues, Events, Caching, `defer()` &amp; Scheduler</h2><button type="button" class="done-toggle" data-ch="ch-14" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Offload slow work asynchronously using <strong><code>defer()</code></strong>, <strong>Markdown Mail (<code>Mailable</code>)</strong>, <strong>Queued Jobs (<code>ShouldQueue</code> + Laravel 13 PHP Attributes)</strong>, <strong>Events/Listeners</strong>, <strong>Cache (<code>remember</code>, <code>flexible</code>, <code>touch</code>)</strong>, and <strong><code>routes/console.php</code> Scheduling</strong>.</p>
 <h2>1. Quick In-Request Offloading with <code>defer()</code> (Laravel 12 / 13)</h2>
 <div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">use function Illuminate\Support\defer;
@@ -2476,7 +2543,58 @@ Cache::forget(&#039;homepage.stats&#039;);
 Schedule::command(&#039;reports:daily&#039;)-&gt;dailyAt(&#039;02:00&#039;)-&gt;withoutOverlapping();
 Schedule::job(new GenerateSitemapJob())-&gt;hourly()-&gt;withoutOverlapping();</code></pre></div>
 <p>Server cron entry:</p>
-<div class="code-block"><div class="code-head"><span class="code-lang">CRON</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-cron">* * * * * cd /path/to/laravel-app &amp;&amp; php artisan schedule:run &gt;&gt; /dev/null 2&gt;&amp;1</code></pre></div></div></article>
+<div class="code-block"><div class="code-head"><span class="code-lang">CRON</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-cron">* * * * * cd /path/to/laravel-app &amp;&amp; php artisan schedule:run &gt;&gt; /dev/null 2&gt;&amp;1</code></pre></div>
+<h2>5. Multi-Channel Notifications &amp; Custom Artisan Commands</h2>
+<h3>A. Multi-Channel Notification (<code>php artisan make:notification PostPublishedNotification</code>)</h3>
+<p>Send email + in-app <code>notifications</code> table alerts cleanly in one class (run <code>php artisan make:notifications-table &amp;&amp; php artisan migrate</code> for DB storage):</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">final class PostPublishedNotification extends Notification implements ShouldQueue
+{
+    use Queueable;
+
+    public function __construct(public readonly Post $post) {}
+
+    public function via(object $notifiable): array
+    {
+        return [&#039;mail&#039;, &#039;database&#039;];
+    }
+
+    public function toMail(object $notifiable): MailMessage
+    {
+        return (new MailMessage)
+            -&gt;subject(&#039;Published: &#039; . $this-&gt;post-&gt;title)
+            -&gt;action(&#039;Read Post&#039;, route(&#039;posts.show&#039;, $this-&gt;post));
+    }
+
+    public function toArray(object $notifiable): array
+    {
+        return [&#039;post_id&#039; =&gt; $this-&gt;post-&gt;id, &#039;title&#039; =&gt; $this-&gt;post-&gt;title];
+    }
+}
+
+// Dispatch &amp; read unread feed:
+$user-&gt;notify(new PostPublishedNotification($post));
+$unread = $user-&gt;unreadNotifications;</code></pre></div>
+<h3>B. Custom Artisan Console Command (<code>php artisan make:command PruneDraftsCommand</code>)</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">final class PruneDraftsCommand extends Command
+{
+    protected $signature = &#039;posts:prune {--days=30 : Delete drafts older than N days} {--dry-run}&#039;;
+    protected $description = &#039;Prune stale unpublished drafts&#039;;
+
+    public function handle(): int
+    {
+        $cutoff = now()-&gt;subDays((int) $this-&gt;option(&#039;days&#039;));
+        $query = Post::where(&#039;status&#039;, &#039;draft&#039;)-&gt;where(&#039;updated_at&#039;, &#039;&lt;&#039;, $cutoff);
+
+        if ($this-&gt;option(&#039;dry-run&#039;)) {
+            $this-&gt;info(&#039;Would prune: &#039; . $query-&gt;count() . &#039; drafts.&#039;);
+            return self::SUCCESS;
+        }
+
+        $deleted = $query-&gt;delete();
+        $this-&gt;info(&quot;Pruned {$deleted} stale drafts.&quot;);
+        return self::SUCCESS;
+    }
+}</code></pre></div></div></article>
 <article class="chapter-card" id="ch-15" data-track="track-3"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-3">Track 3: Production</span><a class="source-link" href="chapters/15-testing-with-pest-and-phpunit/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">15.</span> Chapter 15 — Automated Testing with Pest, PHPUnit &amp; Fakes</h2><button type="button" class="done-toggle" data-ch="ch-15" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Test HTTP routes, FormRequests, Policies, uploads, Sanctum APIs, and queued jobs against an isolated <strong>in-memory SQLite (<code>:memory:</code>)</strong> database using <code>RefreshDatabase</code> and built-in Facade fakes.</p>
 <h2>1. Complete Pest Feature Test Suite (<code>tests/Feature/PostManagementTest.php</code>)</h2>
 <div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan make:test PostManagementTest
@@ -2694,7 +2812,17 @@ jobs:
       - run: composer audit
       - run: php artisan test</code></pre></div>
 <h2>5. Laravel 13 AI SDK, Reverb WebSockets &amp; Octane</h2>
-<ul><li><strong>Laravel AI SDK (Laravel 13)</strong>: First-party <code>laravel/ai</code> package supporting structured outputs, embeddings, vector stores, and <code>Agent::fake()</code> in automated tests.</li><li><strong>Laravel Reverb</strong>: <code>php artisan install:broadcasting &amp;&amp; php artisan reverb:start</code> for real-time WebSockets without external SaaS fees.</li><li><strong>Laravel Octane</strong>: Keeps the framework booted in RAM across FrankenPHP/Swoole workers (use container <code>scoped()</code> bindings cleanly).</li></ul></div></article>
+<ul><li><strong>Laravel AI SDK (Laravel 13)</strong>: First-party <code>laravel/ai</code> package supporting structured outputs, embeddings, vector stores, and <code>Agent::fake()</code> in automated tests.</li><li><strong>Laravel Reverb</strong>: <code>php artisan install:broadcasting &amp;&amp; php artisan reverb:start</code> for real-time WebSockets without external SaaS fees.</li><li><strong>Laravel Octane</strong>: Keeps the framework booted in RAM across FrankenPHP/Swoole workers (use container <code>scoped()</code> bindings cleanly).</li></ul>
+<h2>6. Docker / Laravel Sail &amp; Observability (<code>Horizon</code>, <code>Pulse</code>, <code>Telescope</code>)</h2>
+<h3>A. Local Containers with Laravel Sail (<code>compose.yaml</code>)</h3>
+<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash"># Install Sail inside an existing project (PHP + MySQL/PostgreSQL + Redis + Mailpit)
+composer require laravel/sail --dev
+php artisan sail:install --with=pgsql,redis,mailpit
+./vendor/bin/sail up -d
+./vendor/bin/sail artisan migrate --seed
+./vendor/bin/sail test</code></pre></div>
+<h3>B. Monitoring &amp; Debugging Packages</h3>
+<div class="table-wrap"><table><thead><tr><th>Package</th><th>Environment</th><th>Role</th><th>Install &amp; Protect</th></tr></thead><tbody><tr><td><strong>Laravel Horizon</strong></td><td>Production (Redis queues)</td><td>Queue throughput, retry UI, worker balancing</td><td><code>composer require laravel/horizon &amp;&amp; php artisan horizon:install</code>; gate with <code>Horizon::auth()</code></td></tr><tr><td><strong>Laravel Pulse</strong></td><td>Production</td><td>Slow queries, slow requests, cache hits, server CPU/RAM</td><td><code>composer require laravel/pulse &amp;&amp; php artisan pulse:install</code>; gate dashboard with <code>Gate::define(&#039;viewPulse&#039;, ...)</code></td></tr><tr><td><strong>Laravel Telescope</strong></td><td>Local / Dev only</td><td>Deep inspection of every SQL query, request, mail, exception</td><td><code>composer require laravel/telescope --dev &amp;&amp; php artisan telescope:install</code> (never expose publicly in production)</td></tr></tbody></table></div></div></article>
 <article class="chapter-card" id="ch-17" data-track="track-3"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-3">Track 3: Production</span><a class="source-link" href="chapters/17-troubleshooting-and-diagnostics/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">17.</span> Chapter 17 — Troubleshooting Playbook &amp; CLI Diagnostics</h2><button type="button" class="done-toggle" data-ch="ch-17" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Diagnose Laravel development, multi-guard auth, Vite, SQL, and production deployment errors systematically instead of guessing or clearing caches blindly.</p>
 <h2>1. Essential Diagnostic Commands First</h2>
 <div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan about                              # Active PHP version, drivers, caches &amp; APP_DEBUG mode
@@ -2705,7 +2833,9 @@ php artisan pail                               # Real-time colorized application
 php artisan optimize:clear                     # Clears config, route, view &amp; event caches locally</code></pre></div>
 <p><strong>Debugging Rule:</strong> Capture the exact HTTP method/URL/payload, read <code>storage/logs/laravel.log</code>, change ONE variable at a time, and add a regression Feature test before closing the fix. Never apply <code>chmod 777</code> or run <code>migrate:fresh</code> on real data.</p>
 <h2>2. Root-Cause Troubleshooting Reference Table</h2>
-<div class="table-wrap"><table><thead><tr><th>Symptom</th><th>Most Likely Root Cause</th><th>Exact Fix</th></tr></thead><tbody><tr><td><strong>HTTP 500 Internal Server Error</strong></td><td>Runtime PHP exception, missing <code>APP_KEY</code>, missing extension, unwritable <code>storage/</code></td><td>Inspect <code>storage/logs/laravel.log</code> &amp; PHP logs; run <code>php artisan about</code>; keep <code>APP_DEBUG=false</code> in production</td></tr><tr><td><strong>HTTP 419 Page Expired</strong></td><td>Missing <code>@csrf</code> token, wrong <code>SESSION_DOMAIN</code>, HTTPS proxy mismatch, unwritable sessions</td><td>Add <code>@csrf</code> in mutation &amp; logout forms; verify <code>.env</code> <code>APP_URL</code>, <code>SESSION_SECURE_COOKIE</code>, and writable <code>storage/framework/sessions</code></td></tr><tr><td><strong>HTTP 404 / Route Not Defined</strong></td><td>Stale route cache, verb mismatch (<code>GET</code> vs <code>POST</code>), missing Nginx <code>try_files</code> rewrite</td><td>Run <code>php artisan route:list --except-vendor</code>; confirm <code>try_files $uri $uri/ /index.php?$query_string;</code>; clear routes locally</td></tr><tr><td><strong><code>SQLSTATE[HY000] [2002]</code></strong></td><td>DB stopped, wrong <code>DB_HOST</code> (<code>127.0.0.1</code> vs <code>localhost</code> socket vs Docker service), missing PDO driver</td><td>Confirm DB service running, verify <code>.env</code> <code>DB_*</code> credentials, verify <code>pdo_mysql</code>/<code>pdo_sqlite</code> in <code>php -m</code></td></tr><tr><td><strong>Target Class Does Not Exist</strong></td><td>Namespace/folder mismatch, Linux case-sensitivity mismatch, stale Composer classmap</td><td>Match PSR-4 path (<code>App\Http\Middleware\AdminMiddleware</code> -&gt; <code>app/Http/Middleware/AdminMiddleware.php</code>) &amp; run <code>composer dump-autoload</code></td></tr><tr><td><strong><code>Vite manifest not found</code></strong></td><td>Assets not compiled (<code>public/build/manifest.json</code> missing) while <code>npm run dev</code> is off</td><td>Run <code>npm install &amp;&amp; npm run dev</code> locally or build &amp; deploy <code>public/build/</code> via <code>npm run build</code></td></tr><tr><td><strong>Uploaded Images Return 404</strong></td><td>Missing <code>public/storage</code> symlink or saving to private <code>local</code> disk instead of <code>public</code></td><td>Run <code>php artisan storage:link</code>; verify uploads call <code>-&gt;store(&#039;folder&#039;, &#039;public&#039;)</code> &amp; URLs use <code>Storage::url($path)</code></td></tr><tr><td><strong>Admin Guard Loads <code>User</code> Model</strong></td><td>Wrapping <code>admins</code> provider in <code>env(&#039;AUTH_MODEL&#039;, ...)</code> inside <code>config/auth.php</code></td><td>Hardcode <code>&#039;model&#039; =&gt; App\Models\Admin::class</code>, regenerate session on login, invalidate on logout</td></tr><tr><td><strong><code>env()</code> Returns <code>null</code> in Production</strong></td><td>Calling <code>env()</code> outside <code>config/*.php</code> after running <code>php artisan config:cache</code></td><td>Move every <code>env()</code> read into <code>config/*.php</code> and read via <code>config(&#039;file.key&#039;)</code> everywhere</td></tr><tr><td><strong>Queued Jobs Stay Pending</strong></td><td>Jobs queued (<code>QUEUE_CONNECTION=database</code>) without running worker or scheduler cron</td><td>Run <code>php artisan queue:work --tries=3</code>, check <code>queue:failed</code>, or schedule <code>--stop-when-empty</code> cron on cPanel</td></tr><tr><td><strong>Permission Denied (<code>storage/</code>, <code>bootstrap/cache/</code>)</strong></td><td>Web server process user lacks write ownership</td><td>Assign runtime owner (<code>chown -R www-data:www-data storage bootstrap/cache</code>) &amp; <code>775</code> dirs — never <code>777</code></td></tr></tbody></table></div></div></article>
+<div class="table-wrap"><table><thead><tr><th>Symptom</th><th>Most Likely Root Cause</th><th>Exact Fix</th></tr></thead><tbody><tr><td><strong>HTTP 500 Internal Server Error</strong></td><td>Runtime PHP exception, missing <code>APP_KEY</code>, missing extension, unwritable <code>storage/</code></td><td>Inspect <code>storage/logs/laravel.log</code> &amp; PHP logs; run <code>php artisan about</code>; keep <code>APP_DEBUG=false</code> in production</td></tr><tr><td><strong>HTTP 419 Page Expired</strong></td><td>Missing <code>@csrf</code> token, wrong <code>SESSION_DOMAIN</code>, HTTPS proxy mismatch, unwritable sessions</td><td>Add <code>@csrf</code> in mutation &amp; logout forms; verify <code>.env</code> <code>APP_URL</code>, <code>SESSION_SECURE_COOKIE</code>, and writable <code>storage/framework/sessions</code></td></tr><tr><td><strong>HTTP 404 / Route Not Defined</strong></td><td>Stale route cache, verb mismatch (<code>GET</code> vs <code>POST</code>), missing Nginx <code>try_files</code> rewrite</td><td>Run <code>php artisan route:list --except-vendor</code>; confirm <code>try_files $uri $uri/ /index.php?$query_string;</code>; clear routes locally</td></tr><tr><td><strong><code>SQLSTATE[HY000] [2002]</code></strong></td><td>DB stopped, wrong <code>DB_HOST</code> (<code>127.0.0.1</code> vs <code>localhost</code> socket vs Docker service), missing PDO driver</td><td>Confirm DB service running, verify <code>.env</code> <code>DB_*</code> credentials, verify <code>pdo_mysql</code>/<code>pdo_sqlite</code> in <code>php -m</code></td></tr><tr><td><strong>Target Class Does Not Exist</strong></td><td>Namespace/folder mismatch, Linux case-sensitivity mismatch, stale Composer classmap</td><td>Match PSR-4 path (<code>App\Http\Middleware\AdminMiddleware</code> -&gt; <code>app/Http/Middleware/AdminMiddleware.php</code>) &amp; run <code>composer dump-autoload</code></td></tr><tr><td><strong><code>Vite manifest not found</code></strong></td><td>Assets not compiled (<code>public/build/manifest.json</code> missing) while <code>npm run dev</code> is off</td><td>Run <code>npm install &amp;&amp; npm run dev</code> locally or build &amp; deploy <code>public/build/</code> via <code>npm run build</code></td></tr><tr><td><strong>Uploaded Images Return 404</strong></td><td>Missing <code>public/storage</code> symlink or saving to private <code>local</code> disk instead of <code>public</code></td><td>Run <code>php artisan storage:link</code>; verify uploads call <code>-&gt;store(&#039;folder&#039;, &#039;public&#039;)</code> &amp; URLs use <code>Storage::url($path)</code></td></tr><tr><td><strong>Admin Guard Loads <code>User</code> Model</strong></td><td>Wrapping <code>admins</code> provider in <code>env(&#039;AUTH_MODEL&#039;, ...)</code> inside <code>config/auth.php</code></td><td>Hardcode <code>&#039;model&#039; =&gt; App\Models\Admin::class</code>, regenerate session on login, invalidate on logout</td></tr><tr><td><strong><code>env()</code> Returns <code>null</code> in Production</strong></td><td>Calling <code>env()</code> outside <code>config/*.php</code> after running <code>php artisan config:cache</code></td><td>Move every <code>env()</code> read into <code>config/*.php</code> and read via <code>config(&#039;file.key&#039;)</code> everywhere</td></tr><tr><td><strong>Queued Jobs Stay Pending</strong></td><td>Jobs queued (<code>QUEUE_CONNECTION=database</code>) without running worker or scheduler cron</td><td>Run <code>php artisan queue:work --tries=3</code>, check <code>queue:failed</code>, or schedule <code>--stop-when-empty</code> cron on cPanel</td></tr><tr><td><strong>Permission Denied (<code>storage/</code>, <code>bootstrap/cache/</code>)</strong></td><td>Web server process user lacks write ownership</td><td>Assign runtime owner (<code>chown -R www-data:www-data storage bootstrap/cache</code>) &amp; <code>775</code> dirs — never <code>777</code></td></tr></tbody></table></div>
+<h2>3. Official Laravel 13 / 12 Documentation &amp; Ecosystem Resources</h2>
+<ul><li><a href="https://laravel.com/docs/13.x" class="md-link" target="_blank" rel="noopener">Laravel 13.x Official Documentation</a> — Routing, Eloquent, Blade, Queues, Reverb &amp; AI SDK</li><li><a href="https://laravel.com/docs/13.x/releases" class="md-link" target="_blank" rel="noopener">Laravel Release Notes &amp; Support Policy</a> — PHP minimums &amp; bug/security fix dates</li><li><a href="https://laravel.com/docs/13.x/installation" class="md-link" target="_blank" rel="noopener">Laravel Installation &amp; Starter Kits</a></li><li><a href="https://laravel.com/docs/13.x/deployment" class="md-link" target="_blank" rel="noopener">Laravel Deployment &amp; Server Requirements</a></li><li><a href="https://pestphp.com/docs" class="md-link" target="_blank" rel="noopener">Pest PHP Documentation</a> &amp; <a href="https://livewire.laravel.com/" class="md-link" target="_blank" rel="noopener">Laravel Livewire Docs</a></li><li><a href="https://laracasts.com/" class="md-link" target="_blank" rel="noopener">Laracasts Video Series</a></li><li><a href="https://owasp.org/www-project-top-ten/" class="md-link" target="_blank" rel="noopener">OWASP Top 10 Security Standards</a></li><li><a href="https://getcomposer.org/doc/" class="md-link" target="_blank" rel="noopener">Composer Documentation</a> &amp; <a href="https://www.php.net/manual/en/" class="md-link" target="_blank" rel="noopener">PHP 8.x Manual</a></li></ul></div></article>
 <article class="chapter-card" id="ch-18" data-track="track-3"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-3">Track 3: Production</span><a class="source-link" href="chapters/18-clean-architecture-cms-capstone-and-roadmap/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">18.</span> Chapter 18 — Clean Architecture, Automated Scaffolder, Capstone CMS &amp; 12-Week Roadmap</h2><button type="button" class="done-toggle" data-ch="ch-18" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Bring every pattern in this handbook together using layered domain boundaries, automated batch CMS scaffolding (<a href="./scripts/laravel_artisan_setup.sh" class="md-link"><code>laravel_artisan_setup.sh</code></a>), the <strong>EliteBlog Pro CMS</strong> capstone build, and a 12-week progression plan.</p>
 <h2>1. Clean Feature Architecture &amp; Engineering Standards</h2>
 <div class="code-block"><div class="code-head"><span class="code-lang">TEXT</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-text">app/
@@ -2727,6 +2857,122 @@ php artisan optimize:clear                     # Clears config, route, view &amp
 <ol><li>Server-side Policies (<code>Gate::authorize</code>) protect every mutation &amp; private download.</li><li>Validated inputs (<code>FormRequest</code>), eager-loaded queries (<code>Model::preventLazyLoading()</code>), and randomized protected uploads.</li><li>Passing Pest Feature suite covering guest, owner, unauthorized intruder (<code>403</code>), and Sanctum API flows.</li><li><code>APP_DEBUG=false</code>, tested backup/restore, CI checks green (<code>pint --test</code> &amp; <code>php artisan test</code>), and repeatable <code>artisan optimize</code> rollout.</li></ol>
 <h2>4. Hands-On Practice Builds &amp; 12-Week Roadmap</h2>
 <div class="table-wrap"><table><thead><tr><th>Weeks</th><th>Focus</th><th>Deliverable</th></tr></thead><tbody><tr><td><strong>1–2</strong></td><td>PHP 8.3+, Container DI, Lifecycle, Routing &amp; Controllers</td><td>Agency Landing Page (Demo 1)</td></tr><tr><td><strong>3–4</strong></td><td>Blade Components, Partials, Vite, Migrations &amp; Faker Seeders</td><td>Paginated Database CRUD App</td></tr><tr><td><strong>5–6</strong></td><td>Eloquent Relations (<code>1:1</code>, <code>1:N</code>, <code>N:N</code>), N+1 Fix &amp; Uploads</td><td>DevBlog Manager (Demo 2)</td></tr><tr><td><strong>7–8</strong></td><td>Policies, RBAC, Multi-Guard Auth (<code>web</code> + <code>admin</code>), Security</td><td>Guarded Task Manager &amp; Admin Portal</td></tr><tr><td><strong>9–10</strong></td><td>Sanctum APIs, Mail, Queues (<code>ShouldQueue</code>/<code>defer()</code>), Cache</td><td>REST API + Queued Job Pipeline</td></tr><tr><td><strong>11–12</strong></td><td>Pest/PHPUnit Fakes, Nginx/cPanel Deploy, CI &amp; Capstone</td><td>Live <strong>EliteBlog Pro CMS</strong></td></tr></tbody></table></div></div></article>
+<article class="chapter-card" id="ch-19" data-track="track-3"><header class="chapter-head"><div class="chapter-meta"><span class="track-badge track-3">Track 3: Production</span><a class="source-link" href="chapters/19-livewire-inertia-realtime-i18n-and-ecosystem/README.md">View Markdown &rarr;</a></div><div class="title-row"><h2><span class="ch-prefix">19.</span> Chapter 19 — Full-Stack Reactivity (Livewire 4, Inertia 2, Echo), Localization &amp; Official Packages</h2><button type="button" class="done-toggle" data-ch="ch-19" onclick="toggleDone(this)">Mark Complete</button></div></header><div class="chapter-body"><p>Round out modern Laravel 12/13 engineering with interactive full-stack UI stacks (<strong>Livewire 4</strong> and <strong>Inertia 2</strong>), real-time private WebSocket channels (<strong>Reverb + Laravel Echo</strong>), <strong>Localization (<code>i18n</code>)</strong>, and official packages (<strong>Socialite</strong>, <strong>Cashier</strong>, <strong>Scout</strong>).</p>
+<h2>1. Reactive PHP UI with Livewire 4 (<code>wire:model.live</code> + <code>#[Url]</code>)</h2>
+<div class="code-block"><div class="code-head"><span class="code-lang">BASH</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-bash">php artisan make:livewire PostSearch</code></pre></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// app/Livewire/PostSearch.php
+&lt;?php
+
+declare(strict_types=1);
+
+namespace App\Livewire;
+
+use App\Models\Post;
+use Illuminate\Contracts\View\View;
+use Livewire\Attributes\Url;
+use Livewire\Component;
+use Livewire\WithPagination;
+
+final class PostSearch extends Component
+{
+    use WithPagination;
+
+    #[Url(except: &#039;&#039;)]
+    public string $search = &#039;&#039;;
+
+    public function updatedSearch(): void
+    {
+        $this-&gt;resetPage();
+    }
+
+    public function render(): View
+    {
+        return view(&#039;livewire.post-search&#039;, [
+            &#039;posts&#039; =&gt; Post::published()
+                -&gt;when($this-&gt;search !== &#039;&#039;, fn ($q) =&gt; $q-&gt;where(&#039;title&#039;, &#039;like&#039;, &quot;%{$this-&gt;search}%&quot;))
+                -&gt;latest(&#039;published_at&#039;)
+                -&gt;paginate(10),
+        ]);
+    }
+}</code></pre></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">BLADE</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-blade">{{-- resources/views/livewire/post-search.blade.php --}}
+&lt;div&gt;
+    &lt;input type=&quot;search&quot; wire:model.live.debounce.300ms=&quot;search&quot; placeholder=&quot;Search articles...&quot;&gt;
+    @foreach ($posts as $post)
+        &lt;article wire:key=&quot;post-{{ $post-&gt;id }}&quot;&gt;{{ $post-&gt;title }}&lt;/article&gt;
+    @endforeach
+    {{ $posts-&gt;links() }}
+&lt;/div&gt;</code></pre></div>
+<p><em>(In Pest tests: <code>Livewire::test(PostSearch::class)-&gt;set(&#039;search&#039;, &#039;Laravel&#039;)-&gt;assertSee(&#039;Laravel Guide&#039;);</code>)</em></p>
+<h2>2. Server-Routed React / Vue SPAs with Inertia 2</h2>
+<p>Keep server sessions, CSRF protection, and Eloquent models without maintaining a separate REST client:</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// app/Http/Controllers/PostController.php
+use Inertia\Inertia;
+use Inertia\Response;
+
+public function index(Request $request): Response
+{
+    return Inertia::render(&#039;Posts/Index&#039;, [
+        &#039;posts&#039; =&gt; PostResource::collection(Post::with(&#039;author:id,name&#039;)-&gt;latest()-&gt;paginate(15)),
+        &#039;filters&#039; =&gt; $request-&gt;only([&#039;search&#039;]),
+    ]);
+}</code></pre></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">TSX</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-tsx">// resources/js/pages/Posts/Index.tsx (React + TypeScript)
+import { Link, useForm } from &#039;@inertiajs/react&#039;;
+
+export function QuickCreateForm() {
+    const { data, setData, post, processing, errors } = useForm({ title: &#039;&#039; });
+    return (
+        &lt;form onSubmit={(e) =&gt; { e.preventDefault(); post(&#039;/posts&#039;); }}&gt;
+            &lt;input value={data.title} onChange={(e) =&gt; setData(&#039;title&#039;, e.target.value)} /&gt;
+            {errors.title &amp;&amp; &lt;p&gt;{errors.title}&lt;/p&gt;}
+            &lt;button disabled={processing}&gt;Save Post&lt;/button&gt;
+        &lt;/form&gt;
+    );
+}</code></pre></div>
+<h2>3. Real-Time Broadcasting (<code>ShouldBroadcast</code> + <code>channels.php</code> + Laravel Echo)</h2>
+<ol><li>Broadcast an event after database changes (<code>implements ShouldBroadcast</code>):</li></ol>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">   final class OrderUpdated implements ShouldBroadcast
+   {
+       use Dispatchable, InteractsWithSockets, SerializesModels;
+
+       public function __construct(public readonly Order $order) {}
+
+       public function broadcastOn(): array
+       {
+           return [new PrivateChannel(&#039;orders.&#039; . $this-&gt;order-&gt;id)];
+       }
+   }</code></pre></div>
+<ol><li>Authorize private channel listeners inside <code>routes/channels.php</code>:</li></ol>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">   Broadcast::channel(&#039;orders.{orderId}&#039;, fn (User $user, int $orderId): bool =&gt;
+       $user-&gt;orders()-&gt;whereKey($orderId)-&gt;exists()
+   );</code></pre></div>
+<ol><li>Listen on the frontend via <strong>Laravel Echo</strong> connected to <strong>Laravel Reverb</strong>:</li></ol>
+<div class="code-block"><div class="code-head"><span class="code-lang">JAVASCRIPT</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-javascript">   window.Echo.private(`orders.${orderId}`)
+       .listen(&#039;OrderUpdated&#039;, (event) =&gt; {
+           console.log(&#039;Live status:&#039;, event.order.status);
+       });</code></pre></div>
+<h2>4. Localization &amp; Multi-Language (<code>i18n</code>)</h2>
+<p>Store JSON translations cleanly in <code>lang/en.json</code> and <code>lang/es.json</code> (publish <code>lang/</code> via <code>php artisan lang:publish</code>):</p>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// Middleware switching active locale per user preference or URL segment
+app()-&gt;setLocale(session(&#039;locale&#039;, config(&#039;app.locale&#039;)));
+
+// Blade / Controllers / Notifications
+__(&#039;Welcome back, :name&#039;, [&#039;name&#039; =&gt; $user-&gt;name]);
+trans_choice(&#039;{0} No posts|{1} :count post|[2,*] :count posts&#039;, $count);</code></pre></div>
+<h2>5. Official Ecosystem Packages (<code>Socialite</code>, <code>Cashier</code>, <code>Scout</code>)</h2>
+<div class="table-wrap"><table><thead><tr><th>Package</th><th>Purpose</th><th>Core Entry Pattern</th></tr></thead><tbody><tr><td><strong>Laravel Socialite</strong></td><td>OAuth login (GitHub, Google, LinkedIn)</td><td><code>Socialite::driver(&#039;github&#039;)-&gt;redirect()</code> -&gt; <code>Socialite::driver(&#039;github&#039;)-&gt;user()</code> -&gt; <code>User::updateOrCreate(...)</code></td></tr><tr><td><strong>Laravel Cashier</strong></td><td>Stripe / Paddle recurring billing &amp; Checkout</td><td><code>$user-&gt;newSubscription(&#039;pro&#039;, $priceId)-&gt;checkout([&#039;success_url&#039; =&gt; ..., &#039;cancel_url&#039; =&gt; ...])</code> + Stripe webhooks</td></tr><tr><td><strong>Laravel Scout</strong></td><td>Full-text driver search (Meilisearch, Typesense, PostgreSQL/MySQL <code>database</code>)</td><td><code>use Searchable;</code> on Model + <code>#[SearchUsingFullText([&#039;title&#039;, &#039;body&#039;])]</code> + <code>Post::search($q)-&gt;paginate(15)</code></td></tr></tbody></table></div>
+<div class="code-block"><div class="code-head"><span class="code-lang">PHP</span><button type="button" class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre><code class="language-php">// Example: Scout searchable attributes + database engine query
+final class Post extends Model
+{
+    use HasFactory, Searchable;
+
+    #[SearchUsingFullText([&#039;title&#039;, &#039;body&#039;])]
+    public function toSearchableArray(): array
+    {
+        return [&#039;title&#039; =&gt; $this-&gt;title, &#039;body&#039; =&gt; $this-&gt;body];
+    }
+}</code></pre></div></div></article>
 
         <article class="chapter-card" id="quiz-section" data-track="track-quiz">
           <header class="chapter-head">
@@ -2735,14 +2981,14 @@ php artisan optimize:clear                     # Clears config, route, view &amp
               <a class="source-link" href="./CHEATSHEET.md">Open Commands Cheatsheet &rarr;</a>
             </div>
             <div class="title-row">
-              <h2><span class="ch-prefix">QZ.</span> Interactive Laravel Mastery Check (12 Questions)</h2>
+              <h2><span class="ch-prefix">QZ.</span> Interactive Laravel Mastery Check (15 Questions)</h2>
               <button type="button" class="done-toggle" onclick="resetQuizzes()">Reset Quizzes</button>
             </div>
           </header>
           <div class="chapter-body">
             <div class="quiz-header">
-              <strong id="quizSummary">Answered 0 / 12 &bull; Score: 0 correct</strong>
-              <span style="font-size:0.85rem;color:var(--muted)">Covers routing, Blade, Faker, N+1, multi-auth guards, CSRF &amp; production deployment.</span>
+              <strong id="quizSummary">Answered 0 / 15 &bull; Score: 0 correct</strong>
+              <span style="font-size:0.85rem;color:var(--muted)">Covers routing, Blade, Faker, N+1, polymorphic relations, locking, multi-auth guards, rate limiting &amp; production ops.</span>
             </div>
             <div id="quizRoot"></div>
           </div>
@@ -2753,7 +2999,7 @@ php artisan optimize:clear                     # Clears config, route, view &amp
   </div>
 
   <script>
-    const totalChapters = 18;
+    const totalChapters = 19;
     const storageKey = 'laravel_handbook_done_v2';
     const themeKey = 'laravel_handbook_theme_v1';
     let activeTrack = 'all';
@@ -2858,7 +3104,10 @@ php artisan optimize:clear                     # Clears config, route, view &amp
       ['Which HTTP method should trigger Admin or User logout in Blade templates?', ['GET /logout anchor link', 'POST /logout form with @csrf', 'HEAD /logout'], 1, 'Always use POST with @csrf so third-party pages cannot force-logout signed-in users.'],
       ['Where should env("MY_KEY") calls be placed so `php artisan config:cache` works cleanly in production?', ['Inside controllers directly', 'Only inside config/*.php files, then read via config("file.key")', 'Inside Blade views'], 1, 'Once config:cache runs, .env is not loaded directly and env() outside config/ returns null.'],
       ['Where are custom middleware aliases registered cleanly in Laravel 11 / 12 / 13?', ['bootstrap/app.php (->withMiddleware())', 'public/index.php', 'config/session.php'], 0, 'Laravel 11–13 registers middleware aliases and routing hooks centrally inside bootstrap/app.php.'],
-      ['What causes "Vite manifest not found at public/build/manifest.json"?', ['Missing composer.json', 'Assets were not compiled with npm run build and npm run dev is not running', 'Missing storage symlink'], 1, 'Run npm run dev locally or deploy public/build/ built with npm run build.']
+      ['What causes "Vite manifest not found at public/build/manifest.json"?', ['Missing composer.json', 'Assets were not compiled with npm run build and npm run dev is not running', 'Missing storage symlink'], 1, 'Run npm run dev locally or deploy public/build/ built with npm run build.'],
+      ['Which migration helper creates both *_id and *_type columns with an index for Polymorphic relations?', ['$table->morphs("commentable")', '$table->foreignId("commentable")', '$table->string("commentable")'], 0, 'morphs() creates the unsigned big integer ID, type string column, and composite index cleanly.'],
+      ['How do you prevent concurrent race conditions when updating a wallet balance inside DB::transaction()?', ['Wallet::all()', 'Wallet::whereKey($id)->lockForUpdate()->firstOrFail()', 'Wallet::chunk(10)'], 1, 'lockForUpdate() acquires a pessimistic row lock until the outer DB transaction commits.'],
+      ['Where should named API rate limiters (`RateLimiter::for("api", ...)`) be registered?', ['Inside resources/views/', 'Inside AppServiceProvider::boot()', 'Inside database/seeders/'], 1, 'Define custom RateLimiter rules in AppServiceProvider::boot() and reference them with throttle:api.']
     ];
 
     const quizResults = new Array(quizQuestions.length).fill(null);

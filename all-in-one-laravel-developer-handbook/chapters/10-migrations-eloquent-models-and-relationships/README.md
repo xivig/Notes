@@ -251,10 +251,59 @@ Paginated Blade table preserving continuous item indices (`$posts->firstItem() +
 {{ $posts->links() }}
 ```
 
-Enable local lazy-load guard in `AppServiceProvider::boot()` and prefer flat `DB::table()->join()` queries only for heavy un-hydrated analytics tables:
+Enable local lazy-load guard in `AppServiceProvider::boot()`, and use explicit SQL joins (`DB::table()`) for flat un-hydrated analytics dashboards:
 ```php
 Model::preventLazyLoading(! app()->isProduction());
+
+// Query Builder multi-table reporting join
+$summary = DB::table('posts')
+    ->join('categories', 'categories.id', '=', 'posts.category_id')
+    ->select('categories.name', DB::raw('COUNT(posts.id) as total'))
+    ->where('posts.status', 'published')
+    ->groupBy('categories.name')
+    ->get();
 ```
+
+---
+
+## 6. Polymorphic Relations, SoftDeletes, Chunking & Concurrency Locking
+
+### A. Polymorphic Relations (`morphMany` / `morphTo`)
+Attach shared comments or attachments to multiple models (`Post`, `Gallery`, `Page`) using one table:
+```php
+// Migration: creates commentable_id (unsignedBigInteger) + commentable_type (string) + composite index
+Schema::create('comments', function (Blueprint $table) {
+    $table->id();
+    $table->morphs('commentable');
+    $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+    $table->text('body');
+    $table->timestamps();
+});
+
+// App\Models\Comment -> public function commentable(): MorphTo { return $this->morphTo(); }
+// App\Models\Post    -> public function comments(): MorphMany { return $this->morphMany(Comment::class, 'commentable'); }
+```
+
+### B. SoftDeletes Lifecycle, `chunkById` & Pessimistic Locking (`lockForUpdate`)
+- **SoftDeletes recovery**: `Post::onlyTrashed()->get()`, `$post->restore()`, `$post->forceDelete()`.
+- **Large dataset streaming (no OOM)**: process thousands of rows safely without hydrating everything into RAM at once:
+  ```php
+  Post::where('status', 'draft')->chunkById(200, function ($batch) {
+      foreach ($batch as $post) {
+          // Safe batched processing
+      }
+  });
+  // Or memory-flat generator cursor:
+  foreach (Post::published()->lazyById(200) as $post) { /* ... */ }
+  ```
+- **Model Observer (`#[ObservedBy(PostObserver::class)]`)**: bust `Cache::forget('homepage.stats')` on `created`/`updated`/`deleted`.
+- **Atomic balance/quota updates (`lockForUpdate`)**:
+  ```php
+  DB::transaction(function () use ($walletId, $amount): void {
+      $wallet = Wallet::whereKey($walletId)->lockForUpdate()->firstOrFail();
+      $wallet->decrement('balance_cents', $amount);
+  });
+  ```
 
 ## Try It Locally
 Run our SQLite in-memory lab verifying lazy N+1 query counts vs batched eager loading (`IN (...)`):

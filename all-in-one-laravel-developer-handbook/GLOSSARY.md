@@ -52,8 +52,14 @@ In `config/auth.php`, a **Guard** defines *how* users stay authenticated (`sessi
 ### **IDOR (Insecure Direct Object Reference)**
 Vulnerability where an endpoint accepts `/posts/{id}` or `/tasks/{id}` without verifying the authenticated user owns or is authorized for that record. Defended by **Policies** + `Gate::authorize(...)`.
 
-### **Inertia**
-Glue layer letting Laravel controllers render server-routed React, Vue, or Svelte components cleanly with standard session auth and zero duplicated API plumbing.
+### **Inertia & Laravel Echo**
+**Inertia** lets Laravel controllers render server-routed React/Vue SPAs with standard session auth, while **Laravel Echo** subscribes frontend clients to real-time WebSocket channels served by **Laravel Reverb**.
+
+### **Laravel Horizon, Pulse & Telescope**
+Official telemetry tools: **Horizon** monitors Redis queues/workers, **Pulse** tracks slow queries/requests in production, and **Telescope** inspects local requests, queries, emails, and exceptions during development.
+
+### **Localization (`i18n` / `__()` / `trans_choice()`)**
+Multi-language translation lookups backed by JSON/PHP files under `lang/` (`__('Welcome')`) paired with session/route locale middleware (`app()->setLocale(...)`).
 
 ### **Livewire**
 Full-stack Laravel framework enabling reactive dynamic UIs (modals, live search, forms) directly in PHP + Blade components without authoring a separate JavaScript SPA.
@@ -67,8 +73,23 @@ Sequential HTTP pipeline layers inspecting or transforming requests/responses ar
 ### **N+1 Query Problem**
 Fetching $N$ parent models in 1 query and lazily querying a relation inside a loop $N$ times (`$post->author->name`). Fix with eager loading (`Post::with('author')`) and catch locally via `Model::preventLazyLoading()`.
 
+### **Notification (`ShouldQueue`)**
+Multi-channel alert class (`mail`, `database`, Slack, SMS) sent via `$user->notify(...)` and stored cleanly for unread feeds in the `notifications` table.
+
+### **Pessimistic Locking (`lockForUpdate`) & `chunkById`**
+Query primitives preventing concurrent race conditions inside `DB::transaction()` (`->lockForUpdate()`) and processing large datasets safely without memory exhaustion (`->chunkById()` / `->lazyById()`).
+
+### **Polymorphic Relation (`morphTo` / `morphMany`)**
+Eloquent association allowing a single model (`Comment`, `Media`, `Tag`) to belong to multiple parent model types (`Post`, `Gallery`, `Page`) via `*_id` and `*_type` columns.
+
 ### **Policy**
 Dedicated class mapping model permissions (`view`, `create`, `update`, `delete`) to user/record checks (`PostPolicy`), enforced server-side with `Gate::authorize('update', $post)` and in Blade via `@can`.
+
+### **RateLimiter (`RateLimiter::for()`)**
+Central request throttling rules configured in `AppServiceProvider::boot()` and applied to routes via `throttle:<name>` middleware.
+
+### **Socialite, Cashier & Scout**
+Official Laravel packages for OAuth login (**Socialite**), Stripe/Paddle subscriptions (**Cashier**), and full-text driver search (**Scout**).
 
 ### **PSR-4 Autoloading**
 PHP/Composer standard mapping namespace prefixes directly to folder paths (e.g., `App\Models\Post` -> `app/Models/Post.php`), eliminating manual `require` statements.

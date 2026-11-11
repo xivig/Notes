@@ -185,11 +185,30 @@ php artisan route:list --except-vendor
 php artisan queue:failed
 php artisan vendor:publish --list
 
-# Release build & cache lifecycle
+# Release build, Sail, observability & cache lifecycle
 composer install --no-dev --optimize-autoloader
 npm ci && npm run build
 php artisan migrate --force
 php artisan optimize               # Caches config, routes, events & views
+./vendor/bin/sail up -d            # Start Docker PHP + DB + Redis + Mailpit
 # Local reset:
 php artisan optimize:clear
+```
+
+---
+
+## 8. Advanced Ecosystem Quick Reference
+
+```php
+// Polymorphic relation & streaming chunks without OOM
+$table->morphs('commentable');
+Post::published()->chunkById(200, fn ($posts) => /* ... */);
+Wallet::whereKey($id)->lockForUpdate()->firstOrFail();
+
+// Custom API rate limiter (AppServiceProvider::boot)
+RateLimiter::for('api', fn (Request $r) => Limit::perMinute(120)->by($r->user()?->id ?: $r->ip()));
+
+// Multi-channel Notification, i18n, Livewire & Echo
+$user->notify(new PostPublishedNotification($post));
+__('Welcome back, :name', ['name' => $user->name]);
 ```

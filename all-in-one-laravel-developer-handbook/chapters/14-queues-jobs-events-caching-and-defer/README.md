@@ -119,3 +119,63 @@ Server cron entry:
 ```cron
 * * * * * cd /path/to/laravel-app && php artisan schedule:run >> /dev/null 2>&1
 ```
+
+---
+
+## 5. Multi-Channel Notifications & Custom Artisan Commands
+
+### A. Multi-Channel Notification (`php artisan make:notification PostPublishedNotification`)
+Send email + in-app `notifications` table alerts cleanly in one class (run `php artisan make:notifications-table && php artisan migrate` for DB storage):
+```php
+final class PostPublishedNotification extends Notification implements ShouldQueue
+{
+    use Queueable;
+
+    public function __construct(public readonly Post $post) {}
+
+    public function via(object $notifiable): array
+    {
+        return ['mail', 'database'];
+    }
+
+    public function toMail(object $notifiable): MailMessage
+    {
+        return (new MailMessage)
+            ->subject('Published: ' . $this->post->title)
+            ->action('Read Post', route('posts.show', $this->post));
+    }
+
+    public function toArray(object $notifiable): array
+    {
+        return ['post_id' => $this->post->id, 'title' => $this->post->title];
+    }
+}
+
+// Dispatch & read unread feed:
+$user->notify(new PostPublishedNotification($post));
+$unread = $user->unreadNotifications;
+```
+
+### B. Custom Artisan Console Command (`php artisan make:command PruneDraftsCommand`)
+```php
+final class PruneDraftsCommand extends Command
+{
+    protected $signature = 'posts:prune {--days=30 : Delete drafts older than N days} {--dry-run}';
+    protected $description = 'Prune stale unpublished drafts';
+
+    public function handle(): int
+    {
+        $cutoff = now()->subDays((int) $this->option('days'));
+        $query = Post::where('status', 'draft')->where('updated_at', '<', $cutoff);
+
+        if ($this->option('dry-run')) {
+            $this->info('Would prune: ' . $query->count() . ' drafts.');
+            return self::SUCCESS;
+        }
+
+        $deleted = $query->delete();
+        $this->info("Pruned {$deleted} stale drafts.");
+        return self::SUCCESS;
+    }
+}
+```

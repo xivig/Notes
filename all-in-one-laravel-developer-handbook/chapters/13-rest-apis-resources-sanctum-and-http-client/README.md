@@ -142,3 +142,27 @@ $responses = Http::pool(concurrency: 4, callback: fn ($pool) => [
     $pool->as('metrics')->get('https://api.example.com/metrics'),
 ]);
 ```
+
+---
+
+## 4. Named Rate Limiters (`RateLimiter::for()`) & Webhook Signature Guard
+
+Configure named limiters referenced by `throttle:api` inside `AppServiceProvider::boot()`:
+```php
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
+
+RateLimiter::for('api', function (Request $request) {
+    return $request->user()
+        ? Limit::perMinute(120)->by((string) $request->user()->id)
+        : Limit::perMinute(30)->by((string) $request->ip());
+});
+```
+
+Verify incoming third-party webhooks (Stripe/GitHub) in constant time with `hash_equals`:
+```php
+$expected = hash_hmac('sha256', $request->getContent(), config('services.webhook.secret'));
+$signature = (string) $request->header('X-Webhook-Signature', '');
+abort_unless(hash_equals($expected, $signature), 401, 'Invalid webhook signature.');
+```

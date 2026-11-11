@@ -109,3 +109,24 @@ jobs:
 - **Laravel AI SDK (Laravel 13)**: First-party `laravel/ai` package supporting structured outputs, embeddings, vector stores, and `Agent::fake()` in automated tests.
 - **Laravel Reverb**: `php artisan install:broadcasting && php artisan reverb:start` for real-time WebSockets without external SaaS fees.
 - **Laravel Octane**: Keeps the framework booted in RAM across FrankenPHP/Swoole workers (use container `scoped()` bindings cleanly).
+
+---
+
+## 6. Docker / Laravel Sail & Observability (`Horizon`, `Pulse`, `Telescope`)
+
+### A. Local Containers with Laravel Sail (`compose.yaml`)
+```bash
+# Install Sail inside an existing project (PHP + MySQL/PostgreSQL + Redis + Mailpit)
+composer require laravel/sail --dev
+php artisan sail:install --with=pgsql,redis,mailpit
+./vendor/bin/sail up -d
+./vendor/bin/sail artisan migrate --seed
+./vendor/bin/sail test
+```
+
+### B. Monitoring & Debugging Packages
+| Package | Environment | Role | Install & Protect |
+| :--- | :--- | :--- | :--- |
+| **Laravel Horizon** | Production (Redis queues) | Queue throughput, retry UI, worker balancing | `composer require laravel/horizon && php artisan horizon:install`; gate with `Horizon::auth()` |
+| **Laravel Pulse** | Production | Slow queries, slow requests, cache hits, server CPU/RAM | `composer require laravel/pulse && php artisan pulse:install`; gate dashboard with `Gate::define('viewPulse', ...)` |
+| **Laravel Telescope** | Local / Dev only | Deep inspection of every SQL query, request, mail, exception | `composer require laravel/telescope --dev && php artisan telescope:install` (never expose publicly in production) |

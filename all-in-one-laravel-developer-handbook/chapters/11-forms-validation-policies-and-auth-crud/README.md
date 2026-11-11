@@ -33,8 +33,17 @@ final class UpdatePostRequest extends FormRequest
 }
 ```
 Pass ONLY `$request->validated()` into `create()` / `update()`.
-- **Public assets**: `$path = $request->file('cover')->store('post-covers', 'public');` (delete replaced image with `Storage::disk('public')->delete($oldPath)`).
-- **Private documents**: `$path = $request->file('doc')->store('private-docs', 'local');`, streamed strictly after `Gate::authorize('download', $doc)`.
+- **Public assets**: `$path = $request->file('cover')->store('post-covers', 'public');` (delete replaced files via `Storage::disk('public')->delete($oldPath)`).
+- **Private documents (Policy-gated stream)**:
+  ```php
+  public function download(Document $document): StreamedResponse
+  {
+      Gate::authorize('download', $document);
+      abort_unless(Storage::disk('local')->exists($document->storage_path), 404);
+
+      return Storage::disk('local')->download($document->storage_path, $document->original_name);
+  }
+  ```
 
 ---
 
@@ -62,8 +71,16 @@ final class TaskPolicy
 ### RBAC Tables Schema (`roles`, `permissions`, `role_user`, `permission_role`)
 When admins & editors share one `users` table, prefer single-guard RBAC over duplicating auth tables:
 ```php
-Schema::create('roles', fn (Blueprint $t) => $t->id() && $t->string('name')->unique());
-Schema::create('permissions', fn (Blueprint $t) => $t->id() && $t->string('name')->unique());
+Schema::create('roles', function (Blueprint $t) {
+    $t->id();
+    $t->string('name')->unique();
+    $t->timestamps();
+});
+Schema::create('permissions', function (Blueprint $t) {
+    $t->id();
+    $t->string('name')->unique();
+    $t->timestamps();
+});
 Schema::create('role_user', function (Blueprint $t) {
     $t->foreignId('role_id')->constrained()->cascadeOnDelete();
     $t->foreignId('user_id')->constrained()->cascadeOnDelete();

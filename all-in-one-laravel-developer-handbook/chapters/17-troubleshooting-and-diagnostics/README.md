@@ -34,3 +34,16 @@ php artisan optimize:clear                     # Clears config, route, view & ev
 | **`env()` Returns `null` in Production** | Calling `env()` outside `config/*.php` after running `php artisan config:cache` | Move every `env()` read into `config/*.php` and read via `config('file.key')` everywhere |
 | **Queued Jobs Stay Pending** | Jobs queued (`QUEUE_CONNECTION=database`) without running worker or scheduler cron | Run `php artisan queue:work --tries=3`, check `queue:failed`, or schedule `--stop-when-empty` cron on cPanel |
 | **Permission Denied (`storage/`, `bootstrap/cache/`)** | Web server process user lacks write ownership | Assign runtime owner (`chown -R www-data:www-data storage bootstrap/cache`) & `775` dirs — never `777` |
+
+---
+
+## 3. Official Laravel 13 / 12 Documentation & Ecosystem Resources
+
+- [Laravel 13.x Official Documentation](https://laravel.com/docs/13.x) — Routing, Eloquent, Blade, Queues, Reverb & AI SDK
+- [Laravel Release Notes & Support Policy](https://laravel.com/docs/13.x/releases) — PHP minimums & bug/security fix dates
+- [Laravel Installation & Starter Kits](https://laravel.com/docs/13.x/installation)
+- [Laravel Deployment & Server Requirements](https://laravel.com/docs/13.x/deployment)
+- [Pest PHP Documentation](https://pestphp.com/docs) & [Laravel Livewire Docs](https://livewire.laravel.com/)
+- [Laracasts Video Series](https://laracasts.com/)
+- [OWASP Top 10 Security Standards](https://owasp.org/www-project-top-ten/)
+- [Composer Documentation](https://getcomposer.org/doc/) & [PHP 8.x Manual](https://www.php.net/manual/en/)

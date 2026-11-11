@@ -1,10 +1,11 @@
 # 📚 Xivig Developer Notes & Knowledge Base
 
-[![Topics](https://img.shields.io/badge/Knowledge%20Base-15%20Disciplines-6366f1?style=flat-square)](.)
+[![Topics](https://img.shields.io/badge/Knowledge%20Base-16%20Disciplines-6366f1?style=flat-square)](.)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES2024%2B-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](JavaScript/)
 [![DOM](https://img.shields.io/badge/DOM-W3C%20%2F%20WHATWG-E34F26?style=flat-square&logo=html5&logoColor=white)](DOM/dom-facts.md)
 [![jQuery](https://img.shields.io/badge/jQuery-4.0.0-0769AD?style=flat-square&logo=jquery&logoColor=white)](jQuery/README.md)
 [![Jasmine](https://img.shields.io/badge/Testing-Jasmine%20BDD-8A4182?style=flat-square&logo=jasmine&logoColor=white)](Jasmine/unitTest-Jasmine-config.md)
+[![PHP](https://img.shields.io/badge/PHP-8.0%20--%208.5-777BB4?style=flat-square&logo=php&logoColor=white)](all-in-one-php-tutorial/README.md)
 [![Git](https://img.shields.io/badge/Git-2.40%2B-F05032?style=flat-square&logo=git&logoColor=white)](git-essential-commands/README.md)
 [![MySQL](https://img.shields.io/badge/MySQL-8.4%20LTS-4479A1?style=flat-square&logo=mysql&logoColor=white)](mysql-cheatsheet-example/README.md)
 [![Markdown](https://img.shields.io/badge/Markdown-GFM%20%2F%20Mermaid-000000?style=flat-square&logo=markdown&logoColor=white)](Markdown/README.md)
@@ -36,6 +37,7 @@ xivig-all-in-one-notes/
 ├── mysql-cheatsheet-example/    # MySQL 8.4 LTS handbook (Stages 0–18), cheatsheet & practice lab
 ├── homebrew-installer-script/   # Idempotent macOS workstation bootstrap script (homebrew.sh)
 ├── sublime-text-editor-trick/   # Sublime Text shortcuts, multi-cursor, Emmet, snippets & builds
+├── all-in-one-php-tutorial/     # Modern PHP 8.0–8.5 18-chapter handbook, runnable labs & portal
 └── rc-meaning.md                # The historical meaning and origin of Unix 'rc' files
 ```
 
@@ -163,6 +165,13 @@ xivig-all-in-one-notes/
 ### 15. 💡 [Unix & Linux Shell Configuration (`rc` Files)](rc-meaning.md)
 * **[The Meaning and History of Unix `rc` Files](rc-meaning.md)**: Historical origin from MIT CTSS `"runcom"` (Run Commands), everyday dotfiles (`.bashrc`, `.zshrc`, `.vimrc`, `.npmrc`, `.curlrc`), why hidden dot-files exist, and Login (`~/.bash_profile`, `~/.zprofile`) vs Non-Login Interactive (`~/.bashrc`, `~/.zshrc`) shell execution order.
 
+### 16. 🐘 [Modern PHP 8.x All-in-One Developer Handbook](all-in-one-php-tutorial/README.md)
+* **Master Hub & Resources**: 📘 **[18-Chapter PHP Handbook](all-in-one-php-tutorial/README.md)** · 🌐 **[Interactive Handbook Portal (`index.html`)](all-in-one-php-tutorial/index.html)** · ⚡ **[Developer Cheatsheet](all-in-one-php-tutorial/CHEATSHEET.md)** · 📖 **[A–Z Glossary](all-in-one-php-tutorial/GLOSSARY.md)** · 📦 **[PSR-4 `composer.json`](all-in-one-php-tutorial/composer.json)** · 🧪 **[Lab Verification Runner](all-in-one-php-tutorial/run-all-examples.php)**.
+* **Track 1 — PHP Core Foundations**: [01. Foundations & Tooling](all-in-one-php-tutorial/chapters/01-php-foundations-and-tooling/README.md) · [02. Types & Strict Mode](all-in-one-php-tutorial/chapters/02-types-variables-and-strict-mode/README.md) · [03. Operators & Control Flow](all-in-one-php-tutorial/chapters/03-operators-and-control-flow/README.md) · [04. Functions, Closures & Callables](all-in-one-php-tutorial/chapters/04-functions-closures-and-callables/README.md) · [05. Arrays & Pipelines](all-in-one-php-tutorial/chapters/05-arrays-and-functional-pipelines/README.md) · [06. Strings, Regex & DateTimeImmutable](all-in-one-php-tutorial/chapters/06-strings-regex-and-datetime/README.md).
+* **Track 2 — Object-Oriented Mastery**: [07. OOP Foundations & Inheritance](all-in-one-php-tutorial/chapters/07-oop-foundations-and-inheritance/README.md) · [08. Magic Methods & Lifecycle](all-in-one-php-tutorial/chapters/08-magic-methods-and-object-lifecycle/README.md) · [09. Abstraction, Polymorphism & Traits](all-in-one-php-tutorial/chapters/09-abstraction-polymorphism-and-traits/README.md) · [10. Encapsulation, Readonly & LSB](all-in-one-php-tutorial/chapters/10-encapsulation-immutability-and-lsb/README.md) · [11. Namespaces, PSR-4 & Composer](all-in-one-php-tutorial/chapters/11-namespaces-psr4-and-composer/README.md).
+* **Track 3 — Modern PHP 8.0–8.5 Architecture**: [12. Type System, Promotion & Enums](all-in-one-php-tutorial/chapters/12-modern-php-8-type-system-and-enums/README.md) · [13. Attributes, Property Hooks (8.4) & Pipe (8.5)](all-in-one-php-tutorial/chapters/13-modern-php-8-syntax-attributes-and-hooks/README.md) · [14. Error Handling, Exceptions & Fibers](all-in-one-php-tutorial/chapters/14-error-handling-exceptions-and-fibers/README.md).
+* **Track 4 — Applied Security, PDO & Production Architecture**: [15. Files, JSON, HTTP/cURL & CLI](all-in-one-php-tutorial/chapters/15-files-json-http-and-cli/README.md) · [16. Web Security, Passwords & CSRF](all-in-one-php-tutorial/chapters/16-web-security-sessions-and-validation/README.md) · [17. PDO & Transactions](all-in-one-php-tutorial/chapters/17-databases-pdo-and-transactions/README.md) · [18. Testing, Performance & Architecture](all-in-one-php-tutorial/chapters/18-testing-performance-and-architecture/README.md).
+
 ---
 
 ## 🚀 Quick Reference Snippets
@@ -188,7 +197,7 @@ document.querySelector('#todo-list').addEventListener('click', (e) => {
 });
 ```
 
-### Daily Git, MySQL Lab & macOS Bootstrap
+### Daily Git, MySQL, macOS Bootstrap & PHP Labs
 ```bash
 # Inspect compact Git status, diff staged changes, or install aliases
 git status -sb && git diff --staged
@@ -199,10 +208,13 @@ mysql -h 127.0.0.1 -u root -p < mysql-cheatsheet-example/mysql-developer-lab.sql
 
 # Non-interactive macOS workstation bootstrap
 INSTALL_CASKS=yes INSTALL_LANGUAGES=yes ./homebrew-installer-script/homebrew.sh
+
+# Run and verify all compatible Modern PHP 8.x handbook labs
+php all-in-one-php-tutorial/run-all-examples.php
 ```
 
 ---
 
 ## 🤝 License
 
-Distributed under the **[GNU General Public License v3.0](LICENSE)** (with imported companion repositories—`git-essential-commands`, `homebrew-installer-script`, `mysql-cheatsheet-example`, and `sublime-text-editor-trick`—retaining their respective **MIT Licenses** in each directory's `LICENSE` file). Free for personal, educational, and open-source software development.
+Distributed under the **[GNU General Public License v3.0](LICENSE)** (with imported companion repositories—`git-essential-commands`, `homebrew-installer-script`, `mysql-cheatsheet-example`, `sublime-text-editor-trick`, and `all-in-one-php-tutorial`—retaining their respective **MIT Licenses**). Free for personal, educational, and open-source software development.

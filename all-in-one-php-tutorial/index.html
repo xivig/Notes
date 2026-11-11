@@ -1,0 +1,2405 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="All-in-One Modern PHP 8.0-8.5 Developer Handbook: 18 chapterwise tutorials, runnable labs, security, PDO, and PHP 8.4/8.5 features.">
+  <title>Modern PHP 8.x All-in-One Developer Handbook (18 Chapters)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --bg-grad: radial-gradient(900px 550px at 85% -10%, rgba(119, 123, 180, 0.22), transparent 70%), #0b0f19;
+      --surface: #111827;
+      --surface-card: #161f33;
+      --surface-code: #070b14;
+      --border: #1f2a44;
+      --ink: #f8fafc;
+      --ink-muted: #94a3b8;
+      --accent: #818cf8;
+      --accent-strong: #6366f1;
+      --accent-2: #38bdf8;
+      --accent-green: #10b981;
+      --tip-bg: rgba(16, 185, 129, 0.09);
+      --header-h: 64px;
+    }
+
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --bg-grad: radial-gradient(900px 550px at 85% -10%, rgba(99, 102, 241, 0.12), transparent 70%), #f8fafc;
+      --surface: #ffffff;
+      --surface-card: #ffffff;
+      --surface-code: #0f172a;
+      --border: #e2e8f0;
+      --ink: #0f172a;
+      --ink-muted: #475569;
+      --accent: #4f46e5;
+      --accent-strong: #4338ca;
+      --accent-2: #0284c7;
+      --accent-green: #059669;
+      --tip-bg: rgba(5, 150, 105, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-grad);
+      background-attachment: fixed;
+      color: var(--ink);
+      line-height: 1.65;
+    }
+
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-green));
+      z-index: 200;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--header-h);
+      background: rgba(11, 15, 25, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      gap: 1rem;
+    }
+
+    [data-theme="light"] .topbar {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-weight: 800;
+      font-size: 1.05rem;
+      text-decoration: none;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, #6366f1, #38bdf8);
+      color: #fff;
+      padding: 0.25rem 0.55rem;
+      border-radius: 7px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+    }
+
+    .top-links {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .top-btn {
+      text-decoration: none;
+      color: var(--ink-muted);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.7rem;
+      border-radius: 7px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .top-btn:hover {
+      color: var(--ink);
+      border-color: var(--accent);
+    }
+
+    .layout {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 310px 1fr;
+      gap: 2rem;
+      padding: 1.75rem 1.5rem 4rem;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: calc(var(--header-h) + 1.5rem);
+      height: calc(100vh - var(--header-h) - 3rem);
+      overflow-y: auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.15rem;
+    }
+
+    .search-wrap {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 0.88rem;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .nav-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-muted);
+      font-weight: 700;
+      margin: 0.9rem 0 0.45rem;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.55rem;
+      text-decoration: none;
+      color: var(--ink-muted);
+      font-size: 0.84rem;
+      padding: 0.42rem 0.55rem;
+      border-radius: 7px;
+      transition: all 0.15s ease;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      background: rgba(99, 102, 241, 0.14);
+      color: var(--ink);
+    }
+
+    .nav-num {
+      font-family: 'Fira Code', monospace;
+      font-weight: 700;
+      color: var(--accent);
+      font-size: 0.78rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .main-content {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    .hero {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 0.6rem;
+      background: linear-gradient(120deg, #a5b4fc, #38bdf8, #34d399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      color: var(--ink-muted);
+      max-width: 78ch;
+      margin-bottom: 1.25rem;
+    }
+
+    .filters {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .filter-btn {
+      border: 1px solid var(--border);
+      background: var(--surface-card);
+      color: var(--ink-muted);
+      padding: 0.45rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .filter-btn.active {
+      background: var(--accent-strong);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.86rem;
+    }
+
+    .matrix-table th, .matrix-table td {
+      text-align: left;
+      padding: 0.55rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .matrix-table th {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .chapter-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      scroll-margin-top: calc(var(--header-h) + 1rem);
+    }
+
+    .chapter-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.6rem;
+    }
+
+    .pill-track {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-2);
+    }
+
+    .pill-version {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(99, 102, 241, 0.16);
+      color: var(--accent);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    .chapter-card h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .ch-number {
+      color: var(--accent);
+      margin-right: 0.3rem;
+    }
+
+    .ch-summary {
+      color: var(--ink-muted);
+      margin-bottom: 1rem;
+    }
+
+    .ch-points {
+      padding-left: 1.25rem;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .callout-tip {
+      background: var(--tip-bg);
+      border-left: 3px solid var(--accent-green);
+      padding: 0.75rem 1rem;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .code-card {
+      background: var(--surface-code);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 0.85rem;
+    }
+
+    .code-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0.9rem;
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .code-file {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.78rem;
+      color: #93c5fd;
+    }
+
+    .code-actions {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .btn-copy, .btn-open {
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
+      color: #e2e8f0;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn-copy:hover, .btn-open:hover {
+      background: var(--accent-strong);
+      border-color: transparent;
+    }
+
+    .code-card pre {
+      padding: 1rem;
+      overflow-x: auto;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.82rem;
+      line-height: 1.55;
+      color: #e2e8f0;
+      max-height: 430px;
+    }
+
+    .chapter-foot {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn-guide {
+      text-decoration: none;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--accent-2);
+    }
+
+    .btn-guide:hover {
+      text-decoration: underline;
+    }
+
+    .empty-state {
+      display: none;
+      text-align: center;
+      padding: 3rem;
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      color: var(--ink-muted);
+    }
+
+    @media (max-width: 960px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress-bar"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#top">
+      <span class="brand-badge">PHP 8.x</span>
+      <span>Modern PHP Developer Handbook</span>
+    </a>
+    <div class="top-links">
+      <a class="top-btn" href="README.md" target="_blank" rel="noopener">README.md</a>
+      <a class="top-btn" href="CHEATSHEET.md" target="_blank" rel="noopener">Cheatsheet</a>
+      <a class="top-btn" href="GLOSSARY.md" target="_blank" rel="noopener">Glossary</a>
+      <button type="button" id="theme-toggle" class="top-btn">Toggle Theme</button>
+    </div>
+  </header>
+
+  <div class="layout" id="top">
+    <aside class="sidebar" aria-label="Chapters Navigation">
+      <div class="search-wrap">
+        <input id="search-input" class="search-input" type="search" placeholder="Search chapters, enum, pdo, hooks... (/)" autocomplete="off">
+      </div>
+      <div class="nav-label">Overview</div>
+      <a class="nav-link" href="#matrix"><span class="nav-num">8.x</span><span>PHP 8.0–8.5 Feature Matrix</span></a>
+      <div class="nav-label">18-Chapter Curriculum</div>
+      <nav id="chapter-nav">
+        <a class="nav-link" href="#ch01" data-track="foundations"><span class="nav-num">01</span><span>PHP Foundations, Zend Engine &amp; Modern Tooling</span></a>
+<a class="nav-link" href="#ch02" data-track="foundations"><span class="nav-num">02</span><span>Types, Variables, Constants &amp; Strict Mode</span></a>
+<a class="nav-link" href="#ch03" data-track="foundations"><span class="nav-num">03</span><span>Operators &amp; Modern Control Flow</span></a>
+<a class="nav-link" href="#ch04" data-track="foundations"><span class="nav-num">04</span><span>Functions, Closures, Callables &amp; Generators</span></a>
+<a class="nav-link" href="#ch05" data-track="foundations"><span class="nav-num">05</span><span>Arrays &amp; Functional Data Pipelines</span></a>
+<a class="nav-link" href="#ch06" data-track="foundations"><span class="nav-num">06</span><span>Strings, UTF-8 Multibyte, Regex &amp; DateTimeImmutable</span></a>
+<a class="nav-link" href="#ch07" data-track="oop"><span class="nav-num">07</span><span>OOP Foundations, Instances &amp; Inheritance</span></a>
+<a class="nav-link" href="#ch08" data-track="oop"><span class="nav-num">08</span><span>Magic Methods &amp; Object Lifecycle</span></a>
+<a class="nav-link" href="#ch09" data-track="oop"><span class="nav-num">09</span><span>Abstraction, Interfaces, Polymorphism &amp; Traits</span></a>
+<a class="nav-link" href="#ch10" data-track="oop"><span class="nav-num">10</span><span>Encapsulation, Final, Readonly &amp; Late Static Binding</span></a>
+<a class="nav-link" href="#ch11" data-track="oop"><span class="nav-num">11</span><span>Namespaces, PSR-4 Autoloading &amp; Composer</span></a>
+<a class="nav-link" href="#ch12" data-track="modern"><span class="nav-num">12</span><span>Modern PHP 8 Type System, Promoted Constructors &amp; Enums</span></a>
+<a class="nav-link" href="#ch13" data-track="modern"><span class="nav-num">13</span><span>Attributes, Nullsafe (?-&gt;), Property Hooks (8.4) &amp; Pipe (8.5)</span></a>
+<a class="nav-link" href="#ch14" data-track="modern"><span class="nav-num">14</span><span>Error Handling, Custom Exceptions &amp; Cooperative Fibers</span></a>
+<a class="nav-link" href="#ch15" data-track="applied"><span class="nav-num">15</span><span>Files, JSON (JSON_THROW_ON_ERROR), HTTP/cURL &amp; CLI Tools</span></a>
+<a class="nav-link" href="#ch16" data-track="applied"><span class="nav-num">16</span><span>Web Security, Password Hashing, CSRF &amp; Validation</span></a>
+<a class="nav-link" href="#ch17" data-track="applied"><span class="nav-num">17</span><span>Databases with PDO, Prepared Statements &amp; Transactions</span></a>
+<a class="nav-link" href="#ch18" data-track="applied"><span class="nav-num">18</span><span>Testing, Static Analysis, Performance &amp; Clean Architecture</span></a>
+
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <section class="hero">
+        <h1>All-in-One Modern PHP 8.x Developer Handbook</h1>
+        <p>18 progressive, chapterwise tutorials covering core language mechanics, strict typing, Object-Oriented architecture, PHP 8.0–8.5 innovations, PDO transactions, web security, and production engineering—complete with verified runnable PHP labs.</p>
+
+        <div class="filters" role="tablist" aria-label="Filter by Curriculum Track">
+          <button type="button" class="filter-btn active" data-filter="all">All 18 Chapters</button>
+          <button type="button" class="filter-btn" data-filter="foundations">Track 1: Core Foundations (01–06)</button>
+          <button type="button" class="filter-btn" data-filter="oop">Track 2: OOP Mastery (07–11)</button>
+          <button type="button" class="filter-btn" data-filter="modern">Track 3: PHP 8.0–8.5 (12–14)</button>
+          <button type="button" class="filter-btn" data-filter="applied">Track 4: Security, PDO &amp; Tests (15–18)</button>
+        </div>
+      </section>
+
+      <section class="chapter-card" id="matrix">
+        <h2>PHP 8.0 – 8.5 Release Feature Timeline</h2>
+        <table class="matrix-table">
+          <thead>
+            <tr><th>Version</th><th>Major Features</th><th>Covered In</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>PHP 8.0</strong></td><td>Constructor Property Promotion, Named Arguments, <code>match</code>, <code>?-></code>, Union types, Attributes, <code>str_contains</code>, <code>WeakMap</code></td><td>Ch 03, 04, 06, 12, 13, 18</td></tr>
+            <tr><td><strong>PHP 8.1</strong></td><td>Enums, <code>readonly</code> properties, Intersection types, First-class callables <code>(...)</code>, Fibers, <code>never</code>, <code>array_is_list</code></td><td>Ch 04, 05, 10, 12, 14</td></tr>
+            <tr><td><strong>PHP 8.2</strong></td><td><code>readonly class</code>, DNF types, <code>#[\SensitiveParameter]</code>, <code>Random\Randomizer</code>, trait constants</td><td>Ch 10, 12, 13, 16</td></tr>
+            <tr><td><strong>PHP 8.3</strong></td><td>Typed class constants, <code>#[\Override]</code>, <code>json_validate()</code>, deep-cloning readonly in <code>__clone</code></td><td>Ch 12, 13, 15</td></tr>
+            <tr><td><strong>PHP 8.4</strong></td><td>Property Hooks, Asymmetric Visibility, <code>new C()->m()</code>, <code>array_find/any/all</code>, <code>Dom\HTMLDocument</code>, <code>#[\Deprecated]</code></td><td>Ch 05, 13, 15</td></tr>
+            <tr><td><strong>PHP 8.5</strong></td><td>Pipe Operator (<code>|></code>), <code>clone($obj, [...])</code>, <code>#[\NoDiscard]</code>, <code>array_first/last</code>, native <code>Uri</code>, <code>php --ini=diff</code></td><td>Ch 01, 05, 13, 15</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+          <section class="chapter-card" id="ch01" data-track="foundations" data-search="01 php foundations, zend engine &amp; modern tooling understand the zend engine execution lifecycle, opcache &amp; jit, cli vs php-fpm sapis, per coding style 2.0, and file-level declare(strict_types=1). always open pure php files with &lt;?php and omit the closing ?&gt; tag to prevent accidental header corruption. place declare(strict_types=1); as the very first statement in every php file. use php -l for syntax linting, php --ini (or php --ini=diff in php 8.5+) for config inspection, and php -s only for local development. php 8.0+">
+      <div class="chapter-meta">
+        <span class="pill-track">Track 1 · Core Foundations</span>
+        <span class="pill-version">PHP 8.0+</span>
+      </div>
+      <h2><span class="ch-number">Chapter 01</span> PHP Foundations, Zend Engine &amp; Modern Tooling</h2>
+      <p class="ch-summary">Understand the Zend Engine execution lifecycle, OPcache &amp; JIT, CLI vs PHP-FPM SAPIs, PER Coding Style 2.0, and file-level declare(strict_types=1).</p>
+      <ul class="ch-points">
+        <li>Always open pure PHP files with &lt;?php and omit the closing ?&gt; tag to prevent accidental header corruption.</li>
+<li>Place declare(strict_types=1); as the very first statement in every PHP file.</li>
+<li>Use php -l for syntax linting, php --ini (or php --ini=diff in PHP 8.5+) for config inspection, and php -S only for local development.</li>
+
+      </ul>
+      <div class="callout-tip">
+        <strong>Developer Best Practice:</strong> Keep display_errors = Off and log_errors = On in production php.ini so stack traces never leak to HTTP clients.
+      </div>
+              <div class="code-card">
+          <div class="code-bar">
+            <span class="code-file">chapters/01-php-foundations-and-tooling/lab.php</span>
+            <div class="code-actions">
+              <button type="button" class="btn-copy" data-target="code-01-0">Copy Code</button>
+              <a class="btn-open" href="chapters/01-php-foundations-and-tooling/lab.php" target="_blank" rel="noopener">Open File ↗</a>
+            </div>
+          </div>
+          <pre><code id="code-01-0">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Chapter 01 Lab: PHP Runtime Diagnostics &amp; Environment Inspection
+ */
+
+echo &quot;=== Chapter 01: PHP Foundations &amp; Tooling ===&quot; . PHP_EOL;
+echo &quot;PHP Version : &quot; . PHP_VERSION . PHP_EOL;
+echo &quot;PHP SAPI    : &quot; . PHP_SAPI . PHP_EOL;
+echo &quot;OS Family   : &quot; . PHP_OS_FAMILY . PHP_EOL;
+echo &quot;Strict Mode : Enabled via declare(strict_types=1)&quot; . PHP_EOL;
+
+$requiredExtensions = [&#039;json&#039;, &#039;mbstring&#039;, &#039;PDO&#039;, &#039;openssl&#039;, &#039;SPL&#039;];
+echo PHP_EOL . &quot;Core Extensions Check:&quot; . PHP_EOL;
+
+foreach ($requiredExtensions as $ext) {
+    $status = extension_loaded($ext) ? &#039;LOADED&#039; : &#039;MISSING&#039;;
+    echo sprintf(&quot;  - %-10s : %s%s&quot;, $ext, $status, PHP_EOL);
+}
+
+echo PHP_EOL . &quot;OPcache Status: &quot; . (function_exists(&#039;opcache_get_status&#039;) ? &#039;Extension available&#039; : &#039;Not loaded&#039;) . PHP_EOL;
+</code></pre>
+        </div>
+      <div class="chapter-foot">
+        <a class="btn-guide" href="chapters/01-php-foundations-and-tooling/README.md" target="_blank" rel="noopener">Read Full Chapter Guide (01-php-foundations-and-tooling/README.md) ↗</a>
+      </div>
+    </section>    <section class="chapter-card" id="ch02" data-track="foundations" data-search="02 types, variables, constants &amp; strict mode master php scalar, compound, and special types, strict_types=1 enforcement, == vs === behavior changes in php 8+, constants, and get_debug_type(). with strict_types=1, passing &quot;42&quot; to an int parameter throws typeerror immediately (only int -&gt; float widening is allowed). php 8.0 fixed 0 == &quot;foobar&quot; to false, yet strict === / !== remains the safest default everywhere. store money in integer minor units (cents/paise) or bcmath strings — never binary float. php 8.0+">
+      <div class="chapter-meta">
+        <span class="pill-track">Track 1 · Core Foundations</span>
+        <span class="pill-version">PHP 8.0+</span>
+      </div>
+      <h2><span class="ch-number">Chapter 02</span> Types, Variables, Constants &amp; Strict Mode</h2>
+      <p class="ch-summary">Master PHP scalar, compound, and special types, strict_types=1 enforcement, == vs === behavior changes in PHP 8+, constants, and get_debug_type().</p>
+      <ul class="ch-points">
+        <li>With strict_types=1, passing &quot;42&quot; to an int parameter throws TypeError immediately (only int -&gt; float widening is allowed).</li>
+<li>PHP 8.0 fixed 0 == &quot;foobar&quot; to false, yet strict === / !== remains the safest default everywhere.</li>
+<li>Store money in integer minor units (cents/paise) or bcmath strings — never binary float.</li>
+
+      </ul>
+      <div class="callout-tip">
+        <strong>Developer Best Practice:</strong> Use get_debug_type($var) (PHP 8.0+) instead of legacy gettype() for exact class names and canonical scalar names.
+      </div>
+              <div class="code-card">
+          <div class="code-bar">
+            <span class="code-file">chapters/02-types-variables-and-strict-mode/lab.php</span>
+            <div class="code-actions">
+              <button type="button" class="btn-copy" data-target="code-02-0">Copy Code</button>
+              <a class="btn-open" href="chapters/02-types-variables-and-strict-mode/lab.php" target="_blank" rel="noopener">Open File ↗</a>
+            </div>
+          </div>
+          <pre><code id="code-02-0">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Chapter 02 Lab: Strict Types, Equality, Constants &amp; Debug Types
+ */
+
+const APP_NAME = &#039;Modern PHP Handbook&#039;;
+
+function calculateTotalCents(int $unitCents, int $qty): int
+{
+    return $unitCents * $qty;
+}
+
+echo &quot;=== Chapter 02: Types, Variables &amp; Strict Mode ===&quot; . PHP_EOL;
+echo &quot;App: &quot; . APP_NAME . PHP_EOL;
+
+$totalCents = calculateTotalCents(1999, 3);
+echo &quot;Total: $&quot; . number_format($totalCents / 100, 2) . PHP_EOL;
+
+// Strict type enforcement demonstration
+try {
+    /** @phpstan-ignore-next-line */
+    calculateTotalCents(&#039;1999&#039;, 2);
+} catch (TypeError $e) {
+    echo &quot;Strict Types Caught TypeError: &quot; . $e-&gt;getMessage() . PHP_EOL;
+}
+
+// Equality comparisons in PHP 8+
+$comparisons = [
+    &quot;0 == &#039;abc&#039;&quot;   =&gt; (0 == &#039;abc&#039;),
+    &quot;42 == &#039;42&#039;&quot;   =&gt; (42 == &#039;42&#039;),
+    &quot;42 === &#039;42&#039;&quot;  =&gt; (42 === &#039;42&#039;),
+    &quot;0 === false&quot;  =&gt; (0 === false),
+];
+
+echo PHP_EOL . &quot;Equality Checks:&quot; . PHP_EOL;
+foreach ($comparisons as $expr =&gt; $result) {
+    echo sprintf(&quot;  %-14s =&gt; %s%s&quot;, $expr, $result ? &#039;true&#039; : &#039;false&#039;, PHP_EOL);
+}
+
+// PHP 8.0+ get_debug_type()
+$samples = [42, 3.14, &#039;hello&#039;, true, null, [1, 2], new stdClass()];
+echo PHP_EOL . &quot;get_debug_type() Values:&quot; . PHP_EOL;
+foreach ($samples as $sample) {
+    echo &quot;  - &quot; . get_debug_type($sample) . PHP_EOL;
+}
+</code></pre>
+        </div>
+      <div class="chapter-foot">
+        <a class="btn-guide" href="chapters/02-types-variables-and-strict-mode/README.md" target="_blank" rel="noopener">Read Full Chapter Guide (02-types-variables-and-strict-mode/README.md) ↗</a>
+      </div>
+    </section>    <section class="chapter-card" id="ch03" data-track="foundations" data-search="03 operators &amp; modern control flow replace fragile switch statements with strict, exhaustive match expressions (php 8.0+), and master ??, ??=, &lt;=&gt;, and safe foreach iteration. match performs strict (===) comparison, never falls through, returns a value, and throws unhandledmatcherror if unmatched. null coalescing (??) and coalescing assignment (??=) safely provide defaults without undefined-key warnings. spaceship (&lt;=&gt;) returns -1, 0, or 1 for concise usort() comparators. php 8.0+">
+      <div class="chapter-meta">
+        <span class="pill-track">Track 1 · Core Foundations</span>
+        <span class="pill-version">PHP 8.0+</span>
+      </div>
+      <h2><span class="ch-number">Chapter 03</span> Operators &amp; Modern Control Flow</h2>
+      <p class="ch-summary">Replace fragile switch statements with strict, exhaustive match expressions (PHP 8.0+), and master ??, ??=, &lt;=&gt;, and safe foreach iteration.</p>
+      <ul class="ch-points">
+        <li>match performs strict (===) comparison, never falls through, returns a value, and throws UnhandledMatchError if unmatched.</li>
+<li>Null coalescing (??) and coalescing assignment (??=) safely provide defaults without undefined-key warnings.</li>
+<li>Spaceship (&lt;=&gt;) returns -1, 0, or 1 for concise usort() comparators.</li>
+
+      </ul>
+      <div class="callout-tip">
+        <strong>Developer Best Practice:</strong> If iterating by reference (foreach ($arr as &amp;$v)), always unset($v) immediately afterward to avoid corrupting the last item.
+      </div>
+              <div class="code-card">
+          <div class="code-bar">
+            <span class="code-file">chapters/03-operators-and-control-flow/lab.php</span>
+            <div class="code-actions">
+              <button type="button" class="btn-copy" data-target="code-03-0">Copy Code</button>
+              <a class="btn-open" href="chapters/03-operators-and-control-flow/lab.php" target="_blank" rel="noopener">Open File ↗</a>
+            </div>
+          </div>
+          <pre><code id="code-03-0">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Chapter 03 Lab: Operators, Null Coalescing, Spaceship &amp; Match Expressions
+ */
+
+echo &quot;=== Chapter 03: Operators &amp; Control Flow ===&quot; . PHP_EOL;
+
+// 1. Null coalescing (??) and null coalescing assignment (??=)
+$options = [&#039;host&#039; =&gt; &#039;127.0.0.1&#039;];
+$port = $options[&#039;port&#039;] ?? 3306;
+$options[&#039;charset&#039;] ??= &#039;utf8mb4&#039;;
+
+echo &quot;Host: {$options[&#039;host&#039;]}, Port: {$port}, Charset: {$options[&#039;charset&#039;]}&quot; . PHP_EOL;
+
+// 2. Spaceship operator (&lt;=&gt;)
+$scores = [85, 92, 78, 95];
+usort($scores, static fn (int $a, int $b): int =&gt; $b &lt;=&gt; $a);
+echo &quot;Sorted descending: &quot; . implode(&#039;, &#039;, $scores) . PHP_EOL;
+
+// 3. Modern match expression (PHP 8.0+)
+$resolveHttpMessage = static fn (int|string $statusCode): string =&gt; match ($statusCode) {
+    200, 201 =&gt; &#039;OK / Created&#039;,
+    400      =&gt; &#039;Bad Request&#039;,
+    404      =&gt; &#039;Not Found&#039;,
+    500      =&gt; &#039;Internal Server Error&#039;,
+    &#039;200&#039;    =&gt; &#039;Strict string &quot;200&quot; (not integer 200)&#039;,
+    default  =&gt; &#039;Other Status&#039;,
+};
+
+echo &quot;Code 200 (int)   : &quot; . $resolveHttpMessage(200) . PHP_EOL;
+echo &quot;Code &#039;200&#039; (str) : &quot; . $resolveHttpMessage(&#039;200&#039;) . PHP_EOL;
+
+// 4. Exhaustiveness check throwing UnhandledMatchError
+try {
+    $strictOnly = match (418) {
+        200 =&gt; &#039;OK&#039;,
+        404 =&gt; &#039;Missing&#039;,
+    };
+} catch (UnhandledMatchError $e) {
+    echo &quot;Caught UnhandledMatchError: &quot; . $e-&gt;getMessage() . PHP_EOL;
+}
+</code></pre>
+        </div>
+      <div class="chapter-foot">
+        <a class="btn-guide" href="chapters/03-operators-and-control-flow/README.md" target="_blank" rel="noopener">Read Full Chapter Guide (03-operators-and-control-flow/README.md) ↗</a>
+      </div>
+    </section>    <section class="chapter-card" id="ch04" data-track="foundations" data-search="04 functions, closures, callables &amp; generators write self-documenting apis with named arguments (8.0), arrow functions, first-class callable syntax strlen(...) (8.1), never return type, and o(1)-memory generators. named arguments allow skipping intermediate optional parameters and make boolean flags unambiguous. first-class callables ($calc-&gt;add(...), trim(...)) create genuine closure objects with static-analysis safety. generators (yield) stream massive datasets lazily without loading whole collections into ram. php 8.1+">
+      <div class="chapter-meta">
+        <span class="pill-track">Track 1 · Core Foundations</span>
+        <span class="pill-version">PHP 8.1+</span>
+      </div>
+      <h2><span class="ch-number">Chapter 04</span> Functions, Closures, Callables &amp; Generators</h2>
+      <p class="ch-summary">Write self-documenting APIs with Named Arguments (8.0), arrow functions, First-Class Callable syntax strlen(...) (8.1), never return type, and O(1)-memory Generators.</p>
+      <ul class="ch-points">
+        <li>Named arguments allow skipping intermediate optional parameters and make boolean flags unambiguous.</li>
+<li>First-Class Callables ($calc-&gt;add(...), trim(...)) create genuine Closure objects with static-analysis safety.</li>
+<li>Generators (yield) stream massive datasets lazily without loading whole collections into RAM.</li>
+
+      </ul>
+      <div class="callout-tip">
+        <strong>Developer Best Practice:</strong> Mark non-object closures static fn (...) =&gt; ... so PHP skips unnecessary $this scope binding.
+      </div>
+              <div class="code-card">
+          <div class="code-bar">
+            <span class="code-file">chapters/04-functions-closures-and-callables/lab.php</span>
+            <div class="code-actions">
+              <button type="button" class="btn-copy" data-target="code-04-0">Copy Code</button>
+              <a class="btn-open" href="chapters/04-functions-closures-and-callables/lab.php" target="_blank" rel="noopener">Open File ↗</a>
+            </div>
+          </div>
+          <pre><code id="code-04-0">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Chapter 04 Lab: Named Arguments, Closures, First-Class Callables &amp; Generators
+ */
+
+class Calculator
+{
+    public function add(int $a, int $b): int
+    {
+        return $a + $b;
+    }
+}
+
+function createOrderSummary(
+    string $customer,
+    float $subtotal,
+    float $taxRate = 0.10,
+    string $currency = &#039;USD&#039;,
+): string {
+    $total = $subtotal * (1 + $taxRate);
+    return sprintf(&#039;%s: %s %.2f&#039;, $customer, $currency, $total);
+}
+
+function generateFibonacci(int $count): Generator
+{
+    $a = 0;
+    $b = 1;
+    for ($i = 0; $i &lt; $count; $i++) {
+        yield $a;
+        [$a, $b] = [$b, $a + $b];
+    }
+}
+
+echo &quot;=== Chapter 04: Functions, Closures &amp; Callables ===&quot; . PHP_EOL;
+
+// 1. Named arguments skipping default $taxRate
+echo createOrderSummary(customer: &#039;Alice&#039;, subtotal: 100.0, currency: &#039;EUR&#039;) . PHP_EOL;
+
+// 2. First-class callables (PHP 8.1+)
+$lengthFn = strlen(...);
+echo &quot;Length of &#039;Modern PHP&#039;: &quot; . $lengthFn(&#039;Modern PHP&#039;) . PHP_EOL;
+
+$calc = new Calculator();
+$adder = $calc-&gt;add(...);
+echo &quot;Calculator::add(15, 25) = &quot; . $adder(15, 25) . PHP_EOL;
+
+// Clean pipeline with first-class callable + arrow function
+$rawNames = [&#039;  alice &#039;, &#039; BOB&#039;, &#039;charlie  &#039;];
+$cleaned = array_map(trim(...), $rawNames);
+$upper = array_map(strtoupper(...), $cleaned);
+echo &quot;Normalized names: &quot; . implode(&#039;, &#039;, $upper) . PHP_EOL;
+
+// 3. Generator lazy sequence
+$fibs = iterator_to_array(generateFibonacci(8));
+echo &quot;First 8 Fibonacci numbers: &quot; . implode(&#039;, &#039;, $fibs) . PHP_EOL;
+</code></pre>
+        </div>
+      <div class="chapter-foot">
+        <a class="btn-guide" href="chapters/04-functions-closures-and-callables/README.md" target="_blank" rel="noopener">Read Full Chapter Guide (04-functions-closures-and-callables/README.md) ↗</a>
+      </div>
+    </section>    <section class="chapter-card" id="ch05" data-track="foundations" data-search="05 arrays &amp; functional data pipelines distinguish lists from associative maps using array_is_list() (8.1), master string-keyed unpacking, functional transforms, array_find (8.4), and array_first/last (8.5). re-index filtered lists with array_values() before json_encode() so php emits [] instead of {}. always pass strict=true as the 3rd argument to in_array($needle, $haystack, true). php 8.4 added array_find(), array_find_key(), array_any(), array_all(); php 8.5 added array_first() and array_last(). php 8.1 - 8.5">
+      <div class="chapter-meta">
+        <span class="pill-track">Track 1 · Core Foundations</span>
+        <span class="pill-version">PHP 8.1 - 8.5</span>
+      </div>
+      <h2><span class="ch-number">Chapter 05</span> Arrays &amp; Functional Data Pipelines</h2>
+      <p class="ch-summary">Distinguish lists from associative maps using array_is_list() (8.1), master string-keyed unpacking, functional transforms, array_find (8.4), and array_first/last (8.5).</p>
+      <ul class="ch-points">
+        <li>Re-index filtered lists with array_values() before json_encode() so PHP emits [] instead of {}.</li>
+<li>Always pass strict=true as the 3rd argument to in_array($needle, $haystack, true).</li>
+<li>PHP 8.4 added array_find(), array_find_key(), array_any(), array_all(); PHP 8.5 added array_first() and array_last().</li>
+
+      </ul>
+      <div class="callout-tip">
+        <strong>Developer Best Practice:</strong> Use array_column($rows, null, &quot;id&quot;) to turn O(N^2) nested loops into O(1) dictionary lookups.
+      </div>
+              <div class="code-card">
+          <div class="code-bar">
+            <span class="code-file">chapters/05-arrays-and-functional-pipelines/lab.php</span>
+            <div class="code-actions">
+              <button type="button" class="btn-copy" data-target="code-05-0">Copy Code</button>
+              <a class="btn-open" href="chapters/05-arrays-and-functional-pipelines/lab.php" target="_blank" rel="noopener">Open File ↗</a>
+            </div>
+          </div>
+          <pre><code id="code-05-0">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Chapter 05 Lab: Arrays, Unpacking, Destructuring &amp; Functional Pipelines
+ */
+
+echo &quot;=== Chapter 05: Arrays &amp; Functional Pipelines ===&quot; . PHP_EOL;
+
+$products = [
+    [&#039;id&#039; =&gt; 1, &#039;name&#039; =&gt; &#039;Mechanical Keyboard&#039;, &#039;price&#039; =&gt; 120, &#039;active&#039; =&gt; true],
+    [&#039;id&#039; =&gt; 2, &#039;name&#039; =&gt; &#039;Legacy Mouse&#039;,        &#039;price&#039; =&gt; 25,  &#039;active&#039; =&gt; false],
+    [&#039;id&#039; =&gt; 3, &#039;name&#039; =&gt; &#039;4K Monitor&#039;,          &#039;price&#039; =&gt; 380, &#039;active&#039; =&gt; true],
+    [&#039;id&#039; =&gt; 4, &#039;name&#039; =&gt; &#039;USB-C Hub&#039;,           &#039;price&#039; =&gt; 45,  &#039;active&#039; =&gt; true],
+];
+
+// 1. Filter -&gt; Re-index -&gt; Sort -&gt; Map pipeline
+$activeProducts = array_values(array_filter(
+    $products,
+    static fn (array $item): bool =&gt; $item[&#039;active&#039;]
+));
+
+usort($activeProducts, static fn (array $a, array $b): int =&gt; $a[&#039;price&#039;] &lt;=&gt; $b[&#039;price&#039;]);
+
+$labels = array_map(
+    static fn (array $item): string =&gt; &quot;{$item[&#039;name&#039;]} (\${$item[&#039;price&#039;]})&quot;,
+    $activeProducts
+);
+
+echo &quot;Active sorted products: &quot; . implode(&#039; | &#039;, $labels) . PHP_EOL;
+
+// 2. Total value using array_reduce
+$totalActiveValue = array_reduce(
+    $activeProducts,
+    static fn (int $carry, array $item): int =&gt; $carry + $item[&#039;price&#039;],
+    0
+);
+echo &quot;Total active catalog price: \${$totalActiveValue}&quot; . PHP_EOL;
+
+// 3. array_is_list() &amp; JSON safety (PHP 8.1+)
+$sparse = [0 =&gt; &#039;a&#039;, 2 =&gt; &#039;c&#039;];
+$dense  = array_values($sparse);
+echo &quot;Sparse is list? &quot; . (array_is_list($sparse) ? &#039;yes&#039; : &#039;no&#039;) . &quot; -&gt; &quot; . json_encode($sparse) . PHP_EOL;
+echo &quot;Dense is list?  &quot; . (array_is_list($dense) ? &#039;yes&#039; : &#039;no&#039;) . &quot; -&gt; &quot; . json_encode($dense) . PHP_EOL;
+
+// 4. Associative array unpacking (PHP 8.1+) &amp; indexing with array_column
+$defaults = [&#039;perPage&#039; =&gt; 20, &#039;sort&#039; =&gt; &#039;asc&#039;];
+$overrides = [&#039;perPage&#039; =&gt; 50];
+$queryConfig = [...$defaults, ...$overrides];
+echo &quot;Query config: &quot; . json_encode($queryConfig) . PHP_EOL;
+
+$byId = array_column($products, &#039;name&#039;, &#039;id&#039;);
+echo &quot;Lookup ID 3: &quot; . ($byId[3] ?? &#039;Unknown&#039;) . PHP_EOL;
+</code></pre>
+        </div>
+      <div class="chapter-foot">
+        <a class="btn-guide" href="chapters/05-arrays-and-functional-pipelines/README.md" target="_blank" rel="noopener">Read Full Chapter Guide (05-arrays-and-functional-pipelines/README.md) ↗</a>
+      </div>
+    </section>    <section class="chapter-card" id="ch06" data-track="foundations" data-search="06 strings, utf-8 multibyte, regex &amp; datetimeimmutable use str_contains/str_starts_with/str_ends_with (8.0), mbstring utf-8 helpers, pcre named captures, and immutable utc timestamps via datetimeimmutable. prefer str_contains(), str_starts_with(), and str_ends_with() over error-prone strpos(...) !== false checks. always use mb_strlen() / mb_substr() for utf-8 user strings instead of byte-based strlen()/substr(). always store and calculate dates using datetimeimmutable in utc; convert timezones only at display time. php 8.0+">
+      <div class="chapter-meta">
+        <span class="pill-track">Track 1 · Core Foundations</span>
+        <span class="pill-version">PHP 8.0+</span>
+      </div>
+      <h2><span class="ch-number">Chapter 06</span> Strings, UTF-8 Multibyte, Regex &amp; DateTimeImmutable</h2>
+      <p class="ch-summary">Use str_contains/str_starts_with/str_ends_with (8.0), mbstring UTF-8 helpers, PCRE named captures, and immutable UTC timestamps via DateTimeImmutable.</p>
+      <ul class="ch-points">
+        <li>Prefer str_contains(), str_starts_with(), and str_ends_with() over error-prone strpos(...) !== false checks.</li>
+<li>Always use mb_strlen() / mb_substr() for UTF-8 user strings instead of byte-based strlen()/substr().</li>
+<li>Always store and calculate dates using DateTimeImmutable in UTC; convert timezones only at display time.</li>
+
+      </ul>
+      <div class="callout-tip">
+        <strong>Developer Best Practice:</strong> Add the /u regex modifier when matching UTF-8 strings with preg_match() or preg_replace_callback().
+      </div>
+              <div class="code-card">
+          <div class="code-bar">
+            <span class="code-file">chapters/06-strings-regex-and-datetime/lab.php</span>
+            <div class="code-actions">
+              <button type="button" class="btn-copy" data-target="code-06-0">Copy Code</button>
+              <a class="btn-open" href="chapters/06-strings-regex-and-datetime/lab.php" target="_blank" rel="noopener">Open File ↗</a>
+            </div>
+          </div>
+          <pre><code id="code-06-0">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Chapter 06 Lab: Modern String Helpers, Multibyte UTF-8, PCRE Regex &amp; DateTimeImmutable
+ */
+
+echo &quot;=== Chapter 06: Strings, Regex &amp; DateTimeImmutable ===&quot; . PHP_EOL;
+
+// 1. PHP 8.0+ string helpers
+$path = &#039;/api/v2/users/profile.json&#039;;
+echo &quot;Is API route? &quot; . (str_starts_with($path, &#039;/api/&#039;) ? &#039;yes&#039; : &#039;no&#039;) . PHP_EOL;
+echo &quot;Contains v2?  &quot; . (str_contains($path, &#039;/v2/&#039;) ? &#039;yes&#039; : &#039;no&#039;) . PHP_EOL;
+echo &quot;Is JSON?      &quot; . (str_ends_with($path, &#039;.json&#039;) ? &#039;yes&#039; : &#039;no&#039;) . PHP_EOL;
+
+// 2. Multibyte UTF-8 safety
+$greeting = &#039;Café 🚀&#039;;
+echo &quot;Byte length (strlen)   : &quot; . strlen($greeting) . PHP_EOL;
+echo &quot;Char length (mb_strlen): &quot; . mb_strlen($greeting, &#039;UTF-8&#039;) . PHP_EOL;
+
+// 3. Regex with named capture groups
+$versionTag = &#039;v8.4.1&#039;;
+if (preg_match(&#039;/^v(?&lt;major&gt;\d+)\.(?&lt;minor&gt;\d+)\.(?&lt;patch&gt;\d+)$/&#039;, $versionTag, $matches) === 1) {
+    echo &quot;Parsed SemVer =&gt; major={$matches[&#039;major&#039;]}, minor={$matches[&#039;minor&#039;]}, patch={$matches[&#039;patch&#039;]}&quot; . PHP_EOL;
+}
+
+// 4. DateTimeImmutable + Timezones
+$utcCreated = new DateTimeImmutable(&#039;2026-11-11 06:00:00&#039;, new DateTimeZone(&#039;UTC&#039;));
+$utcRenewal = $utcCreated-&gt;add(new DateInterval(&#039;P30D&#039;));
+$istRenewal = $utcRenewal-&gt;setTimezone(new DateTimeZone(&#039;Asia/Kolkata&#039;));
+
+echo &quot;Created (UTC) : &quot; . $utcCreated-&gt;format(DateTimeInterface::ATOM) . PHP_EOL;
+echo &quot;Renewal (UTC) : &quot; . $utcRenewal-&gt;format(DateTimeInterface::ATOM) . PHP_EOL;
+echo &quot;Renewal (IST) : &quot; . $istRenewal-&gt;format(DateTimeInterface::ATOM) . PHP_EOL;
+</code></pre>
+        </div>
+      <div class="chapter-foot">
+        <a class="btn-guide" href="chapters/06-strings-regex-and-datetime/README.md" target="_blank" rel="noopener">Read Full Chapter Guide (06-strings-regex-and-datetime/README.md) ↗</a>
+      </div>
+    </section>    <section class="chapter-card" id="ch07" data-track="oop" data-search="07 oop foundations, instances &amp; inheritance model domains with strongly typed classes, distinct object instances, extends inheritance, explicit parent:: delegation, and safe method overriding. object variables hold handles referencing heap objects; assigning $b = $a aliases the same object unless cloned. overriding __construct() in a child class does not automatically call parent::__construct(); invoke it explicitly. keep inheritance shallow and favor composition + interfaces over multi-level class hierarchies. php 8.0+">
+      <div class="chapter-meta">
+        <span class="pill-track">Track 2 · Object-Oriented Mastery</span>
+        <span class="pill-version">PHP 8.0+</span>
+      </div>
+      <h2><span class="ch-number">Chapter 07</span> OOP Foundations, Instances &amp; Inheritance</h2>
+      <p class="ch-summary">Model domains with strongly typed classes, distinct object instances, extends inheritance, explicit parent:: delegation, and safe method overriding.</p>
+      <ul class="ch-points">
+        <li>Object variables hold handles referencing heap objects; assigning $b = $a aliases the same object unless cloned.</li>
+<li>Overriding __construct() in a child class does not automatically call parent::__construct(); invoke it explicitly.</li>
+<li>Keep inheritance shallow and favor composition + interfaces over multi-level class hierarchies.</li>
+
+      </ul>
+      <div class="callout-tip">
+        <strong>Developer Best Practice:</strong> Type every class property explicitly so PHP guards against uninitialized or invalid state.
+      </div>
+              <div class="code-card">
+          <div class="code-bar">
+            <span class="code-file">chapters/07-oop-foundations-and-inheritance/lab.php</span>
+            <div class="code-actions">
+              <button type="button" class="btn-copy" data-target="code-07-0">Copy Code</button>
+              <a class="btn-open" href="chapters/07-oop-foundations-and-inheritance/lab.php" target="_blank" rel="noopener">Open File ↗</a>
+            </div>
+          </div>
+          <pre><code id="code-07-0">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Chapter 07 Lab: Classes, Multiple Instances, Inheritance &amp; Method Overriding
+ */
+
+class BaseComponent
+{
+    public string $title;
+
+    public function __construct(string $title = &#039;Base Component&#039;)
+    {
+        $this-&gt;title = $title;
+    }
+
+    public function setTitle(string $title): void
+    {
+        $this-&gt;title = $title;
+    }
+
+    public function describe(): string
+    {
+        return &quot;[&quot; . static::class . &quot;] Title: {$this-&gt;title}&quot;;
+    }
+}
+
+class Widget extends BaseComponent
+{
+    private string $category;
+
+    public function __construct(string $title, string $category)
+    {
+        // Explicitly invoke parent constructor
+        parent::__construct($title);
+        $this-&gt;category = $category;
+    }
+
+    public function describe(): string
+    {
+        // Delegate to parent method and extend output
+        return parent::describe() . &quot; (Category: {$this-&gt;category})&quot;;
+    }
+}
+
+echo &quot;=== Chapter 07: OOP Foundations &amp; Inheritance ===&quot; . PHP_EOL;
+
+// 1. Multiple independent instances
+$itemA = new BaseComponent(&#039;Header&#039;);
+$itemB = new BaseComponent(&#039;Footer&#039;);
+$itemB-&gt;setTitle(&#039;Updated Footer&#039;);
+
+echo $itemA-&gt;describe() . PHP_EOL;
+echo $itemB-&gt;describe() . PHP_EOL;
+
+// 2. Inheritance &amp; method overriding
+$widget = new Widget(&#039;Analytics Chart&#039;, &#039;Dashboard&#039;);
+echo $widget-&gt;describe() . PHP_EOL;
+</code></pre>
+        </div>
+      <div class="chapter-foot">
+        <a class="btn-guide" href="chapters/07-oop-foundations-and-inheritance/README.md" target="_blank" rel="noopener">Read Full Chapter Guide (07-oop-foundations-and-inheritance/README.md) ↗</a>
+      </div>
+    </section>    <section class="chapter-card" id="ch08" data-track="oop" data-search="08 magic methods &amp; object lifecycle master __construct, __destruct, unset(), stringable (__tostring), __get/__set/__isset, __call/__callstatic, and deep copying via __clone(). implementing __tostring(): string automatically satisfies php 8.0+ stringable type hints; omitting it throws error on string cast. customizing __clone() ensures nested mutable dependencies are deep-copied and unique ids regenerated. dynamic undeclared properties trigger deprecation notices in php 8.2+ (define explicit properties or __get/__set). php 8.0+">
+      <div class="chapter-meta">
+        <span class="pill-track">Track 2 · Object-Oriented Mastery</span>
+        <span class="pill-version">PHP 8.0+</span>
+      </div>
+      <h2><span class="ch-number">Chapter 08</span> Magic Methods &amp; Object Lifecycle</h2>
+      <p class="ch-summary">Master __construct, __destruct, unset(), Stringable (__toString), __get/__set/__isset, __call/__callStatic, and deep copying via __clone().</p>
+      <ul class="ch-points">
+        <li>Implementing __toString(): string automatically satisfies PHP 8.0+ Stringable type hints; omitting it throws Error on string cast.</li>
+<li>Customizing __clone() ensures nested mutable dependencies are deep-copied and unique IDs regenerated.</li>
+<li>Dynamic undeclared properties trigger deprecation notices in PHP 8.2+ (define explicit properties or __get/__set).</li>
+
+      </ul>
+      <div class="callout-tip">
+        <strong>Developer Best Practice:</strong> Prefer __serialize() and __unserialize() over the legacy Serializable interface.
+      </div>
+              <div class="code-card">
+          <div class="code-bar">
+            <span class="code-file">chapters/08-magic-methods-and-object-lifecycle/lab.php</span>
+            <div class="code-actions">
+              <button type="button" class="btn-copy" data-target="code-08-0">Copy Code</button>
+              <a class="btn-open" href="chapters/08-magic-methods-and-object-lifecycle/lab.php" target="_blank" rel="noopener">Open File ↗</a>
+            </div>
+          </div>
+          <pre><code id="code-08-0">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Chapter 08 Lab: Magic Methods, Object Lifecycle, Stringable &amp; Deep Cloning
+ */
+
+class NonStringableBox
+{
+    public function __construct(public string $label) {}
+}
+
+class ResourceSession implements Stringable
+{
+    /** @var array&lt;string, mixed&gt; */
+    private array $attributes = [];
+
+    public function __construct(
+        public string $sessionId,
+        public NonStringableBox $box,
+    ) {
+        echo &quot;  [__construct] Session {$this-&gt;sessionId} opened.&quot; . PHP_EOL;
+    }
+
+    public function __destruct()
+    {
+        echo &quot;  [__destruct]  Session {$this-&gt;sessionId} closed.&quot; . PHP_EOL;
+    }
+
+    public function __toString(): string
+    {
+        return &quot;Session({$this-&gt;sessionId}, box={$this-&gt;box-&gt;label})&quot;;
+    }
+
+    public function __get(string $name): mixed
+    {
+        return $this-&gt;attributes[$name] ?? null;
+    }
+
+    public function __set(string $name, mixed $value): void
+    {
+        $this-&gt;attributes[$name] = $value;
+    }
+
+    public function __isset(string $name): bool
+    {
+        return isset($this-&gt;attributes[$name]);
+    }
+
+    public function __call(string $name, array $arguments): string
+    {
+        return &quot;__call intercepted {$name}(&quot; . implode(&#039;, &#039;, $arguments) . &quot;)&quot;;
+    }
+
+    public static function __callStatic(string $name, array $arguments): string
+    {
+        return &quot;__callStatic intercepted {$name}(&quot; . implode(&#039;, &#039;, $arguments) . &quot;)&quot;;
+    }
+
+    public function __clone(): void
+    {
+        // Generate new ID and deep-clone nested mutable object
+        $this-&gt;sessionId = uniqid(&#039;CLONE_&#039;, true);
+        $this-&gt;box = clone $this-&gt;box;
+    }
+}
+
+echo &quot;=== Chapter 08: Magic Methods &amp; Object Lifecycle ===&quot; . PHP_EOL;
+
+// 1. Attempting string conversion without __toString() throws Error in PHP 8+
+$plain = new NonStringableBox(&#039;Alpha&#039;);
+try {
+    echo (string) $plain;
+} catch (Error $e) {
+    echo &quot;Expected Error without __toString(): &quot; . $e-&gt;getMessage() . PHP_EOL;
+}
+
+// 2. Construct, __toString / Stringable, __set / __get, __call / __callStatic
+$session = new ResourceSession(&#039;SESS_001&#039;, $plain);
+echo &quot;Stringable output: {$session}&quot; . PHP_EOL;
+
+$session-&gt;theme = &#039;dark&#039;;
+echo &quot;Dynamic __get(&#039;theme&#039;): &quot; . ($session-&gt;theme ?? &#039;none&#039;) . PHP_EOL;
+echo $session-&gt;dispatch(&#039;audit&#039;, &#039;user:42&#039;) . PHP_EOL;
+echo ResourceSession::ping(&#039;healthcheck&#039;) . PHP_EOL;
+
+// 3. Deep cloning via __clone()
+$cloned = clone $session;
+$cloned-&gt;box-&gt;label = &#039;Beta&#039;;
+echo &quot;Original box label : {$session-&gt;box-&gt;label}&quot; . PHP_EOL;
+echo &quot;Cloned box label   : {$cloned-&gt;box-&gt;label}&quot; . PHP_EOL;
+
+// 4. Explicit destruction with unset()
+unset($cloned, $session);
+echo &quot;End of Chapter 08 script.&quot; . PHP_EOL;
+</code></pre>
+        </div>
+      <div class="chapter-foot">
+        <a class="btn-guide" href="chapters/08-magic-methods-and-object-lifecycle/README.md" target="_blank" rel="noopener">Read Full Chapter Guide (08-magic-methods-and-object-lifecycle/README.md) ↗</a>
+      </div>
+    </section>    <section class="chapter-card" id="ch09" data-track="oop" data-search="09 abstraction, interfaces, polymorphism &amp; traits design pluggable architectures using interfaces, shared template base classes with abstract methods, polymorphic dependency injection, and trait composition. program to interfaces (paymentmethod) rather than concrete implementations (stripegateway) to keep callers decoupled. abstract classes hold shared state + template logic; interfaces define pure behavioral contracts across unrelated classes. resolve trait method collisions explicitly with insteadof and as aliases. php 8.0+">
+      <div class="chapter-meta">
+        <span class="pill-track">Track 2 · Object-Oriented Mastery</span>
+        <span class="pill-version">PHP 8.0+</span>
+      </div>
+      <h2><span class="ch-number">Chapter 09</span> Abstraction, Interfaces, Polymorphism &amp; Traits</h2>
+      <p class="ch-summary">Design pluggable architectures using Interfaces, shared template base classes with abstract methods, polymorphic dependency injection, and Trait composition.</p>
+      <ul class="ch-points">
+        <li>Program to interfaces (PaymentMethod) rather than concrete implementations (StripeGateway) to keep callers decoupled.</li>
+<li>Abstract classes hold shared state + template logic; interfaces define pure behavioral contracts across unrelated classes.</li>
+<li>Resolve Trait method collisions explicitly with insteadof and as aliases.</li>
+
+      </ul>
+      <div class="callout-tip">
+        <strong>Developer Best Practice:</strong> Traits should supply small cohesive behaviors, not hide global dependencies or service state.
+      </div>
+              <div class="code-card">
+          <div class="code-bar">
+            <span class="code-file">chapters/09-abstraction-polymorphism-and-traits/lab.php</span>
+            <div class="code-actions">
+              <button type="button" class="btn-copy" data-target="code-09-0">Copy Code</button>
+              <a class="btn-open" href="chapters/09-abstraction-polymorphism-and-traits/lab.php" target="_blank" rel="noopener">Open File ↗</a>
+            </div>
+          </div>
+          <pre><code id="code-09-0">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Chapter 09 Lab: Abstract Classes, Interfaces, Polymorphism &amp; Traits
+ */
+
+trait TimestampedLog
+{
+    public function log(string $message): void
+    {
+        echo &quot;[LOG &quot; . date(&#039;H:i:s&#039;) . &quot;] {$message}&quot; . PHP_EOL;
+    }
+}
+
+interface PaymentMethod
+{
+    public function pay(int $amountCents): string;
+}
+
+abstract class BasePaymentGateway implements PaymentMethod
+{
+    use TimestampedLog;
+
+    public function __construct(protected string $merchantId) {}
+
+    abstract protected function providerName(): string;
+
+    public function receiptLine(int $amountCents): string
+    {
+        $dollars = number_format($amountCents / 100, 2);
+        return &quot;{$this-&gt;providerName()} (merchant={$this-&gt;merchantId}) charged \${$dollars}&quot;;
+    }
+}
+
+final class CardGateway extends BasePaymentGateway
+{
+    public function pay(int $amountCents): string
+    {
+        $this-&gt;log(&quot;Authorizing card payment...&quot;);
+        return $this-&gt;receiptLine($amountCents);
+    }
+
+    protected function providerName(): string
+    {
+        return &#039;CreditCard&#039;;
+    }
+}
+
+final class UpiGateway extends BasePaymentGateway
+{
+    public function pay(int $amountCents): string
+    {
+        $this-&gt;log(&quot;Verifying instant UPI transfer...&quot;);
+        return $this-&gt;receiptLine($amountCents);
+    }
+
+    protected function providerName(): string
+    {
+        return &#039;UPI&#039;;
+    }
+}
+
+function processOrderPayment(PaymentMethod $method, int $amountCents): void
+{
+    echo &quot;  -&gt; &quot; . $method-&gt;pay($amountCents) . PHP_EOL;
+}
+
+echo &quot;=== Chapter 09: Abstraction, Polymorphism &amp; Traits ===&quot; . PHP_EOL;
+processOrderPayment(new CardGateway(&#039;M_101&#039;), 4999);
+processOrderPayment(new UpiGateway(&#039;M_202&#039;), 1500);
+</code></pre>
+        </div>
+      <div class="chapter-foot">
+        <a class="btn-guide" href="chapters/09-abstraction-polymorphism-and-traits/README.md" target="_blank" rel="noopener">Read Full Chapter Guide (09-abstraction-polymorphism-and-traits/README.md) ↗</a>
+      </div>
+    </section>    <section class="chapter-card" id="ch10" data-track="oop" data-search="10 encapsulation, final, readonly &amp; late static binding enforce strict boundaries with visibility modifiers, final classes/methods, readonly properties (8.1) &amp; readonly classes (8.2), and runtime late static binding (static::). final readonly class creates concise, immutable value objects and dtos in php 8.2+. readonly properties must always declare an explicit type and can only be initialized once. static:: resolves the class invoked at runtime, whereas self:: binds to the parent class at compile time. php 8.1 - 8.2+">
+      <div class="chapter-meta">
+        <span class="pill-track">Track 2 · Object-Oriented Mastery</span>
+        <span class="pill-version">PHP 8.1 - 8.2+</span>
+      </div>
+      <h2><span class="ch-number">Chapter 10</span> Encapsulation, Final, Readonly &amp; Late Static Binding</h2>
+      <p class="ch-summary">Enforce strict boundaries with visibility modifiers, final classes/methods, readonly properties (8.1) &amp; readonly classes (8.2), and runtime Late Static Binding (static::).</p>
+      <ul class="ch-points">
+        <li>final readonly class creates concise, immutable Value Objects and DTOs in PHP 8.2+.</li>
+<li>readonly properties must always declare an explicit type and can only be initialized once.</li>
+<li>static:: resolves the class invoked at runtime, whereas self:: binds to the parent class at compile time.</li>
+
+      </ul>
+      <div class="callout-tip">
+        <strong>Developer Best Practice:</strong> Default service classes and DTOs to final unless deliberately architected as extension points.
+      </div>
+              <div class="code-card">
+          <div class="code-bar">
+            <span class="code-file">chapters/10-encapsulation-immutability-and-lsb/lab.php</span>
+            <div class="code-actions">
+              <button type="button" class="btn-copy" data-target="code-10-0">Copy Code</button>
+              <a class="btn-open" href="chapters/10-encapsulation-immutability-and-lsb/lab.php" target="_blank" rel="noopener">Open File ↗</a>
+            </div>
+          </div>
+          <pre><code id="code-10-0">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Chapter 10 Lab: Encapsulation, Final, Readonly Classes &amp; Late Static Binding
+ */
+
+// 1. Immutable Value Object using final readonly class (PHP 8.2+)
+final readonly class AppConfig
+{
+    public function __construct(
+        public string $env,
+        public string $dbHost,
+        public int $dbPort = 3306,
+    ) {}
+}
+
+// 2. Encapsulation &amp; final method
+class Account
+{
+    private int $balanceCents = 0;
+
+    public function __construct(
+        public readonly string $accountId,
+        protected string $ownerName,
+    ) {}
+
+    final public function deposit(int $cents): void
+    {
+        if ($cents &lt;= 0) {
+            throw new InvalidArgumentException(&#039;Deposit must be positive.&#039;);
+        }
+        $this-&gt;balanceCents += $cents;
+    }
+
+    public function getBalanceCents(): int
+    {
+        return $this-&gt;balanceCents;
+    }
+}
+
+// 3. Late Static Binding: self:: vs static::
+class BaseModel
+{
+    protected static string $table = &#039;base_records&#039;;
+
+    public static function getSelfTable(): string
+    {
+        return self::$table; // Bound to BaseModel at compile time
+    }
+
+    public static function getStaticTable(): string
+    {
+        return static::$table; // Bound to runtime caller class
+    }
+}
+
+final class OrderModel extends BaseModel
+{
+    protected static string $table = &#039;orders&#039;;
+}
+
+echo &quot;=== Chapter 10: Encapsulation, Immutability &amp; LSB ===&quot; . PHP_EOL;
+
+$config = new AppConfig(&#039;production&#039;, &#039;127.0.0.1&#039;);
+echo &quot;Config: env={$config-&gt;env}, db={$config-&gt;dbHost}:{$config-&gt;dbPort}&quot; . PHP_EOL;
+
+$account = new Account(&#039;ACC-100&#039;, &#039;Asha&#039;);
+$account-&gt;deposit(2500);
+echo &quot;Account {$account-&gt;accountId} balance: &quot; . $account-&gt;getBalanceCents() . &quot; cents&quot; . PHP_EOL;
+
+echo &quot;BaseModel::getSelfTable()   : &quot; . BaseModel::getSelfTable() . PHP_EOL;
+echo &quot;OrderModel::getSelfTable()  : &quot; . OrderModel::getSelfTable() . PHP_EOL;
+echo &quot;OrderModel::getStaticTable(): &quot; . OrderModel::getStaticTable() . PHP_EOL;
+</code></pre>
+        </div>
+      <div class="chapter-foot">
+        <a class="btn-guide" href="chapters/10-encapsulation-immutability-and-lsb/README.md" target="_blank" rel="noopener">Read Full Chapter Guide (10-encapsulation-immutability-and-lsb/README.md) ↗</a>
+      </div>
+    </section>    <section class="chapter-card" id="ch11" data-track="oop" data-search="11 namespaces, psr-4 autoloading &amp; composer organize enterprise codebases with namespaces, use/as aliases, psr-4 directory mapping, composer.json autoloading, and zero-boilerplate spl_autoload_register. psr-4 maps namespace prefixes (app\) directly to directories (src/) with exact case-sensitive filenames. use composer install --no-dev --optimize-autoloader in production to respect composer.lock. import or prefix global symbols (use datetimeimmutable; or \datetimeimmutable) inside namespaced files. psr-4">
+      <div class="chapter-meta">
+        <span class="pill-track">Track 2 · Object-Oriented Mastery</span>
+        <span class="pill-version">PSR-4</span>
+      </div>
+      <h2><span class="ch-number">Chapter 11</span> Namespaces, PSR-4 Autoloading &amp; Composer</h2>
+      <p class="ch-summary">Organize enterprise codebases with namespaces, use/as aliases, PSR-4 directory mapping, composer.json autoloading, and zero-boilerplate spl_autoload_register.</p>
+      <ul class="ch-points">
+        <li>PSR-4 maps namespace prefixes (App\) directly to directories (src/) with exact case-sensitive filenames.</li>
+<li>Use composer install --no-dev --optimize-autoloader in production to respect composer.lock.</li>
+<li>Import or prefix global symbols (use DateTimeImmutable; or \DateTimeImmutable) inside namespaced files.</li>
+
+      </ul>
+      <div class="callout-tip">
+        <strong>Developer Best Practice:</strong> Commit composer.json and composer.lock for applications, and always exclude vendor/ via .gitignore.
+      </div>
+              <div class="code-card">
+          <div class="code-bar">
+            <span class="code-file">chapters/11-namespaces-psr4-and-composer/lab.php</span>
+            <div class="code-actions">
+              <button type="button" class="btn-copy" data-target="code-11-0">Copy Code</button>
+              <a class="btn-open" href="chapters/11-namespaces-psr4-and-composer/lab.php" target="_blank" rel="noopener">Open File ↗</a>
+            </div>
+          </div>
+          <pre><code id="code-11-0">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Chapter 11 Lab: Namespaces, Aliases &amp; PSR-4 Autoloading
+ */
+
+// Prefer vendor/autoload.php when Composer has run; otherwise use a zero-dependency PSR-4 loader.
+$composerAutoload = dirname(__DIR__, 2) . &#039;/vendor/autoload.php&#039;;
+if (is_file($composerAutoload)) {
+    require_once $composerAutoload;
+} else {
+    spl_autoload_register(static function (string $class): void {
+        $prefix = &#039;App\\&#039;;
+        if (!str_starts_with($class, $prefix)) {
+            return;
+        }
+        $relative = substr($class, strlen($prefix));
+        $file = __DIR__ . &#039;/src/&#039; . str_replace(&#039;\\&#039;, &#039;/&#039;, $relative) . &#039;.php&#039;;
+        if (is_file($file)) {
+            require_once $file;
+        }
+    });
+}
+
+use App\Database\Connection as DBConnection;
+use App\Utils\Logger;
+
+echo &quot;=== Chapter 11: Namespaces, PSR-4 &amp; Composer ===&quot; . PHP_EOL;
+
+$logger = new Logger();
+$db = new DBConnection();
+
+echo $logger-&gt;log(&#039;PSR-4 autoloader resolved App\\Utils\\Logger.&#039;) . PHP_EOL;
+echo $db-&gt;connect() . PHP_EOL;
+</code></pre>
+        </div>
+      <div class="chapter-foot">
+        <a class="btn-guide" href="chapters/11-namespaces-psr4-and-composer/README.md" target="_blank" rel="noopener">Read Full Chapter Guide (11-namespaces-psr4-and-composer/README.md) ↗</a>
+      </div>
+    </section>    <section class="chapter-card" id="ch12" data-track="modern" data-search="12 modern php 8 type system, promoted constructors &amp; enums eliminate property boilerplate via constructor property promotion (8.0), master union/intersection/dnf types (8.0-8.2), backed enums (8.1), and typed constants (8.3). constructor property promotion declares, types, and assigns properties directly in __construct() parameters. backed enums (enum role: string) support methods, match expressions, ::cases(), ::from(), and safe ::tryfrom(). php 8.3 typed class &amp; interface constants prevent subclasses from accidentally changing constant types. php 8.0 - 8.3+">
+      <div class="chapter-meta">
+        <span class="pill-track">Track 3 · Modern PHP 8.0-8.5</span>
+        <span class="pill-version">PHP 8.0 - 8.3+</span>
+      </div>
+      <h2><span class="ch-number">Chapter 12</span> Modern PHP 8 Type System, Promoted Constructors &amp; Enums</h2>
+      <p class="ch-summary">Eliminate property boilerplate via Constructor Property Promotion (8.0), master Union/Intersection/DNF types (8.0-8.2), Backed Enums (8.1), and Typed Constants (8.3).</p>
+      <ul class="ch-points">
+        <li>Constructor Property Promotion declares, types, and assigns properties directly in __construct() parameters.</li>
+<li>Backed Enums (enum Role: string) support methods, match expressions, ::cases(), ::from(), and safe ::tryFrom().</li>
+<li>PHP 8.3 Typed Class &amp; Interface Constants prevent subclasses from accidentally changing constant types.</li>
+
+      </ul>
+      <div class="callout-tip">
+        <strong>Developer Best Practice:</strong> Prefer Role::tryFrom($input) over Role::from($input) when parsing untrusted external inputs.
+      </div>
+              <div class="code-card">
+          <div class="code-bar">
+            <span class="code-file">chapters/12-modern-php-8-type-system-and-enums/lab.php</span>
+            <div class="code-actions">
+              <button type="button" class="btn-copy" data-target="code-12-0">Copy Code</button>
+              <a class="btn-open" href="chapters/12-modern-php-8-type-system-and-enums/lab.php" target="_blank" rel="noopener">Open File ↗</a>
+            </div>
+          </div>
+          <pre><code id="code-12-0">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Chapter 12 Lab: Promoted Constructors, Union/Intersection/DNF Types, Enums &amp; Typed Constants
+ */
+
+interface Loggable
+{
+    public function log(string $msg): string;
+}
+
+interface Connectable
+{
+    public function connect(): string;
+}
+
+interface ConfigContract
+{
+    // PHP 8.3+ Typed Interface Constant
+    public const string APP_NAME = &#039;Xivig PHP Platform&#039;;
+}
+
+final readonly class PromotedUser implements ConfigContract
+{
+    public const int MAX_SESSIONS = 5;
+
+    public function __construct(
+        public string $name,
+        private int $age,
+        public string $role = &#039;Member&#039;,
+    ) {}
+
+    public function summary(): string
+    {
+        return &quot;{$this-&gt;name} (age={$this-&gt;age}, role={$this-&gt;role})&quot;;
+    }
+}
+
+enum UserRole: string
+{
+    case Admin  = &#039;administrator&#039;;
+    case Editor = &#039;content_editor&#039;;
+    case Viewer = &#039;read_only_viewer&#039;;
+
+    public function label(): string
+    {
+        return match ($this) {
+            self::Admin  =&gt; &#039;Full administrative permissions&#039;,
+            self::Editor =&gt; &#039;Can edit and publish content&#039;,
+            self::Viewer =&gt; &#039;Read-only access&#039;,
+        };
+    }
+}
+
+final class DiagnosticService implements Loggable, Connectable
+{
+    public function connect(): string
+    {
+        return &#039;[DB] Connected&#039;;
+    }
+
+    public function log(string $msg): string
+    {
+        return &quot;[LOG] {$msg}&quot;;
+    }
+}
+
+function formatIdentifier(string|int $id): string
+{
+    return &#039;ID-&#039; . (string) $id;
+}
+
+function runOptionalCheck((Loggable &amp; Connectable) | null $service): string
+{
+    if ($service === null) {
+        return &#039;No diagnostic service supplied.&#039;;
+    }
+    return $service-&gt;connect() . &#039; | &#039; . $service-&gt;log(&#039;Diagnostic passed&#039;);
+}
+
+echo &quot;=== Chapter 12: Modern PHP 8 Type System &amp; Enums ===&quot; . PHP_EOL;
+
+$user = new PromotedUser(&#039;Alice&#039;, 28);
+echo PromotedUser::APP_NAME . &quot; | &quot; . $user-&gt;summary() . &quot; | MaxSessions=&quot; . PromotedUser::MAX_SESSIONS . PHP_EOL;
+
+$role = UserRole::Editor;
+echo &quot;Enum =&gt; name={$role-&gt;name}, value={$role-&gt;value}, desc={$role-&gt;label()}&quot; . PHP_EOL;
+echo &quot;tryFrom(&#039;unknown&#039;) =&gt; &quot; . var_export(UserRole::tryFrom(&#039;unknown&#039;), true) . PHP_EOL;
+
+echo formatIdentifier(1024) . &#039; | &#039; . formatIdentifier(&#039;USR_99&#039;) . PHP_EOL;
+echo runOptionalCheck(null) . PHP_EOL;
+echo runOptionalCheck(new DiagnosticService()) . PHP_EOL;
+</code></pre>
+        </div>
+      <div class="chapter-foot">
+        <a class="btn-guide" href="chapters/12-modern-php-8-type-system-and-enums/README.md" target="_blank" rel="noopener">Read Full Chapter Guide (12-modern-php-8-type-system-and-enums/README.md) ↗</a>
+      </div>
+    </section>    <section class="chapter-card" id="ch13" data-track="modern" data-search="13 attributes, nullsafe (?-&gt;), property hooks (8.4) &amp; pipe (8.5) master nullsafe chaining, #[attribute] + reflection, #[override] (8.3), property hooks &amp; asymmetric visibility (8.4), and pipe operator |&gt; &amp; clone with (8.5). built-in safety attributes: #[\sensitiveparameter] (8.2), #[\override] (8.3), #[\deprecated] (8.4), and #[\nodiscard] (8.5). php 8.4 property hooks (get/set) &amp; asymmetric visibility (public private(set)) eliminate boilerplate accessors. php 8.5 introduces the pipe operator (|&gt;), clone($obj, [...]) overrides, and the native uri extension. php 8.0 - 8.5">
+      <div class="chapter-meta">
+        <span class="pill-track">Track 3 · Modern PHP 8.0-8.5</span>
+        <span class="pill-version">PHP 8.0 - 8.5</span>
+      </div>
+      <h2><span class="ch-number">Chapter 13</span> Attributes, Nullsafe (?-&gt;), Property Hooks (8.4) &amp; Pipe (8.5)</h2>
+      <p class="ch-summary">Master Nullsafe chaining, #[Attribute] + Reflection, #[Override] (8.3), Property Hooks &amp; Asymmetric Visibility (8.4), and Pipe Operator |&gt; &amp; Clone With (8.5).</p>
+      <ul class="ch-points">
+        <li>Built-in safety attributes: #[\SensitiveParameter] (8.2), #[\Override] (8.3), #[\Deprecated] (8.4), and #[\NoDiscard] (8.5).</li>
+<li>PHP 8.4 Property Hooks (get/set) &amp; Asymmetric Visibility (public private(set)) eliminate boilerplate accessors.</li>
+<li>PHP 8.5 introduces the Pipe Operator (|&gt;), clone($obj, [...]) overrides, and the native Uri extension.</li>
+
+      </ul>
+      <div class="callout-tip">
+        <strong>Developer Best Practice:</strong> Check your composer.json PHP constraint before adopting 8.4 Property Hooks or 8.5 Pipe syntax in shared libraries.
+      </div>
+              <div class="code-card">
+          <div class="code-bar">
+            <span class="code-file">chapters/13-modern-php-8-syntax-attributes-and-hooks/lab.php</span>
+            <div class="code-actions">
+              <button type="button" class="btn-copy" data-target="code-13-0">Copy Code</button>
+              <a class="btn-open" href="chapters/13-modern-php-8-syntax-attributes-and-hooks/lab.php" target="_blank" rel="noopener">Open File ↗</a>
+            </div>
+          </div>
+          <pre><code id="code-13-0">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Chapter 13 Lab (PHP 8.2 / 8.3+): Nullsafe Operator, Custom Attributes, #[SensitiveParameter] &amp; #[Override]
+ */
+
+final readonly class Address
+{
+    public function __construct(public ?string $city) {}
+}
+
+final readonly class Profile
+{
+    public function __construct(public ?Address $address) {}
+}
+
+final readonly class AccountHolder
+{
+    public function __construct(public ?Profile $profile) {}
+}
+
+#[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD)]
+final readonly class Route
+{
+    public function __construct(
+        public string $path,
+        public string $method = &#039;GET&#039;,
+    ) {}
+}
+
+abstract class BaseController
+{
+    public function health(): string
+    {
+        return &#039;ok&#039;;
+    }
+}
+
+#[Route(&#039;/api/users&#039;)]
+final class UserController extends BaseController
+{
+    #[\Override]
+    public function health(): string
+    {
+        return &#039;users-service:ok&#039;;
+    }
+
+    #[Route(&#039;/create&#039;, &#039;POST&#039;)]
+    public function createUser(
+        string $email,
+        #[\SensitiveParameter] string $password,
+    ): string {
+        return &quot;User {$email} queued (secret length=&quot; . strlen($password) . &quot;)&quot;;
+    }
+}
+
+echo &quot;=== Chapter 13: Nullsafe, Attributes &amp; Safety Attributes ===&quot; . PHP_EOL;
+
+// 1. Nullsafe operator (?-&gt;)
+$withCity    = new AccountHolder(new Profile(new Address(&#039;Berlin&#039;)));
+$withoutCity = new AccountHolder(new Profile(null));
+
+echo &quot;With city    : &quot; . ($withCity-&gt;profile?-&gt;address?-&gt;city ?? &#039;Unknown&#039;) . PHP_EOL;
+echo &quot;Without city : &quot; . ($withoutCity-&gt;profile?-&gt;address?-&gt;city ?? &#039;Unknown&#039;) . PHP_EOL;
+
+// 2. Attributes + Reflection inspection
+$refClass = new ReflectionClass(UserController::class);
+foreach ($refClass-&gt;getAttributes(Route::class) as $attr) {
+    $route = $attr-&gt;newInstance();
+    echo &quot;Class Route  : {$route-&gt;method} {$route-&gt;path}&quot; . PHP_EOL;
+}
+
+$refMethod = $refClass-&gt;getMethod(&#039;createUser&#039;);
+foreach ($refMethod-&gt;getAttributes(Route::class) as $attr) {
+    $route = $attr-&gt;newInstance();
+    echo &quot;Method Route : {$route-&gt;method} {$route-&gt;path}&quot; . PHP_EOL;
+}
+
+$controller = new UserController();
+echo &quot;Override health(): &quot; . $controller-&gt;health() . PHP_EOL;
+echo $controller-&gt;createUser(&#039;asha@example.test&#039;, &#039;super-secret-pass&#039;) . PHP_EOL;
+</code></pre>
+        </div>        <div class="code-card">
+          <div class="code-bar">
+            <span class="code-file">chapters/13-modern-php-8-syntax-attributes-and-hooks/lab-php84.php</span>
+            <div class="code-actions">
+              <button type="button" class="btn-copy" data-target="code-13-1">Copy Code</button>
+              <a class="btn-open" href="chapters/13-modern-php-8-syntax-attributes-and-hooks/lab-php84.php" target="_blank" rel="noopener">Open File ↗</a>
+            </div>
+          </div>
+          <pre><code id="code-13-1">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Chapter 13 Lab (PHP 8.4+ Only): Property Hooks, Asymmetric Visibility,
+ * Parenthesis-free Instantiation &amp; New Array Find Helpers.
+ */
+
+class ArticleProfile
+{
+    // Asymmetric visibility (readable publicly, writable privately) + set hook
+    public private(set) string $slug {
+        set(string $value) {
+            $this-&gt;slug = strtolower(str_replace(&#039; &#039;, &#039;-&#039;, trim($value)));
+        }
+    }
+
+    // Virtual computed property hook (no backing store)
+    public string $displayTitle {
+        get =&gt; &#039;Profile: &#039; . ucfirst($this-&gt;slug);
+    }
+
+    public function __construct(string $name)
+    {
+        $this-&gt;slug = $name;
+    }
+
+    public function rename(string $newName): void
+    {
+        $this-&gt;slug = $newName;
+    }
+
+    #[\Deprecated(&#039;Use rename() instead&#039;, since: &#039;2.0&#039;)]
+    public function setNameLegacy(string $name): void
+    {
+        $this-&gt;rename($name);
+    }
+}
+
+echo &quot;=== Chapter 13 (PHP 8.4+): Property Hooks &amp; New Array Helpers ===&quot; . PHP_EOL;
+
+// Direct method chaining on `new` without outer parentheses (PHP 8.4+)
+echo new ArticleProfile(&#039; John Doe &#039;)-&gt;displayTitle . PHP_EOL;
+
+$profile = new ArticleProfile(&#039; Jane Smith &#039;);
+echo &quot;Initial slug : {$profile-&gt;slug}&quot; . PHP_EOL;
+$profile-&gt;rename(&#039;Asha Sen&#039;);
+echo &quot;Renamed slug : {$profile-&gt;slug}&quot; . PHP_EOL;
+
+// PHP 8.4 array_find, array_any, array_all
+$ports = [80, 443, 8080, 3306];
+$highPort = array_find($ports, static fn (int $p): bool =&gt; $p &gt; 1000);
+$hasTls   = array_any($ports, static fn (int $p): bool =&gt; $p === 443);
+$allPos   = array_all($ports, static fn (int $p): bool =&gt; $p &gt; 0);
+
+echo &quot;First high port: {$highPort}, hasTls=&quot; . ($hasTls ? &#039;true&#039; : &#039;false&#039;) . &quot;, allPositive=&quot; . ($allPos ? &#039;true&#039; : &#039;false&#039;) . PHP_EOL;
+</code></pre>
+        </div>        <div class="code-card">
+          <div class="code-bar">
+            <span class="code-file">chapters/13-modern-php-8-syntax-attributes-and-hooks/lab-php85.php</span>
+            <div class="code-actions">
+              <button type="button" class="btn-copy" data-target="code-13-2">Copy Code</button>
+              <a class="btn-open" href="chapters/13-modern-php-8-syntax-attributes-and-hooks/lab-php85.php" target="_blank" rel="noopener">Open File ↗</a>
+            </div>
+          </div>
+          <pre><code id="code-13-2">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Chapter 13 Lab (PHP 8.5+ Only): Pipe Operator (|&gt;), Clone With, #[NoDiscard], array_first/last
+ */
+
+final readonly class Book
+{
+    public function __construct(
+        public string $title,
+        public int $edition = 1,
+    ) {}
+
+    #[\NoDiscard(&#039;Returns a new immutable Book instance&#039;)]
+    public function withEdition(int $edition): self
+    {
+        return clone($this, [&#039;edition&#039; =&gt; $edition]);
+    }
+}
+
+echo &quot;=== Chapter 13 (PHP 8.5+): Pipe Operator &amp; Clone With ===&quot; . PHP_EOL;
+
+$slug = &#039;  Modern PHP 8.5 Handbook  &#039;
+    |&gt; trim(...)
+    |&gt; strtolower(...)
+    |&gt; (static fn (string $s): string =&gt; str_replace(&#039; &#039;, &#039;-&#039;, $s));
+
+echo &quot;Piped slug: {$slug}&quot; . PHP_EOL;
+
+$v1 = new Book(&#039;PHP Developer Handbook&#039;);
+$v2 = $v1-&gt;withEdition(2);
+echo &quot;V1 edition={$v1-&gt;edition}, V2 edition={$v2-&gt;edition}&quot; . PHP_EOL;
+
+$items = [&#039;first&#039;, &#039;middle&#039;, &#039;last&#039;];
+echo &quot;array_first=&quot; . (array_first($items) ?? &#039;null&#039;) . &quot;, array_last=&quot; . (array_last($items) ?? &#039;null&#039;) . PHP_EOL;
+</code></pre>
+        </div>
+      <div class="chapter-foot">
+        <a class="btn-guide" href="chapters/13-modern-php-8-syntax-attributes-and-hooks/README.md" target="_blank" rel="noopener">Read Full Chapter Guide (13-modern-php-8-syntax-attributes-and-hooks/README.md) ↗</a>
+      </div>
+    </section>    <section class="chapter-card" id="ch14" data-track="modern" data-search="14 error handling, custom exceptions &amp; cooperative fibers navigate the throwable hierarchy (error vs exception), build domain exceptions with $previous cause chaining, guarantee cleanup via finally, and run fibers (8.1). catch specific exception classes (pdoexception, jsonexception) rather than swallowing throwable blindly. always wrap root exceptions via $previous to preserve debugging stack traces. fibers provide full-stack cooperative suspension (fiber::suspend / resume) powering modern async php event loops. php 8.1+">
+      <div class="chapter-meta">
+        <span class="pill-track">Track 3 · Modern PHP 8.0-8.5</span>
+        <span class="pill-version">PHP 8.1+</span>
+      </div>
+      <h2><span class="ch-number">Chapter 14</span> Error Handling, Custom Exceptions &amp; Cooperative Fibers</h2>
+      <p class="ch-summary">Navigate the Throwable hierarchy (Error vs Exception), build domain exceptions with $previous cause chaining, guarantee cleanup via finally, and run Fibers (8.1).</p>
+      <ul class="ch-points">
+        <li>Catch specific exception classes (PDOException, JsonException) rather than swallowing Throwable blindly.</li>
+<li>Always wrap root exceptions via $previous to preserve debugging stack traces.</li>
+<li>Fibers provide full-stack cooperative suspension (Fiber::suspend / resume) powering modern async PHP event loops.</li>
+
+      </ul>
+      <div class="callout-tip">
+        <strong>Developer Best Practice:</strong> In PHP 8+, the @ error-control operator no longer hides fatal errors; never rely on @ for control flow.
+      </div>
+              <div class="code-card">
+          <div class="code-bar">
+            <span class="code-file">chapters/14-error-handling-exceptions-and-fibers/lab.php</span>
+            <div class="code-actions">
+              <button type="button" class="btn-copy" data-target="code-14-0">Copy Code</button>
+              <a class="btn-open" href="chapters/14-error-handling-exceptions-and-fibers/lab.php" target="_blank" rel="noopener">Open File ↗</a>
+            </div>
+          </div>
+          <pre><code id="code-14-0">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Chapter 14 Lab: Custom Exception Hierarchy, Finally &amp; Cooperative Fibers (PHP 8.1+)
+ */
+
+final class InsufficientFundsException extends RuntimeException
+{
+    public function __construct(
+        public readonly int $balanceCents,
+        public readonly int $requestedCents,
+        ?Throwable $previous = null,
+    ) {
+        parent::__construct(
+            &quot;Insufficient funds: balance={$balanceCents}, requested={$requestedCents}&quot;,
+            422,
+            $previous
+        );
+    }
+}
+
+function debit(int $balanceCents, int $amountCents): int
+{
+    if ($amountCents &lt;= 0) {
+        throw new InvalidArgumentException(&#039;Amount must be positive.&#039;);
+    }
+    if ($amountCents &gt; $balanceCents) {
+        throw new InsufficientFundsException($balanceCents, $amountCents);
+    }
+    return $balanceCents - $amountCents;
+}
+
+echo &quot;=== Chapter 14: Exceptions &amp; Cooperative Fibers ===&quot; . PHP_EOL;
+
+// 1. Custom Exception + finally
+try {
+    debit(1000, 2500);
+} catch (InsufficientFundsException $e) {
+    echo &quot;Caught Domain Exception: {$e-&gt;getMessage()} (code={$e-&gt;getCode()})&quot; . PHP_EOL;
+} finally {
+    echo &quot;Cleanup finally block always executes.&quot; . PHP_EOL;
+}
+
+// 2. Cooperative Fiber scheduling (PHP 8.1+)
+$fiber = new Fiber(function (): string {
+    echo &quot;  [Fiber] Step 1 started...&quot; . PHP_EOL;
+    $fromMain = Fiber::suspend(&#039;yield-1&#039;);
+    echo &quot;  [Fiber] Resumed with: {$fromMain}&quot; . PHP_EOL;
+    $secondInput = Fiber::suspend(&#039;yield-2&#039;);
+    echo &quot;  [Fiber] Finalizing with: {$secondInput}&quot; . PHP_EOL;
+    return &#039;fiber-done&#039;;
+});
+
+$firstYield  = $fiber-&gt;start();
+echo &quot;[Main] Received: {$firstYield}&quot; . PHP_EOL;
+
+$secondYield = $fiber-&gt;resume(&#039;payload-A&#039;);
+echo &quot;[Main] Received: {$secondYield}&quot; . PHP_EOL;
+
+$fiber-&gt;resume(&#039;payload-B&#039;);
+echo &quot;[Main] Fiber terminated? &quot; . ($fiber-&gt;isTerminated() ? &#039;yes&#039; : &#039;no&#039;) . &quot; | Return: &quot; . $fiber-&gt;getReturn() . PHP_EOL;
+</code></pre>
+        </div>
+      <div class="chapter-foot">
+        <a class="btn-guide" href="chapters/14-error-handling-exceptions-and-fibers/README.md" target="_blank" rel="noopener">Read Full Chapter Guide (14-error-handling-exceptions-and-fibers/README.md) ↗</a>
+      </div>
+    </section>    <section class="chapter-card" id="ch15" data-track="applied" data-search="15 files, json (json_throw_on_error), http/curl &amp; cli tools process large files via splfileobject, defend against path traversal, validate json cleanly with json_validate() (8.3), configure defensive curl, and build cli tools. always pass json_throw_on_error to json_encode/json_decode; use json_validate() (8.3+) to verify json without allocating memory. normalize user filenames with basename() and verify realpath() starts with your expected base directory. configure explicit timeouts and keep curlopt_ssl_verifypeer =&gt; true on every outbound http request. php 8.3+">
+      <div class="chapter-meta">
+        <span class="pill-track">Track 4 · Applied Engineering</span>
+        <span class="pill-version">PHP 8.3+</span>
+      </div>
+      <h2><span class="ch-number">Chapter 15</span> Files, JSON (JSON_THROW_ON_ERROR), HTTP/cURL &amp; CLI Tools</h2>
+      <p class="ch-summary">Process large files via SplFileObject, defend against path traversal, validate JSON cleanly with json_validate() (8.3), configure defensive cURL, and build CLI tools.</p>
+      <ul class="ch-points">
+        <li>Always pass JSON_THROW_ON_ERROR to json_encode/json_decode; use json_validate() (8.3+) to verify JSON without allocating memory.</li>
+<li>Normalize user filenames with basename() and verify realpath() starts with your expected base directory.</li>
+<li>Configure explicit timeouts and keep CURLOPT_SSL_VERIFYPEER =&gt; true on every outbound HTTP request.</li>
+
+      </ul>
+      <div class="callout-tip">
+        <strong>Developer Best Practice:</strong> On Windows/cross-platform scripts, unset SplFileObject references before calling unlink() on temp files.
+      </div>
+              <div class="code-card">
+          <div class="code-bar">
+            <span class="code-file">chapters/15-files-json-http-and-cli/lab.php</span>
+            <div class="code-actions">
+              <button type="button" class="btn-copy" data-target="code-15-0">Copy Code</button>
+              <a class="btn-open" href="chapters/15-files-json-http-and-cli/lab.php" target="_blank" rel="noopener">Open File ↗</a>
+            </div>
+          </div>
+          <pre><code id="code-15-0">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Chapter 15 Lab: Safe Temp File I/O, JSON_THROW_ON_ERROR, json_validate() &amp; Stream Handling
+ */
+
+echo &quot;=== Chapter 15: Files, JSON, HTTP Config &amp; CLI ===&quot; . PHP_EOL;
+
+// 1. Safe JSON encoding/decoding + PHP 8.3 json_validate()
+$record = [
+    &#039;service&#039; =&gt; &#039;php-handbook&#039;,
+    &#039;version&#039; =&gt; PHP_VERSION,
+    &#039;tags&#039;    =&gt; [&#039;php8&#039;, &#039;strict&#039;, &#039;modern&#039;],
+];
+
+$json = json_encode($record, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
+echo &quot;Encoded JSON: {$json}&quot; . PHP_EOL;
+
+if (function_exists(&#039;json_validate&#039;)) {
+    echo &quot;json_validate(valid)  : &quot; . (json_validate($json) ? &#039;true&#039; : &#039;false&#039;) . PHP_EOL;
+    echo &quot;json_validate(broken) : &quot; . (json_validate(&#039;{&quot;broken&quot;:}&#039;) ? &#039;true&#039; : &#039;false&#039;) . PHP_EOL;
+}
+
+try {
+    json_decode(&#039;{&quot;broken&quot;:}&#039;, true, 512, JSON_THROW_ON_ERROR);
+} catch (JsonException $e) {
+    echo &quot;Caught JsonException  : &quot; . $e-&gt;getMessage() . PHP_EOL;
+}
+
+// 2. Safe file write &amp; SplFileObject read using system temp directory
+$tmpFile = tempnam(sys_get_temp_dir(), &#039;php_lab_&#039;);
+if ($tmpFile === false) {
+    throw new RuntimeException(&#039;Unable to allocate temporary file.&#039;);
+}
+
+try {
+    file_put_contents($tmpFile, &quot;line1:alpha\nline2:beta\n&quot;, LOCK_EX);
+
+    $file = new SplFileObject($tmpFile, &#039;r&#039;);
+    $file-&gt;setFlags(SplFileObject::DROP_NEW_LINE | SplFileObject::SKIP_EMPTY);
+
+    $lines = [];
+    foreach ($file as $line) {
+        if (is_string($line) &amp;&amp; $line !== &#039;&#039;) {
+            $lines[] = $line;
+        }
+    }
+    echo &quot;Read lines via SplFileObject: &quot; . implode(&#039; | &#039;, $lines) . PHP_EOL;
+} finally {
+    // Close SplFileObject handle before unlinking on Windows
+    unset($file);
+    @unlink($tmpFile);
+}
+</code></pre>
+        </div>
+      <div class="chapter-foot">
+        <a class="btn-guide" href="chapters/15-files-json-http-and-cli/README.md" target="_blank" rel="noopener">Read Full Chapter Guide (15-files-json-http-and-cli/README.md) ↗</a>
+      </div>
+    </section>    <section class="chapter-card" id="ch16" data-track="applied" data-search="16 web security, password hashing, csrf &amp; validation prevent xss with contextual escaping, secure passwords with argon2id/bcrypt password_hash(), protect forms with csprng csrf tokens &amp; hash_equals(), and harden sessions. escape html output with htmlspecialchars($val, ent_quotes | ent_substitute, &quot;utf-8&quot;). never use md5/sha1/sha256 for passwords; always use password_hash() + password_verify() + password_needs_rehash(). verify secret/csrf tokens with hash_equals() and generate randomness via random_bytes() / random\randomizer (8.2+). security">
+      <div class="chapter-meta">
+        <span class="pill-track">Track 4 · Applied Engineering</span>
+        <span class="pill-version">Security</span>
+      </div>
+      <h2><span class="ch-number">Chapter 16</span> Web Security, Password Hashing, CSRF &amp; Validation</h2>
+      <p class="ch-summary">Prevent XSS with contextual escaping, secure passwords with Argon2id/bcrypt password_hash(), protect forms with CSPRNG CSRF tokens &amp; hash_equals(), and harden sessions.</p>
+      <ul class="ch-points">
+        <li>Escape HTML output with htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE, &quot;UTF-8&quot;).</li>
+<li>Never use MD5/SHA1/SHA256 for passwords; always use password_hash() + password_verify() + password_needs_rehash().</li>
+<li>Verify secret/CSRF tokens with hash_equals() and generate randomness via random_bytes() / Random\Randomizer (8.2+).</li>
+
+      </ul>
+      <div class="callout-tip">
+        <strong>Developer Best Practice:</strong> Call session_regenerate_id(true) immediately upon login or privilege changes to defeat session fixation.
+      </div>
+              <div class="code-card">
+          <div class="code-bar">
+            <span class="code-file">chapters/16-web-security-sessions-and-validation/lab.php</span>
+            <div class="code-actions">
+              <button type="button" class="btn-copy" data-target="code-16-0">Copy Code</button>
+              <a class="btn-open" href="chapters/16-web-security-sessions-and-validation/lab.php" target="_blank" rel="noopener">Open File ↗</a>
+            </div>
+          </div>
+          <pre><code id="code-16-0">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Chapter 16 Lab: XSS Escaping, Password Hashing, CSRF Tokens, Input Validation &amp; Randomizer
+ */
+
+use Random\Randomizer;
+
+function escapeHtml(string $value): string
+{
+    return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, &#039;UTF-8&#039;);
+}
+
+echo &quot;=== Chapter 16: Web Security &amp; Input Validation ===&quot; . PHP_EOL;
+
+// 1. XSS escaping
+$untrustedInput = &#039;&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt; &amp; &quot;quoted&quot;&#039;;
+echo &quot;Escaped HTML: &quot; . escapeHtml($untrustedInput) . PHP_EOL;
+
+// 2. Password hashing &amp; verification
+$algo = defined(&#039;PASSWORD_ARGON2ID&#039;) ? PASSWORD_ARGON2ID : PASSWORD_DEFAULT;
+$hash = password_hash(&#039;Correct-Horse-Battery-Staple!&#039;, $algo);
+echo &quot;Password verified (good): &quot; . (password_verify(&#039;Correct-Horse-Battery-Staple!&#039;, $hash) ? &#039;true&#039; : &#039;false&#039;) . PHP_EOL;
+echo &quot;Password verified (bad) : &quot; . (password_verify(&#039;wrong-pass&#039;, $hash) ? &#039;true&#039; : &#039;false&#039;) . PHP_EOL;
+
+// 3. CSPRNG CSRF token &amp; timing-safe comparison
+$csrfToken = bin2hex(random_bytes(16));
+echo &quot;CSRF token sample (32 hex chars): {$csrfToken}&quot; . PHP_EOL;
+echo &quot;hash_equals match: &quot; . (hash_equals($csrfToken, $csrfToken) ? &#039;true&#039; : &#039;false&#039;) . PHP_EOL;
+
+// 4. Strict email validation &amp; URL scheme allowlist
+$email = filter_var(&#039;developer@example.com&#039;, FILTER_VALIDATE_EMAIL);
+echo &quot;Validated email: &quot; . ($email !== false ? $email : &#039;invalid&#039;) . PHP_EOL;
+
+// 5. PHP 8.2+ Random\Randomizer
+if (class_exists(Randomizer::class)) {
+    $randomizer = new Randomizer();
+    $otp = $randomizer-&gt;getInt(100000, 999999);
+    echo &quot;CSPRNG 6-digit OTP via Randomizer: {$otp}&quot; . PHP_EOL;
+}
+</code></pre>
+        </div>
+      <div class="chapter-foot">
+        <a class="btn-guide" href="chapters/16-web-security-sessions-and-validation/README.md" target="_blank" rel="noopener">Read Full Chapter Guide (16-web-security-sessions-and-validation/README.md) ↗</a>
+      </div>
+    </section>    <section class="chapter-card" id="ch17" data-track="applied" data-search="17 databases with pdo, prepared statements &amp; transactions configure pdo safely for mysql 8.4 &amp; sqlite (attr_emulate_prepares =&gt; false), bind parameters cleanly, allowlist dynamic order by columns, and manage acid transactions. set attr_errmode =&gt; errmode_exception, fetch_assoc, and attr_emulate_prepares =&gt; false on every pdo instance. prepared statements bind values only; validate dynamic sort columns/directions via strict php match allowlists. wrap multi-step writes in begintransaction() / commit() / rollback() blocks checking intransaction() on failure. pdo / sql">
+      <div class="chapter-meta">
+        <span class="pill-track">Track 4 · Applied Engineering</span>
+        <span class="pill-version">PDO / SQL</span>
+      </div>
+      <h2><span class="ch-number">Chapter 17</span> Databases with PDO, Prepared Statements &amp; Transactions</h2>
+      <p class="ch-summary">Configure PDO safely for MySQL 8.4 &amp; SQLite (ATTR_EMULATE_PREPARES =&gt; false), bind parameters cleanly, allowlist dynamic ORDER BY columns, and manage ACID transactions.</p>
+      <ul class="ch-points">
+        <li>Set ATTR_ERRMODE =&gt; ERRMODE_EXCEPTION, FETCH_ASSOC, and ATTR_EMULATE_PREPARES =&gt; false on every PDO instance.</li>
+<li>Prepared statements bind values only; validate dynamic sort columns/directions via strict PHP match allowlists.</li>
+<li>Wrap multi-step writes in beginTransaction() / commit() / rollBack() blocks checking inTransaction() on failure.</li>
+
+      </ul>
+      <div class="callout-tip">
+        <strong>Developer Best Practice:</strong> The runnable lab uses pdo_sqlite (:memory:) so it runs live anywhere with zero external database setup.
+      </div>
+              <div class="code-card">
+          <div class="code-bar">
+            <span class="code-file">chapters/17-databases-pdo-and-transactions/lab.php</span>
+            <div class="code-actions">
+              <button type="button" class="btn-copy" data-target="code-17-0">Copy Code</button>
+              <a class="btn-open" href="chapters/17-databases-pdo-and-transactions/lab.php" target="_blank" rel="noopener">Open File ↗</a>
+            </div>
+          </div>
+          <pre><code id="code-17-0">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Chapter 17 Lab: PDO Prepared Statements, Allowlisted Sorting &amp; Atomic Transactions (SQLite :memory:)
+ */
+
+final readonly class ProductRecord
+{
+    public function __construct(
+        public int $id,
+        public string $sku,
+        public string $name,
+        public int $priceCents,
+    ) {}
+}
+
+final class ProductRepository
+{
+    public function __construct(private PDO $pdo) {}
+
+    public function createSchema(): void
+    {
+        $this-&gt;pdo-&gt;exec(&lt;&lt;&lt;SQL
+            CREATE TABLE products (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                sku TEXT NOT NULL UNIQUE,
+                name TEXT NOT NULL,
+                price_cents INTEGER NOT NULL CHECK (price_cents &gt;= 0)
+            )
+        SQL);
+    }
+
+    public function insert(string $sku, string $name, int $priceCents): int
+    {
+        $stmt = $this-&gt;pdo-&gt;prepare(
+            &#039;INSERT INTO products (sku, name, price_cents) VALUES (:sku, :name, :price)&#039;
+        );
+        $stmt-&gt;execute([
+            &#039;sku&#039;   =&gt; $sku,
+            &#039;name&#039;  =&gt; $name,
+            &#039;price&#039; =&gt; $priceCents,
+        ]);
+        return (int) $this-&gt;pdo-&gt;lastInsertId();
+    }
+
+    /** @return list&lt;ProductRecord&gt; */
+    public function listSorted(string $sortColumn, string $direction = &#039;ASC&#039;): array
+    {
+        // Strict allowlist for dynamic ORDER BY identifiers (never bind identifiers directly!)
+        $column = match ($sortColumn) {
+            &#039;sku&#039;   =&gt; &#039;sku&#039;,
+            &#039;name&#039;  =&gt; &#039;name&#039;,
+            &#039;price&#039; =&gt; &#039;price_cents&#039;,
+            default =&gt; &#039;id&#039;,
+        };
+        $dir = strtoupper($direction) === &#039;DESC&#039; ? &#039;DESC&#039; : &#039;ASC&#039;;
+
+        $stmt = $this-&gt;pdo-&gt;query(&quot;SELECT id, sku, name, price_cents FROM products ORDER BY {$column} {$dir}&quot;);
+        $rows = $stmt-&gt;fetchAll();
+
+        return array_map(
+            static fn (array $r): ProductRecord =&gt; new ProductRecord(
+                (int) $r[&#039;id&#039;],
+                (string) $r[&#039;sku&#039;],
+                (string) $r[&#039;name&#039;],
+                (int) $r[&#039;price_cents&#039;],
+            ),
+            $rows
+        );
+    }
+}
+
+echo &quot;=== Chapter 17: PDO, Prepared Statements &amp; Transactions ===&quot; . PHP_EOL;
+
+if (!extension_loaded(&#039;pdo_sqlite&#039;)) {
+    echo &quot;pdo_sqlite extension not loaded; skipping live SQLite execution.&quot; . PHP_EOL;
+    exit(0);
+}
+
+$pdo = new PDO(&#039;sqlite::memory:&#039;, null, null, [
+    PDO::ATTR_ERRMODE            =&gt; PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE =&gt; PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   =&gt; false,
+]);
+
+$repo = new ProductRepository($pdo);
+$repo-&gt;createSchema();
+
+// 1. Atomic transaction commit
+$pdo-&gt;beginTransaction();
+try {
+    $repo-&gt;insert(&#039;KB-01&#039;, &#039;Mechanical Keyboard&#039;, 12900);
+    $repo-&gt;insert(&#039;MS-01&#039;, &#039;Wireless Mouse&#039;, 4900);
+    $repo-&gt;insert(&#039;MN-01&#039;, &#039;4K Display&#039;, 39900);
+    $pdo-&gt;commit();
+} catch (Throwable $e) {
+    if ($pdo-&gt;inTransaction()) {
+        $pdo-&gt;rollBack();
+    }
+    throw $e;
+}
+
+// 2. Transaction rollback verification on constraint violation
+$pdo-&gt;beginTransaction();
+try {
+    $repo-&gt;insert(&#039;TMP-01&#039;, &#039;Temporary Item&#039;, 1000);
+    $repo-&gt;insert(&#039;KB-01&#039;, &#039;Duplicate SKU Violation&#039;, 2000); // Triggers UNIQUE constraint error
+    $pdo-&gt;commit();
+} catch (PDOException $e) {
+    $pdo-&gt;rollBack();
+    echo &quot;Rolled back failed transaction cleanly: &quot; . $e-&gt;getMessage() . PHP_EOL;
+}
+
+// 3. Query sorted via allowlist
+foreach ($repo-&gt;listSorted(&#039;price&#039;, &#039;DESC&#039;) as $product) {
+    $price = number_format($product-&gt;priceCents / 100, 2);
+    echo &quot;  - [{$product-&gt;sku}] {$product-&gt;name}: \${$price}&quot; . PHP_EOL;
+}
+</code></pre>
+        </div>
+      <div class="chapter-foot">
+        <a class="btn-guide" href="chapters/17-databases-pdo-and-transactions/README.md" target="_blank" rel="noopener">Read Full Chapter Guide (17-databases-pdo-and-transactions/README.md) ↗</a>
+      </div>
+    </section>    <section class="chapter-card" id="ch18" data-track="applied" data-search="18 testing, static analysis, performance &amp; clean architecture unite strict typing, dependency injection, psr standards, phpunit/phpstan workflows, weakmap object caching, opcache/jit tuning, and a full di container capstone. inject interface dependencies via constructors rather than instantiating pdo or http clients directly inside services. weakmap caches computed data keyed by object instances without blocking garbage collection in long-lived workers. combine phpstan (level 8+), phpunit/pest, and per 2.0 formatting in ci before tuning opcache/jit. capstone">
+      <div class="chapter-meta">
+        <span class="pill-track">Track 4 · Applied Engineering</span>
+        <span class="pill-version">Capstone</span>
+      </div>
+      <h2><span class="ch-number">Chapter 18</span> Testing, Static Analysis, Performance &amp; Clean Architecture</h2>
+      <p class="ch-summary">Unite strict typing, Dependency Injection, PSR standards, PHPUnit/PHPStan workflows, WeakMap object caching, OPcache/JIT tuning, and a full DI Container capstone.</p>
+      <ul class="ch-points">
+        <li>Inject interface dependencies via constructors rather than instantiating PDO or HTTP clients directly inside services.</li>
+<li>WeakMap caches computed data keyed by object instances without blocking garbage collection in long-lived workers.</li>
+<li>Combine PHPStan (level 8+), PHPUnit/Pest, and PER 2.0 formatting in CI before tuning OPcache/JIT.</li>
+
+      </ul>
+      <div class="callout-tip">
+        <strong>Developer Best Practice:</strong> Profile database queries and N+1 loops first — JIT helps CPU-heavy math, not slow I/O.
+      </div>
+              <div class="code-card">
+          <div class="code-bar">
+            <span class="code-file">chapters/18-testing-performance-and-architecture/lab.php</span>
+            <div class="code-actions">
+              <button type="button" class="btn-copy" data-target="code-18-0">Copy Code</button>
+              <a class="btn-open" href="chapters/18-testing-performance-and-architecture/lab.php" target="_blank" rel="noopener">Open File ↗</a>
+            </div>
+          </div>
+          <pre><code id="code-18-0">&lt;?php
+
+declare(strict_types=1);
+
+/**
+ * Chapter 18 Capstone Lab: Dependency Injection, WeakMap Caching, Mini Container &amp; Self-Test Suite
+ */
+
+enum InvoiceStatus: string
+{
+    case Draft = &#039;draft&#039;;
+    case Paid  = &#039;paid&#039;;
+}
+
+interface DiscountPolicy
+{
+    public function apply(int $amountCents): int;
+}
+
+final readonly class PercentageDiscount implements DiscountPolicy
+{
+    public function __construct(private int $percent)
+    {
+        if ($percent &lt; 0 || $percent &gt; 100) {
+            throw new InvalidArgumentException(&#039;Discount percent must be 0..100.&#039;);
+        }
+    }
+
+    public function apply(int $amountCents): int
+    {
+        return (int) round($amountCents * (100 - $this-&gt;percent) / 100);
+    }
+}
+
+final class Invoice
+{
+    public function __construct(
+        public readonly string $id,
+        public readonly int $subtotalCents,
+        public InvoiceStatus $status = InvoiceStatus::Draft,
+    ) {}
+}
+
+final class PricingService
+{
+    /** @var WeakMap&lt;Invoice, int&gt; */
+    private WeakMap $totalCache;
+
+    public function __construct(private DiscountPolicy $discountPolicy)
+    {
+        $this-&gt;totalCache = new WeakMap();
+    }
+
+    public function calculateTotalCents(Invoice $invoice): int
+    {
+        // WeakMap memoizes per Invoice instance without preventing garbage collection
+        return $this-&gt;totalCache[$invoice] ??= $this-&gt;discountPolicy-&gt;apply($invoice-&gt;subtotalCents);
+    }
+}
+
+final class SimpleContainer
+{
+    /** @var array&lt;string, callable(self): object&gt; */
+    private array $bindings = [];
+
+    /** @param callable(self): object $factory */
+    public function set(string $id, callable $factory): void
+    {
+        $this-&gt;bindings[$id] = $factory;
+    }
+
+    public function get(string $id): object
+    {
+        if (!isset($this-&gt;bindings[$id])) {
+            throw new RuntimeException(&quot;Service not registered: {$id}&quot;);
+        }
+        return ($this-&gt;bindings[$id])($this);
+    }
+}
+
+function assertSameValue(mixed $expected, mixed $actual, string $label): void
+{
+    if ($expected !== $actual) {
+        throw new AssertionError(&quot;FAIL [{$label}]: expected &quot; . var_export($expected, true) . &quot;, got &quot; . var_export($actual, true));
+    }
+    echo &quot;  [TEST PASS] {$label}&quot; . PHP_EOL;
+}
+
+echo &quot;=== Chapter 18 Capstone: Architecture, WeakMap &amp; Unit Verification ===&quot; . PHP_EOL;
+
+$container = new SimpleContainer();
+$container-&gt;set(DiscountPolicy::class, static fn (): DiscountPolicy =&gt; new PercentageDiscount(20));
+$container-&gt;set(
+    PricingService::class,
+    static fn (SimpleContainer $c): PricingService =&gt; new PricingService($c-&gt;get(DiscountPolicy::class))
+);
+
+/** @var PricingService $pricing */
+$pricing = $container-&gt;get(PricingService::class);
+$invoice = new Invoice(&#039;INV-2026-01&#039;, 10000);
+
+assertSameValue(8000, $pricing-&gt;calculateTotalCents($invoice), &#039;20% discount on 10000 cents&#039;);
+assertSameValue(8000, $pricing-&gt;calculateTotalCents($invoice), &#039;WeakMap cache hit returns 8000&#039;);
+assertSameValue(InvoiceStatus::Draft, $invoice-&gt;status, &#039;Default InvoiceStatus is Draft&#039;);
+
+echo &quot;All capstone assertions verified.&quot; . PHP_EOL;
+</code></pre>
+        </div>
+      <div class="chapter-foot">
+        <a class="btn-guide" href="chapters/18-testing-performance-and-architecture/README.md" target="_blank" rel="noopener">Read Full Chapter Guide (18-testing-performance-and-architecture/README.md) ↗</a>
+      </div>
+    </section>
+
+      <div id="empty-state" class="empty-state">
+        <h3>No Matching Chapters</h3>
+        <p>Try clearing your search or switching back to "All 18 Chapters".</p>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const root = document.documentElement;
+      const themeToggle = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('php-handbook-theme');
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        root.setAttribute('data-theme', savedTheme);
+      }
+
+      themeToggle.addEventListener('click', () => {
+        const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        root.setAttribute('data-theme', next);
+        localStorage.setItem('php-handbook-theme', next);
+      });
+
+      const progressBar = document.getElementById('progress-bar');
+      window.addEventListener('scroll', () => {
+        const doc = document.documentElement;
+        const maxScroll = doc.scrollHeight - doc.clientHeight;
+        const pct = maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0;
+        progressBar.style.width = pct.toFixed(1) + '%';
+      }, { passive: true });
+
+      const searchInput = document.getElementById('search-input');
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const cards = document.querySelectorAll('section.chapter-card[data-track]');
+      const navLinks = document.querySelectorAll('#chapter-nav .nav-link');
+      const emptyState = document.getElementById('empty-state');
+
+      let activeTrack = 'all';
+      let query = '';
+
+      function applyFilters() {
+        let visibleCount = 0;
+        cards.forEach((card, i) => {
+          const track = card.getAttribute('data-track');
+          const haystack = card.getAttribute('data-search') || '';
+          const matchTrack = activeTrack === 'all' || track === activeTrack;
+          const matchSearch = !query || haystack.includes(query);
+          const show = matchTrack && matchSearch;
+          card.style.display = show ? 'block' : 'none';
+          if (navLinks[i]) {
+            navLinks[i].style.display = show ? 'flex' : 'none';
+          }
+          if (show) visibleCount++;
+        });
+        emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+      }
+
+      searchInput.addEventListener('input', (e) => {
+        query = e.target.value.trim().toLowerCase();
+        applyFilters();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === '/' && document.activeElement !== searchInput) {
+          e.preventDefault();
+          searchInput.focus();
+        }
+      });
+
+      filterBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach((b) => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeTrack = btn.getAttribute('data-filter') || 'all';
+          applyFilters();
+        });
+      });
+
+      document.querySelectorAll('.btn-copy').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const targetId = btn.getAttribute('data-target');
+          const codeEl = targetId ? document.getElementById(targetId) : null;
+          if (!codeEl) return;
+          navigator.clipboard.writeText(codeEl.textContent || '').then(() => {
+            const orig = btn.textContent;
+            btn.textContent = 'Copied!';
+            setTimeout(() => { btn.textContent = orig; }, 1600);
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,33 +1,42 @@
 # 📚 Xivig Developer Notes & Knowledge Base
 
-[![Topics](https://img.shields.io/badge/Knowledge%20Base-11%20Disciplines-6366f1?style=flat-square)](.)
+[![Topics](https://img.shields.io/badge/Knowledge%20Base-15%20Disciplines-6366f1?style=flat-square)](.)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES2024%2B-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](JavaScript/)
 [![DOM](https://img.shields.io/badge/DOM-W3C%20%2F%20WHATWG-E34F26?style=flat-square&logo=html5&logoColor=white)](DOM/dom-facts.md)
-[![jQuery](https://img.shields.io/badge/jQuery-v3.7%2B-0769AD?style=flat-square&logo=jquery&logoColor=white)](jQuery/README.md)
+[![jQuery](https://img.shields.io/badge/jQuery-4.0.0-0769AD?style=flat-square&logo=jquery&logoColor=white)](jQuery/README.md)
 [![Jasmine](https://img.shields.io/badge/Testing-Jasmine%20BDD-8A4182?style=flat-square&logo=jasmine&logoColor=white)](Jasmine/unitTest-Jasmine-config.md)
+[![Git](https://img.shields.io/badge/Git-2.40%2B-F05032?style=flat-square&logo=git&logoColor=white)](git-essential-commands/README.md)
+[![MySQL](https://img.shields.io/badge/MySQL-8.4%20LTS-4479A1?style=flat-square&logo=mysql&logoColor=white)](mysql-cheatsheet-example/README.md)
+[![Markdown](https://img.shields.io/badge/Markdown-GFM%20%2F%20Mermaid-000000?style=flat-square&logo=markdown&logoColor=white)](Markdown/README.md)
+[![Homebrew](https://img.shields.io/badge/macOS-Homebrew%20Bootstrap-FBB040?style=flat-square&logo=homebrew&logoColor=black)](homebrew-installer-script/README.md)
+[![Sublime Text](https://img.shields.io/badge/Editor-Sublime%20Text-FF9800?style=flat-square&logo=sublimetext&logoColor=white)](sublime-text-editor-trick/README.md)
 [![Vagrant](https://img.shields.io/badge/Virtualization-Vagrant%20%26%20Docker-1563FF?style=flat-square&logo=vagrant&logoColor=white)](VagrantSetup/gettingStartedVagrant.md)
 [![Jekyll](https://img.shields.io/badge/Static%20Sites-Jekyll%204.x-CC0000?style=flat-square&logo=jekyll&logoColor=white)](Jekyll/Jekyll-config-windows-mac-linux.md)
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg?style=flat-square)](LICENSE)
 
-An exhaustive, modular collection of developer notes, architectural cheat sheets, code-first tutorials, and systems operations recipes curated across web engineering disciplines.
+An exhaustive, modular collection of developer notes, architectural cheat sheets, code-first tutorials, automation scripts, and systems operations recipes curated across web, database, and systems engineering disciplines.
 
 ---
 
 ## 🗂️ Knowledge Base Directory
 
 ```text
-Notes/
-├── JavaScript/              # Complete 34-module JavaScript mastery curriculum & Cheat Sheet
-├── DOM/                     # Modern Document Object Model (DOM) manual & cheat sheet
-├── jQuery/                  # Comprehensive step-by-step tutorial & reference manual
-├── Jasmine/                 # Jasmine BDD unit testing setup, matchers, and async specs
-├── CreateGithubPages/       # GitHub Pages deployment (Actions, branch deploys, custom domains)
-├── Jekyll/                  # Jekyll 4.x configuration for Windows (WSL2), macOS, and Linux
-├── Sizzle/                  # Sizzle selector engine history, jQuery 4 removal & modern CSS
-├── VagrantSetup/            # Portable dev VMs (Ubuntu 22.04 LTS, Docker CE, synced folders)
-├── Markdown/                # Complete GitHub Flavored Markdown (GFM) syntax guide
-├── Yaml/                    # YAML data types, multiline block scalars, anchors & aliases
-└── rc-meaning.md            # The historical meaning and origin of Unix 'rc' files
+xivig-all-in-one-notes/
+├── JavaScript/                  # Complete 34-module JavaScript curriculum, tutorial & cheat sheet
+├── DOM/                         # Modern Document Object Model (DOM) manual & cheat sheet
+├── jQuery/                      # Modern jQuery 4.0.0 16-module curriculum, 7 projects & glossary
+├── Jasmine/                     # Jasmine BDD unit testing setup, matchers, and async specs
+├── CreateGithubPages/           # GitHub Pages deployment (Actions, branch deploys, custom domains)
+├── Jekyll/                      # Jekyll 4.x configuration for Windows (WSL2), macOS, and Linux
+├── Sizzle/                      # Sizzle selector engine history, jQuery 4 removal & modern CSS
+├── VagrantSetup/                # Portable dev VMs (Ubuntu 22.04 LTS, Docker CE, synced folders)
+├── Markdown/                    # Complete GitHub Flavored Markdown (GFM) 10-module curriculum & specs
+├── Yaml/                        # YAML data types, multiline block scalars, anchors & aliases
+├── git-essential-commands/      # Rigorous Git manual, desk cheatsheet, aliases & automation scripts
+├── mysql-cheatsheet-example/    # MySQL 8.4 LTS handbook (Stages 0–18), cheatsheet & practice lab
+├── homebrew-installer-script/   # Idempotent macOS workstation bootstrap script (homebrew.sh)
+├── sublime-text-editor-trick/   # Sublime Text shortcuts, multi-cursor, Emmet, snippets & builds
+└── rc-meaning.md                # The historical meaning and origin of Unix 'rc' files
 ```
 
 ---
@@ -93,6 +102,7 @@ Notes/
 * Modern CSS Selector Level 4 superpowers (`:has()`, `:is()`, `:where()`, `:not()`).
 
 ### 8. 🖥️ [Vagrant & Local Virtualization](VagrantSetup/gettingStartedVagrant.md)
+* **Guides & Templates**: [Getting Started Guide](VagrantSetup/gettingStartedVagrant.md) · [Up & Running Walkthrough](VagrantSetup/UpandRunningVagrant.md) · [Docker-Provisioned `Vagrantfile`](VagrantSetup/ubuntu-xenial-docker/Vagrantfile).
 * Upgrading from legacy boxes (`precise64`, `xenial64`) to modern **Ubuntu 22.04 LTS (`ubuntu/jammy64`)** and **Ubuntu 24.04 LTS (`ubuntu/noble64`)**.
 * Automated provisioning with **Docker Engine CE** and Docker Compose.
 * Secure port forwarding (`host_ip: "127.0.0.1"`) and host-guest synced folders.
@@ -120,10 +130,38 @@ Notes/
 * Multiline strings: literal block scalar (`|`) vs folded block scalar (`>`).
 * DRY document references with Anchors (`&`) and Aliases (`*`).
 
-### 11. 💡 [Shell, Git & System Utilities](rc-meaning.md)
-* [The Meaning and History of Unix 'rc' files (`.bashrc`, `.zshrc`, `.vimrc`)](rc-meaning.md).
-* [Untrack files from Git without deleting local copies (`git rm --cached`)](https://github.com/xivig/git-essential-commands/blob/master/RemoveFileFromRepository.sh) (Maintained in [`git-essential-commands`](https://github.com/xivig/git-essential-commands)).
-* [Automated Git batch staging, commit, and push script](https://github.com/xivig/git-essential-commands/blob/master/gitBatchScript.sh) (Maintained in [`git-essential-commands`](https://github.com/xivig/git-essential-commands)).
+### 11. 🌿 [Git Essential Commands & Automation Suite](git-essential-commands/README.md)
+* **Core Documentation**: 📘 **[All-in-One Git Developer Manual](git-essential-commands/README.md)** (14-section architectural guide from DAG & `.git` object internals to `zdiff3` conflicts and `git reflog` recovery), ⚡ **[Developer Desk Cheatsheet](git-essential-commands/CHEATSHEET.md)** (80/20 daily workflow & Instant Error Resolver), and 📖 **[Workflow Toolkit Notes](git-essential-commands/README-git.md)**.
+* **Modern Porcelain & Workflows**: `git switch`, `git restore`, interactive hunk staging (`git add -p`), Conventional Commits, linear rebasing (`git rebase -i`), `git worktree`, `--force-with-lease`, `git bisect`, and Ed25519 SSH / SSH-signed commits.
+* **Included Automation Scripts & Configs**:
+  * [`git-aliases.sh`](git-essential-commands/git-aliases.sh) — `--install` / `--preview` / `--uninstall` global Git aliases (`st`, `co`, `cob`, `unstage`, `undo`, `lg`, `wip`) and modern config defaults.
+  * [`git-script.sh`](git-essential-commands/git-script.sh) — Interactive staging, whitespace check (`git diff --cached --check`), commit confirmation, and upstream push.
+  * [`gitBatchScript.sh`](git-essential-commands/gitBatchScript.sh) — Non-interactive batch `git add -A`, diff check, dynamic branch detection, and push helper.
+  * [`RemoveFileFromRepository.sh`](git-essential-commands/RemoveFileFromRepository.sh) — Safely untrack `.DS_Store`, `Thumbs.db`, and cached files (`git rm --cached`) without deleting local copies.
+  * [`.gitattributes`](git-essential-commands/.gitattributes) & [`.gitignore`](git-essential-commands/.gitignore) — Cross-platform `LF`/`CRLF` normalization and repository hygiene templates.
+
+### 12. 🐬 [MySQL 8.4 LTS Developer Handbook & SQL Lab](mysql-cheatsheet-example/README.md)
+* **Core Documentation**: 📘 **[MySQL Developer Handbook (Stages 0–18)](mysql-cheatsheet-example/README.md)** & 📑 **[Everyday SQL Cheat Sheet](mysql-cheatsheet-example/CHEATSHEET.md)**.
+* **Interactive Practice Lab**: 🧪 **[`mysql-developer-lab.sql`](mysql-cheatsheet-example/mysql-developer-lab.sql)** — Ready-to-run normalized `developer_lab` schema (`customers`, `products`, `orders`, `order_items`) and reporting views.
+* **Curriculum Highlights**:
+  * SQL command groups (`DDL`, `DML`, `DQL`, `DCL`, `TCL`), `InnoDB`, and `utf8mb4` / `DECIMAL(p,s)` type selection rules.
+  * CRUD safety checklists, `JOIN`s, `GROUP BY` / `HAVING`, Subqueries, CTEs (`WITH`), and Window Functions (`RANK()`, `DENSE_RANK()`).
+  * Constraints, composite index ordering, `EXPLAIN` / `EXPLAIN ANALYZE`, and Views.
+  * Transactions (`START TRANSACTION`, `COMMIT`, `ROLLBACK`, `SAVEPOINT`, `SELECT ... FOR UPDATE`), least-privilege users, PHP PDO prepared statements, Laravel query builder/migrations, and `mysqldump --single-transaction` backups.
+
+### 13. 🍺 [macOS Workstation Bootstrap via Homebrew](homebrew-installer-script/README.md)
+* **Documentation & Script**: 📘 **[Bootstrap Guide](homebrew-installer-script/README.md)** & ⚙️ **[`homebrew.sh`](homebrew-installer-script/homebrew.sh)**.
+* **Defensive, Idempotent Provisioning**: Built with `set -Eeuo pipefail` for macOS 12+ with native Apple Silicon (`/opt/homebrew`) and Intel (`/usr/local`) prefix & `~/.zprofile` `brew shellenv` detection.
+* **Curated Stack**: Xcode CLT verification, modern CLI utilities (`git`, `gh`, `ripgrep`, `fd`, `fzf`, `bat`, `eza`, `jq`, `yq`, `tree`, `wget`, `shellcheck`, `shfmt`), Homebrew Zsh + completions/autosuggestions/syntax-highlighting (+ optional Oh My Zsh).
+* **Optional Runtimes & Casks**: Interactive prompts or headless CI flags (`INSTALL_LANGUAGES`, `INSTALL_CASKS`, `SET_DEFAULT_SHELL`, `INSTALL_OH_MY_ZSH`) for Node.js, Python 3, Go, PHP, VS Code, iTerm2, Docker Desktop, Postman, DBeaver, and Rectangle.
+
+### 14. ✨ [Sublime Text Editor Tricks & Developer Handbook](sublime-text-editor-trick/README.md)
+* **18-Section Reference**: 📘 **[Sublime Text Developer Handbook](sublime-text-editor-trick/README.md)** with cross-platform Windows/Linux and macOS keymaps.
+* **Editing Mastery**: Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`), Goto Anything (`Ctrl+P`), multi-cursor (`Ctrl+D`), Split into Lines (`Ctrl+Shift+L`), column selection, regex capture-group replacements, sorting, and case conversion.
+* **HTML, Snippets & Customization**: Emmet wrapping/abbreviations, custom `.sublime-snippet` templates (HTML5, form fields, PHP functions, div wrappers), user settings & key bindings, Package Control, `.sublime-project` workspaces, custom build systems (Python, PHP, Node.js), and macros.
+
+### 15. 💡 [Unix & Linux Shell Configuration (`rc` Files)](rc-meaning.md)
+* **[The Meaning and History of Unix `rc` Files](rc-meaning.md)**: Historical origin from MIT CTSS `"runcom"` (Run Commands), everyday dotfiles (`.bashrc`, `.zshrc`, `.vimrc`, `.npmrc`, `.curlrc`), why hidden dot-files exist, and Login (`~/.bash_profile`, `~/.zprofile`) vs Non-Login Interactive (`~/.bashrc`, `~/.zshrc`) shell execution order.
 
 ---
 
@@ -150,8 +188,21 @@ document.querySelector('#todo-list').addEventListener('click', (e) => {
 });
 ```
 
+### Daily Git, MySQL Lab & macOS Bootstrap
+```bash
+# Inspect compact Git status, diff staged changes, or install aliases
+git status -sb && git diff --staged
+./git-essential-commands/git-aliases.sh --preview
+
+# Load the MySQL 8.4 practice lab schema into a disposable local server
+mysql -h 127.0.0.1 -u root -p < mysql-cheatsheet-example/mysql-developer-lab.sql
+
+# Non-interactive macOS workstation bootstrap
+INSTALL_CASKS=yes INSTALL_LANGUAGES=yes ./homebrew-installer-script/homebrew.sh
+```
+
 ---
 
 ## 🤝 License
 
-Distributed under the **[GNU General Public License v3.0](LICENSE)**. Free for personal, educational, and open-source software development.
+Distributed under the **[GNU General Public License v3.0](LICENSE)** (with imported companion repositories—`git-essential-commands`, `homebrew-installer-script`, `mysql-cheatsheet-example`, and `sublime-text-editor-trick`—retaining their respective **MIT Licenses** in each directory's `LICENSE` file). Free for personal, educational, and open-source software development.
